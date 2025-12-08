@@ -27,9 +27,24 @@ export interface TransformResult {
 export class UniversalTransformer {
     private root: string;
     private transformers: Map<Framework, any> = new Map();
+    private packageVersionCache: Map<string, string | null> = new Map();
+    private transformCache: Map<string, TransformResult> = new Map();
+    private cacheEnabled: boolean = true;
 
-    constructor(root: string) {
+    constructor(root: string, options?: { cache?: boolean }) {
         this.root = root;
+        this.cacheEnabled = options?.cache !== false;
+    }
+
+    /**
+     * Clear transformation cache (useful for HMR)
+     */
+    clearCache(filePath?: string) {
+        if (filePath) {
+            this.transformCache.delete(filePath);
+        } else {
+            this.transformCache.clear();
+        }
     }
 
     /**
@@ -38,44 +53,73 @@ export class UniversalTransformer {
      */
     async transform(options: TransformOptions): Promise<TransformResult> {
         const { filePath, code, framework, isDev = true } = options;
+
+        // Check cache first (only in dev mode for faster HMR)
+        if (this.cacheEnabled && isDev) {
+            const cacheKey = `${filePath}:${code.length}:${framework}`;
+            const cached = this.transformCache.get(cacheKey);
+            if (cached) {
+                return cached;
+            }
+        }
+
         const preset = getFrameworkPreset(framework);
 
         // Route to appropriate transformer
+        let result: TransformResult;
         switch (framework) {
             case 'react':
             case 'next':
             case 'remix':
-                return this.transformReact(code, filePath, isDev);
+                result = await this.transformReact(code, filePath, isDev);
+                break;
 
             case 'vue':
             case 'nuxt':
-                return this.transformVue(code, filePath, isDev);
+                result = await this.transformVue(code, filePath, isDev);
+                break;
 
             case 'svelte':
-                return this.transformSvelte(code, filePath, isDev);
+                result = await this.transformSvelte(code, filePath, isDev);
+                break;
 
             case 'angular':
-                return this.transformAngular(code, filePath, isDev);
+                result = await this.transformAngular(code, filePath, isDev);
+                break;
 
             case 'solid':
-                return this.transformSolid(code, filePath, isDev);
+                result = await this.transformSolid(code, filePath, isDev);
+                break;
 
             case 'preact':
-                return this.transformPreact(code, filePath, isDev);
+                result = await this.transformPreact(code, filePath, isDev);
+                break;
 
             case 'qwik':
-                return this.transformQwik(code, filePath, isDev);
+                result = await this.transformQwik(code, filePath, isDev);
+                break;
 
             case 'lit':
-                return this.transformLit(code, filePath, isDev);
+                result = await this.transformLit(code, filePath, isDev);
+                break;
 
             case 'astro':
-                return this.transformAstro(code, filePath, isDev);
+                result = await this.transformAstro(code, filePath, isDev);
+                break;
 
             case 'vanilla':
             default:
-                return this.transformVanilla(code, filePath, isDev);
+                result = await this.transformVanilla(code, filePath, isDev);
+                break;
         }
+
+        // Cache the result
+        if (this.cacheEnabled && isDev) {
+            const cacheKey = `${filePath}:${code.length}:${framework}`;
+            this.transformCache.set(cacheKey, result);
+        }
+
+        return result;
     }
 
     /**
@@ -455,14 +499,26 @@ export class UniversalTransformer {
 
     /**
      * Get installed package version (version-agnostic helper)
+     * Cached for performance
      */
     private async getPackageVersion(packageName: string): Promise<string | null> {
+        // Check cache first
+        if (this.packageVersionCache.has(packageName)) {
+            return this.packageVersionCache.get(packageName)!;
+        }
+
         try {
             const pkgPath = path.join(this.root, 'node_modules', packageName, 'package.json');
             const content = await fs.readFile(pkgPath, 'utf-8');
             const pkg = JSON.parse(content);
-            return pkg.version;
+            const version = pkg.version;
+
+            // Cache the result
+            this.packageVersionCache.set(packageName, version);
+            return version;
         } catch {
+            // Cache the null result too
+            this.packageVersionCache.set(packageName, null);
             return null;
         }
     }

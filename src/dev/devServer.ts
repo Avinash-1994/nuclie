@@ -766,7 +766,8 @@ export async function startDevServer(cfg: BuildConfig) {
 
   const watcher = chokidar.watch(cfg.root, { ignored: /node_modules|\.git/ });
   watcher.on('change', (file: string) => {
-    // log.debug(`File changed: ${file}`, { category: 'build' });
+    // Clear transform cache for changed file
+    universalTransformer.clearCache(file);
 
     // Native Invalidation & Rebuild
     nativeWorker.invalidate(file);
@@ -777,6 +778,9 @@ export async function startDevServer(cfg: BuildConfig) {
     }
 
     affected.forEach((affectedFile: string) => {
+      // Clear cache for affected files too
+      universalTransformer.clearCache(affectedFile);
+
       // Determine message type
       let type = 'reload';
       if (affectedFile.endsWith('.css')) {

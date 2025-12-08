@@ -54,8 +54,8 @@ export class DependencyPreBundler {
 
         log.info('Pre-bundling dependencies...', { count: deps.length });
 
-        // Bundle each dependency
-        for (const dep of deps) {
+        // Bundle dependencies in parallel for better performance
+        const bundlePromises = deps.map(async (dep) => {
             try {
                 const outfile = path.join(cacheDir, `${dep.replace(/\//g, '_')}.js`);
 
@@ -106,12 +106,23 @@ export class DependencyPreBundler {
                     logLevel: 'warning'
                 });
 
-                bundledDeps.set(dep, `/@urja-deps/${dep.replace(/\//g, '_')}.js`);
                 log.info(`✓ Pre-bundled: ${dep}`);
+                return { dep, success: true };
             } catch (error: any) {
                 log.error(`Failed to pre-bundle ${dep}:`, error.message);
+                return { dep, success: false };
             }
-        }
+        });
+
+        // Wait for all bundles to complete in parallel
+        const results = await Promise.all(bundlePromises);
+
+        // Add successful bundles to the map
+        results.forEach(({ dep, success }) => {
+            if (success) {
+                bundledDeps.set(dep, `/@urja-deps/${dep.replace(/\//g, '_')}.js`);
+            }
+        });
 
         // Save metadata
         await fs.writeFile(metaPath, JSON.stringify({
