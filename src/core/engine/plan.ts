@@ -113,7 +113,10 @@ export function planBuild(ctx: BuildContext): BuildPlan {
         const deps = entryDeps.get(entry)!;
         const allModules = Array.from(deps).sort();
 
-        const jsModules = allModules.filter(id => ctx.graph.nodes.get(id)?.type === 'file');
+        const jsModules = allModules.filter(id => {
+            const type = ctx.graph.nodes.get(id)?.type;
+            return type === 'file' || type === 'style-asset';
+        });
         const cssModules = allModules.filter(id => {
             const type = ctx.graph.nodes.get(id)?.type;
             return type === 'css' || type === 'css-module';

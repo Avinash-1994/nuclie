@@ -30,9 +30,34 @@ export class Transformer {
     }
 
     async batchTransform(modules: any[], ctx: BuildContext) {
-        if (!this.available || modules.length === 0) {
-            log.debug(`[Transformer] Using JS Fallback (${modules.length} modules)`);
-            return await Promise.all(modules.map(async (m) => {
+        if (modules.length === 0) return [];
+
+        const results: any[] = [];
+        const nativeBatch: any[] = [];
+        const pluginBatch: any[] = [];
+
+        modules.forEach(m => {
+            const ext = m.path.split('.').pop()?.toLowerCase() || 'js';
+            const content = m.content;
+
+            // Conservative Native Routing (Phase G1)
+            // We only use the native worker for plain JS files without framework-specific syntax.
+            // TS, JSX, and anything with decorators or assets MUST go to the plugin system.
+            const hasFrameworkSyntax = /<[a-zA-Z]/.test(content) || /@\w+/.test(content);
+            const isPlainJs = ['js', 'mjs', 'cjs'].includes(ext);
+            const hasAssetImport = /import\s+.*from\s+['"].*\.(png|jpg|jpeg|gif|svg|css|less|scss|sass|json)['"]/.test(content) ||
+                /require\(['"].*\.(png|jpg|jpeg|gif|svg|css|less|scss|sass|json)['"]\)/.test(content);
+
+            if (this.available && isPlainJs && !hasFrameworkSyntax && !hasAssetImport) {
+                nativeBatch.push(m);
+            } else {
+                pluginBatch.push(m);
+            }
+        });
+
+        // A) Plugin Batch
+        if (pluginBatch.length > 0) {
+            const pluginResults = await Promise.all(pluginBatch.map(async (m) => {
                 const transformed = await ctx.pluginManager.runHook('transformModule', {
                     code: m.content,
                     path: m.path,
@@ -43,62 +68,79 @@ export class Transformer {
                 }, ctx);
                 return { id: m.id, code: transformed.code };
             }));
+            results.push(...pluginResults);
         }
 
-        log.debug(`[Transformer] Using Native Worker (${modules.length} modules)`);
-        const batches: Record<string, any[]> = {};
-        const isProd = ctx.mode === 'production' || ctx.mode === 'build';
-        const minifyEnabled = isProd; // Only minify in production
+        // B) Native Batch
+        if (nativeBatch.length > 0) {
+            const batches: Record<string, any[]> = {};
+            const isProd = ctx.mode === 'production' || ctx.mode === 'build';
+            const minifyEnabled = isProd;
 
-        modules.forEach(m => {
-            const ext = m.path.split('.').pop() || 'js';
-            const loader = ['tsx', 'ts', 'jsx', 'js'].includes(ext) ? ext : 'js';
-            if (!batches[loader]) batches[loader] = [];
-            batches[loader].push(m);
-        });
-
-        const allResults: any[] = [];
-        for (const [loader, batch] of Object.entries(batches)) {
-            const config = batch.map(m => ({
-                path: m.path,
-                content: m.content,
-                loader: loader,
-                minify: minifyEnabled
-            }));
-
-            const results = await this.nativeWorker.batchTransform(config);
-            results.forEach((res: any, i: number) => {
-                let code = res.code;
-                if (ctx.mode === 'production' || ctx.mode === 'build') {
-                    code = Transformer.removeEsbuildWrappers(code);
-                }
-                allResults.push({ id: batch[i].id, code });
+            nativeBatch.forEach(m => {
+                const ext = m.path.split('.').pop() || 'js';
+                const loader = ['tsx', 'ts', 'jsx', 'js'].includes(ext) ? ext : 'js';
+                if (!batches[loader]) batches[loader] = [];
+                batches[loader].push(m);
             });
+
+            for (const [loader, batch] of Object.entries(batches)) {
+                const config = batch.map(m => ({
+                    path: m.path,
+                    content: m.content,
+                    loader: loader,
+                    minify: minifyEnabled
+                }));
+
+                try {
+                    const batchResults = await this.nativeWorker.batchTransform(config);
+                    batchResults.forEach((res: any, i: number) => {
+                        let code = res.code;
+                        if (isProd) {
+                            code = Transformer.removeEsbuildWrappers(code);
+                        }
+                        results.push({ id: batch[i].id, code });
+                    });
+                } catch (e) {
+                    const fallbackResults = await Promise.all(batch.map(async (m) => {
+                        const transformed = await ctx.pluginManager.runHook('transformModule', {
+                            code: m.content,
+                            path: m.path,
+                            id: m.id,
+                            target: ctx.target,
+                            mode: ctx.mode,
+                            format: 'cjs'
+                        }, ctx);
+                        return { id: m.id, code: transformed.code };
+                    }));
+                    results.push(...fallbackResults);
+                }
+            }
         }
 
-        return allResults;
+        return results;
     }
 
     static removeEsbuildWrappers(code: string): string {
-        // High-performance boilerplate removal for Nexxo minified output (c=module, i=exports, l=require)
+        // High-performance boilerplate removal for Nexxo minified
         let clean = code;
 
         // Pattern 1: ESM exports wrapper (Minified)
-        // a={};u(a,{...}),c.exports=v(a);
+        // a={};u(a,{...}),module.exports=v(a);
         clean = clean.replace(
-            /(\w+)\s*=\s*\{\};u\(\1,\{([^}]+)\}\),c\.exports=v\(\1\);/,
+            /(\w+)\s*=\s*\{\};u\(\1,\{([^}]+)\}\),(?:module\.)?exports=v\(\1\);/,
             (_, varName, exports) => {
                 const exportsClean = exports.replace(/:\s*\(\)\s*=>\s*/g, ':');
-                return `c.exports={${exportsClean}};`;
+                return `exports={${exportsClean}};`;
             }
         );
 
-        // Pattern 2: i={};u(i,{...}),c.exports=v(i);
+        // Pattern 2: i={};u(i,{...}),module.exports=v(i);
         clean = clean.replace(
-            /i\s*=\s*\{\};u\(i,\{([^}]+)\}\),c\.exports=v\(i\);/,
+            /i\s*=\s*\{\};u\(i,\{([^}]+)\}\),(?:module\.)?exports=v\(i\);/,
             (_, exports) => {
                 const exportsClean = exports.replace(/:\s*\(\)\s*=>\s*/g, ':');
-                return `c.exports={${exportsClean}};`;
+                return `exports={${exportsClean}};`;
             }
         );
 
@@ -107,22 +149,21 @@ export class Transformer {
             /var\s+([\w$]+)\s*=\s*\{\};[\w$]+\.u\(\1,\{([^}]+)\}\),[\w$]+\.exports=[\w$]+\.v\(\1\);/,
             (_, varName, exports) => {
                 const exportsClean = exports.replace(/:\s*\(\)\s*=>\s*/g, ':');
-                return `c.exports={${exportsClean}};`;
+                return `exports={${exportsClean}};`;
             }
         );
 
-        // Remove helper definitions (Object.defineProperty, etc.)
-        clean = clean.replace(/var\s+[a-zA-Z_$]+=Object\.defineProperty,[\s\S]*?v=x=>b\(o\(\{\},"__esModule",\{value:!0\}\),x\);/, '');
-        clean = clean.replace(/var\s+o=Object\.defineProperty,[\s\S]*?v=x=>b\(o\(\{\},"__esModule",\{value:!0\}\),x\);/, '');
+        // Safe helper removal (only if they are at the top and don't contain too much code)
+        clean = clean.replace(/^var [a-zA-Z_$]+=Object\.defineProperty,[a-zA-Z_$]+=Object\.getOwnPropertyDescriptor,[a-zA-Z_$]+=Object\.getOwnPropertyNames,[a-zA-Z_$]+=Object\.prototype\.hasOwnProperty;.*?;/m, '');
 
-        // If it still has "export" at the start, it's not CJS yet.
+        // Final ESM keyword cleanup for remaining cases
         if (clean.includes('export ')) {
-            clean = clean.replace(/export\s+const\s+(\w+)\s*=\s*/g, 'c.exports.$1 = ');
-            clean = clean.replace(/export\s+default\s+/g, 'c.exports.default = ');
-            clean = clean.replace(/export\s+\{([^}]+)\}/g, (_, exports) => {
+            clean = clean.replace(/^export\s+const\s+(\w+)\s*=\s*/gm, 'exports.$1 = ');
+            clean = clean.replace(/^export\s+default\s+/gm, 'exports.default = ');
+            clean = clean.replace(/^export\s+\{([^}]+)\}/gm, (_, exports) => {
                 return (exports as string).split(',').map((e: string) => {
                     const trimmed = e.trim();
-                    return `c.exports.${trimmed} = ${trimmed}`;
+                    return `exports.${trimmed} = ${trimmed}`;
                 }).join(';');
             });
         }
