@@ -559,8 +559,8 @@ if (import.meta.hot) {
             const result = await babel.transformAsync(code, {
                 filename: filePath,
                 presets: [
-                    _require.resolve('babel-preset-solid', { paths: [this.root] }),
-                    _require.resolve('@babel/preset-typescript', { paths: [this.root] })
+                    _require.resolve('babel-preset-solid'),
+                    _require.resolve('@babel/preset-typescript')
                 ],
                 sourceMaps: isDev ? 'inline' : false
             });

@@ -92,22 +92,35 @@ export class DependencyGraph {
   private async scanAndAdd(id: string, type: GraphNode['type'], absPath: string, rootDir: string): Promise<{ id: string, type: GraphNode['type'], absPath: string }[]> {
     if (this.nodes.has(id)) return [];
 
-    let content: string = '';
-    try {
-      content = await fs.readFile(absPath, 'utf-8');
-    } catch (e) {
-      return [];
-    }
-
     const node: GraphNode = {
       id,
       type,
       path: absPath,
-      contentHash: canonicalHash(content),
+      contentHash: '', // Set after loading
       edges: [],
       metadata: {},
+      specifierMap: {},
       target: 'universal'
     };
+
+    // Use Plugin Manager to load content if available (supports assets, etc.)
+    let content: string = '';
+    if (this.pluginManager) {
+      const loadResult = await this.pluginManager.runHook('load', { id, path: absPath }, { rootDir });
+      if (loadResult && loadResult.code !== undefined) {
+        content = loadResult.code;
+      }
+    }
+
+    if (!content) {
+      try {
+        content = await fs.readFile(absPath, 'utf-8');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    node.contentHash = canonicalHash(content);
 
     const imports = await this.parseImportsSimple(content, absPath);
     const discovered: { id: string, type: GraphNode['type'], absPath: string }[] = [];
@@ -122,6 +135,11 @@ export class DependencyGraph {
         kind: imp.kind as any,
         target: 'universal'
       });
+
+      // Populate specifierMap for the Linker plugin
+      if (node.specifierMap) {
+        node.specifierMap[imp.original] = depId;
+      }
 
       discovered.push({ id: depId, type: depType, absPath: imp.resolved });
     }

@@ -65,11 +65,22 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
             const moduleResults = new Map<string, { code: string, originalSize: number }>();
             const pendingTransform: any[] = [];
 
-            // Parallel Load
+            // Parallel Load (Respecting Plugins)
             await Promise.all(chunk.modules.map(async (modId) => {
                 const node = ctx.graph.nodes.get(modId);
-                const content = node ? await fs.readFile(node.path, 'utf-8') : await fs.readFile(modId, 'utf-8');
-                pendingTransform.push({ id: modId, path: node?.path || modId, content });
+                const path = node?.path || modId;
+
+                // Try Plugin LOAD hook first (for assets, etc.)
+                const loadResult = await ctx.pluginManager.runHook('load', { id: modId, path }, ctx);
+
+                let content: string;
+                if (loadResult && loadResult.code !== undefined) {
+                    content = loadResult.code;
+                } else {
+                    content = await fs.readFile(path, 'utf-8');
+                }
+
+                pendingTransform.push({ id: modId, path, content });
             }));
 
             // Phase 3: NATIVE BATCH (SWC Fix applied in transform.rs)

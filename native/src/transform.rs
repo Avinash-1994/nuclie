@@ -35,40 +35,179 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
         // and 'import' to 'require' calls.
         use swc_core::ecma::ast::*;
         let mut new_body = vec![];
+
+        // Helpers for generating CJS nodes
+        let create_exports_assign = |name: String, expr: Box<Expr>| -> ModuleItem {
+            ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                span: swc_common::DUMMY_SP,
+                expr: Box::new(Expr::Assign(AssignExpr {
+                    span: swc_common::DUMMY_SP,
+                    op: AssignOp::Assign,
+                    left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                        span: swc_common::DUMMY_SP,
+                        obj: Box::new(Expr::Ident(Ident::new("exports".into(), swc_common::DUMMY_SP))),
+                        prop: MemberProp::Ident(Ident::new(name.into(), swc_common::DUMMY_SP)),
+                    })),
+                    right: expr,
+                })),
+            }))
+        };
+
         for item in module.body {
             match item {
                 ModuleItem::ModuleDecl(decl) => {
                     match decl {
                         ModuleDecl::ExportDecl(ed) => {
-                            // Extract identifier names for exports.x = x
-                            if let Decl::Var(ref var) = ed.decl {
-                                for def in &var.decls {
-                                    if let Pat::Ident(ref ident) = def.name {
-                                        let name = ident.id.sym.to_string();
-                                        // Push the declaration itself: const x = 1
-                                        new_body.push(ModuleItem::Stmt(Stmt::Decl(ed.decl.clone())));
-                                        // Push the export assignment: exports.x = x
-                                        new_body.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                                            span: swc_common::DUMMY_SP,
-                                            expr: Box::new(Expr::Assign(AssignExpr {
-                                                span: swc_common::DUMMY_SP,
-                                                op: AssignOp::Assign,
-                                                left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                                                    span: swc_common::DUMMY_SP,
-                                                    obj: Box::new(Expr::Ident(Ident::new("exports".into(), swc_common::DUMMY_SP))),
-                                                    prop: MemberProp::Ident(Ident::new(name.clone().into(), swc_common::DUMMY_SP)),
-                                                })),
-                                                right: Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP))),
-                                            })),
-                                        })));
-                                        continue;
+                            match ed.decl {
+                                Decl::Var(var) => {
+                                    new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var.clone()))));
+                                    for def in &var.decls {
+                                        if let Pat::Ident(ident) = &def.name {
+                                            let name = ident.sym.to_string();
+                                            new_body.push(create_exports_assign(name.clone(), Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP)))));
+                                        }
                                     }
+                                }
+                                Decl::Class(cls) => {
+                                    let name = cls.ident.sym.to_string();
+                                    new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls.clone()))));
+                                    new_body.push(create_exports_assign(name.clone(), Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP)))));
+                                }
+                                Decl::Fn(f) => {
+                                    let name = f.ident.sym.to_string();
+                                    new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f.clone()))));
+                                    new_body.push(create_exports_assign(name.clone(), Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP)))));
+                                }
+                                _ => {
+                                    new_body.push(ModuleItem::Stmt(Stmt::Decl(ed.decl.clone())));
                                 }
                             }
                         }
-                        ModuleDecl::Import(_import) => {
-                            // Convert import ... to require(...)
-                            new_body.push(ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: swc_common::DUMMY_SP })));
+                        ModuleDecl::ExportDefaultDecl(edd) => {
+                            match edd.decl {
+                                DefaultDecl::Class(cls) => {
+                                    let name = cls.ident.as_ref().map(|i| i.sym.to_string()).unwrap_or_else(|| "_default_class".to_string());
+                                    new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                                        ident: Ident::new(name.clone().into(), swc_common::DUMMY_SP),
+                                        class: cls.class,
+                                        declare: false,
+                                    }))));
+                                    new_body.push(create_exports_assign("default".to_string(), Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP)))));
+                                }
+                                DefaultDecl::Fn(f) => {
+                                    let name = f.ident.as_ref().map(|i| i.sym.to_string()).unwrap_or_else(|| "_default_fn".to_string());
+                                    new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                                        ident: Ident::new(name.clone().into(), swc_common::DUMMY_SP),
+                                        function: f.function,
+                                        declare: false,
+                                    }))));
+                                    new_body.push(create_exports_assign("default".to_string(), Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP)))));
+                                }
+                                _ => {}
+                            }
+                        }
+                        ModuleDecl::ExportDefaultExpr(ede) => {
+                            new_body.push(create_exports_assign("default".to_string(), ede.expr));
+                        }
+                        ModuleDecl::Import(import) => {
+                            let src = import.src.value.to_string();
+                            let mut props = vec![];
+                            let mut default_ident = None;
+                            let mut namespace_ident = None;
+
+                            for spec in &import.specifiers {
+                                match spec {
+                                    ImportSpecifier::Named(named) => {
+                                        let local = named.local.sym.to_string();
+                                        let imported = named.imported.as_ref().map(|i| match i {
+                                            ModuleExportName::Ident(id) => id.sym.to_string(),
+                                            ModuleExportName::Str(s) => s.value.to_string(),
+                                        }).unwrap_or_else(|| local.clone());
+                                        
+                                        props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                            key: PropName::Ident(Ident::new(imported.into(), swc_common::DUMMY_SP)),
+                                            value: Box::new(Pat::Ident(BindingIdent {
+                                                id: Ident::new(local.into(), swc_common::DUMMY_SP),
+                                                type_ann: None,
+                                            })),
+                                        }));
+                                    }
+                                    ImportSpecifier::Default(d) => {
+                                        default_ident = Some(d.local.sym.to_string());
+                                    }
+                                    ImportSpecifier::Namespace(ns) => {
+                                        namespace_ident = Some(ns.local.sym.to_string());
+                                    }
+                                }
+                            }
+
+                            fn create_require(src: &str) -> Box<Expr> {
+                                Box::new(Expr::Call(CallExpr {
+                                    span: swc_common::DUMMY_SP,
+                                    callee: Callee::Expr(Box::new(Expr::Ident(Ident::new("require".into(), swc_common::DUMMY_SP)))),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                            span: swc_common::DUMMY_SP,
+                                            value: src.into(),
+                                            raw: None,
+                                        }))),
+                                    }],
+                                    type_args: None,
+                                }))
+                            }
+
+                            if let Some(ns) = namespace_ident {
+                                new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                                    span: swc_common::DUMMY_SP,
+                                    kind: VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![VarDeclarator {
+                                        span: swc_common::DUMMY_SP,
+                                        name: Pat::Ident(BindingIdent { id: Ident::new(ns.into(), swc_common::DUMMY_SP), type_ann: None }),
+                                        init: Some(create_require(&src)),
+                                        definite: false,
+                                    }],
+                                })))));
+                            } else if let Some(d) = default_ident {
+                                new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                                    span: swc_common::DUMMY_SP,
+                                    kind: VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![VarDeclarator {
+                                        span: swc_common::DUMMY_SP,
+                                        name: Pat::Ident(BindingIdent { id: Ident::new(d.into(), swc_common::DUMMY_SP), type_ann: None }),
+                                        init: Some(Box::new(Expr::Bin(BinExpr {
+                                            span: swc_common::DUMMY_SP,
+                                            op: BinaryOp::LogicalOr,
+                                            left: Box::new(Expr::Member(MemberExpr {
+                                                span: swc_common::DUMMY_SP,
+                                                obj: create_require(&src),
+                                                prop: MemberProp::Ident(Ident::new("default".into(), swc_common::DUMMY_SP)),
+                                            })),
+                                            right: create_require(&src),
+                                        }))),
+                                        definite: false,
+                                    }],
+                                })))));
+                            } else if !props.is_empty() {
+                                new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                                    span: swc_common::DUMMY_SP,
+                                    kind: VarDeclKind::Const,
+                                    declare: false,
+                                    decls: vec![VarDeclarator {
+                                        span: swc_common::DUMMY_SP,
+                                        name: Pat::Object(ObjectPat { span: swc_common::DUMMY_SP, props, type_ann: None, optional: false }),
+                                        init: Some(create_require(&src)),
+                                        definite: false,
+                                    }],
+                                })))));
+                            } else {
+                                new_body.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                                    span: swc_common::DUMMY_SP,
+                                    expr: create_require(&src),
+                                })));
+                            }
                         }
                         _ => {
                             new_body.push(ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: swc_common::DUMMY_SP })));
@@ -134,7 +273,11 @@ pub fn minify_js(code: String) -> Result<String, String> {
         let fm = cm.new_source_file(FileName::Anon, code);
 
         let mut parser = Parser::new(
-            Syntax::Typescript(TsConfig::default()),
+            Syntax::Typescript(TsConfig {
+                tsx: true,
+                decorators: true,
+                ..Default::default()
+            }),
             StringInput::from(&*fm),
             None,
         );
