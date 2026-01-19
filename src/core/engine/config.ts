@@ -118,45 +118,31 @@ export async function computeInputFingerprint(ctx: BuildContext): Promise<InputF
     // This implies we fingerprint based on *what we know*. 
     // Let's fingerprint the Entry Files themselves if they exist.
 
-    // 3. Hash Source Files
-    // To guarantee inputHash catches ALL changes, we must scan the directory.
-    const sourceFiles: { path: string, contentHash: string }[] = [];
+    // 3. Hash Source Files (High-Parallelism Scan)
+    const excludes = new Set(['node_modules', '.git', 'dist', 'build_output', 'coverage', '.DS_Store', '.nexxo_cache']);
+    if (ctx.config.outputDir) excludes.add(path.basename(ctx.config.outputDir));
 
-    const excludes = new Set(['node_modules', '.git', 'dist', 'coverage', '.DS_Store']);
-    if (ctx.config.outputDir) {
-        excludes.add(path.basename(ctx.config.outputDir));
-    }
+    const sourceFiles: { path: string, contentHash: string }[] = [];
+    const tasks: Promise<void>[] = [];
 
     async function scan(dir: string) {
-        try {
-            const entries = await fs.readdir(dir, { withFileTypes: true });
-            for (const dirent of entries) {
-                if (excludes.has(dirent.name)) continue;
-
-                const fullPath = path.join(dir, dirent.name);
-                if (dirent.isDirectory()) {
-                    await scan(fullPath);
-                } else if (dirent.isFile()) {
-                    // Match source files
-                    if (/\.(ts|tsx|js|jsx|json|css|html|astro|vue|svelte|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf)$/i.test(dirent.name)) {
-                        try {
-                            const content = await fs.readFile(fullPath);
-                            const relPath = path.relative(ctx.rootDir, fullPath);
-                            sourceFiles.push({
-                                path: relPath, // relative path for stability
-                                contentHash: canonicalHash(content)
-                            });
-                        } catch (e) { }
-                    }
-                }
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const dirent of entries) {
+            if (excludes.has(dirent.name)) continue;
+            const fullPath = path.join(dir, dirent.name);
+            if (dirent.isDirectory()) {
+                tasks.push(scan(fullPath));
+            } else if (/\.(ts|tsx|js|jsx|json|css|html|vue|svelte)$/i.test(dirent.name)) {
+                tasks.push((async () => {
+                    const content = await fs.readFile(fullPath);
+                    sourceFiles.push({ path: path.relative(ctx.rootDir, fullPath), contentHash: canonicalHash(content) });
+                })());
             }
-        } catch (e) {
-            // Directory might not exist or be readable
         }
     }
 
     await scan(ctx.rootDir);
-
+    await Promise.all(tasks);
     sourceFiles.sort((a, b) => a.path.localeCompare(b.path));
 
     const inputsToHash = {

@@ -63,6 +63,11 @@ export class UniversalSSREngine {
                 res.statusCode = result.statusCode || 200;
                 res.setHeader('Content-Type', 'text/html; charset=utf-8');
 
+                // Inject Head if available
+                if (result.head) {
+                    res.write(`<!DOCTYPE html><html><head>${result.head}</head><body>`);
+                }
+
                 if (result.stream) {
                     // Pipe Stream
                     if (Symbol.asyncIterator in result.stream) {
@@ -85,12 +90,25 @@ export class UniversalSSREngine {
             } else {
                 // Web Standard Response
                 if (result.stream) {
+                    const headers = { 'Content-Type': 'text/html; charset=utf-8' };
+                    // For Web Streams, if we have a head, we prepend it using a TransformStream
+                    if (result.head) {
+                        const { readable, writable } = new TransformStream();
+                        const writer = writable.getWriter();
+                        writer.write(encoder.encode(`<!DOCTYPE html><html><head>${result.head}</head><body>`));
+                        (result.stream as ReadableStream).pipeTo(writable);
+                        return new Response(readable, { headers, status: result.statusCode || 200 });
+                    }
                     return new Response(result.stream as ReadableStream, {
-                        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+                        headers,
                         status: result.statusCode || 200
                     });
                 }
-                return new Response(result.html || '', {
+                let body = result.html || '';
+                if (result.head) {
+                    body = `<!DOCTYPE html><html><head>${result.head}</head><body>${body}`;
+                }
+                return new Response(body, {
                     headers: { 'Content-Type': 'text/html; charset=utf-8' },
                     status: result.statusCode || 200
                 });

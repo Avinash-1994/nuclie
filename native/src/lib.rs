@@ -2,9 +2,13 @@
 // Focus: Speed and minimal bundle size
 
 mod graph;
-mod orchestrator; // Day 2: Tokio orchestrator
-mod cache;        // Day 2: RocksDB cache
-mod wasmtime;     // Day 8: WASM Runtime
+mod transform;
+mod orchestrator;
+mod cache;
+mod wasmtime;
+
+// Re-export transform module
+pub use transform::transform_js;
 
 // Re-export wasmtime module
 pub use wasmtime::{PluginRuntime};
@@ -30,10 +34,22 @@ pub use cache::{
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
+#[napi(object)]
+pub struct TransformConfig {
+    pub path: String,
+    pub content: String,
+    pub loader: String,
+}
+
+#[napi(object)]
+pub struct TransformResult {
+    pub code: String,
+}
+
 /// High-performance native worker for plugin transformations
 #[napi]
 pub struct NativeWorker {
-  pool_size: u32,
+  _pool_size: u32,
 }
 
 #[napi]
@@ -42,31 +58,38 @@ impl NativeWorker {
   #[napi(constructor)]
   pub fn new(pool_size: Option<u32>) -> Self {
     Self {
-      pool_size: pool_size.unwrap_or(4),
+      _pool_size: pool_size.unwrap_or(4),
     }
   }
 
-  /// Transform code using a simple regex-based approach
-  /// In a real implementation, this would load and execute actual plugins
+  /// Transform code using native SWC engine
   #[napi]
-  pub fn transform_sync(&self, code: String, _id: String) -> String {
-    // Simple example: replace console.log with console.debug
-    // In production, this would load and execute actual Rust plugins
-    code.replace("console.log", "console.debug")
+  pub fn transform_sync(&self, config: TransformConfig) -> Result<TransformResult> {
+    let result = transform_js(config.content, config.path, true)
+        .map_err(|e| Error::new(Status::GenericFailure, e))?;
+    
+    Ok(TransformResult { code: result })
   }
 
-  /// Async version of transform for non-blocking operations
+  /// Parallel Transform: Process multiple modules across all cores
   #[napi]
-  pub async fn transform(&self, code: String, id: String) -> Result<String> {
-    // Simulate async plugin execution
-    let result = self.transform_sync(code, id);
-    Ok(result)
-  }
+  pub async fn batch_transform(&self, items: Vec<TransformConfig>) -> Result<Vec<TransformResult>> {
+    use rayon::prelude::*;
+    
+    // We use tokio_rt feature to spawn blocking for rayon
+    // items is a list of TransformConfig
+    let results = tokio::task::spawn_blocking(move || {
+        items.into_par_iter()
+             .map(|item| {
+                 match transform_js(item.content, item.path, true) {
+                     Ok(code) => Ok(TransformResult { code }),
+                     Err(e) => Err(e)
+                 }
+             })
+             .collect::<std::result::Result<Vec<TransformResult>, String>>()
+    }).await.map_err(|e| Error::new(Status::GenericFailure, e.to_string()))?;
 
-  /// Get the pool size
-  #[napi(getter)]
-  pub fn get_pool_size(&self) -> u32 {
-    self.pool_size
+    results.map_err(|e| Error::new(Status::GenericFailure, e))
   }
 }
 
@@ -74,6 +97,13 @@ impl NativeWorker {
 #[napi]
 pub fn hello_rust() -> String {
   "Hello from Rust Native Worker!".to_string()
+}
+
+/// Global bundle minification pass
+#[napi]
+pub fn minify_sync(code: String) -> napi::Result<String> {
+  transform::minify_js(code)
+    .map_err(|e| napi::Error::new(napi::Status::GenericFailure, e))
 }
 
 /// Benchmark function to compare performance
@@ -89,3 +119,4 @@ pub fn benchmark_transform(code: String, iterations: u32) -> f64 {
   
   duration.as_secs_f64()
 }
+

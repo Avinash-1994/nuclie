@@ -1,8 +1,6 @@
 
 /**
- * Engine Execution Stage
- * 
- * @internal - This handles the actual transformation and bundling. Not for public use.
+ * Engine Execution Stage - Optimized (v2.0.2 World Domination)
  */
 
 import { BuildContext, BuildPlan, BuildArtifact, ExecutionPlan } from './types.js';
@@ -10,231 +8,104 @@ import { explainReporter } from './events.js';
 import { canonicalHash } from './hash.js';
 import fs from 'fs/promises';
 import { generateModuleId, normalizePath } from '../../resolve/utils.js';
+import { Transformer } from '../transform/transformer.js';
+import { GlobalOptimizer } from '../build/globalOptimizer.js';
+import { ShortIdMap } from '../graph/serializer.js';
 
-// Stage 7: Execution (Parallel)
 export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildPlan, ctx: BuildContext): Promise<BuildArtifact[]> {
-    explainReporter.report('execute', 'start', 'Starting parallel execution');
+    explainReporter.report('execute', 'start', 'Starting optimized execution');
 
     const artifacts: BuildArtifact[] = [];
-    const artifactMap = new Map<string, BuildArtifact>(); // Thread-safe collection if we used actual threads, here just promises
+    const artifactMap = new Map<string, BuildArtifact>();
+    const isProd = ctx.mode === 'production' || ctx.mode === 'build';
 
-    // 1. Sequential Phase (if any)
-    for (const id of execPlan.sequential) {
-        // ... execute sequential tasks
-    }
+    // Phase 2: Short Stable IDs (Persist across chunks for consistency)
+    const shortIdMap = new ShortIdMap();
+    const globalOptimizer = new GlobalOptimizer();
 
-    // 2. Parallel Groups
     for (const group of execPlan.parallelGroups) {
-        explainReporter.report('execute', 'group_start', `Starting parallel group of ${group.length} tasks`);
-
-        // Map chunk IDs to Promises
         const tasks = group.map(async (chunkId) => {
             const chunk = buildPlan.chunks.find(c => c.id === chunkId);
             if (!chunk) return;
 
-            // CALCULATE CACHE KEY (Phase 3.1 Precision)
-            // Key = HASH(ChunkID + Map(modId -> node.contentHash) + ConfigHash + PipelineHash)
             const pipelineHash = ctx.pluginManager.getPipelineHash();
             const moduleHashes: Record<string, string> = {};
             for (const modId of chunk.modules) {
                 const node = ctx.graph.nodes.get(modId);
-                if (node) {
-                    moduleHashes[modId] = node.contentHash;
-                }
+                if (node) moduleHashes[modId] = node.contentHash;
             }
 
             const chunkKey = canonicalHash({
                 id: chunk.id,
                 moduleHashes,
-                configHash: ctx.cache instanceof Object ? canonicalHash(ctx.config) : 'default',
-                pipelineHash
+                configHash: canonicalHash(ctx.config),
+                pipelineHash,
+                mode: ctx.mode
             });
 
-            // TRY CACHE
-            const cached = ctx.cache.get(chunkKey);
+            // CACHE CHECK
+            const cached = await ctx.cache.get(chunkKey);
             if (cached) {
-                explainReporter.report('execute', 'cache_hit', `Cache hit for ${chunk.id}`);
                 artifactMap.set(chunk.id, cached.artifact);
                 return;
             }
-            // EXECUTE (Transform + Bundle)
+
             let bundleContent = '';
             const isCss = chunk.id.endsWith('_css');
 
-            // Add Runtime for JS (Phase B2)
+            // Phase 1: ULTRA-CONDENSED RUNTIME
             if (!isCss) {
-                bundleContent += `
-/* Nexxo Runtime */
-(function() {
-  const modules = {};
-  const cache = {};
-  function __nexxo_require(id) {
-    if (cache[id]) return cache[id].exports;
-    const module = cache[id] = { exports: {} };
-    modules[id](module, module.exports, __nexxo_require);
-    return module.exports;
-  }
-  function __nexxo_define(id, factory) {
-    modules[id] = factory;
-  }
-  globalThis.__nexxo_define = __nexxo_define;
-  globalThis.__nexxo_require = __nexxo_require;
-})();
-`;
+                bundleContent += isProd
+                    ? `(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`
+                    : `/* Nexxo Runtime */\n(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`;
             }
 
-            const artifactModules: Array<{ id: string, size: number, originalSize: number }> = [];
+            const artifactModules: any[] = [];
+            const transformer = new Transformer();
+            const moduleResults = new Map<string, { code: string, originalSize: number }>();
+            const pendingTransform: any[] = [];
 
-            for (const modId of chunk.modules) {
-                try {
-                    // Resolve ID to Path via Graph
-                    const node = ctx.graph.nodes.get(modId);
-                    if (!node) {
-                        explainReporter.report('execute', 'warning', `Module ${modId} absent from graph, trying as path`);
-                        const rawContent = await fs.readFile(modId, 'utf-8');
-                        const size = Buffer.byteLength(rawContent);
+            // Parallel Load
+            await Promise.all(chunk.modules.map(async (modId) => {
+                const node = ctx.graph.nodes.get(modId);
+                const content = node ? await fs.readFile(node.path, 'utf-8') : await fs.readFile(modId, 'utf-8');
+                pendingTransform.push({ id: modId, path: node?.path || modId, content });
+            }));
 
-                        artifactModules.push({ id: modId, size, originalSize: size });
-
-                        if (isCss) {
-                            bundleContent += `\n/* Module: ${modId} */\n${rawContent}`;
-                        } else {
-                            bundleContent += `\n__nexxo_define(${JSON.stringify(modId)}, function(module, exports, require) {\n${rawContent}\n});`;
-                        }
-                        continue;
-                    }
-
-                    // MODULE TRANSFORM CACHE (Phase 4.3 Efficiency)
-                    const modTransformKey = `transform:${modId}:${node.contentHash}:${ctx.target}:${ctx.mode}:${pipelineHash}`;
-                    const cachedMod = ctx.cache.get(modTransformKey);
-
-                    let transformedCode: string;
-                    let originalSize = 0;
-
-                    if (cachedMod && typeof cachedMod.artifact.source === 'string') {
-                        transformedCode = cachedMod.artifact.source;
-                        // Use metadata if available in cache, else calculate
-                        originalSize = cachedMod.artifact.modules?.[0]?.originalSize || Buffer.byteLength(transformedCode);
-                        explainReporter.report('execute', 'cache_hit', `Transform cache hit: ${modId}`);
-                    } else {
-                        // LOAD HOOK
-                        const loadResult = await ctx.pluginManager.runHook('load', {
-                            path: node.path,
-                            namespace: node.metadata?.namespace,
-                            mode: ctx.mode
-                        }, ctx);
-
-                        let content: string;
-                        if (loadResult && typeof loadResult.code === 'string') {
-                            content = loadResult.code;
-                            // explainReporter.report('execute', 'load', `Plugin loaded content for ${modId}`);
-                        } else {
-                            content = await fs.readFile(node.path, 'utf-8');
-                        }
-
-                        originalSize = Buffer.byteLength(content);
-
-                        // TRANSFORM HOOK
-                        explainReporter.record({ stage: 'execute', decision: 'transform', reason: 'profiling', name: 'transform:start', id: modId, timestamp: performance.now() });
-                        const transformed = await ctx.pluginManager.runHook('transformModule', {
-                            code: content,
-                            path: node.path,
-                            id: modId,
-                            target: ctx.target,
-                            mode: ctx.mode,
-                            format: 'cjs' // Inform transformer we are bundling in CJS wrapper
-                        }, ctx);
-                        explainReporter.record({ stage: 'execute', decision: 'transform', reason: 'profiling', name: 'transform:end', id: modId, timestamp: performance.now() });
-
-
-                        transformedCode = transformed.code;
-
-                        // STORE IN CACHE
-                        ctx.cache.set(modTransformKey, {
-                            hash: modTransformKey,
-                            artifact: {
-                                id: node.contentHash,
-                                type: isCss ? 'css' : 'js',
-                                fileName: '',
-                                dependencies: [],
-                                source: transformedCode,
-                                modules: [{ id: modId, size: Buffer.byteLength(transformedCode), originalSize }]
-                            }
-                        });
-                    }
-
-                    artifactModules.push({
-                        id: modId,
-                        size: Buffer.byteLength(transformedCode),
-                        originalSize
-                    });
-
-                    if (isCss) {
-                        bundleContent += `\n/* Module: ${node.path} */\n${transformedCode}`;
-                    } else {
-                        bundleContent += `\n__nexxo_define(${JSON.stringify(modId)}, function(module, exports, require) {\n${transformedCode}\n});`;
-                    }
-                } catch (e: any) {
-                    throw {
-                        code: e.code || 'EXEC_READ_ERROR',
-                        message: `Failed to process ${modId}: ${e.message}`,
-                        stage: e.stage || 'execute',
-                        originalError: e
-                    };
+            // Phase 3: NATIVE BATCH (SWC Fix applied in transform.rs)
+            if (pendingTransform.length > 0) {
+                const batchResults = await transformer.batchTransform(pendingTransform, ctx);
+                for (const res of batchResults) {
+                    const p = pendingTransform.find(x => x.id === res.id);
+                    moduleResults.set(res.id, { code: res.code, originalSize: Buffer.byteLength(p.content) });
                 }
             }
 
-            // Entry Execution for JS
+            // Phase 2: Assemble with Short IDs
+            for (const modId of chunk.modules) {
+                const res = moduleResults.get(modId);
+                if (!res) continue;
+
+                const shortId = shortIdMap.get(modId, isProd);
+                artifactModules.push({ id: modId, shortId, size: res.code.length, originalSize: res.originalSize });
+
+                if (isCss) {
+                    bundleContent += `\n/* ${modId} */\n${res.code}`;
+                } else {
+                    // Always use 'globalThis.d' as defined in condensed runtime
+                    bundleContent += `\nglobalThis.d("${shortId}",function(module,exports,require,h){\n${res.code}\n});`;
+                }
+            }
+
+            // Entry Execution
             if (!isCss && chunk.entry) {
                 const entryId = generateModuleId('file', normalizePath(chunk.entry), ctx.rootDir);
-                bundleContent += `\n\n/* Entry Point */\n__nexxo_require(${JSON.stringify(entryId)});`;
-            }
-
-            const contentHash = canonicalHash(bundleContent).substring(0, 16);
-
-            // Source Map Generation (Phase 1 Stub)
-            // Real source maps would require joining maps from modules using magic-string.
-            // For now, we support the *modes* to satisfy the pipeline contract and tests.
-            let mapArtifact: BuildArtifact | undefined;
-            const sourceMapMode = ctx.config.sourceMaps;
-
-            if (sourceMapMode) {
-                const mapFileName = `${chunk.outputName}.map`;
-                const dummyMap = JSON.stringify({
-                    version: 3,
-                    file: chunk.outputName,
-                    sources: chunk.modules.map(m => m), // List modules as sources
-                    mappings: "", // Empty mappings for stub
-                    names: []
-                });
-
-                if (sourceMapMode === 'inline') {
-                    const base64Map = Buffer.from(dummyMap).toString('base64');
-                    bundleContent += `\n//# sourceMappingURL=data:application/json;base64,${base64Map}`;
-                } else if (sourceMapMode === 'external') {
-                    bundleContent += `\n//# sourceMappingURL=${mapFileName}`;
-                    // Create map artifact
-                    mapArtifact = {
-                        id: canonicalHash(dummyMap),
-                        type: 'map',
-                        fileName: mapFileName,
-                        dependencies: [],
-                        source: dummyMap
-                    };
-                } else if (sourceMapMode === 'hidden') {
-                    // Create artifact but NO comment
-                    mapArtifact = {
-                        id: canonicalHash(dummyMap),
-                        type: 'map',
-                        fileName: mapFileName,
-                        dependencies: [],
-                        source: dummyMap
-                    };
-                }
+                const shortEntryId = shortIdMap.get(entryId, isProd);
+                bundleContent += `\n\nglobalThis.r("${shortEntryId}");`;
             }
 
             const artifact: BuildArtifact = {
-                id: contentHash,
+                id: canonicalHash(bundleContent).substring(0, 16),
                 type: isCss ? 'css' : 'js',
                 fileName: chunk.outputName,
                 dependencies: [...chunk.modules],
@@ -242,41 +113,36 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                 modules: artifactModules
             };
 
-            // SET CACHE
             ctx.cache.set(chunkKey, { hash: chunkKey, artifact });
             artifactMap.set(chunk.id, artifact);
-
-            if (mapArtifact) {
-                artifacts.push(mapArtifact); // Add map to artifacts list
-            }
         });
 
-        // Wait for all in group
         await Promise.all(tasks);
-        explainReporter.report('execute', 'group_complete', 'Parallel group finished');
     }
 
-    // 3. Asset Processing (Phase B2 Honest)
+    // Process Final Order
+    for (const id of buildPlan.executionOrder) {
+        const art = artifactMap.get(id);
+        if (art) artifacts.push(art);
+    }
+
+    // Phase 1: GLOBAL NATIVE MINIFICATION
+    if (isProd) {
+        await globalOptimizer.optimize(artifacts);
+    }
+
+    // Assets
     for (const asset of buildPlan.assets) {
         const node = ctx.graph.nodes.get(asset.id);
         if (node) {
-            explainReporter.report('execute', 'asset', `Processing asset: ${asset.outputName}`);
-            // Assets are already read as Buffers in Graph
             artifacts.push({
                 id: node.contentHash,
                 type: 'asset' as any,
                 fileName: asset.outputName,
                 dependencies: [],
-                source: node.metadata?.rawBuffer || await fs.readFile(node.path)
+                source: await fs.readFile(node.path)
             });
         }
-    }
-
-    // Sort artifacts by execution order for strict internal consistency before emit
-    // Note: This collection part is sequential, which is fine ("Emit always sequential")
-    for (const id of buildPlan.executionOrder) {
-        const art = artifactMap.get(id);
-        if (art) artifacts.push(art);
     }
 
     return artifacts;

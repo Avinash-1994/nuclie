@@ -175,28 +175,7 @@ impl GraphAnalyzer {
     #[napi]
     pub fn find_orphaned_nodes(&self, entry_points: Vec<String>) -> Vec<String> {
         let node_count = self.adj_list.len();
-        let mut reachable = vec![false; node_count];
-        let mut queue = VecDeque::new();
-
-        // Convert entry points to IDs
-        for entry in entry_points {
-            if let Some(id) = self.get_id(&entry) {
-                if !reachable[id] {
-                    reachable[id] = true;
-                    queue.push_back(id);
-                }
-            }
-        }
-
-        // BFS using integers
-        while let Some(u) = queue.pop_front() {
-            for &v in &self.adj_list[u] {
-                if !reachable[v] {
-                    reachable[v] = true;
-                    queue.push_back(v);
-                }
-            }
-        }
+        let reachable = self.get_reachable_mask(entry_points);
 
         // Collect unreachable nodes
         let mut orphaned = Vec::new();
@@ -207,6 +186,48 @@ impl GraphAnalyzer {
         }
         
         orphaned
+    }
+
+    /// Native Tree Shaking: Get all reachable nodes from entry points
+    /// This is the "marked" set for building the final bundle
+    #[napi]
+    pub fn get_reachable_nodes(&self, entry_points: Vec<String>) -> Vec<String> {
+        let node_count = self.adj_list.len();
+        let reachable = self.get_reachable_mask(entry_points);
+
+        let mut result = Vec::new();
+        for i in 0..node_count {
+            if reachable[i] {
+                result.push(self.id_to_node[i].clone());
+            }
+        }
+        result
+    }
+
+    /// Internal: Perform BFS reachability
+    fn get_reachable_mask(&self, entry_points: Vec<String>) -> Vec<bool> {
+        let node_count = self.adj_list.len();
+        let mut reachable = vec![false; node_count];
+        let mut queue = VecDeque::new();
+
+        for entry in entry_points {
+            if let Some(id) = self.get_id(&entry) {
+                if !reachable[id] {
+                    reachable[id] = true;
+                    queue.push_back(id);
+                }
+            }
+        }
+
+        while let Some(u) = queue.pop_front() {
+            for &v in &self.adj_list[u] {
+                if !reachable[v] {
+                    reachable[v] = true;
+                    queue.push_back(v);
+                }
+            }
+        }
+        reachable
     }
 
     /// Perform complete graph analysis

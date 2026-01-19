@@ -37,24 +37,37 @@ export class CacheManager {
         }
     }
 
-    private init() {
+    private async init() {
         try {
-            const cachePath = path.join(this.root, '.nexxo_cache');
-            this.cache = new BuildCache(cachePath);
-            log.info(`🚀 Initialized RocksDB Cache at ${cachePath}`);
+            const { getLazyCacheDatabase, initCacheInBackground } = await import('./cache/lazy-init.js');
+            // Background init
+            initCacheInBackground(path.join(this.root, '.nexxo_cache'));
+
+            // The first 'get' or 'set' will await the database if it's not ready
         } catch (error: any) {
-            log.warn(`Failed to initialize RocksDB cache, falling back to in-memory: ${error.message}`);
-            this.enabled = false;
+            log.warn(`Failed to initialize lazy RocksDB cache: ${error.message}`);
+        }
+    }
+
+    private async getDb(): Promise<BuildCache | null> {
+        if (!this.enabled) return null;
+        try {
+            const { getLazyCacheDatabase } = await import('./cache/lazy-init.js');
+            return await getLazyCacheDatabase(path.join(this.root, '.nexxo_cache'));
+        } catch (e) {
+            return null;
         }
     }
 
     /**
      * Get a cached result
      */
-    get(category: CacheCategory, key: string): string | null {
-        if (!this.enabled || !this.cache) return null;
+    async get(category: CacheCategory, key: string): Promise<string | null> {
+        if (!this.enabled) return null;
+        const db = await this.getDb();
+        if (!db) return null;
         try {
-            return this.cache.get(`${category}:${key}`);
+            return db.get(`${category}:${key}`);
         } catch (e) {
             return null;
         }
@@ -63,34 +76,37 @@ export class CacheManager {
     /**
      * Set a cached result
      */
-    set(category: CacheCategory, key: string, value: string) {
-        if (!this.enabled || !this.cache) return;
-        // Fire and forget, don't await I/O
+    async set(category: CacheCategory, key: string, value: string) {
+        if (!this.enabled) return;
+        const db = await this.getDb();
+        if (!db) return;
         try {
-            this.cache.set(`${category}:${key}`, value);
-        } catch (e) {
-            // ignore
-        }
+            db.set(`${category}:${key}`, value);
+        } catch (e) { }
     }
 
     /**
      * Check existence
      */
-    has(category: CacheCategory, key: string): boolean {
-        if (!this.enabled || !this.cache) return false;
-        return this.cache.has(`${category}:${key}`);
+    async has(category: CacheCategory, key: string): Promise<boolean> {
+        if (!this.enabled) return false;
+        const db = await this.getDb();
+        if (!db) return false;
+        return db.has(`${category}:${key}`);
     }
 
     /**
-     * Batch write (useful for warmup)
+     * Batch write
      */
-    batchSet(entries: Record<string, string>, category: CacheCategory) {
-        if (!this.enabled || !this.cache) return;
+    async batchSet(entries: Record<string, string>, category: CacheCategory) {
+        if (!this.enabled) return;
+        const db = await this.getDb();
+        if (!db) return;
         const prefixed: Record<string, string> = {};
         for (const [k, v] of Object.entries(entries)) {
             prefixed[`${category}:${k}`] = v;
         }
-        this.cache.batchSet(prefixed);
+        db.batchSet(prefixed);
     }
 
     /**

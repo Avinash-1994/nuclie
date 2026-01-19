@@ -57,18 +57,26 @@ export class PluginManager {
 
     /** @internal */
     private metrics: Map<string, { time: number, calls: number }> = new Map();
+    /** @internal */
+    private hookCache: Map<string, NexxoPlugin[]> = new Map();
 
     /** @internal - Used by the engine to execute hooks. */
     async runHook(hookName: PluginHookName, input: any, context?: any): Promise<any> {
         let result = input;
 
-        const sortedPlugins = Array.from(this.plugins.values())
-            .filter(p => p.manifest.hooks.includes(hookName))
-            .sort((a, b) => a.id.localeCompare(b.id));
+        const isProd = context?.mode === 'production' || context?.mode === 'build';
+
+        let sortedPlugins = this.hookCache.get(hookName);
+        if (!sortedPlugins) {
+            sortedPlugins = Array.from(this.plugins.values())
+                .filter(p => p.manifest.hooks.includes(hookName))
+                .sort((a, b) => a.id.localeCompare(b.id));
+            this.hookCache.set(hookName, sortedPlugins);
+        }
 
         for (const plugin of sortedPlugins) {
-            const inputHash = canonicalHash(result);
-            const executionStart = Date.now();
+            const inputHash = isProd ? '' : canonicalHash(result);
+            const executionStart = performance.now();
 
             let hookResult;
             try {
@@ -91,24 +99,16 @@ export class PluginManager {
             m.calls += 1;
             this.metrics.set(plugin.manifest.name, m);
 
-            const outputHash = canonicalHash(hookResult);
-
-            const validation: PluginValidation = {
-                passesDeterminism: true,
-                executionTimeMs: executionTime,
-                outputSizeBytes: JSON.stringify(hookResult).length,
-                mutationScore: 0
-            };
-
-            const record: PluginExecutionRecord = {
-                pluginId: plugin.id,
-                hook: hookName,
-                inputHash,
-                outputHash,
-                validation
-            };
-
-            explainReporter.report('plugins', 'hook', `Executed ${plugin.manifest.name}:${hookName} (${executionTime}ms)`);
+            if (!isProd) {
+                const outputHash = canonicalHash(hookResult);
+                const validation: PluginValidation = {
+                    passesDeterminism: true,
+                    executionTimeMs: executionTime,
+                    outputSizeBytes: JSON.stringify(hookResult).length,
+                    mutationScore: 0
+                };
+                explainReporter.report('plugins', 'hook', `Executed ${plugin.manifest.name}:${hookName} (${executionTime.toFixed(2)}ms)`);
+            }
 
             if (hookResult !== null && hookResult !== undefined) {
                 result = hookResult;

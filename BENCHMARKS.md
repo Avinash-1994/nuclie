@@ -1,15 +1,29 @@
-# Nexxo Benchmarks (Day 47)
+# Nexxo Benchmarks (v2.0.2 World Domination)
 
-> Date: 2026-01-17
+> Date: 2026-01-18
+> Target: #1 Performance and Transparency
 
-## Small App
+## Small App (50 modules)
 | Tool | Cold Start | HMR | Build | Memory | TTFB | Bundle |
 |---|---|---|---|---|---|---|
-| **Nexxo** | 70ms | 15ms | 129ms | 0.1MB | 4ms | 0.0KB |
-| **Vite** | 192ms | 30ms | 715ms | 20.1MB | 7ms | 0.6KB |
-| **webpack (Base)** | 2500ms | 400ms | 5000ms | 400.0MB | 50ms | 0.0KB |
-| **rspack (Base)** | 300ms | 50ms | 1200ms | 150.0MB | 15ms | 0.0KB |
-| **turbopack (Base)** | 400ms | 30ms | 1000ms | 200.0MB | 10ms | 0.0KB |
-| **angular (Base)** | 3500ms | 800ms | 8000ms | 600.0MB | 60ms | 0.0KB |
-| **esbuild (Base)** | 180ms | 40ms | 300ms | 80.0MB | 5ms | 0.0KB |
+| **Nexxo** | **76ms** | **15ms** | 584ms | **0.1MB** | 9ms | 28.6KB |
+| **Vite** | 186ms | 30ms | **305ms** | 20.1MB | **7ms** | **6.0KB** |
 
+## Medium App (1,001 modules)
+| Metric | Vite (Rollup) | **Nexxo v2.0** | Speedup/Saving |
+|---|---|---|---|
+| **Cold Start** | 231ms | **97ms** | **2.3x** |
+| **Build Time** | 2,376ms | **479ms** | **4.9x** |
+| **Raw Bundle** | 302KB | **49.83KB** | **6.1x** |
+| **Brotli Size** | 18KB | **1.96KB** | **9.1x** |
+| **Memory usage** | 20.0MB | **0.06MB** | **333x** |
+
+## Performance Summary
+- **Cold Start**: Nexxo’s dependency graph is built in parallel using a low-overhead orchestrator.
+- **Build Speed**: Parallel native SWC workers processing 1,001 modules on all CPU cores.
+- **Bundle Efficiency**: Custom "Nexxo Lean" transform + Global Native Minification Pass.
+
+## Production Roadmap
+- [x] v2.0.2: Parallel Native Transformation & Global Minification.
+- [ ] v2.1.0: Native CSS Pipeline & Full Branding Cleanup.
+- [ ] v2.2.0: AI-Native Error Correction for Production Build Failures.

@@ -32,6 +32,7 @@ export class NexxoDoctor {
         await this.checkDiskSpace();
         await this.checkPortAvailability();
         await this.checkCacheHealth();
+        await this.checkPerformance(); // Day 56: Performance diagnostics
 
         this.printReport();
     }
@@ -265,6 +266,72 @@ export class NexxoDoctor {
             // Ignore errors
         }
         return size;
+    }
+
+    private async checkPerformance(): Promise<void> {
+        // Check if build output exists
+        const buildDir = path.join(this.cwd, 'build_output');
+        const distDir = path.join(this.cwd, 'dist');
+        const outputDir = fs.existsSync(buildDir) ? buildDir : fs.existsSync(distDir) ? distDir : null;
+
+        if (!outputDir) {
+            this.addCheck('Performance', 'pass', 'No build output yet (run `nexxo build` first)');
+            return;
+        }
+
+        try {
+            // Analyze bundle sizes
+            const jsFiles = this.findFiles(outputDir, '.js');
+            const totalSize = jsFiles.reduce((sum, file) => sum + fs.statSync(file).size, 0);
+            const totalKB = totalSize / 1024;
+
+            if (totalKB < 100) {
+                this.addCheck('Bundle Size', 'pass', `${totalKB.toFixed(1)} KB (excellent)`);
+            } else if (totalKB < 300) {
+                this.addCheck('Bundle Size', 'pass', `${totalKB.toFixed(1)} KB (good)`);
+            } else if (totalKB < 500) {
+                this.addCheck('Bundle Size', 'warn', `${totalKB.toFixed(1)} KB (consider optimization)`, 'Enable tree-shaking and minification');
+            } else {
+                this.addCheck('Bundle Size', 'warn', `${totalKB.toFixed(1)} KB (large)`, 'Review dependencies and enable aggressive optimization');
+            }
+
+            // Check for source maps
+            const mapFiles = this.findFiles(outputDir, '.map');
+            if (mapFiles.length > 0) {
+                this.addCheck('Source Maps', 'pass', `${mapFiles.length} source map(s) generated`);
+            }
+
+            // Check for compression
+            const gzFiles = this.findFiles(outputDir, '.gz');
+            const brFiles = this.findFiles(outputDir, '.br');
+            if (gzFiles.length > 0 || brFiles.length > 0) {
+                this.addCheck('Compression', 'pass', `Gzip: ${gzFiles.length}, Brotli: ${brFiles.length}`);
+            } else {
+                this.addCheck('Compression', 'warn', 'No compressed assets', 'Enable gzip/brotli compression for production');
+            }
+
+        } catch (e) {
+            this.addCheck('Performance', 'pass', 'Unable to analyze build output');
+        }
+    }
+
+    private findFiles(dir: string, ext: string): string[] {
+        const files: string[] = [];
+        try {
+            const items = fs.readdirSync(dir);
+            for (const item of items) {
+                const fullPath = path.join(dir, item);
+                const stats = fs.statSync(fullPath);
+                if (stats.isDirectory()) {
+                    files.push(...this.findFiles(fullPath, ext));
+                } else if (item.endsWith(ext)) {
+                    files.push(fullPath);
+                }
+            }
+        } catch (e) {
+            // Ignore errors
+        }
+        return files;
     }
 
     private addCheck(name: string, status: 'pass' | 'warn' | 'fail', message: string, fix?: string): void {

@@ -43,18 +43,30 @@ impl BuildCache {
     pub fn new(cache_path: String) -> Result<Self> {
         let path = PathBuf::from(cache_path);
         
-        // Configure RocksDB options for optimal performance
+        // Configure RocksDB options for optimal performance (Module 8 Perfection)
         let mut opts = Options::default();
         opts.create_if_missing(true);
-        opts.set_max_open_files(1000);
+        opts.set_max_open_files(1024);
         opts.set_use_fsync(false); // Faster writes, acceptable for cache
         opts.set_bytes_per_sync(1048576); // 1MB
-        opts.set_write_buffer_size(64 * 1024 * 1024); // 64MB
-        opts.set_max_write_buffer_number(3);
-        opts.set_target_file_size_base(64 * 1024 * 1024); // 64MB
         
-        // Enable compression
+        // Performance targets for Module 8
+        opts.set_allow_mmap_reads(true); // Faster reads via memory mapping
+        opts.set_compaction_style(rocksdb::DBCompactionStyle::Level); // Efficient LSM structure
+        
+        // Memory tuning for <200ms startup
+        opts.set_write_buffer_size(16 * 1024 * 1024); // 16MB (reduced for faster init)
+        opts.set_max_write_buffer_number(2);
+        opts.set_target_file_size_base(32 * 1024 * 1024); // 32MB files
+        
+        // Enable compression (Lz4 is extremely fast)
         opts.set_compression_type(rocksdb::DBCompressionType::Lz4);
+        
+        // Optimized block cache (Block-based table options)
+        let mut block_opts = rocksdb::BlockBasedOptions::default();
+        block_opts.set_block_size(4096); // 4KB blocks
+        block_opts.set_block_cache(&rocksdb::Cache::new_lru_cache(32 * 1024 * 1024)); // 32MB block cache
+        opts.set_block_based_table_factory(&block_opts);
         
         let db = DB::open(&opts, path)
             .map_err(|e| Error::from_reason(format!("Failed to open RocksDB: {}", e)))?;
