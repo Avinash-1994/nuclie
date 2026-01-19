@@ -196,7 +196,10 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     const loadEnv = (dotenvModule as any).config || (dotenvModule as any).default?.config;
     if (loadEnv) {
       loadEnv({ path: path.join(cfg.root, '.env') });
+      console.log(`[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with \x1b[35mdotenvx run -- yourcommand\x1b[0m`);
+
       loadEnv({ path: path.join(cfg.root, '.env.local') });
+      console.log(`[dotenv@17.2.3] injecting env (0) from .env.local -- tip: 🔐 prevent building .env in docker: \x1b[34mhttps://dotenvx.com/prebuild\x1b[0m`);
     }
   } catch (e) { }
 
