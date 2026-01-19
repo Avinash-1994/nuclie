@@ -39,6 +39,7 @@ pub struct TransformConfig {
     pub path: String,
     pub content: String,
     pub loader: String,
+    pub minify: Option<bool>,
 }
 
 #[napi(object)]
@@ -65,7 +66,8 @@ impl NativeWorker {
   /// Transform code using native SWC engine
   #[napi]
   pub fn transform_sync(&self, config: TransformConfig) -> Result<TransformResult> {
-    let result = transform_js(config.content, config.path, true)
+    let minify = config.minify.unwrap_or(false);
+    let result = transform_js(config.content, config.path, minify)
         .map_err(|e| Error::new(Status::GenericFailure, e))?;
     
     Ok(TransformResult { code: result })
@@ -81,7 +83,8 @@ impl NativeWorker {
     let results = tokio::task::spawn_blocking(move || {
         items.into_par_iter()
              .map(|item| {
-                 match transform_js(item.content, item.path, true) {
+                 let minify = item.minify.unwrap_or(false);
+                 match transform_js(item.content, item.path, minify) {
                      Ok(code) => Ok(TransformResult { code }),
                      Err(e) => Err(e)
                  }

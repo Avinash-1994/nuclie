@@ -47,6 +47,9 @@ export class Transformer {
 
         log.debug(`[Transformer] Using Native Worker (${modules.length} modules)`);
         const batches: Record<string, any[]> = {};
+        const isProd = ctx.mode === 'production' || ctx.mode === 'build';
+        const minifyEnabled = isProd; // Only minify in production
+
         modules.forEach(m => {
             const ext = m.path.split('.').pop() || 'js';
             const loader = ['tsx', 'ts', 'jsx', 'js'].includes(ext) ? ext : 'js';
@@ -59,7 +62,8 @@ export class Transformer {
             const config = batch.map(m => ({
                 path: m.path,
                 content: m.content,
-                loader: loader
+                loader: loader,
+                minify: minifyEnabled
             }));
 
             const results = await this.nativeWorker.batchTransform(config);

@@ -224,6 +224,7 @@ export interface TransformConfig {
   path: string
   content: string
   loader: string
+  minify?: boolean
 }
 
 export interface TransformResult {
