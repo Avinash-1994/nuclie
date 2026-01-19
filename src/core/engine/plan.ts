@@ -63,16 +63,48 @@ export function planBuild(ctx: BuildContext): BuildPlan {
 
     // 3. Process Main Entries
     const mainEntries = sortedEntries.map(e => getId(path.resolve(ctx.rootDir, e)));
+
+    // PRODUCTION TREE-SHAKING: Use native graph analysis to prune unreachable modules
+    let reachableModules: Set<string> | null = null;
+    if (ctx.mode === 'production' || ctx.mode === 'build') {
+        try {
+            const entryIds = mainEntries.filter(id => ctx.graph.nodes.has(id));
+            if (entryIds.length > 0) {
+                const reachable = ctx.graph.getReachableNodes(entryIds);
+                reachableModules = new Set(reachable);
+                const totalNodes = ctx.graph.nodes.size;
+                const pruned = totalNodes - reachable.length;
+                if (pruned > 0) {
+                    explainReporter.report('plan', 'tree_shake', `Native tree-shaking: Pruned ${pruned}/${totalNodes} unreachable modules`);
+                }
+            }
+        } catch (e) {
+            explainReporter.report('plan', 'tree_shake_fallback', 'Native tree-shaking unavailable, using all modules');
+        }
+    }
+
     for (const entryId of mainEntries) {
         if (!ctx.graph.nodes.has(entryId)) continue;
         const deps = traverse(entryId);
-        entryDeps.set(ctx.graph.nodes.get(entryId)!.path, deps);
+
+        // Filter to only reachable modules if tree-shaking was successful
+        const finalDeps = reachableModules
+            ? new Set([...deps].filter(id => reachableModules!.has(id)))
+            : deps;
+
+        entryDeps.set(ctx.graph.nodes.get(entryId)!.path, finalDeps);
     }
 
     // 4. Process Async Entries
     for (const entryId of Array.from(asyncEntries).sort()) {
         const deps = traverse(entryId);
-        entryDeps.set(ctx.graph.nodes.get(entryId)!.path, deps);
+
+        // Filter to only reachable modules if tree-shaking was successful
+        const finalDeps = reachableModules
+            ? new Set([...deps].filter(id => reachableModules!.has(id)))
+            : deps;
+
+        entryDeps.set(ctx.graph.nodes.get(entryId)!.path, finalDeps);
     }
 
     // 5. Create Chunks

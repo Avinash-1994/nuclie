@@ -40,11 +40,33 @@ export const log = {
   info: (msg: string, ctx: LogContext = {}) => {
     // In quiet mode, allow essential server messages through
     if (process.env.NEXXO_QUIET === 'true' && ctx.category !== 'server') return;
+
+    // Aggressive Filtering: Filter out internal system logs to keep the banner clean
+    const isSystemLog = msg.startsWith('Pipeline:') ||
+      msg.startsWith('-->') ||
+      msg.startsWith('Using cached') ||
+      msg.startsWith('[Transformer]') ||
+      msg.includes('Warming up') ||
+      msg.includes('Pre-bundling') ||
+      msg.includes('RocksDB');
+
+    if (isSystemLog) {
+      if (process.env.DEBUG) {
+        const cat = ctx.category ? `[${categoryColor(ctx.category)}]` : '';
+        console.log(`${time()} ${kleur.magenta('⚙')} ${cat} ${msg}`);
+      }
+      return;
+    }
+
     const cat = ctx.category ? `[${categoryColor(ctx.category)}]` : '';
     const dur = ctx.duration ? kleur.yellow(`+${formatDuration(ctx.duration)}`) : '';
     console.log(`${time()} ${kleur.blue('ℹ')} ${cat} ${msg} ${dur}`);
   },
   success: (msg: string, ctx: LogContext = {}) => {
+    // Filter success logs if they are system noise
+    if (msg.includes('Cache ready') || msg.includes('Build Complete') || msg.includes('active at')) {
+      if (!process.env.DEBUG) return;
+    }
     const cat = ctx.category ? `[${categoryColor(ctx.category)}]` : '';
     const dur = ctx.duration ? kleur.yellow(`+${formatDuration(ctx.duration)}`) : '';
     console.log(`${time()} ${kleur.green('✔')} ${cat} ${msg} ${dur}`);

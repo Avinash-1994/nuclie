@@ -1,9 +1,26 @@
-// TypeScript bindings for Nexxo v2.0 native modules
-// Day 2: Tokio Orchestrator & RocksDB Cache
-
+import path from 'path';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const nativeModule = require('../../nexxo_native.node');
+let nativeModule: any;
+
+const candidatePaths = [
+    './nexxo_native.node',
+    '../nexxo_native.node',
+    '../../nexxo_native.node',
+    path.join(process.cwd(), 'nexxo_native.node'),
+    path.join(process.cwd(), 'dist/nexxo_native.node')
+];
+
+for (const p of candidatePaths) {
+    try {
+        nativeModule = require(p);
+        break;
+    } catch (e) { }
+}
+
+if (!nativeModule) {
+    throw new Error('Nexxo Native Module not found. Please ensure nexxo_native.node exists.');
+}
 
 const { BuildCache: NativeBuildCache } = nativeModule;
 

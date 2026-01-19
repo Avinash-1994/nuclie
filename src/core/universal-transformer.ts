@@ -131,7 +131,8 @@ export class UniversalTransformer {
                     loader: 'tsx',
                     format: options.format || (options.target === 'node' ? 'cjs' : 'esm'),
                     platform: options.target === 'node' ? 'node' : 'browser',
-                    target: 'es2020'
+                    target: isDev ? 'es2020' : 'esnext',
+                    minify: false // Defer to optimize stage for better deduplication
                 });
                 result.code = finalResult.code;
             } catch (err: any) {

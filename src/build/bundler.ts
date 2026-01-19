@@ -16,6 +16,15 @@ export async function build(cfg: BuildConfig) {
       const errorMsg = (result as any).error?.message || 'Unknown build error';
       throw new Error(errorMsg);
     }
+
+    // Day 52: Print final bundle stats in production mode
+    if (cfg.mode === 'production') {
+      const { printBundleStats } = await import('./bundle-stats.js');
+      // Extract artifacts from targets
+      const artifacts = (result as any).targets ? (result as any).targets.flatMap((t: any) => t.artifacts) : (result as any).artifacts || [];
+      printBundleStats(artifacts);
+    }
+
     console.log('✅ Build completed successfully!');
     return result; // Added
   } catch (error: any) {

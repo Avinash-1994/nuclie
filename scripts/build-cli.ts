@@ -51,6 +51,13 @@ const require = __nexxo_createRequire(import.meta.url);
         console.log(`✅ CLI bundled in ${duration}ms`);
         console.log(`📂 Output: dist/cli.mjs`);
 
+        // Copy native node module to dist for runtime access
+        const nativeModulePath = path.resolve(process.cwd(), 'nexxo_native.node');
+        if (fs.existsSync(nativeModulePath)) {
+            fs.copyFileSync(nativeModulePath, path.join(process.cwd(), 'dist/nexxo_native.node'));
+            console.log('✅ Native module [nexxo_native.node] copied to dist/');
+        }
+
     } catch (e) {
         console.error('❌ CLI Bundling failed:', e);
         process.exit(1);

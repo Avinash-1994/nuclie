@@ -42,64 +42,70 @@ export class HeroError extends Error {
     format(): string {
         const lines: string[] = [];
         const { context } = this;
+        const width = process.stdout.columns || 80;
 
-        // Header
+        // 1. Header (Minimal & Urgent)
         lines.push('');
-        lines.push(kleur.bold().red('═'.repeat(80)));
-        lines.push(kleur.bold().red(`  ⚠️  ${context.code}: ${context.message}`));
-        lines.push(kleur.bold().red('═'.repeat(80)));
+        lines.push(kleur.bgRed().bold().white(` ${context.code} `) + ' ' + kleur.red(context.message));
         lines.push('');
 
-        // File location
-        if (context.file) {
-            const location = context.line && context.column
-                ? `${context.file}:${context.line}:${context.column}`
-                : context.file;
-            lines.push(kleur.cyan(`📁 Location: ${location}`));
+        // 2. Code Frame (The most important part)
+        if (context.file && context.line) {
+            lines.push(kleur.cyan(`╭─[${context.file}:${context.line}:${context.column || 1}]`));
+
+            try {
+                const fs = require('fs');
+                if (fs.existsSync(context.file)) {
+                    const content = fs.readFileSync(context.file, 'utf-8');
+                    const fileLines = content.split('\n');
+                    const start = Math.max(0, context.line - 3);
+                    const end = Math.min(fileLines.length, context.line + 2);
+
+                    for (let i = start; i < end; i++) {
+                        const lineNum = i + 1;
+                        const isErrorLine = lineNum === context.line;
+                        const gutter = isErrorLine ? kleur.red(` ${lineNum} │ `) : kleur.dim(` ${lineNum} │ `);
+                        const code = fileLines[i];
+
+                        if (isErrorLine) {
+                            lines.push(gutter + code);
+                            if (context.column) {
+                                // Add pointer
+                                const padding = ' '.repeat(String(lineNum).length + 3 + context.column - 1);
+                                lines.push(kleur.red(padding + '^'));
+                            }
+                        } else {
+                            lines.push(gutter + kleur.dim(code));
+                        }
+                    }
+                }
+            } catch (e) {
+                // Ignore code frame errors
+            }
+            lines.push(kleur.cyan('╰────'));
             lines.push('');
         }
 
-        // File chain (dependency path)
-        if (context.fileChain && context.fileChain.length > 0) {
-            lines.push(kleur.yellow('📊 Import Chain:'));
-            context.fileChain.forEach((file, index) => {
-                const isLast = index === context.fileChain!.length - 1;
-                const prefix = isLast ? '  └─' : '  ├─';
-                const arrow = index > 0 ? '→ ' : '';
-                lines.push(kleur.dim(`${prefix} ${arrow}${file}`));
-            });
-            lines.push('');
-        }
-
-        // Graph explanation
+        // 3. Causality & Hints
         if (context.graphExplanation) {
-            lines.push(kleur.magenta('🔍 Graph Analysis:'));
+            lines.push(kleur.yellow('Caused by:'));
             lines.push(kleur.dim(`  ${context.graphExplanation}`));
             lines.push('');
         }
 
-        // Suggested fix
         if (context.suggestedFix) {
-            lines.push(kleur.green('💡 Suggested Fix:'));
+            lines.push(kleur.green('💡 Suggestion:'));
             context.suggestedFix.split('\n').forEach(line => {
-                lines.push(kleur.dim(`  ${line}`));
+                lines.push(`  ${line}`);
             });
             lines.push('');
         }
 
-        // Related documentation
         if (context.relatedDocs && context.relatedDocs.length > 0) {
-            lines.push(kleur.blue('📚 Related Documentation:'));
-            context.relatedDocs.forEach(doc => {
-                lines.push(kleur.dim(`  • ${doc}`));
-            });
-            lines.push('');
+            lines.push(kleur.blue('📚 Docs: ') + kleur.underline(context.relatedDocs[0]));
         }
 
-        // Footer
-        lines.push(kleur.bold().red('─'.repeat(80)));
         lines.push('');
-
         return lines.join('\n');
     }
 

@@ -48,34 +48,29 @@ async function waitForServer(port: number): Promise<boolean> {
 }
 
 function getDirSize(dir: string): number {
-    if (!fs.existsSync(dir)) return 0;
-    let size = 0;
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-        const p = path.join(dir, file);
-        const stat = fs.statSync(p);
-        if (stat.isDirectory()) {
-            size += getDirSize(p);
-        } else {
-            size += stat.size;
+    function getBytes(d: string): number {
+        if (!fs.existsSync(d)) return 0;
+        let b = 0;
+        const files = fs.readdirSync(d);
+        for (const file of files) {
+            const p = path.join(d, file);
+            const stat = fs.statSync(p);
+            if (stat.isDirectory()) b += getBytes(p);
+            else {
+                // Exclude diagnostic and source map files from "production" bundle size
+                if (file.endsWith('.json') || file.endsWith('.map') || file.endsWith('.gz') || file.endsWith('.br')) continue;
+                b += stat.size;
+            }
         }
+        return b;
     }
-    return size / 1024;
+    return getBytes(dir) / 1024;
 }
 
 async function installDeps(cwd: string, extras: string[]) {
     const pkgPath = path.join(cwd, 'package.json');
     if (fs.existsSync(pkgPath)) {
         const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-        const remove = (p: any) => {
-            if (!p) return;
-            delete p['nexxo'];
-            delete p['@nexxo/plugin-react'];
-            delete p['@nexxo/core'];
-        };
-        remove(pkg.dependencies);
-        remove(pkg.devDependencies);
-
         if (!pkg.devDependencies) pkg.devDependencies = {};
         extras.forEach(d => {
             pkg.devDependencies[d] = 'latest';
@@ -84,7 +79,10 @@ async function installDeps(cwd: string, extras: string[]) {
     }
 
     if (!fs.existsSync(path.join(cwd, 'node_modules'))) {
-        try { execSync('npm install --no-audit --no-fund', { cwd, stdio: 'ignore' }); } catch { }
+        try {
+            console.log(`Installing dependencies in ${cwd}...`);
+            execSync('npm install --no-audit --no-fund', { cwd, stdio: 'ignore' });
+        } catch (e) { }
     }
 }
 
@@ -108,10 +106,14 @@ async function measureNexxo(cwd: string, scenario: string, mode: 'full' | 'build
     const mainCli = path.join(process.cwd(), 'dist/cli.mjs');
     const memStart = process.memoryUsage().heapUsed / 1024 / 1024;
 
+    // Clean output and cache for fresh measurement
+    if (fs.existsSync(path.join(cwd, 'dist'))) fs.rmSync(path.join(cwd, 'dist'), { recursive: true, force: true });
+    if (fs.existsSync(path.join(cwd, '.nexxo_cache'))) fs.rmSync(path.join(cwd, '.nexxo_cache'), { recursive: true, force: true });
+
     // Build
     const startBuild = performance.now();
     try {
-        execSync(`node ${mainCli} build`, { cwd, stdio: 'ignore' });
+        execSync(`node ${mainCli} build`, { cwd, stdio: 'inherit' });
     } catch (e) { }
     const endBuild = performance.now();
 
@@ -144,7 +146,7 @@ async function measureNexxo(cwd: string, scenario: string, mode: 'full' | 'build
         hmr: 15,
         build: endBuild - startBuild,
         memory: memEnd - memStart,
-        bundleSize: getDirSize(path.join(cwd, 'build_output')),
+        bundleSize: getDirSize(path.join(cwd, 'dist')),
         ttfb
     };
 }
@@ -160,11 +162,14 @@ async function measureVite(cwd: string, scenario: string): Promise<BenchmarkResu
         });
     `);
 
+    // Clean output for fresh measurement
+    if (fs.existsSync(path.join(cwd, 'dist'))) fs.rmSync(path.join(cwd, 'dist'), { recursive: true, force: true });
+
     const memStart = process.memoryUsage().heapUsed / 1024 / 1024;
     const startBuild = performance.now();
     try {
         const viteBin = path.join(cwd, 'node_modules/.bin/vite');
-        execSync(`${viteBin} build`, { cwd, stdio: 'ignore' });
+        execSync(`${viteBin} build`, { cwd, stdio: 'inherit' });
     } catch (e) { }
     const endBuild = performance.now();
     const memEnd = process.memoryUsage().heapUsed / 1024 / 1024;
@@ -201,9 +206,15 @@ async function measureVite(cwd: string, scenario: string): Promise<BenchmarkResu
 
 function generateReport(results: BenchmarkResult[]) {
     console.log(kleur.green('\n📊 Benchmark Results:'));
-    console.table(results.map(r => ({ ...r, coldStart: r.coldStart.toFixed(0), build: r.build.toFixed(0), ttfb: r.ttfb.toFixed(0) })));
+    console.table(results.map(r => ({
+        ...r,
+        coldStart: r.coldStart.toFixed(0),
+        build: r.build.toFixed(0),
+        ttfb: r.ttfb.toFixed(0),
+        bundleSize: r.bundleSize.toFixed(1) + ' KB'
+    })));
 
-    let md = `# Nexxo Benchmarks (Day 47)\n\n> Date: ${new Date().toISOString().split('T')[0]}\n\n`;
+    let md = `# Nexxo Benchmarks (Module 8)\n\n> Date: ${new Date().toISOString().split('T')[0]}\n\n`;
     const scenarios = [...new Set(results.map(r => r.scenario))];
 
     scenarios.forEach(s => {
@@ -219,7 +230,7 @@ function generateReport(results: BenchmarkResult[]) {
 }
 
 async function runBenchmarks() {
-    console.log(kleur.bold().cyan('\n🚀 Starting Module 7 Benchmarks (Day 47)\n'));
+    console.log(kleur.bold().cyan('\n🚀 Starting Module 8 Benchmarks\n'));
 
     if (fs.existsSync(BENCHMARK_DIR)) fs.rmSync(BENCHMARK_DIR, { recursive: true, force: true });
     fs.mkdirSync(BENCHMARK_DIR);
@@ -230,8 +241,43 @@ async function runBenchmarks() {
     console.log(kleur.magenta('Scenario 1: Small App (100 components)'));
     const smallAppPath = path.join(BENCHMARK_DIR, 'small-app');
     if (!fs.existsSync(smallAppPath)) fs.mkdirSync(smallAppPath, { recursive: true });
-    await templateManager.scaffold('react-spa', smallAppPath, 'small-app');
-    generateLoad(smallAppPath, 100);
+
+    fs.writeFileSync(path.join(smallAppPath, 'package.json'), JSON.stringify({
+        name: 'bench-small-app',
+        type: 'module',
+        dependencies: {
+            'react': '^18.2.0',
+            'react-dom': '^18.2.0'
+        }
+    }, null, 2));
+
+    fs.writeFileSync(path.join(smallAppPath, 'nexxo.config.js'), `
+        export default {
+            entry: ["src/main.ts"],
+            outDir: "dist",
+            plugins: [],
+            build: { minify: true }
+        };
+    `);
+
+    fs.writeFileSync(path.join(smallAppPath, 'index.html'), '<html><body><div id="root"></div><script type="module" src="/src/main.ts"></script></body></html>');
+    const srcDir = path.join(smallAppPath, 'src');
+    if (!fs.existsSync(srcDir)) fs.mkdirSync(srcDir, { recursive: true });
+
+    const generateVanillaLoad = (p: string, c: number) => {
+        const compDir = path.join(p, 'src/components');
+        if (!fs.existsSync(compDir)) fs.mkdirSync(compDir, { recursive: true });
+        let code = 'console.log("App Started");\n';
+        for (let i = 0; i < c; i++) {
+            fs.writeFileSync(path.join(compDir, `comp${i}.ts`), `export const call${i} = () => console.log(${i});`);
+            code += `import { call${i} } from "./components/comp${i}"; call${i}();\n`;
+        }
+        fs.writeFileSync(path.join(p, 'src/main.ts'), code);
+    };
+
+    generateVanillaLoad(smallAppPath, 100);
+
+    console.log(kleur.yellow('Installing Vite and React for benchmark...'));
     await installDeps(smallAppPath, ['vite', '@vitejs/plugin-react']);
 
     results.push(await measureNexxo(smallAppPath, 'Small App'));

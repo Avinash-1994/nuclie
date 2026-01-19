@@ -74,6 +74,11 @@ export declare class GraphAnalyzer {
   detectCycles(): Array<CircularDependency>
   /** Find orphaned nodes (not reachable from any entry point) */
   findOrphanedNodes(entryPoints: Array<string>): Array<string>
+  /**
+   * Native Tree Shaking: Get all reachable nodes from entry points
+   * This is the "marked" set for building the final bundle
+   */
+  getReachableNodes(entryPoints: Array<string>): Array<string>
   /** Perform complete graph analysis */
   analyze(entryPoints: Array<string>): GraphAnalysisResult
   /** Topological sort using Kahn's algorithm */
@@ -90,15 +95,10 @@ export declare class GraphAnalyzer {
 export declare class NativeWorker {
   /** Create a new native worker with specified pool size */
   constructor(poolSize?: number | undefined | null)
-  /**
-   * Transform code using a simple regex-based approach
-   * In a real implementation, this would load and execute actual plugins
-   */
-  transformSync(code: string, id: string): string
-  /** Async version of transform for non-blocking operations */
-  transform(code: string, id: string): Promise<string>
-  /** Get the pool size */
-  get poolSize(): number
+  /** Transform code using native SWC engine */
+  transformSync(config: TransformConfig): TransformResult
+  /** Parallel Transform: Process multiple modules across all cores */
+  batchTransform(items: Array<TransformConfig>): Promise<Array<TransformResult>>
 }
 
 export declare class PluginRuntime {
@@ -199,6 +199,9 @@ export interface GraphNode {
 /** Simple function to test native bindings */
 export declare function helloRust(): string
 
+/** Global bundle minification pass */
+export declare function minifySync(code: string): string
+
 /** Fast string operations for module resolution */
 export declare function normalizePath(path: string): string
 
@@ -216,3 +219,13 @@ export interface OrchestratorStats {
  * This is significantly faster than JS-based regex or full AST parsing
  */
 export declare function scanImports(code: string): Array<string>
+
+export interface TransformConfig {
+  path: string
+  content: string
+  loader: string
+}
+
+export interface TransformResult {
+  code: string
+}

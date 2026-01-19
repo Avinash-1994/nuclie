@@ -54,9 +54,7 @@ export class DependencyPreBundler {
             // No cache or invalid, proceed with bundling
         }
 
-        log.info('Pre-bundling dependencies with full graph...', { count: deps.length });
-
-        log.info('Pre-bundling dependencies with full graph...', { count: deps.length });
+        log.info('--> Pipeline: Pre-bundling dependencies...', { count: deps.length });
 
         const root = this.root;
 

@@ -589,5 +589,6 @@ module.exports.createPlanKey = nativeBinding.createPlanKey
 module.exports.fastHash = nativeBinding.fastHash
 module.exports.getOptimalParallelism = nativeBinding.getOptimalParallelism
 module.exports.helloRust = nativeBinding.helloRust
+module.exports.minifySync = nativeBinding.minifySync
 module.exports.normalizePath = nativeBinding.normalizePath
 module.exports.scanImports = nativeBinding.scanImports

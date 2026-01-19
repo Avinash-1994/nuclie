@@ -97,10 +97,10 @@ export interface CachedResult {
 }
 
 export interface BuildCache {
-    get(key: string): CachedResult | null;
-    set(key: string, value: CachedResult): void;
-    clear(): void;
-    close(): void;
+    get(key: string): CachedResult | null | Promise<CachedResult | null>;
+    set(key: string, value: CachedResult): void | Promise<void>;
+    clear(): void | Promise<void>;
+    close(): void | Promise<void>;
 }
 
 // Configuration

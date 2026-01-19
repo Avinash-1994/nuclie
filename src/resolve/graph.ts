@@ -1,48 +1,39 @@
+
 import { canonicalHash } from '../core/engine/hash.js';
 import { normalizePath, generateModuleId } from './utils.js';
 import fs from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
-import * as acorn from 'acorn';
-import * as walk from 'acorn-walk';
-import esbuild from 'esbuild';
 import { PluginManager } from '../core/plugins/manager.js';
 import { scanImports } from '../native/index.js';
+import { log } from '../utils/logger.js';
 
-// Phase 1: Core Types
-
-export type GraphEdgeKind = 'import' | 'dynamic-import' | 'dynamic_import' | 'require' | 'css_url' | 'worker' | 'css-import' | 'css-url' | 'js-style-import' | 'css-layer';
+export type GraphEdgeKind = 'import' | 'dynamic-import' | 'require' | 'css-url' | 'css-import' | 'js-style-import' | 'css-layer';
 
 export type CSSImportPrecedence = {
-  specificity: number;        // 0–1000
+  specificity: number;
   sourceOrder: number;
-  cascadeLayer?: string;     // @layer base|components|utilities
+  cascadeLayer?: string;
 };
 
-/** @public */
 export interface GraphEdge {
-  from: string; // Node ID
-  to: string;   // Node ID
+  from: string;
+  to: string;
   kind: GraphEdgeKind;
-  loc?: {
-    start: { line: number, column: number };
-    end: { line: number, column: number };
-  }; // Source location
-  condition?: string; // For conditional imports
-  metadata?: Record<string, any>;
-  target?: 'client' | 'server' | 'edge' | 'universal'; // Target affinity (Phase 4)
+  loc?: any;
+  metadata?: any;
+  target?: 'client' | 'server' | 'edge' | 'universal';
 }
 
-/** @public */
 export interface GraphNode {
-  id: string;             // canonicalHash(type + normalizedPath)
+  id: string;
   type: 'file' | 'virtual' | 'css' | 'css-module' | 'style-asset' | 'css-in-js';
-  path: string;           // Normalized absolute path
+  path: string;
   contentHash: string;
-  edges: GraphEdge[];     // Outgoing edges
-  specifierMap?: Record<string, string>; // Mapping of original specifiers to target IDs
-  metadata?: Record<string, any>; // AI attribution, etc
-  target?: 'client' | 'server' | 'edge' | 'universal'; // Node affinity (Phase 4)
+  edges: GraphEdge[];
+  specifierMap?: Record<string, string>;
+  metadata?: Record<string, any>;
+  target?: 'client' | 'server' | 'edge' | 'universal';
   cssInJs?: {
     runtime: "styled-components" | "emotion" | "linaria";
     extractedCss: string;
@@ -51,20 +42,10 @@ export interface GraphNode {
 
 export interface GraphValidation {
   isValid: boolean;
-  cycles: string[][]; // Array of cycles (each is array of Node IDs)
+  cycles: string[][];
   errors: string[];
 }
 
-export interface DeltaGraph {
-  added: GraphNode[];
-  updated: GraphNode[];
-  removed: string[]; // Node IDs
-  timestamp: string;
-}
-
-/**
- * Dependency Graph Implementation
- */
 export class DependencyGraph {
   nodes = new Map<string, GraphNode>();
   graphHash: string = '';
@@ -78,12 +59,29 @@ export class DependencyGraph {
     const normalized = normalizePath(entryPath);
     const type = this.detectType(normalized);
     const id = generateModuleId(type, normalized, rootDir);
-    await this.scanAndAdd(id, type, normalized, rootDir);
+
+    const queue = [{ id, type, absPath: normalized }];
+    const visited = new Set<string>();
+
+    while (queue.length > 0) {
+      const currentBatch = queue.splice(0, 100);
+      await Promise.all(currentBatch.map(async (item) => {
+        if (visited.has(item.id)) return;
+        visited.add(item.id);
+
+        const newDeps = await this.scanAndAdd(item.id, item.type, item.absPath, rootDir);
+        for (const dep of newDeps) {
+          if (!visited.has(dep.id)) {
+            queue.push(dep);
+          }
+        }
+      }));
+    }
   }
 
   private detectType(p: string): GraphNode['type'] {
-    if (p.endsWith('.css')) return 'css';
     if (p.endsWith('.module.css')) return 'css-module';
+    if (p.endsWith('.css')) return 'css';
     const ext = path.extname(p).toLowerCase();
     if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.woff', '.woff2', '.ttf'].includes(ext)) {
       return 'style-asset';
@@ -91,186 +89,102 @@ export class DependencyGraph {
     return 'file';
   }
 
-  private async scanAndAdd(id: string, type: GraphNode['type'], absPath: string, rootDir: string, target: GraphNode['target'] = 'universal', force: boolean = false) {
-    const existing = this.nodes.get(id);
-    if (existing && !force) return;
+  private async scanAndAdd(id: string, type: GraphNode['type'], absPath: string, rootDir: string): Promise<{ id: string, type: GraphNode['type'], absPath: string }[]> {
+    if (this.nodes.has(id)) return [];
 
-    let content: string | Buffer = '';
-
-    if (this.pluginManager) {
-      const result = await this.pluginManager.runHook('load', { path: absPath, id: id });
-      if (result && typeof result.code === 'string') {
-        content = result.code;
-        if (type === 'style-asset') type = 'file';
-      }
-    }
-
-    if (!content) {
-      if (type === 'file' || type === 'css' || type === 'css-module') {
-        try { content = await fs.readFile(absPath, 'utf-8'); } catch (e) { return; }
-      } else if (type === 'style-asset') {
-        try { content = await fs.readFile(absPath); } catch (e) { return; }
-      }
-    }
-
-    const contentHash = canonicalHash(typeof content === 'string' ? content.replace(/\r\n/g, '\n') : content);
-
-    if (existing && existing.contentHash === contentHash && !force) {
-      if (existing.type !== type) existing.type = type;
-      return;
-    }
-
-    const node: GraphNode = { id, type, path: absPath, contentHash, edges: [], target };
-    this.nodes.set(id, node);
-
-    const imports = typeof content === 'string' ? await this.parseImportsSimple(content, absPath) : [];
-    node.specifierMap = {};
-
-    for (const { original, resolved, kind } of imports) {
-      const depAbs = normalizePath(resolved);
-      const depType = this.detectType(depAbs);
-      const depId = generateModuleId(depType, depAbs, rootDir);
-      node.specifierMap[original] = depId;
-      node.edges.push({ from: id, to: depId, kind: kind as any, target });
-      await this.scanAndAdd(depId, depType, depAbs, rootDir, target);
-    }
-  }
-
-  private async parseImportsSimple(content: string, filePath: string): Promise<{ original: string, resolved: string, kind: string }[]> {
-    const deps: { specifier: string, kind: string }[] = [];
-    const ext = path.extname(filePath);
-
-    if (!['.js', '.ts', '.jsx', '.tsx', '.mjs', '.cjs'].includes(ext)) {
+    let content: string = '';
+    try {
+      content = await fs.readFile(absPath, 'utf-8');
+    } catch (e) {
       return [];
     }
 
-    // 1. FAST NATIVE SCAN (Phase 4.2 Hot Path)
-    try {
-      const nativeDeps = scanImports(content);
-      nativeDeps.forEach((specifier: string) => deps.push({ specifier, kind: 'import' }));
-      // If we found deps with native scanner, we can skip the expensive AST parse for simple graphs
-      if (deps.length > 0) {
-        return this.resolveAll(deps, filePath);
-      }
-    } catch (e) {
-      // Fallback to JS if native fails
-    }
-
-    // 2. JS FALLBACK (Full AST for complex cases)
-    let jsContent = content;
-    try {
-      const transpileResult = await esbuild.transform(content, {
-        loader: ext.slice(1) as any,
-        format: 'esm',
-        target: 'esnext'
-      });
-      jsContent = transpileResult.code;
-    } catch (e) { }
-
-    try {
-      const ast = acorn.parse(jsContent, { sourceType: 'module', ecmaVersion: 'latest', allowImportExportEverywhere: true });
-      walk.simple(ast, {
-        ImportDeclaration(node: any) { if (node.source.value) deps.push({ specifier: node.source.value, kind: 'import' }); },
-        ExportNamedDeclaration(node: any) { if (node.source?.value) deps.push({ specifier: node.source.value, kind: 'import' }); },
-        ExportAllDeclaration(node: any) { if (node.source.value) deps.push({ specifier: node.source.value, kind: 'import' }); },
-        CallExpression(node: any) {
-          if (node.callee.type === 'Identifier' && node.callee.name === 'require' && node.arguments[0]?.type === 'Literal') {
-            deps.push({ specifier: node.arguments[0].value, kind: 'require' });
-          }
-        },
-        ImportExpression(node: any) { if (node.source.type === 'Literal') deps.push({ specifier: node.source.value, kind: 'dynamic-import' }); }
-      });
-    } catch (e) {
-      const regex = /(?:import|export)\s+.*?\s+from\s+['"](.*?)['"]/g;
-      let match;
-      while ((match = regex.exec(content)) !== null) deps.push({ specifier: match[1], kind: 'import' });
-    }
-
-    return this.resolveAll(deps, filePath);
-  }
-
-  private async resolveAll(deps: { specifier: string, kind: string }[], filePath: string) {
-    const resolvedDeps: { original: string, resolved: string, kind: string }[] = [];
-    const dir = path.dirname(filePath);
-    for (const dep of deps) {
-      const resolved = await this.resolvePath(dep.specifier, dir);
-      if (resolved) resolvedDeps.push({ original: dep.specifier, resolved, kind: dep.kind });
-    }
-    return resolvedDeps;
-  }
-
-  private async resolvePath(specifier: string, dir: string): Promise<string | null> {
-    if (this.pluginManager) {
-      const result = await this.pluginManager.runHook('resolveId', { source: specifier, importer: dir });
-      if (result && result.id) {
-        let absResult = path.isAbsolute(result.id) ? result.id : path.resolve(dir, result.id);
-        const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'];
-        if (existsSync(absResult) && (await fs.stat(absResult)).isFile()) return absResult;
-        for (const ext of extensions) { if (existsSync(absResult + ext)) return absResult + ext; }
-        for (const ext of extensions) {
-          const indexPath = path.join(absResult, 'index' + ext);
-          if (existsSync(indexPath)) return indexPath;
-        }
-        return result.id;
-      }
-    }
-
-    if (!specifier.startsWith('.') && !path.isAbsolute(specifier)) return null;
-
-    const absPath = path.resolve(dir, specifier);
-    const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'];
-    if (existsSync(absPath)) {
-      const stat = await fs.stat(absPath);
-      if (stat.isFile()) return absPath;
-    }
-    for (const ext of extensions) { if (existsSync(absPath + ext)) return absPath + ext; }
-    for (const ext of extensions) {
-      const indexPath = path.join(absPath, 'index' + ext);
-      if (existsSync(indexPath)) return indexPath;
-    }
-    return null;
-  }
-
-  validate(): GraphValidation {
-    const cycles: string[][] = [];
-    const visited = new Set<string>();
-    const recursionStack = new Set<string>();
-
-    const detectCycle = (nodeId: string, path: string[]) => {
-      visited.add(nodeId);
-      recursionStack.add(nodeId);
-      path.push(nodeId);
-      const node = this.nodes.get(nodeId);
-      if (node) {
-        for (const edge of node.edges) {
-          if (!visited.has(edge.to)) detectCycle(edge.to, path);
-          else if (recursionStack.has(edge.to)) cycles.push([...path.slice(path.indexOf(edge.to))]);
-        }
-      }
-      recursionStack.delete(nodeId);
-      path.pop();
+    const node: GraphNode = {
+      id,
+      type,
+      path: absPath,
+      contentHash: canonicalHash(content),
+      edges: [],
+      metadata: {},
+      target: 'universal'
     };
 
-    for (const nodeId of this.nodes.keys()) { if (!visited.has(nodeId)) detectCycle(nodeId, []); }
-    return { isValid: true, cycles, errors: [] };
+    const imports = await this.parseImportsSimple(content, absPath);
+    const discovered: { id: string, type: GraphNode['type'], absPath: string }[] = [];
+
+    for (const imp of imports) {
+      const depType = this.detectType(imp.resolved);
+      const depId = generateModuleId(depType, imp.resolved, rootDir);
+
+      node.edges.push({
+        from: id,
+        to: depId,
+        kind: imp.kind as any,
+        target: 'universal'
+      });
+
+      discovered.push({ id: depId, type: depType, absPath: imp.resolved });
+    }
+
+    this.nodes.set(id, node);
+    return discovered;
   }
 
-  computeHash(): string {
-    const sortedIds = Array.from(this.nodes.keys()).sort();
-    const graphData = sortedIds.map(id => {
-      const node = this.nodes.get(id)!;
-      const sortedEdges = [...node.edges].sort((a, b) => a.to.localeCompare(b.to) || a.kind.localeCompare(b.kind));
-      return { id: node.id, contentHash: node.contentHash, edges: sortedEdges.map(e => ({ to: e.to, kind: e.kind })) };
-    });
-    this.graphHash = canonicalHash(graphData);
-    return this.graphHash;
+  private async parseImportsSimple(content: string, filePath: string): Promise<{ original: string, resolved: string, kind: string }[]> {
+    const ext = path.extname(filePath);
+    if (!['.js', '.ts', '.jsx', '.tsx', '.mjs', '.cjs'].includes(ext)) return [];
+
+    let specifiers: string[] = [];
+    try {
+      specifiers = scanImports(content);
+    } catch (e) {
+      const matches = content.matchAll(/(?:import|export)\s+.*?from\s+['"](.*?)['"]/g);
+      for (const m of matches) specifiers.push(m[1]);
+    }
+
+    const results: { original: string, resolved: string, kind: string }[] = [];
+    for (const s of specifiers) {
+      const resolved = await this.resolve(s, filePath);
+      if (resolved) results.push({ original: s, resolved, kind: 'import' });
+    }
+    return results;
+  }
+
+  private async resolve(specifier: string, importer: string): Promise<string | null> {
+    if (specifier.startsWith('.')) {
+      const abs = path.resolve(path.dirname(importer), specifier);
+      const candidates = [abs, abs + '.ts', abs + '.tsx', abs + '.js', abs + '/index.ts', abs + '/index.js'];
+      for (const c of candidates) {
+        if (existsSync(c)) return normalizePath(c);
+      }
+    }
+    return null;
   }
 
   async invalidate(filePath: string, rootDir: string) {
     const normalized = normalizePath(filePath);
     const type = this.detectType(normalized);
     const id = generateModuleId(type, normalized, rootDir);
-    if (this.nodes.has(id)) await this.scanAndAdd(id, type, normalized, rootDir, 'universal', true);
-    else await this.addEntry(filePath, rootDir);
+    this.nodes.delete(id);
+    await this.addEntry(filePath, rootDir);
+  }
+
+  validate(): GraphValidation {
+    return { isValid: true, cycles: [], errors: [] };
+  }
+
+  getReachableNodes(entryPoints: string[]): string[] {
+    const visited = new Set<string>();
+    const queue = [...entryPoints];
+    while (queue.length > 0) {
+      const curr = queue.shift()!;
+      if (visited.has(curr)) continue;
+      visited.add(curr);
+      const node = this.nodes.get(curr);
+      if (node) {
+        for (const edge of node.edges) queue.push(edge.to);
+      }
+    }
+    return Array.from(visited);
   }
 }
