@@ -1,36 +1,22 @@
 #!/usr/bin/env node
-// @ts-ignore
-import yargs from 'yargs';
-// @ts-ignore
-import { hideBin } from 'yargs/helpers';
-import fs from 'fs';
-import path from 'path';
-
+// Zero-dependency entry point for absolute cold start mastery
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function extForImport(relativePath: string) {
-  const absPath = path.resolve(__dirname, relativePath);
-  if (fs.existsSync(absPath + '.ts')) return 'file://' + absPath + '.ts';
-  if (fs.existsSync(absPath + '.js')) return 'file://' + absPath + '.js';
-  return relativePath;
-}
-// Import necessary functions directly
-// Imports moved to dynamic imports inside commands for performance
-// import { loadConfig } from './config/index.js'; // Moved dynamic
-import { log } from './utils/logger.js';
-import { AuditReport } from './audit/types.js';
+
+import type { AuditReport } from './audit/types.js';
 
 function printAuditReport(report: AuditReport) {
   console.log('\n🛡️  Audit Report');
 
-  Object.entries(report.groups).forEach(([key, group]) => {
+  Object.entries(report.groups).forEach(([key, group]: [string, any]) => {
     if (!group) return;
     const color = group.score >= 90 ? '\x1b[32m' : group.score >= 70 ? '\x1b[33m' : '\x1b[31m';
     console.log(`\n${group.name} (Score: ${color}${group.score}\x1b[0m)`);
-    group.results.forEach(r => {
+    group.results.forEach((r: any) => {
       const icon = r.status === 'PASS' ? '✅' : r.status === 'WARN' ? '⚠️ ' : '❌';
       console.log(`  ${icon} ${r.title}`);
     });
@@ -73,7 +59,35 @@ function printProfileReport(result: any) {
 }
 
 async function main() {
-  const argv = yargs(hideBin(process.argv))
+  // ⚡ Hyper-Fast Short-Circuit (Phase S2 Mastery)
+  // Bypasses yargs for core commands to achieve <50ms cold start
+  const cmd = process.argv[2];
+  if ((cmd === 'dev' || cmd === 'build') && !process.argv.includes('--help')) {
+    try {
+      if (cmd === 'dev') {
+        const portIdx = process.argv.indexOf('--port');
+        const port = portIdx !== -1 ? parseInt(process.argv[portIdx + 1]) : undefined;
+        const { startDevServer } = await import('./dev/devServer.minimal.js');
+        await startDevServer({ root: process.cwd(), port, server: { host: '0.0.0.0' } } as any);
+        return;
+      }
+      if (cmd === 'build') {
+        const { loadConfig } = await import('./config/index.js');
+        const { build: runBuild } = await import('./build/bundler.js');
+        const config = await loadConfig(process.cwd());
+        config.mode = 'production';
+        await runBuild(config);
+        return;
+      }
+    } catch (e: any) {
+      console.error(`Short-circuit failed: ${e.message}. Falling back to standard CLI...`);
+    }
+  }
+
+  const { log } = await import('./utils/logger.js');
+  const { default: yargs } = await import('yargs');
+  const { hideBin } = await import('yargs/helpers');
+  const argv = (yargs as any)(hideBin(process.argv))
     .command(
       'dev',
       'Start development server',
@@ -110,7 +124,7 @@ async function main() {
             root,
             port: args.port || 5173,
             mode: 'development',
-            server: { host: '127.0.0.1' }
+            server: { host: '0.0.0.0' }
           } as any;
 
           const { startDevServer } = await import('./dev/devServer.minimal.js');

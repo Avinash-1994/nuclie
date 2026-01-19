@@ -164,8 +164,33 @@ async function findAvailablePort(startPort: number, host: string): Promise<numbe
   return port;
 }
 
-export async function startDevServer(cfg: BuildConfig, existingServer?: any) {
-  // 1. Load Environment Variables
+export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) {
+
+  // 1. Load User Config (Phase S3 Correctness)
+  // Ensure we have the full config from disk, even if CLI passed a skeletal one
+  const { loadConfig } = await import('../config/index.js');
+  let cfg: BuildConfig = cliCfg;
+
+  try {
+    const loaded = await loadConfig(cliCfg.root);
+    // Merge CLI overrides (cliCfg) over Disk Config (loaded)
+    // CLI args take precedence for port, mode, etc.
+    cfg = {
+      ...loaded,
+      ...cliCfg,
+      server: { ...loaded.server, ...cliCfg.server },
+      build: { ...loaded.build, ...cliCfg.build },
+      // Preserve plugins from both? Or just use loaded? 
+      // Usually CLI doesn't pass plugins in skeletal mode.
+      plugins: loaded.plugins,
+      prebundle: loaded.prebundle
+    };
+    log.debug('Merged User Config with CLI arguments');
+  } catch (e) {
+    log.warn('Failed to load user config, using defaults: ' + (e as any).message);
+  }
+
+  // 2. Load Environment Variables
   try {
     const dotenvModule = await import('dotenv');
     const loadEnv = (dotenvModule as any).config || (dotenvModule as any).default?.config;
@@ -184,7 +209,7 @@ export async function startDevServer(cfg: BuildConfig, existingServer?: any) {
 
   log.debug('Loaded Environment Variables', { category: 'server', count: Object.keys(publicEnv).length });
 
-  // 2. Detect Framework (Universal Support)
+  // 3. Detect Framework (Universal Support)
   const { FrameworkDetector } = await import('../core/framework-detector.js');
   // 1. Initialize Framework Pipeline (Phase B3)
   const { FrameworkPipeline } = await import('../core/pipeline/framework-pipeline.js');
@@ -356,22 +381,51 @@ export async function startDevServer(cfg: BuildConfig, existingServer?: any) {
       }
     }
 
-    // Warmup Build (Phase C1/C2)
-    log.info('--> Dev Server: Warming up graph...');
+    // Warmup Build (Phase C1/C2) - Check for errors immediately
+    log.info('→ Dev Server: Warming up graph...');
     const buildResult = await pipeline.build();
     if (!buildResult.success) {
-      const errorMsg = (buildResult as any).error?.message || 'Unknown error during warmup';
-      log.error('--> Dev Server: Warmup build failed: ' + errorMsg);
+      const error = (buildResult as any).error;
+      const errorMsg = error?.message || 'Unknown error during warmup';
+
+      // Display prominent error message
+      console.log('\n' + '='.repeat(60));
+      console.log('\x1b[31m❌ BUILD ERROR DETECTED\x1b[0m');
+      console.log('='.repeat(60));
+      console.log(`\x1b[33mError:\x1b[0m ${errorMsg}`);
+
+      if (error?.file) {
+        console.log(`\x1b[33mFile:\x1b[0m ${error.file}`);
+      }
+      if (error?.loc) {
+        console.log(`\x1b[33mLocation:\x1b[0m Line ${error.loc.line}, Column ${error.loc.column}`);
+      }
+      if (error?.stack) {
+        console.log(`\n\x1b[90m${error.stack}\x1b[0m`);
+      }
+      console.log('='.repeat(60) + '\n');
+
+      log.error('→ Dev Server: Warmup build failed - Fix the errors above');
+    } else {
+      log.info('✓ Dev Server: Initial build successful');
     }
   } catch (error: any) {
+    console.log('\n' + '='.repeat(60));
+    console.log('\x1b[31m❌ INITIALIZATION ERROR\x1b[0m');
+    console.log('='.repeat(60));
+    console.log(`\x1b[33mError:\x1b[0m ${error.message}`);
+    if (error.stack) {
+      console.log(`\n\x1b[90m${error.stack}\x1b[0m`);
+    }
+    console.log('='.repeat(60) + '\n');
     log.warn('Failed to pre-bundle or warmup:', error.message);
   }
 
   let port = cfg.server?.port || cfg.port || 5173;
   const host = cfg.server?.host || 'localhost';
 
-  // Dynamic port detection
-  if (!cfg.server?.strictPort) {
+  // Dynamic port detection - skip if existingServer provided (minimal server already bound the port)
+  if (!cfg.server?.strictPort && !existingServer) {
     port = await findAvailablePort(port, host);
   }
 
@@ -452,6 +506,22 @@ export async function startDevServer(cfg: BuildConfig, existingServer?: any) {
     contentTypeNosniff: true
   });
 
+  // Detect network IP for WebSocket origin validation
+  const os = await import('os');
+  const networkInterfaces = os.networkInterfaces();
+  let networkIP = '';
+  for (const name of Object.keys(networkInterfaces)) {
+    const ifaces = networkInterfaces[name];
+    if (!ifaces) continue;
+    for (const iface of ifaces) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        networkIP = iface.address;
+        break;
+      }
+    }
+    if (networkIP) break;
+  }
+
   // Setup WebSocket Handlers for Config Sync (Advanced & Secure)
   const setupWssHandlers = (server: WebSocketServer) => {
     server.on('connection', (ws, req) => {
@@ -460,15 +530,25 @@ export async function startDevServer(cfg: BuildConfig, existingServer?: any) {
       const allowedOrigins = [
         `http://${host}:${port}`,
         `https://${host}:${port}`,
-        'http://localhost:5173',
-        'http://127.0.0.1:5173'
+        `http://localhost:${port}`,
+        `http://127.0.0.1:${port}`
       ];
+
+      // Add network IP if available
+      if (networkIP) {
+        allowedOrigins.push(`http://${networkIP}:${port}`);
+        allowedOrigins.push(`https://${networkIP}:${port}`);
+      }
 
       if (origin && !allowedOrigins.some(o => origin.startsWith(o))) {
         log.warn(`Blocked unauthorized WebSocket connection from origin: ${origin}`);
         ws.terminate();
         return;
       }
+
+      log.info('HMR client connected', { category: 'hmr' });
+      hmrThrottle.registerClient(ws as any);
+      ws.on('close', () => hmrThrottle.unregisterClient(ws as any));
 
       // 1. Initial Handshake: Send current config AND session token
       ws.send(JSON.stringify({
@@ -1220,12 +1300,6 @@ ${raw}
   // Initialize Config Sync Handlers
   setupWssHandlers(wss);
 
-  wss.on('connection', (ws: WebSocket) => {
-    log.info('HMR client connected', { category: 'hmr' });
-    hmrThrottle.registerClient(ws);
-    ws.on('close', () => hmrThrottle.unregisterClient(ws));
-  });
-
   // Upgrade handling for Proxy WebSockets
   server.on('upgrade', (req: http.IncomingMessage, socket: any, head: Buffer) => {
     if (cfg.server?.proxy) {
@@ -1280,7 +1354,10 @@ ${raw}
   configWatcher.start();
 
   const { default: chokidar } = await import('chokidar');
-  const watcher = chokidar.watch(cfg.root, { ignored: /node_modules|\.git/ });
+  const watcher = chokidar.watch(cfg.root, {
+    ignored: ['**/node_modules/**', '**/.git/**', '**/.nexxo/**', '**/.nexxo_cache/**'],
+    ignoreInitial: true
+  });
   watcher.on('change', async (file: string) => {
     try {
       // Clear transform cache for changed file
@@ -1327,8 +1404,14 @@ ${raw}
 
       // Native Invalidation & Rebuild
       try {
-        nativeWorker.invalidate(file);
-        const affected = nativeWorker.rebuild(file);
+        if (nativeWorker && typeof nativeWorker.invalidate === 'function') {
+          nativeWorker.invalidate(file);
+        }
+
+        let affected: string[] = [];
+        if (nativeWorker && typeof nativeWorker.rebuild === 'function') {
+          affected = nativeWorker.rebuild(file);
+        }
 
         if (affected.length > 0) {
           log.info(`Rebuild affected ${affected.length} files`, { category: 'build', duration: 10 }); // Mock duration
@@ -1370,35 +1453,33 @@ ${raw}
     server.listen(port, () => {
       const protocol = httpsOptions ? 'https' : 'http';
       const url = `${protocol}://${host}:${port}`;
-
-      log.table({
-        'HTTP': url,
-        'HTTPS': httpsOptions ? 'Enabled' : 'Disabled',
-        'Proxy': cfg.server?.proxy ? Object.keys(cfg.server.proxy).join(', ') : 'None',
-        'Status': `${url}/__nexxo/status`,
-        'Security': `${url}/__nexxo/security`,
-        'Federation': `${url}/__federation`
-      });
-
-      if (cfg.server?.open) {
-        (async () => {
-          const { spawn } = await import('child_process');
-          const isWin = process.platform === 'win32';
-          const cmd = isWin ? 'cmd' : (process.platform === 'darwin' ? 'open' : 'xdg-open');
-          const args = isWin ? ['/c', 'start', '', url] : [url];
-          try {
-            const child = spawn(cmd, args, { stdio: 'ignore', detached: true });
-            child.unref();
-          } catch { }
-        })();
-      }
+      if (cfg.server?.open) openBrowser(url);
     });
   } else {
-    // Just log that full features are ready
-    const protocol = httpsOptions ? 'https' : 'http';
-    const url = `${protocol}://${host}:${port}`;
-    log.success(`Full production engine active at ${url}`, { category: 'server' });
+    // If we're using the minimal server, it already handles port binding and logs.
+    // We just handle the 'open' browser request here if needed.
+    if (cfg.server?.open) {
+      const protocol = httpsOptions ? 'https' : 'http';
+      const url = `${protocol}://${host}:${port}`;
+      openBrowser(url);
+    }
   }
 
   return server;
+}
+
+/**
+ * Open browser helper
+ */
+async function openBrowser(url: string) {
+  try {
+    const { spawn } = await import('child_process');
+    const isWin = process.platform === 'win32';
+    const cmd = isWin ? 'cmd' : (process.platform === 'darwin' ? 'open' : 'xdg-open');
+    const args = isWin ? ['/c', 'start', '', url] : [url];
+    const child = spawn(cmd, args, { stdio: 'ignore', detached: true });
+    child.unref();
+  } catch (e) {
+    // Ignore browser open errors
+  }
 }

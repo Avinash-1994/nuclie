@@ -46,6 +46,7 @@ export default [
                 NodeJS: 'readonly',
                 TextDecoder: 'readonly',
                 TextEncoder: 'readonly',
+                TransformStream: 'readonly',
                 WebAssembly: 'readonly',
                 performance: 'readonly',
                 PerformanceNavigationTiming: 'readonly',
