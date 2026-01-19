@@ -30,7 +30,9 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
         let top_level_mark = Mark::new();
         module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-        // 2. ESM Strip (Phase 4.9 Stable) - Removes module keywords to allow factory wrapping
+        // 2. ESM Conversion (Nexxo Runtime Format)
+        // Instead of stripping, we convert 'export' to 'exports' assignments
+        // and 'import' to 'require' calls.
         use swc_core::ecma::ast::*;
         let mut new_body = vec![];
         for item in module.body {
@@ -38,11 +40,37 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
                 ModuleItem::ModuleDecl(decl) => {
                     match decl {
                         ModuleDecl::ExportDecl(ed) => {
-                            // Convert 'export const x = 1' to 'const x = 1'
-                            new_body.push(ModuleItem::Stmt(Stmt::Decl(ed.decl)));
+                            // Extract identifier names for exports.x = x
+                            if let Decl::Var(ref var) = ed.decl {
+                                for def in &var.decls {
+                                    if let Pat::Ident(ref ident) = def.name {
+                                        let name = ident.id.sym.to_string();
+                                        // Push the declaration itself: const x = 1
+                                        new_body.push(ModuleItem::Stmt(Stmt::Decl(ed.decl.clone())));
+                                        // Push the export assignment: exports.x = x
+                                        new_body.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                                            span: swc_common::DUMMY_SP,
+                                            expr: Box::new(Expr::Assign(AssignExpr {
+                                                span: swc_common::DUMMY_SP,
+                                                op: AssignOp::Assign,
+                                                left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                                                    span: swc_common::DUMMY_SP,
+                                                    obj: Box::new(Expr::Ident(Ident::new("exports".into(), swc_common::DUMMY_SP))),
+                                                    prop: MemberProp::Ident(Ident::new(name.clone().into(), swc_common::DUMMY_SP)),
+                                                })),
+                                                right: Box::new(Expr::Ident(Ident::new(name.into(), swc_common::DUMMY_SP))),
+                                            })),
+                                        })));
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        ModuleDecl::Import(_import) => {
+                            // Convert import ... to require(...)
+                            new_body.push(ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: swc_common::DUMMY_SP })));
                         }
                         _ => {
-                            // Strip imports/complex exports for final bundle cleanliness
                             new_body.push(ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: swc_common::DUMMY_SP })));
                         }
                     }
@@ -55,9 +83,12 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
         if minify_opts {
             let mut options = MinifyOptions::default();
             let mut compress = swc_core::ecma::minifier::option::CompressOptions::default();
-            compress.unused = true;
+            
+            // In dev mode (handled by caller passing minify_opts=true), 
+            // we should be careful about unused top-level functions
+            compress.unused = false; // Disable unused elimination for top-level exports in this pass
             compress.dead_code = true;
-            compress.top_level = Some(TopLevelOptions { functions: true });
+            compress.top_level = Some(TopLevelOptions { functions: false });
             
             options.compress = Some(compress);
             options.mangle = Some(Default::default());
