@@ -130,7 +130,7 @@ export function planBuild(ctx: BuildContext): BuildPlan {
         if (jsModules.length > 0) {
             chunks.push({
                 id: `chunk_${name}_js`,
-                entry: entry,
+                entry: path.relative(ctx.rootDir, entry),
                 modules: jsModules,
                 outputName: `${outputPrefix}.bundle.js`
             });
@@ -139,7 +139,7 @@ export function planBuild(ctx: BuildContext): BuildPlan {
         if (cssModules.length > 0) {
             chunks.push({
                 id: `chunk_${name}_css`,
-                entry: entry,
+                entry: path.relative(ctx.rootDir, entry),
                 modules: cssModules,
                 outputName: `${outputPrefix}.bundle.css`
             });
@@ -150,7 +150,7 @@ export function planBuild(ctx: BuildContext): BuildPlan {
             if (node) {
                 assets.push({
                     id: assetId,
-                    sourcePath: node.path,
+                    sourcePath: path.relative(ctx.rootDir, node.path),
                     outputName: `assets/${path.basename(node.path)}`
                 });
             }
