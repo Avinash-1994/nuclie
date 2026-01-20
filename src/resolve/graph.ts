@@ -172,11 +172,8 @@ export class DependencyGraph {
       const resolved = await this.resolve(s, filePath);
       if (resolved) {
         results.push({ original: s, resolved, kind: 'import' });
-      } else {
-        console.log(`Failed to resolve specifier: ${s} from ${filePath}`);
       }
     }
-    console.log(`Scanned ${filePath}, found: ${results.map(r => r.original).join(', ')}`);
     return results;
   }
 
