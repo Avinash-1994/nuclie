@@ -58,6 +58,8 @@ async function runSnapshotTest() {
         artifactCount: result.artifacts?.length || 0
     };
 
+    console.log('Actual Artifacts:', result.artifacts?.map(a => a.fileName));
+
     const snapshotExists = await fs.access(SNAPSHOT_FILE).then(() => true).catch(() => false);
 
     if (!snapshotExists) {

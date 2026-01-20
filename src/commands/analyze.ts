@@ -144,81 +144,167 @@ async function generateChromeTrace(events: any[]) {
 async function generateHtmlReport(data: any) {
     const html = `
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Nexxo Bundle Analyzer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexxo Premium Bundle Analyzer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 1rem; margin-bottom: 2rem; }
-        .chunk-card { background: #1e293b; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .chunk-header { display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold; font-size: 1.25rem; color: #38bdf8; }
-        .module-list { width: 100%; border-collapse: collapse; }
-        .module-list th { text-align: left; padding: 0.5rem; border-bottom: 1px solid #334155; color: #94a3b8; }
-        .module-list td { padding: 0.5rem; border-bottom: 1px solid #334155; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875rem; }
-        .size-bar { height: 4px; background: #38bdf8; border-radius: 2px; }
-        .badge { background: #334155; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+        :root {
+            --bg: #0b0f1a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border: rgba(51, 65, 85, 0.5);
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --warning: #fbbf24;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 3rem;
+            line-height: 1.5;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.05) 0px, transparent 50%);
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; 
+            margin-bottom: 3rem; 
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.025em; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stats { display: flex; gap: 2rem; text-align: right; }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin-bottom: 0.25rem; }
+        .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+        .card { 
+            background: var(--card-bg); 
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px; 
+            padding: 2rem; 
+            margin-bottom: 2rem; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+        }
+        .card-title { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 1.5rem; 
+            font-weight: 700; 
+            font-size: 1.125rem; 
+        }
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 1rem 0.5rem; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; font-weight: 600; }
+        td { padding: 1rem 0.5rem; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+        .module-name { color: var(--text); font-weight: 500; }
+        .module-path { color: var(--text-dim); font-size: 0.75rem; }
+        .size-bar-container { width: 100%; height: 6px; background: rgba(51, 65, 85, 0.3); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+        .size-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; }
+        .badge { background: rgba(56, 189, 248, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(56, 189, 248, 0.2); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Nexxo Analyze</h1>
-            <div style="text-align: right">
-                <div>Total Size: ${(data.totalSize / 1024).toFixed(2)} KB</div>
-                <div style="color: #10b981; font-size: 0.875rem">Cache Efficiency: ${data.cache?.ratio}% (${data.cache?.hits} hits)</div>
+            <div>
+                <div class="stat-label">Project Report</div>
+                <h1>Nexxo Analyze</h1>
+            </div>
+            <div class="stats">
+                <div>
+                    <div class="stat-label">Total Size</div>
+                    <div class="stat-value">${(data.totalSize / 1024).toFixed(2)} KB</div>
+                </div>
+                <div>
+                    <div class="stat-label">Cache Hit Rate</div>
+                    <div class="stat-value" style="color: var(--success)">${data.cache?.ratio}%</div>
+                </div>
             </div>
         </div>
 
         ${data.bottlenecks && data.bottlenecks.length > 0 ? `
-            <div class="chunk-card">
-                <div class="chunk-header" style="color: #fbbf24">🐢 Performance Bottlenecks</div>
-                <table class="module-list">
-                    <thead>
-                        <tr>
-                            <th>Module</th>
-                            <th style="width: 150px">Duration (ms)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${data.bottlenecks.map((b: any) => `
+            <div class="card">
+                <div class="card-title" style="color: var(--warning)">
+                    <span>🐢 Performance Bottlenecks</span>
+                    <span class="badge" style="background: rgba(251, 191, 36, 0.1); color: var(--warning); border-color: rgba(251, 191, 36, 0.2)">High Latency</span>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
                             <tr>
-                                <td title="${b.id}">${b.id.split('/').pop()}</td>
-                                <td>${b.duration.toFixed(2)} ms</td>
+                                <th>Transformation Module</th>
+                                <th style="width: 150px">Duration</th>
                             </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            ${data.bottlenecks.map((b: any) => `
+                                <tr>
+                                    <td title="${b.id}">
+                                        <div class="module-name">${b.id.split('/').pop()}</div>
+                                        <div class="module-path">${b.id.length > 60 ? '...' + b.id.slice(-57) : b.id}</div>
+                                    </td>
+                                    <td style="color: var(--warning)">${b.duration.toFixed(2)} ms</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         ` : ''}
 
         ${data.chunks.map((chunk: any) => `
-            <div class="chunk-card">
-                <div class="chunk-header">
+            <div class="card">
+                <div class="card-title">
                     <span>📦 ${chunk.fileName}</span>
-                    <span class="badge">${chunk.target}</span>
-                    <span>${(chunk.size / 1024).toFixed(2)} KB</span>
+                    <div style="display: flex; gap: 0.5rem; align-items: center">
+                        <span class="badge" style="text-transform: capitalize">${chunk.target}</span>
+                        <span style="font-size: 0.875rem; color: var(--text-dim)">${(chunk.size / 1024).toFixed(2)} KB</span>
+                    </div>
                 </div>
-                <table class="module-list">
-                    <thead>
-                        <tr>
-                            <th>Module</th>
-                            <th style="width: 100px">Size</th>
-                            <th style="width: 200px">Visual</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${chunk.modules.sort((a: any, b: any) => b.size - a.size).map((m: any) => `
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
                             <tr>
-                                <td title="${m.id}">${m.id.split('/').pop()}</td>
-                                <td>${(m.size / 1024).toFixed(2)} KB</td>
-                                <td>
-                                    <div class="size-bar" style="width: ${(m.size / chunk.size * 100).toFixed(1)}%"></div>
-                                </td>
+                                <th>Module Dependency</th>
+                                <th style="width: 120px">Size</th>
+                                <th style="width: 200px">Share</th>
                             </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            ${chunk.modules.sort((a: any, b: any) => b.size - a.size).map((m: any) => {
+        const relPath = m.id.includes('node_modules') ? m.id.split('node_modules/')[1] : (m.id.startsWith('/') ? m.id.split('/').pop() : m.id);
+        return `
+                                <tr>
+                                    <td title="${m.id}">
+                                        <div class="module-name">${relPath}</div>
+                                        <div class="module-path">${m.id.length > 70 ? '...' + m.id.slice(-67) : m.id}</div>
+                                    </td>
+                                    <td>${(m.size / 1024).toFixed(2)} KB</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px">
+                                            <div class="size-bar-container">
+                                                <div class="size-bar" style="width: ${(m.size / chunk.size * 100).toFixed(1)}%"></div>
+                                            </div>
+                                            <span style="font-size: 0.7rem; color: var(--text-dim); min-width: 40px">${(m.size / chunk.size * 100).toFixed(1)}%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                `;
+    }).join('')}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         `).join('')}
     </div>
@@ -228,5 +314,5 @@ async function generateHtmlReport(data: any) {
 
     const reportPath = path.join(process.cwd(), 'nexxo-report.html');
     await fs.writeFile(reportPath, html);
-    log.success(`Report generated at: ${reportPath}`);
+    log.success(`Premium Report generated at: ${reportPath}`);
 }

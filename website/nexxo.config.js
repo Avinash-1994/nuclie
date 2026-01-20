@@ -2,8 +2,7 @@ module.exports = {
     adapter: 'react-adapter',
     entry: ['src/main.tsx'],
     root: __dirname,
-    outputDir: 'dist',
-    publicDir: 'public',
+    outDir: 'dist',
     preset: 'spa',
     css: {
         framework: 'tailwind'

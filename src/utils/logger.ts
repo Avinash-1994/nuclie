@@ -90,20 +90,15 @@ export const log = {
       console.log(`${time()} ${kleur.magenta('⚙')} ${cat} ${msg}`);
     }
   },
-  projectError: (error: { file?: string; message: string; line?: number; column?: number; type?: string }) => {
+  projectError: (error: { file?: string; message: string; line?: number; column?: number; type?: string; plugin?: string }) => {
     console.error('');
-    console.error(`${time()} ${kleur.cyan('[nexxo]')} ${kleur.red(error.type || 'Error')}: ${error.message}`);
-    if (error.file) {
-      console.error(kleur.dim(`- ${error.file}:${error.line || 1}:${error.column || 1}`));
-    }
 
-    // Try to show a small code snippet around the error line
+    // 1. Show code snippet first (Vite style)
     try {
       if (error.file && error.line) {
         let fp = error.file;
         if (!path.isAbsolute(fp)) fp = path.resolve(process.cwd(), fp);
         if (fs.existsSync(fp)) {
-          console.error('');
           const content = fs.readFileSync(fp, 'utf-8');
           const lines = content.split(/\r?\n/);
           const idx = Math.max(0, (error.line || 1) - 1);
@@ -115,22 +110,30 @@ export const log = {
             const isErrorLine = i === idx;
             const lineText = lines[i] ?? '';
 
-            // Format:  32 | const filterData = ...
-            console.error(`${kleur.dim(num)} ${kleur.dim('|')} ${lineText}`);
+            // Format:  34 | ...
+            const prefix = isErrorLine ? kleur.red('>') : ' ';
+            console.error(`${prefix} ${kleur.dim(num)} ${kleur.dim('|')} ${lineText}`);
 
             if (isErrorLine) {
-              // Add caret pointing to error
               const indent = num.length + 3 + (error.column ? error.column - 1 : 0);
-              // Limit caret length to avoid wrapping mess if column is huge
-              console.error(' '.repeat(indent) + kleur.red('^'));
+              console.error(' '.repeat(indent + 2) + kleur.red('^'));
             }
           }
-          console.error('');
         }
       }
-    } catch (e) {
-      // ignore snippet failures
+    } catch (e) { }
+
+    // 2. Error details below the snippet
+    console.error('');
+    console.error(kleur.gray('Caused by:'));
+    console.error(`  ${kleur.bold(error.type || 'Syntax Error')}: ${error.message}`);
+
+    if (error.file) {
+      console.error(`  ${kleur.dim(`File: ${error.file}:${error.line || 1}:${error.column || 1}`)}`);
     }
+
+    console.error(kleur.gray(`Plugin: ${kleur.cyan(error.plugin || 'nexxo:transformer')}`));
+    console.error('');
   },
   table: (rows: Record<string, string>) => {
     console.log('');

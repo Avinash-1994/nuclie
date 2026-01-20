@@ -226,18 +226,13 @@ if (import.meta.hot) {
             const errorMessage = error.message?.split('\n')[0] || String(error);
             const lineMatch = error.loc?.line || error.message?.match(/\(\d+:\d+\)/)?.[0];
 
-            // ALWAYS log to console for debugging
-            console.error('\n=== TRANSFORMATION ERROR ===');
-            console.error('File:', relativePath);
-            console.error('Error:', errorMessage);
-            console.error('Line:', error.loc?.line, 'Column:', error.loc?.column);
-            console.error('===========================\n');
-
             log.projectError({
                 file: relativePath,
                 message: errorMessage,
                 line: error.loc?.line,
-                column: error.loc?.column
+                column: error.loc?.column,
+                type: 'Transformation Error',
+                plugin: 'nexxo:universal-transformer'
             });
 
             // Re-throw the error instead of falling back

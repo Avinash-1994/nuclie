@@ -191,6 +191,14 @@ async function generateProject(config: ProjectConfig) {
     // Generate Folder Structure
     await generateStructure(projectPath, config);
 
+    // Generate Configs (Minimalist Approach)
+    if (config.tooling.eslint) {
+        await fsPromises.writeFile(path.join(projectPath, 'eslint.config.js'), generateEslintConfig(config));
+    }
+
+    // Note: tailwind.config.js and postcss.config.js are now OPTIONAL. 
+    // Nexxo handles them internally if missing.
+
     // Generate README.md
     const readme = generateReadme(config);
     await fsPromises.writeFile(path.join(projectPath, 'README.md'), readme);
@@ -451,6 +459,45 @@ h1 { font-size: 3.2em; line-height: 1.1; }
             include: ["src"]
         }, null, 2));
     }
+
+    // Public Assets
+    const publicDir = path.join(projectPath, 'public');
+    await fsPromises.mkdir(publicDir, { recursive: true });
+    await fsPromises.writeFile(path.join(publicDir, 'nexxo.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#38BDF8" /><path d="M50 20 L80 80 L20 80 Z" fill="white" /></svg>`);
+}
+
+function generateEslintConfig(config: ProjectConfig) {
+    return `export default [
+  {
+    rules: {
+      "no-unused-vars": "warn",
+      "no-console": "off"
+    }
+  }
+];`;
+}
+
+function generateTailwindConfig(config: ProjectConfig) {
+    return `/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx,vue,svelte}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};`;
+}
+
+function generatePostcssConfig() {
+    return `export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};`;
 }
 
 function generateReadme(config: ProjectConfig) {
