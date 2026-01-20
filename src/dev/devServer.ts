@@ -244,13 +244,15 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   const { PermissionManager } = await import('../core/permissions.js');
   const sandbox = new PluginSandbox(new PermissionManager());
 
-  // Auto-register Tailwind Plugin if config exists
+  // Auto-register Tailwind Plugin (Zero-Config or File-Based)
   const tailwindConfigPath = path.join(cfg.root, 'tailwind.config.js');
-  log.debug(`Checking for Tailwind at: ${tailwindConfigPath}`);
-  if (await fs.access(tailwindConfigPath).then(() => true).catch(() => false)) {
+  const hasTailwindFile = await fs.access(tailwindConfigPath).then(() => true).catch(() => false);
+  const isTailwindRequested = cfg.css?.framework === 'tailwind' || hasTailwindFile;
+
+  if (isTailwindRequested) {
     const { TailwindPlugin } = await import('../plugins/css/tailwind.js');
-    pluginManager.register(new TailwindPlugin(cfg.root));
-    log.info('--> Dev Server: Tailwind CSS Plugin registered', { category: 'server' });
+    pluginManager.register(new TailwindPlugin(cfg.root, cfg));
+    log.info(`--> Dev Server: Tailwind CSS Plugin registered ${hasTailwindFile ? '(using file)' : '(zero-config)'}`, { category: 'server' });
   }
 
   // Auto-register CSS Preprocessor Plugins
@@ -391,23 +393,14 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       const error = (buildResult as any).error;
       const errorMsg = error?.message || 'Unknown error during warmup';
 
-      // Display prominent error message
-      console.log('\n' + '='.repeat(60));
-      console.log('\x1b[31m❌ BUILD ERROR DETECTED\x1b[0m');
-      console.log('='.repeat(60));
-      console.log(`\x1b[33mError:\x1b[0m ${errorMsg}`);
-
-      if (error?.file) {
-        console.log(`\x1b[33mFile:\x1b[0m ${error.file}`);
-      }
-      if (error?.loc) {
-        console.log(`\x1b[33mLocation:\x1b[0m Line ${error.loc.line}, Column ${error.loc.column}`);
-      }
-      if (error?.stack) {
-        console.log(`\n\x1b[90m${error.stack}\x1b[0m`);
-      }
-      console.log('='.repeat(60) + '\n');
-
+      log.projectError({
+        file: error?.file || 'unknown',
+        message: errorMsg,
+        line: error?.loc?.line,
+        column: error?.loc?.column,
+        type: 'Build Error',
+        plugin: 'nexxo:pipeline'
+      });
       log.error('→ Dev Server: Warmup build failed - Fix the errors above');
     } else {
       log.info('✓ Dev Server: Initial build successful');

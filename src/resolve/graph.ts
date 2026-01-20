@@ -156,15 +156,27 @@ export class DependencyGraph {
     try {
       specifiers = scanImports(content);
     } catch (e) {
-      const matches = content.matchAll(/(?:import|export)\s+.*?from\s+['"](.*?)['"]/g);
-      for (const m of matches) specifiers.push(m[1]);
+      // ignore
+    }
+
+    const matches = content.matchAll(/(?:import|export)\s+(?:.*?\s+from\s+)?['"](.*?)['"]/g);
+    for (const m of matches) if (!specifiers.includes(m[1])) specifiers.push(m[1]);
+
+    const sideEffectMatches = content.matchAll(/import\s+['"](.*?)['"]/g);
+    for (const m of sideEffectMatches) {
+      if (!specifiers.includes(m[1])) specifiers.push(m[1]);
     }
 
     const results: { original: string, resolved: string, kind: string }[] = [];
     for (const s of specifiers) {
       const resolved = await this.resolve(s, filePath);
-      if (resolved) results.push({ original: s, resolved, kind: 'import' });
+      if (resolved) {
+        results.push({ original: s, resolved, kind: 'import' });
+      } else {
+        console.log(`Failed to resolve specifier: ${s} from ${filePath}`);
+      }
     }
+    console.log(`Scanned ${filePath}, found: ${results.map(r => r.original).join(', ')}`);
     return results;
   }
 

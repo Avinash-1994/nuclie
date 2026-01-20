@@ -9,9 +9,11 @@ const execAsync = promisify(exec);
 export class TailwindPlugin {
     name = 'tailwind-plugin';
     private root: string = process.cwd();
+    private cfg?: any;
 
-    constructor(root?: string) {
+    constructor(root?: string, cfg?: any) {
         if (root) this.root = root;
+        this.cfg = cfg;
     }
 
     async apply(cwd: string) {
@@ -84,7 +86,7 @@ export default {
     }
 
     async transform(code: string, id: string): Promise<string | void> {
-        if (!id.endsWith('.css')) return;
+        if (!id.endsWith('.css') && !id.endsWith('.scss') && !id.endsWith('.less')) return;
 
         // log.info(`[TailwindPlugin] Transforming ${id}`);
 
@@ -106,8 +108,30 @@ export default {
 
             // log.info('[TailwindPlugin] Loaded dependencies');
 
+            // Zero-Config Logic
+            const configPath = path.join(this.root, 'tailwind.config.js');
+            const hasConfigFile = await this.fileExists(configPath);
+
+            let tailwindConfig = null;
+
+            if (hasConfigFile) {
+                tailwindConfig = { config: configPath };
+            } else {
+                // Default Config if no file exists
+                tailwindConfig = this.cfg?.css?.tailwindConfig || {
+                    content: [
+                        "./index.html",
+                        "./src/**/*.{js,ts,jsx,tsx,vue,svelte,html}",
+                    ],
+                    theme: {
+                        extend: {},
+                    },
+                    plugins: [],
+                };
+            }
+
             const processor = postcss([
-                tailwindcss({ config: path.join(this.root, 'tailwind.config.js') }),
+                tailwindcss(tailwindConfig),
                 autoprefixer
             ]);
 
