@@ -123,20 +123,31 @@ export class UniversalTransformer {
         }
 
         // Final Normalization Pass (Phase F1 Honest)
-        // Ensure code matches the target platform requirements
-        if (!options.filePath.endsWith('.css')) {
+        // Skip for binary files, compiled code, and CSS
+        const skipNormalization =
+            options.filePath.endsWith('.css') ||
+            options.filePath.endsWith('.node') ||
+            options.filePath.includes('/compiler/') ||
+            options.filePath.includes('node_modules/svelte/compiler') ||
+            options.filePath.includes('.wasm');
+
+        if (!skipNormalization) {
             try {
+                const targetFormat = options.format || (options.target === 'node' ? 'cjs' : 'esm');
                 const finalResult = await esbuild.transform(result.code, {
                     define: options.define || {},
                     loader: 'tsx',
-                    format: options.format || (options.target === 'node' ? 'cjs' : 'esm'),
+                    format: targetFormat,
                     platform: options.target === 'node' ? 'node' : 'browser',
                     target: isDev ? 'es2020' : 'esnext',
-                    minify: false // Defer to optimize stage for better deduplication
+                    minify: false
                 });
                 result.code = finalResult.code;
             } catch (err: any) {
-                // Log warning but don't fail
+                // Only log if it's not a known binary/compiled file issue
+                if (!err.message.includes('Unexpected') && !err.message.includes('Expected')) {
+                    log.warn(`Final normalization failed for ${options.filePath}: ${err.message}`);
+                }
             }
         }
 
@@ -780,6 +791,15 @@ if (import.meta.hot) {
      * Vanilla JS/TS Transformer - Works with all versions
      */
     private async transformVanilla(code: string, filePath: string, isDev: boolean): Promise<TransformResult> {
+        // Fix for local monorepo: Skip transformation for known node-only packages 
+        // that might be accidentally picked up by the customized resolver
+        if (filePath.includes('node_modules') && (
+            filePath.includes('svelte/compiler') ||
+            filePath.includes('vite/dist')
+        )) {
+            return { code };
+        }
+
         const ext = path.extname(filePath);
         if (ext === '.ts' || ext === '.tsx' || ext === '.js' || ext === '.jsx' || ext === '.mjs') {
             try {

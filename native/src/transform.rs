@@ -8,6 +8,54 @@ use swc_core::ecma::minifier::{optimize, option::{MinifyOptions, ExtraOptions, T
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_transforms_base::hygiene::hygiene;
 use swc_ecma_transforms_base::resolver;
+use lightningcss::stylesheet::{StyleSheet, ParserOptions, MinifyOptions as CssMinifyOptions, PrinterOptions};
+use regex::Regex;
+
+pub fn transform_vue(code: String, filename: String, _is_dev: bool) -> Result<String, String> {
+    // 1. Extract script
+    let script_regex = Regex::new(r"(?s)<script[^>]*>(.*?)</script>").map_err(|e| e.to_string())?;
+    let script_content = script_regex.captures(&code)
+        .map(|c| c.get(1).unwrap().as_str().to_string())
+        .unwrap_or_else(|| "export default {};".to_string());
+
+    // 2. Transform script
+    let js_res = transform_js(script_content, filename.clone(), false)?;
+
+    // 3. Extract template
+    let template_regex = Regex::new(r"(?s)<template>(.*?)</template>").map_err(|e| e.to_string())?;
+    let template_content = template_regex.captures(&code)
+        .map(|c| c.get(1).unwrap().as_str())
+        .unwrap_or("");
+
+    let output = format!(
+        "{}\n
+        // Native Vue Transform
+        const __sfc_main = exports.default || module.exports;
+        __sfc_main.template = `{}`;
+        exports.default = __sfc_main;",
+        js_res,
+        template_content.replace('`', "\\`").replace("${", "\\${")
+    );
+
+    Ok(output)
+}
+
+pub fn transform_css(code: String, _filename: String, minify: bool) -> Result<String, String> {
+    let mut stylesheet = StyleSheet::parse(&code, ParserOptions::default())
+        .map_err(|e| format!("CSS Parse Error: {:?}", e))?;
+
+    if minify {
+        stylesheet.minify(CssMinifyOptions::default())
+            .map_err(|e| format!("CSS Minify Error: {:?}", e))?;
+    }
+
+    let res = stylesheet.to_css(PrinterOptions {
+        minify,
+        ..Default::default()
+    }).map_err(|e| format!("CSS Print Error: {:?}", e))?;
+
+    Ok(res.code)
+}
 
 pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result<String, String> {
     GLOBALS.set(&Default::default(), || {

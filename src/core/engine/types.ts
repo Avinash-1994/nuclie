@@ -112,6 +112,8 @@ export interface ResolvedConfig {
     hashing: 'content';
     sourceMaps: boolean | 'inline' | 'external' | 'hidden';
     minify?: boolean;
+    cssModules?: boolean;
+    federation?: any;
 }
 
 // Error Handling

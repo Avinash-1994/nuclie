@@ -64,6 +64,13 @@ export type { GraphNode, GraphEdge } from './resolve/graph.js';
 export { log } from './utils/logger.js';
 
 // ============================================================================
+// PLUGIN ADAPTERS (Community Ecosystem)
+// ============================================================================
+
+export { adaptPlugin } from './marketplace/plugin-adapter.js';
+export type { CommunityPlugin } from './marketplace/plugin-adapter.js';
+
+// ============================================================================
 // INTERNAL APIs - DO NOT USE
 // ============================================================================
 

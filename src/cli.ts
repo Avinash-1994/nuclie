@@ -80,7 +80,7 @@ async function main() {
         return;
       }
     } catch (e: any) {
-      console.error(`Short-circuit failed: ${e.message}. Falling back to standard CLI...`);
+      console.error(`Short-circuit failed: ${e.message}`);
     }
   }
 

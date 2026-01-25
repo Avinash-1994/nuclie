@@ -1,4 +1,5 @@
-
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
 import { canonicalHash } from '../core/engine/hash.js';
 import { normalizePath, generateModuleId } from './utils.js';
 import fs from 'fs/promises';
@@ -82,6 +83,9 @@ export class DependencyGraph {
   private detectType(p: string): GraphNode['type'] {
     if (p.endsWith('.module.css')) return 'css-module';
     if (p.endsWith('.css')) return 'css';
+    if (p.endsWith('.vue')) return 'file';
+    if (p.endsWith('.svelte')) return 'file';
+    if (p.endsWith('.astro')) return 'file';
     const ext = path.extname(p).toLowerCase();
     if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.woff', '.woff2', '.ttf'].includes(ext)) {
       return 'style-asset';
@@ -120,9 +124,22 @@ export class DependencyGraph {
       }
     }
 
+    // NEW: Transform Specialty Files so we can scan their imports correctly
+    if (this.pluginManager && (absPath.endsWith('.vue') || absPath.endsWith('.svelte') || absPath.endsWith('.astro'))) {
+      const transformResult = await this.pluginManager.runHook('transformModule', {
+        code: content,
+        path: absPath,
+        id,
+        mode: 'development' // Use dev mode for scanning
+      }, { rootDir });
+      if (transformResult && transformResult.code) {
+        content = transformResult.code;
+      }
+    }
+
     node.contentHash = canonicalHash(content);
 
-    const imports = await this.parseImportsSimple(content, absPath);
+    const imports = await this.parseImportsSimple(content, absPath, rootDir);
     const discovered: { id: string, type: GraphNode['type'], absPath: string }[] = [];
 
     for (const imp of imports) {
@@ -148,23 +165,40 @@ export class DependencyGraph {
     return discovered;
   }
 
-  private async parseImportsSimple(content: string, filePath: string): Promise<{ original: string, resolved: string, kind: string }[]> {
+  private async parseImportsSimple(content: string, filePath: string, rootDir?: string): Promise<{ original: string, resolved: string, kind: string }[]> {
     const ext = path.extname(filePath);
-    if (!['.js', '.ts', '.jsx', '.tsx', '.mjs', '.cjs'].includes(ext)) return [];
+    if (!['.js', '.ts', '.jsx', '.tsx', '.mjs', '.cjs', '.vue', '.svelte', '.astro'].includes(ext)) return [];
 
     let specifiers: string[] = [];
     try {
-      specifiers = scanImports(content);
+      // Filter out obvious noise from native scanner
+      specifiers = scanImports(content).filter((s: string) =>
+        s && s.length > 0 &&
+        !s.includes(' ') &&
+        s !== 'specifier' &&
+        s !== '...' &&
+        !s.includes('${') &&
+        !s.includes('`')
+      );
     } catch (e) {
       // ignore
     }
 
+    // Capture standard import/export strings
     const matches = content.matchAll(/(?:import|export)\s+(?:.*?\s+from\s+)?['"](.*?)['"]/g);
-    for (const m of matches) if (!specifiers.includes(m[1])) specifiers.push(m[1]);
+    for (const m of matches) {
+      const s = m[1];
+      if (s && !specifiers.includes(s) && !s.includes(' ') && s.length < 500) {
+        specifiers.push(s);
+      }
+    }
 
     const sideEffectMatches = content.matchAll(/import\s+['"](.*?)['"]/g);
     for (const m of sideEffectMatches) {
-      if (!specifiers.includes(m[1])) specifiers.push(m[1]);
+      const s = m[1];
+      if (s && !specifiers.includes(s) && !s.includes(' ') && s.length < 500) {
+        specifiers.push(s);
+      }
     }
 
     const results: { original: string, resolved: string, kind: string }[] = [];
@@ -173,19 +207,50 @@ export class DependencyGraph {
       if (resolved) {
         results.push({ original: s, resolved, kind: 'import' });
       } else {
-        console.log(`Failed to resolve specifier: ${s} from ${filePath}`);
+        // PRODUCTION NOISE REDUCTION:
+        // 1. Only warn if the file is in the project's root source
+        // 2. Ignore nexxo internal paths and node_modules
+        const isProjectFile = rootDir ? filePath.startsWith(rootDir) : !filePath.includes('node_modules');
+        const isInternalFile = filePath.includes('/build/dist/') || filePath.includes('/build/src/') || filePath.includes('/build/native/');
+
+        if (isProjectFile && !isInternalFile && !filePath.includes('node_modules')) {
+          // Only warn for relatively clear "missing project file" cases (relative paths)
+          if (s.startsWith('.') || s.startsWith('@/')) {
+            log.warn(`Failed to resolve specifier: ${s} from ${filePath}`);
+          } else {
+            // Packages failure is debug only unless it's a critical entry point
+            log.debug(`Module not found: ${s} from ${filePath}`);
+          }
+        }
       }
     }
-    console.log(`Scanned ${filePath}, found: ${results.map(r => r.original).join(', ')}`);
     return results;
   }
 
   private async resolve(specifier: string, importer: string): Promise<string | null> {
     if (specifier.startsWith('.')) {
       const abs = path.resolve(path.dirname(importer), specifier);
-      const candidates = [abs, abs + '.ts', abs + '.tsx', abs + '.js', abs + '/index.ts', abs + '/index.js'];
+      const candidates = [
+        abs,
+        abs + '.ts',
+        abs + '.tsx',
+        abs + '.js',
+        abs + '.vue',
+        abs + '.svelte',
+        abs + '/index.ts',
+        abs + '/index.js'
+      ];
       for (const c of candidates) {
         if (existsSync(c)) return normalizePath(c);
+      }
+    }
+    // Deep Scan node_modules for framework packages
+    if (!specifier.startsWith('./') && !specifier.startsWith('../') && !specifier.startsWith('/')) {
+      try {
+        const resolved = _require.resolve(specifier, { paths: [path.dirname(importer), process.cwd()] });
+        if (resolved) return normalizePath(resolved);
+      } catch (e) {
+        // ignore
       }
     }
     return null;

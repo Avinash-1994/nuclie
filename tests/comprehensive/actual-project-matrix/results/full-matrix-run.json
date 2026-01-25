@@ -1,0 +1,506 @@
+{
+  "react-table": {
+    "project": "react-table",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "10ms",
+        "details": "HMR update detected in 10ms",
+        "duration": 10
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:09.754Z"
+  },
+  "react-query": {
+    "project": "react-query",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "18ms",
+        "details": "HMR update detected in 18ms",
+        "duration": 18
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:13.499Z"
+  },
+  "vueuse": {
+    "project": "vueuse",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "59ms",
+        "details": "HMR update detected in 59ms",
+        "duration": 59
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:16.116Z"
+  },
+  "nuxt-content": {
+    "project": "nuxt-content",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "46ms",
+        "details": "HMR update detected in 46ms",
+        "duration": 46
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:26.642Z"
+  },
+  "sveltekit": {
+    "project": "sveltekit",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "56ms",
+        "details": "HMR update detected in 56ms",
+        "duration": 56
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:32.075Z"
+  },
+  "svelte-motion": {
+    "project": "svelte-motion",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "44ms",
+        "details": "HMR update detected in 44ms",
+        "duration": 44
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:41.817Z"
+  },
+  "lit-todo": {
+    "project": "lit-todo",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "25ms",
+        "details": "HMR update detected in 25ms",
+        "duration": 25
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:45.952Z"
+  },
+  "alpine": {
+    "project": "alpine",
+    "features": {
+      "hmr": {
+        "status": "✅",
+        "value": "40ms",
+        "details": "HMR update detected in 40ms",
+        "duration": 40
+      },
+      "css-modules": {
+        "status": "✅",
+        "value": "scoped",
+        "details": "Scoped class names verified in output assets"
+      },
+      "tailwind": {
+        "status": "✅",
+        "value": "purged",
+        "details": "Tailwind JIT compilation and purging verified"
+      },
+      "typescript": {
+        "status": "✅",
+        "value": "0 errors",
+        "details": "TypeScript transpilation and source map generation successful"
+      },
+      "tree-shake": {
+        "status": "✅",
+        "value": "100% stripped",
+        "details": "Unused code \"UNUSED_EXPORT_MARKER\" successfully removed"
+      },
+      "ssr": {
+        "status": "✅",
+        "value": "rendered",
+        "details": "SSR bundle generated and verified"
+      },
+      "lib-mode": {
+        "status": "✅",
+        "value": "packaged",
+        "details": "Library artifacts verified in dist (8 files)"
+      },
+      "runtime": {
+        "status": "✅",
+        "value": "bootable",
+        "details": "All generated bundles are syntactically valid"
+      },
+      "federation": {
+        "status": "✅",
+        "value": "full",
+        "details": "Federation artifacts (remoteEntry) verified in output"
+      },
+      "error-overlay": {
+        "status": "✅",
+        "value": "clear",
+        "details": "Error overlay correctly maps to source code"
+      },
+      "dashboard": {
+        "status": "✅",
+        "value": "generated",
+        "details": "Bundle analysis dashboard generated at dist/report.html"
+      }
+    },
+    "score": "11/11",
+    "timestamp": "2026-01-23T06:42:56.856Z"
+  }
+}

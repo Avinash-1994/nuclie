@@ -26,7 +26,7 @@ async function testDevServerColdStart(): Promise<BenchmarkResult> {
     console.log('\n🔥 Testing REAL dev server cold start...');
 
     // Clean cache for true cold start
-    const cacheDir = path.join(process.cwd(), 'node_modules', '.nexxo');
+    const cacheDir = path.join(process.cwd(), 'nexxo-web-app', 'node_modules', '.nexxo');
     if (fs.existsSync(cacheDir)) {
         fs.rmSync(cacheDir, { recursive: true, force: true });
     }
@@ -34,9 +34,11 @@ async function testDevServerColdStart(): Promise<BenchmarkResult> {
     const start = performance.now();
 
     return new Promise((resolve) => {
-        // Start dev server
-        const devServer = spawn('npx', ['tsx', 'src/cli.ts', 'dev', '--port', '5555'], {
-            cwd: process.cwd(),
+        // Start dev server in the web app directory
+        // We use npm run dev which calls 'nexxo dev'
+        const appDir = path.join(process.cwd(), 'nexxo-web-app');
+        const devServer = spawn('npm', ['run', 'dev', '--', '--port', '5557'], {
+            cwd: appDir,
             stdio: 'pipe',
         });
 
@@ -92,8 +94,9 @@ async function testDevServerWarmStart(): Promise<BenchmarkResult> {
     const start = performance.now();
 
     return new Promise((resolve) => {
-        const devServer = spawn('npx', ['tsx', 'src/cli.ts', 'dev', '--port', '5556'], {
-            cwd: process.cwd(),
+        const appDir = path.join(process.cwd(), 'nexxo-web-app');
+        const devServer = spawn('npm', ['run', 'dev', '--', '--port', '5558'], {
+            cwd: appDir,
             stdio: 'pipe',
         });
 

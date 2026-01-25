@@ -31,7 +31,18 @@ swc_core = { version = "0.90", features = ["common", "ecma_ast", "ecma_parser", 
 swc_common = "0.33.26"
 swc_ecma_transforms_base = "0.137.21"
 base64 = "0.22"
+lightningcss = { version = "1.0.0-alpha.58", features = ["visitor", "sourcemap"] }
 
 [build-dependencies]
 napi-build = "2"
+
+[profile.release]
+lto = true
+opt-level = "z"
+strip = "symbols"
+codegen-units = 1
+panic = "abort"
+overflow-checks = false
+
+
 

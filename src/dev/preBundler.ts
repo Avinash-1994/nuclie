@@ -186,7 +186,7 @@ export class DependencyPreBundler {
                     // ... verify existence ...
                     const normalizedName = dep.replace(/[/@]/g, '_');
                     entryPoints[normalizedName] = resolvedPath;
-                    log.info(`[PreBundler] Resolved ${dep} → ${resolvedPath}`);
+                    log.debug(`[PreBundler] Resolved ${dep} → ${resolvedPath}`);
                 } else {
                     log.warn(`[PreBundler] Could not resolve ${dep}`);
                 }
@@ -286,7 +286,7 @@ export class DependencyPreBundler {
                                                                     );
 
                                                                     await fs.writeFile(fullPath, content);
-                                                                    log.info(`[PreBundler] Added ${exportNames.length} named exports to ${dep}`);
+                                                                    log.debug(`[PreBundler] Added ${exportNames.length} named exports to ${dep}`);
                                                                 }
                                                             }
                                                         } catch (e: any) {
@@ -327,7 +327,7 @@ export class DependencyPreBundler {
                                 const urlPath = `/@nexxo-deps/${relativePath}`;
                                 bundledDeps.set(dep, urlPath);
                                 depMap[dep] = urlPath;
-                                log.info(`✓ Pre-bundled: ${dep} → ${urlPath}`);
+                                log.debug(`✓ Pre-bundled: ${dep} → ${urlPath}`);
                                 break;
                             }
                         }
@@ -343,7 +343,7 @@ export class DependencyPreBundler {
                 timestamp: Date.now()
             }, null, 2));
 
-            log.info('Dependencies pre-bundled successfully', { count: bundledDeps.size });
+            log.info(`✓ Pre-bundled ${bundledDeps.size} dependencies`);
             return bundledDeps;
 
         } catch (error: any) {
