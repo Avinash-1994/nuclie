@@ -206,6 +206,7 @@ export class DependencyGraph {
       const resolved = await this.resolve(s, filePath);
       if (resolved) {
         results.push({ original: s, resolved, kind: 'import' });
+<<<<<<< HEAD
       } else {
         // PRODUCTION NOISE REDUCTION:
         // 1. Only warn if the file is in the project's root source
@@ -222,6 +223,8 @@ export class DependencyGraph {
             log.debug(`Module not found: ${s} from ${filePath}`);
           }
         }
+=======
+>>>>>>> ad090e82edf6ba94a3f11dc518daab6351a56f0a
       }
     }
     return results;
