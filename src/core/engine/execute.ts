@@ -7,6 +7,7 @@ import { BuildContext, BuildPlan, BuildArtifact, ExecutionPlan } from './types.j
 import { explainReporter } from './events.js';
 import { canonicalHash } from './hash.js';
 import fs from 'fs/promises';
+import path from 'path';
 import { generateModuleId, normalizePath } from '../../resolve/utils.js';
 import { Transformer } from '../transform/transformer.js';
 import { GlobalOptimizer } from '../build/globalOptimizer.js';
@@ -110,7 +111,10 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
 
             // Entry Execution
             if (!isCss && chunk.entry) {
-                const entryId = generateModuleId('file', normalizePath(chunk.entry), ctx.rootDir);
+                const absEntry = path.isAbsolute(chunk.entry)
+                    ? chunk.entry
+                    : path.resolve(ctx.rootDir, chunk.entry);
+                const entryId = generateModuleId('file', normalizePath(absEntry), ctx.rootDir);
                 const shortEntryId = shortIdMap.get(entryId, isProd);
                 bundleContent += `\n\nglobalThis.r("${shortEntryId}");`;
             }
