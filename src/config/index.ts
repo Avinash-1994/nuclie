@@ -15,7 +15,9 @@ export const BuildConfigSchema = z.object({
   root: z.string().optional(),
   adapter: z.string().optional(),
   framework: z.string().optional(),
-  entry: z.array(z.string()).default(['src/main.tsx']),
+  entry: z.union([z.string(), z.array(z.string())])
+    .transform((val) => (typeof val === 'string' ? [val] : val))
+    .default(['src/main.tsx']),
   mode: z.enum(['development', 'production', 'test']).default('development'),
   outDir: z.string().default('build_output'),
   port: z.number().default(5173),
@@ -44,8 +46,15 @@ export const BuildConfigSchema = z.object({
   }).optional(),
   build: z.object({
     minify: z.boolean().optional(),
-    sourcemap: z.enum(['inline', 'external', 'hidden', 'none']).optional(),
+    sourcemap: z.union([
+      z.enum(['inline', 'external', 'hidden', 'none']),
+      z.boolean()
+    ]).transform((val) => {
+      if (typeof val === 'boolean') return val ? 'external' : 'none';
+      return val;
+    }).optional(),
     splitting: z.boolean().optional(),
+    cssModules: z.boolean().default(false),
     targets: z.array(z.string()).optional(),
     manualChunks: z.record(z.string(), z.array(z.string())).optional(),
   }).optional(),
@@ -98,6 +107,7 @@ export type BuildConfig = {
     minify?: boolean;
     sourcemap?: 'inline' | 'external' | 'hidden' | 'none';
     splitting?: boolean;
+    cssModules?: boolean;
     targets?: string[];
     manualChunks?: Record<string, string[]>;
   };
@@ -122,6 +132,7 @@ export type BuildConfig = {
 export async function loadConfig(cwd: string): Promise<BuildConfig> {
   const nexxoTsPath = path.join(cwd, 'nexxo.config.ts');
   const nexxoJsPath = path.join(cwd, 'nexxo.config.js');
+  const nexxoCjsPath = path.join(cwd, 'nexxo.config.cjs');
   const nexxoJsonPath = path.join(cwd, 'nexxo.config.json');
   const nexxoYamlPath = path.join(cwd, 'nexxo.config.yaml');
   const nexxoYmlPath = path.join(cwd, 'nexxo.config.yml');
@@ -137,6 +148,9 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
     if (await fs.access(nexxoTsPath).then(() => true).catch(() => false)) {
       rawConfig = await loadModuleConfig(nexxoTsPath, cwd);
       loadedConfigPath = 'nexxo.config.ts';
+    } else if (await fs.access(nexxoCjsPath).then(() => true).catch(() => false)) {
+      rawConfig = require(nexxoCjsPath);
+      loadedConfigPath = 'nexxo.config.cjs';
     } else if (await fs.access(nexxoJsPath).then(() => true).catch(() => false)) {
       const mod = await import('file://' + nexxoJsPath);
       rawConfig = mod.default || mod;

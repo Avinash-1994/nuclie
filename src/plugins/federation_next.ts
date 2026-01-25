@@ -83,12 +83,15 @@ export function createFederationPlugin(config: FederationConfig): NexxoPlugin {
             manifest.manifestHash = crypto.createHash('sha256').update(content).digest('hex');
 
             // Create Artifact
+            const isJs = filename.endsWith('.js');
             const manifestArtifact = {
                 id: canonicalHash(content).substring(0, 16),
-                type: 'json',
+                type: isJs ? 'js' : 'json',
                 fileName: filename,
                 dependencies: [],
-                source: JSON.stringify(manifest, null, 2)
+                source: isJs
+                    ? `var ${config.name}; ${config.name} = ${JSON.stringify(manifest, null, 2)};`
+                    : JSON.stringify(manifest, null, 2)
             };
 
             return {

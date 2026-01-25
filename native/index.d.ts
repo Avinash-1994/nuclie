@@ -95,7 +95,7 @@ export declare class GraphAnalyzer {
 export declare class NativeWorker {
   /** Create a new native worker with specified pool size */
   constructor(poolSize?: number | undefined | null)
-  /** Transform code using native SWC engine */
+  /** Transform code using native SWC, LightningCSS, or Vue engine */
   transformSync(config: TransformConfig): TransformResult
   /** Parallel Transform: Process multiple modules across all cores */
   batchTransform(items: Array<TransformConfig>): Promise<Array<TransformResult>>

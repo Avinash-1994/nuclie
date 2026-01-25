@@ -132,7 +132,7 @@ export function planBuild(ctx: BuildContext): BuildPlan {
                 id: `chunk_${name}_js`,
                 entry: entry,
                 modules: jsModules,
-                outputName: `${outputPrefix}.bundle.js`
+                outputName: `assets/${outputPrefix}.${canonicalHash(jsModules).substring(0, 8)}.bundle.js`
             });
         }
 
@@ -141,7 +141,7 @@ export function planBuild(ctx: BuildContext): BuildPlan {
                 id: `chunk_${name}_css`,
                 entry: entry,
                 modules: cssModules,
-                outputName: `${outputPrefix}.bundle.css`
+                outputName: `assets/${outputPrefix}.${canonicalHash(cssModules).substring(0, 8)}.bundle.css`
             });
         }
 

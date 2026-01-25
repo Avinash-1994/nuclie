@@ -1,0 +1,32 @@
+{
+    "name": "small-app",
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "nexxo dev",
+        "build": "nexxo build",
+        "vite:dev": "vite",
+        "vite:build": "vite build",
+        "esbuild:build": "esbuild src/index.jsx --bundle --outfile=dist/esbuild.js --minify",
+        "webpack:build": "webpack --mode production",
+        "rspack:build": "rspack build"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "nexxo": "file:../../..",
+        "vite": "^5.0.0",
+        "@vitejs/plugin-react": "^4.2.0",
+        "esbuild": "^0.19.0",
+        "webpack": "^5.88.0",
+        "webpack-cli": "^5.1.0",
+        "html-webpack-plugin": "^5.5.0",
+        "babel-loader": "^9.1.0",
+        "@babel/core": "^7.23.0",
+        "@babel/preset-react": "^7.23.0",
+        "@rspack/cli": "latest",
+        "@rspack/core": "latest"
+    }
+}

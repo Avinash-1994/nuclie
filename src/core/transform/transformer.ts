@@ -45,10 +45,14 @@ export class Transformer {
             // TS, JSX, and anything with decorators or assets MUST go to the plugin system.
             const hasFrameworkSyntax = /<[a-zA-Z]/.test(content) || /@\w+/.test(content);
             const isPlainJs = ['js', 'mjs', 'cjs'].includes(ext);
+            const isCss = ext === 'css';
+            const isVue = ext === 'vue';
             const hasAssetImport = /import\s+.*from\s+['"].*\.(png|jpg|jpeg|gif|svg|css|less|scss|sass|json)['"]/.test(content) ||
                 /require\(['"].*\.(png|jpg|jpeg|gif|svg|css|less|scss|sass|json)['"]\)/.test(content);
 
-            if (this.available && isPlainJs && !hasFrameworkSyntax && !hasAssetImport) {
+            // Day 28: Enable native CSS processing via LightningCSS
+            // Day 29: Enable native Vue SFC processing
+            if (this.available && (isPlainJs || isCss || isVue) && !hasFrameworkSyntax && !hasAssetImport) {
                 nativeBatch.push(m);
             } else {
                 pluginBatch.push(m);
@@ -79,7 +83,11 @@ export class Transformer {
 
             nativeBatch.forEach(m => {
                 const ext = m.path.split('.').pop() || 'js';
-                const loader = ['tsx', 'ts', 'jsx', 'js'].includes(ext) ? ext : 'js';
+                let loader = 'js';
+                if (['tsx', 'ts', 'jsx', 'js'].includes(ext)) loader = ext;
+                else if (ext === 'css') loader = 'css';
+                else if (ext === 'vue') loader = 'vue';
+
                 if (!batches[loader]) batches[loader] = [];
                 batches[loader].push(m);
             });

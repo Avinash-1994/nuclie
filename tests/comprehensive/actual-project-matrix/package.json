@@ -1,0 +1,23 @@
+{
+    "name": "nexxo-real-project-matrix",
+    "version": "1.0.0",
+    "description": "Test Nexxo against 8 real production open-source projects",
+    "main": "dist/runner.js",
+    "scripts": {
+        "build": "tsc",
+        "test": "node dist/runner.js --all",
+        "test:clone": "node dist/runner.js --clone",
+        "test:install": "node dist/runner.js --install",
+        "test:config": "node dist/runner.js --config",
+        "test:run": "node dist/runner.js --test",
+        "test:report": "node dist/runner.js --report"
+    },
+    "keywords": [
+        "nexxo",
+        "benchmark",
+        "testing",
+        "matrix"
+    ],
+    "author": "Nexxo Team",
+    "license": "MIT"
+}

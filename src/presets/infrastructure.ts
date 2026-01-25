@@ -8,9 +8,17 @@ import { createLinkerPlugin } from '../plugins/core/linker.js';
 // For this baseline, we'll collect the core logic we've built.
 
 import { createAssetPlugin } from '../plugins/assets.js';
+import { createJsonPlugin } from '../plugins/json.js';
+import { createHtmlPlugin } from '../plugins/html.js';
+import { createFederationPlugin } from '../plugins/federation_next.js';
+import { createStaticPlugin } from '../plugins/static.js';
 
-export function getInfrastructurePreset(rootDir: string, outDir?: string): NexxoPlugin[] {
+export function getInfrastructurePreset(rootDir: string, outDir?: string, config?: any): NexxoPlugin[] {
     const plugins: NexxoPlugin[] = [];
+    const effectiveOutDir = outDir || 'dist';
+
+    // 0. JSON (Load early)
+    plugins.push(createJsonPlugin());
 
     // 1. Assets (Run early to handle imports)
     plugins.push(createAssetPlugin(outDir));
@@ -23,6 +31,17 @@ export function getInfrastructurePreset(rootDir: string, outDir?: string): Nexxo
 
     // 4. Linker (Final specifier rewriting)
     plugins.push(createLinkerPlugin());
+
+    // 5. HTML Entry Generation
+    plugins.push(createHtmlPlugin(rootDir, effectiveOutDir));
+
+    // 6. Federation (Micro-frontends)
+    if (config?.federation) {
+        plugins.push(createFederationPlugin(config.federation));
+    }
+
+    // 7. Static Assets (public folder)
+    plugins.push(createStaticPlugin(rootDir, effectiveOutDir));
 
     return plugins;
 }

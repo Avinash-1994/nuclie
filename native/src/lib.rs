@@ -8,7 +8,7 @@ mod cache;
 mod wasmtime;
 
 // Re-export transform module
-pub use transform::transform_js;
+pub use transform::{transform_js, transform_css, transform_vue};
 
 // Re-export wasmtime module
 pub use wasmtime::{PluginRuntime};
@@ -63,12 +63,18 @@ impl NativeWorker {
     }
   }
 
-  /// Transform code using native SWC engine
+  /// Transform code using native SWC, LightningCSS, or Vue engine
   #[napi]
   pub fn transform_sync(&self, config: TransformConfig) -> Result<TransformResult> {
     let minify = config.minify.unwrap_or(false);
-    let result = transform_js(config.content, config.path, minify)
-        .map_err(|e| Error::new(Status::GenericFailure, e))?;
+    
+    let result = if config.loader == "css" {
+        transform_css(config.content, config.path, minify)
+    } else if config.loader == "vue" {
+        transform_vue(config.content, config.path, !minify) // !minify usually means dev
+    } else {
+        transform_js(config.content, config.path, minify)
+    }.map_err(|e| Error::new(Status::GenericFailure, e))?;
     
     Ok(TransformResult { code: result })
   }
@@ -84,7 +90,15 @@ impl NativeWorker {
         items.into_par_iter()
              .map(|item| {
                  let minify = item.minify.unwrap_or(false);
-                 match transform_js(item.content, item.path, minify) {
+                 let res = if item.loader == "css" {
+                     transform_css(item.content, item.path, minify)
+                 } else if item.loader == "vue" {
+                     transform_vue(item.content, item.path, !minify)
+                 } else {
+                     transform_js(item.content, item.path, minify)
+                 };
+
+                 match res {
                      Ok(code) => Ok(TransformResult { code }),
                      Err(e) => Err(e)
                  }
@@ -122,4 +136,3 @@ pub fn benchmark_transform(code: String, iterations: u32) -> f64 {
   
   duration.as_secs_f64()
 }
-

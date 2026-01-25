@@ -37,7 +37,7 @@ export async function initBuild(
     const pluginManager = new PluginManager();
 
     // 1. Register Infrastructure (Phase B2)
-    const infraPlugins = getInfrastructurePreset(rootDir, config.outputDir);
+    const infraPlugins = getInfrastructurePreset(rootDir, config.outputDir, config);
     for (const p of infraPlugins) {
         await pluginManager.register(p);
     }
@@ -77,6 +77,8 @@ function resolveConfig(userConfig: BuildConfig, rootDir: string, mode: BuildMode
         hashing: 'content',
         sourceMaps: sourcemap === 'none' ? false : (sourcemap === undefined ? 'external' : sourcemap),
         minify: userConfig.build?.minify ?? (mode === 'production' || mode === 'build'),
+        cssModules: userConfig.build?.cssModules ?? false,
+        federation: userConfig.federation,
     };
 }
 
