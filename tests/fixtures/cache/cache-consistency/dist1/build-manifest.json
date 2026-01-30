@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-01-29T17:35:51.271Z",
+  "target": "browser",
+  "artifacts": [
+    {
+      "fileName": "assets/entry1.1a077ff8.bundle.js",
+      "hash": "ca0aaf36a90dbf1a",
+      "type": "js"
+    },
+    {
+      "fileName": "assets/entry1.1a077ff8.bundle.js.gz",
+      "hash": "ca0aaf36a90dbf1a.gz",
+      "type": "asset"
+    },
+    {
+      "fileName": "assets/entry1.1a077ff8.bundle.js.br",
+      "hash": "ca0aaf36a90dbf1a.br",
+      "type": "asset"
+    },
+    {
+      "fileName": "index.html",
+      "hash": "index-html",
+      "type": "asset"
+    }
+  ]
+}

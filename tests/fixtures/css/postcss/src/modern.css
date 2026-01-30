@@ -1,0 +1,17 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .content {
+    padding: 16px;
+    
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+}

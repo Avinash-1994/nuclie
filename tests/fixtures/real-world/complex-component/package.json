@@ -1,0 +1,8 @@
+{
+  "name": "complex-component",
+  "type": "module",
+  "dependencies": {
+    "react": "^18.0.0",
+    "@types/react": "^18.0.0"
+  }
+}
