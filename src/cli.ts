@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 import type { AuditReport } from './audit/types.js';
 
+
 function printAuditReport(report: AuditReport) {
   console.log('\n🛡️  Audit Report');
 

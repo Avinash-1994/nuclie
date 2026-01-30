@@ -48,7 +48,8 @@ export const log = {
       msg.startsWith('[Transformer]') ||
       msg.includes('Warming up') ||
       msg.includes('Pre-bundling') ||
-      msg.includes('RocksDB');
+      msg.includes('RocksDB') ||
+      msg.includes('Copying public directory');
 
     if (isSystemLog) {
       if (process.env.DEBUG) {
@@ -114,8 +115,8 @@ export const log = {
             const prefix = isErrorLine ? kleur.red('>') : ' ';
             console.error(`${prefix} ${kleur.dim(num)} ${kleur.dim('|')} ${lineText}`);
 
-            if (isErrorLine) {
-              const indent = num.length + 3 + (error.column ? error.column - 1 : 0);
+            if (isErrorLine && error.column) {
+              const indent = num.length + 3 + (error.column - 1);
               console.error(' '.repeat(indent + 2) + kleur.red('^'));
             }
           }
@@ -123,16 +124,15 @@ export const log = {
       }
     } catch (e) { }
 
-    // 2. Error details below the snippet
+    // 2. Error details below the snippet - cleaner format
     console.error('');
-    console.error(kleur.gray('Caused by:'));
-    console.error(`  ${kleur.bold(error.type || 'Syntax Error')}: ${error.message}`);
+    console.error(kleur.red(`[${error.type || 'Error'}]`) + ' ' + error.message);
 
     if (error.file) {
-      console.error(`  ${kleur.dim(`File: ${error.file}:${error.line || 1}:${error.column || 1}`)}`);
+      const location = `${error.file}:${error.line || 1}:${error.column || 1}`;
+      console.error(kleur.dim(location));
     }
 
-    console.error(kleur.gray(`Plugin: ${kleur.cyan(error.plugin || 'nexxo:transformer')}`));
     console.error('');
   },
   table: (rows: Record<string, string>) => {

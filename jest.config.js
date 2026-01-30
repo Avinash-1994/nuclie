@@ -9,6 +9,7 @@ export default {
     testPathIgnorePatterns: [
         '/node_modules/',
         '/tests/e2e/',
+        '/tests/fixtures/',  // Ignore all fixture test files
         '/tests/module7_.*\\.test\\.ts$'  // These use custom Nexxo test API, not Jest
     ],
     roots: ['<rootDir>/tests', '<rootDir>/src'], // Run tests in both directories

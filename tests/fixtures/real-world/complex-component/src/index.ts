@@ -1,0 +1,1 @@
+export { ComplexComponent } from './ComplexComponent';

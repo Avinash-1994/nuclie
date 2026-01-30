@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-01-29T17:35:51.309Z",
+  "target": "browser",
+  "artifacts": [
+    {
+      "fileName": "assets/entry2.30501056.bundle.js",
+      "hash": "a565d34aada6bf76",
+      "type": "js"
+    },
+    {
+      "fileName": "assets/entry2.30501056.bundle.js.gz",
+      "hash": "a565d34aada6bf76.gz",
+      "type": "asset"
+    },
+    {
+      "fileName": "assets/entry2.30501056.bundle.js.br",
+      "hash": "a565d34aada6bf76.br",
+      "type": "asset"
+    },
+    {
+      "fileName": "index.html",
+      "hash": "index-html",
+      "type": "asset"
+    }
+  ]
+}
