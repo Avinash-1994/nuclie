@@ -1,0 +1,29 @@
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$font-stack: 'Helvetica', sans-serif;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app {
+  font-family: $font-stack;
+  
+  .header {
+    background: $primary-color;
+    @include flex-center;
+    padding: 20px;
+    
+    h1 {
+      color: white;
+      margin: 0;
+    }
+  }
+  
+  .content {
+    background: lighten($secondary-color, 20%);
+    padding: 30px;
+  }
+}

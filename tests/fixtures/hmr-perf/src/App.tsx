@@ -1,0 +1,1 @@
+export const App = () => <div>v2</div>;

@@ -1,0 +1,13 @@
+.button {
+  background: blue;
+  color: white;
+  padding: 10px;
+}
+
+.primary {
+  background: green;
+}
+
+.secondary {
+  background: gray;
+}

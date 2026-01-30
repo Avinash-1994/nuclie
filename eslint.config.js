@@ -109,7 +109,8 @@ export default [
             'src/ui/**/*.tsx',
             'src/audit/**/*.ts',
             'src/repro/**/*.ts',
-            'src/fix/**/*.ts'
+            'src/fix/**/*.ts',
+            'src/marketplace/**/*.ts'
         ],
         rules: {
             'nexxo-governance/no-internal-imports': 'off',

@@ -41,7 +41,7 @@ try {
   NativeWorker = nativeModule.NativeWorker;
 } catch (e) {
   // Native worker not found or failed to load, will fallback to JS implementation
-  log.warn('Native worker not found, falling back to JS implementation');
+  if (process.env.DEBUG) log.debug('Native worker not found, using JS fallback');
   // Mock Native Worker
   NativeWorker = class {
     constructor(workers: number) { }
@@ -192,12 +192,18 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
   // 2. Load Environment Variables (silently)
   try {
+    // Suppress dotenv's verbose output
+    const originalLog = console.log;
+    console.log = () => { }; // Silence console temporarily
+
     const dotenvModule = await import('dotenv');
     const loadEnv = (dotenvModule as any).config || (dotenvModule as any).default?.config;
     if (loadEnv) {
-      loadEnv({ path: path.join(cfg.root, '.env'), silent: true });
-      loadEnv({ path: path.join(cfg.root, '.env.local'), silent: true });
+      loadEnv({ path: path.join(cfg.root, '.env') });
+      loadEnv({ path: path.join(cfg.root, '.env.local') });
     }
+
+    console.log = originalLog; // Restore console
   } catch (e) { }
 
   // Filter public env vars
@@ -400,7 +406,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       });
       log.error('→ Dev Server: Warmup build failed - Fix the errors above');
     } else {
-      log.info('✓ Dev Server: Initial build successful');
+      console.log(`\x1b[32mCompiled successfully!\x1b[0m\n`);
     }
   } catch (error: any) {
     console.log('\n' + '='.repeat(60));
@@ -1346,6 +1352,9 @@ ${raw}
   });
   configWatcher.start();
 
+  // Track files with errors
+  const filesWithErrors = new Set<string>();
+
   const { default: chokidar } = await import('chokidar');
   const watcher = chokidar.watch(cfg.root, {
     ignored: ['**/node_modules/**', '**/.git/**', '**/.nexxo/**', '**/.nexxo_cache/**'],
@@ -1359,6 +1368,8 @@ ${raw}
       // Proactively check for errors in JS/TS files
       const ext = path.extname(file);
       if (['.ts', '.tsx', '.jsx', '.js', '.mjs', '.vue', '.svelte'].includes(ext)) {
+        const hadError = filesWithErrors.has(file);
+
         try {
           const code = await fs.readFile(file, 'utf-8');
 
@@ -1371,11 +1382,25 @@ ${raw}
             isDev: true
           });
 
-          // If transformation succeeds, log success
-          if (process.env.DEBUG) {
+          // If transformation succeeds and there was a previous error, show success
+          if (hadError) {
+            filesWithErrors.delete(file);
+            const relativePath = path.relative(cfg.root, file);
+            console.log(`\n\x1b[32mCompiled successfully!\x1b[0m`);
+            console.log(`\x1b[90m${new Date().toLocaleTimeString()} - ${relativePath}\x1b[0m\n`);
+
+            // Broadcast success to browser
+            broadcast(JSON.stringify({
+              type: 'error-fixed',
+              file: relativePath
+            }));
+          } else if (process.env.DEBUG) {
             log.debug(`✓ ${path.relative(cfg.root, file)} validated`, { category: 'hmr' });
           }
         } catch (transformError: any) {
+          // Track this file has an error
+          filesWithErrors.add(file);
+
           // Error is already logged by universal-transformer
           // Also broadcast to browser
           const relativePath = path.relative(cfg.root, file);

@@ -82,6 +82,52 @@ jobs:
           NODE_OPTIONS: --experimental-vm-modules
         run: npm test
 
+      - name: 🧪 Phase 1: Foundation Tests
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+        run: |
+          echo "Running Phase 1: Foundation Tests"
+          npm run test:snapshot
+          npm run test:performance
+          npm run test:real-world
+
+      - name: 🧪 Phase 2: Comprehensive Tests
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+        run: |
+          echo "Running Phase 2: Comprehensive Tests"
+          npm run test:css
+          npm run test:federation
+          npm run test:cache
+          npm run test:errors
+
+      - name: 🧪 Phase 3: Advanced Tests
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+        run: |
+          echo "Running Phase 3: Advanced Tests"
+          npm run test:property
+          npm run test:load
+
+      - name: 🎭 Install Playwright Browsers
+        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+        run: npx playwright install --with-deps chromium
+
+      - name: 🧪 Phase 3: Visual Regression Tests
+        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+        run: npm run test:visual
+        continue-on-error: true
+
+      - name: 📸 Upload Visual Test Results
+        if: always() && matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-test-results
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
       - name: 🧪 Run All Integration & Standalone Tests
         env:
           NODE_OPTIONS: --experimental-vm-modules

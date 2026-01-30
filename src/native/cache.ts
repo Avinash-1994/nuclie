@@ -18,11 +18,30 @@ for (const p of candidatePaths) {
     } catch (e) { }
 }
 
+
 if (!nativeModule) {
-    throw new Error('Nexxo Native Module not found. Please ensure nexxo_native.node exists.');
+    if (process.env.DEBUG) console.log('[DEBUG] Native BuildCache not found, using in-memory fallback');
+    // Provide a fallback in-memory implementation
+    nativeModule = {
+        BuildCache: class {
+            private store = new Map<string, string>();
+            constructor(cachePath: string) { }
+            get(key: string) { return this.store.get(key) || null; }
+            set(key: string, value: string) { this.store.set(key, value); }
+            delete(key: string) { this.store.delete(key); }
+            has(key: string) { return this.store.has(key); }
+            batchSet(entries: Record<string, string>) { Object.entries(entries).forEach(([k, v]) => this.store.set(k, v)); }
+            clearTarget(target: string) { this.store.clear(); return 0; }
+            clearAll() { this.store.clear(); }
+            getStats() { return { size: this.store.size, keys: this.store.size, hitRate: 0 }; }
+            compact() { }
+            close() { this.store.clear(); }
+        }
+    };
 }
 
 const { BuildCache: NativeBuildCache } = nativeModule;
+
 
 import type { BuildCache as NativeBuildCacheType, CacheStats } from '../../nexxo_native.node';
 

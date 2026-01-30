@@ -1,0 +1,7 @@
+{
+  "name": "vue-simple",
+  "type": "module",
+  "dependencies": {
+    "vue": "^3.0.0"
+  }
+}
