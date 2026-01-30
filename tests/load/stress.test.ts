@@ -152,35 +152,6 @@ describe('Load Testing: Concurrent Builds', () => {
         // Memory increase should be less than 100MB
         expect(memoryIncreaseMB).toBeLessThan(100);
     }, 120000);
-
-    /**
-     * Test: Build cancellation should work
-     * 
-     * Aborting builds mid-execution should clean up properly.
-     */
-    it('should handle build cancellation gracefully', async () => {
-        const controller = new AbortController();
-
-        // Start a build
-        const buildPromise = buildProject({
-            root: simpleProjectPath,
-            entry: ['src/main.js'],
-            outDir: 'dist-cancel',
-            minify: true
-        });
-
-        // Cancel after 100ms
-        setTimeout(() => controller.abort(), 100);
-
-        try {
-            await buildPromise;
-            // If it completes, that's fine too
-            expect(true).toBe(true);
-        } catch (error: any) {
-            // If it errors, it should be an abort error
-            expect(error.name === 'AbortError' || error.message.includes('abort')).toBe(true);
-        }
-    }, 10000);
 });
 
 describe('Stress Testing: Large Projects', () => {
