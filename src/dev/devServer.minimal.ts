@@ -100,8 +100,11 @@ export async function startDevServer(cfg: BuildConfig) {
                 if (networkIP) break;
             }
 
+            // Enhanced Startup Banner (Create React App style)
+            console.log(`\n\x1b[32mStarting the development server...\x1b[0m\n`);
+
             // Futuristic Nexxo Branding (Engineering First)
-            console.log(`\n\x1b[36m   ⚡ NEXXO \x1b[90mv2.0.2\x1b[0m`);
+            console.log(`\x1b[36m   ⚡ NEXXO \x1b[90mv2.0.2\x1b[0m`);
             console.log(`\x1b[90m   ─────────────────────────────────────\x1b[0m`);
 
             // Metrics Layout
@@ -117,7 +120,11 @@ export async function startDevServer(cfg: BuildConfig) {
             if (networkIP) {
                 console.log(`   \x1b[1mNetwork\x1b[0m  \x1b[36mhttp://${networkIP}:${port}/\x1b[0m`);
             }
-            console.log(`\x1b[90m   ─────────────────────────────────────\x1b[0m\n`);
+            console.log(`\x1b[90m   ─────────────────────────────────────\x1b[0m`);
+
+            // Helpful tips
+            console.log(`\n\x1b[90mNote that the development build is not optimized.\x1b[0m`);
+            console.log(`\x1b[90mTo create a production build, use \x1b[36mnpm run build\x1b[0m\x1b[90m.\x1b[0m\n`);
 
             // 4. Start full server initialization immediately (before any requests)
             if (!features && !isInitializing) {

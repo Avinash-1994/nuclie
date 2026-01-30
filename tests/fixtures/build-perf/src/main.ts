@@ -1,0 +1,11 @@
+import { value0 } from './module0';
+import { value1 } from './module1';
+import { value2 } from './module2';
+import { value3 } from './module3';
+import { value4 } from './module4';
+import { value5 } from './module5';
+import { value6 } from './module6';
+import { value7 } from './module7';
+import { value8 } from './module8';
+import { value9 } from './module9';
+console.log("done");

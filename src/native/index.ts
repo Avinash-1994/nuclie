@@ -27,18 +27,20 @@ try {
     if (found) {
         native = _require(found);
     } else {
-        throw new Error('Native binary not found');
+        // Use fallback instead of throwing
+        native = null;
     }
 } catch (e) {
-    // Fallback Mock
+    // Fallback Mock with proper hashing
+    const crypto = _require('crypto');
     native = {
         GraphAnalyzer: class { },
         BuildOrchestrator: class { },
         BuildCache: class { },
-        fastHash: (s: string) => s,
-        batchHash: (sa: string[]) => sa,
+        fastHash: (s: string) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16),
+        batchHash: (sa: string[]) => sa.map((s: string) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16)),
         scanImports: (s: string) => [],
-        normalizePath: (s: string) => s,
+        normalizePath: (s: string) => s.replace(/\\/g, '/'),
         PluginRuntime: class { },
         NativeWorker: class {
             constructor() { }

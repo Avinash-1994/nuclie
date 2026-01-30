@@ -144,9 +144,12 @@ export class UniversalTransformer {
                 });
                 result.code = finalResult.code;
             } catch (err: any) {
-                // Only log if it's not a known binary/compiled file issue
+                // Log normalization failures for debugging
+                // These are usually non-critical but good to know about
                 if (!err.message.includes('Unexpected') && !err.message.includes('Expected')) {
-                    log.warn(`Final normalization failed for ${options.filePath}: ${err.message}`);
+                    if (process.env.DEBUG) {
+                        log.debug(`Final normalization skipped for ${options.filePath}: ${err.message}`);
+                    }
                 }
             }
         }
@@ -213,12 +216,14 @@ export class UniversalTransformer {
 
             // Inject HMR context for React
             if (isDev) {
+                // Normalize path to prevent escape sequence issues on Windows
+                const normalizedPath = filePath.replace(/\\/g, '/');
                 const hmrFooter = `
 
 // Nexxo Advanced HMR (React)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept();
@@ -268,6 +273,7 @@ if (import.meta.hot) {
                 log.warn('No Vue 3 compiler found, using fallback with HMR');
                 // Fallback: Return raw code with HMR wrapper
                 if (isDev) {
+                    const normalizedPath = filePath.replace(/\\/g, '/');
                     const wrappedCode = `
 // Vue fallback (compiler missing)
 const _sfc_main = { template: \`${code.replace(/`/g, '\\`')}\` };
@@ -276,7 +282,7 @@ export default _sfc_main;
 // Nexxo Advanced HMR (Vue - Fallback)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept();
@@ -371,12 +377,13 @@ if (import.meta.hot) {
 
             // Add HMR footer for Vue (only in dev mode)
             if (isDev) {
+                const normalizedPath = filePath.replace(/\\/g, '/');
                 output += `
 
 // Nexxo Advanced HMR (Vue)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     _sfc_main.__hmrId = "${scopeId}";
@@ -432,13 +439,14 @@ if (import.meta.hot) {
 
             // Advanced HMR for Svelte (Production-Grade)
             if (isDev) {
+                const normalizedPath = filePath.replace(/\\/g, '/');
                 const componentId = canonicalHash(filePath).substring(0, 16);
                 finalCode += `
 
 // Nexxo Advanced HMR (Svelte)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
@@ -504,13 +512,14 @@ if (import.meta.hot) {
 
                     // Advanced HMR for Angular (Production-Grade)
                     if (isDev) {
+                        const normalizedPath = filePath.replace(/\\/g, '/');
                         const componentId = canonicalHash(filePath).substring(0, 16);
                         finalCode += `
 
 // Nexxo Advanced HMR (Angular)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
@@ -575,19 +584,20 @@ if (import.meta.hot) {
 
             // Inject HMR context for Solid
             if (isDev) {
+                const normalizedPath = filePath.replace(/\\/g, '/');
                 const hmrFooter = `
 
 // Nexxo Advanced HMR (Solid)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
         if (!newModule) return;
         // Solid HMR: Re-render root components
         const roots = window.__NEXXO_SOLID_ROOTS__ || (window.__NEXXO_SOLID_ROOTS__ = new Map());
-        const componentRoots = roots.get("${filePath}") || [];
+        const componentRoots = roots.get("${normalizedPath}") || [];
         componentRoots.forEach(({ dispose, container, component }) => {
             if (dispose) dispose();
             const NewComponent = newModule.default || newModule[component];
@@ -621,12 +631,13 @@ if (import.meta.hot) {
 
                 // Still add HMR even in fallback
                 if (isDev) {
+                    const normalizedPath = filePath.replace(/\\/g, '/');
                     const hmrFooter = `
 
 // Nexxo Advanced HMR (Solid - Fallback)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept();
@@ -714,13 +725,14 @@ if (import.meta.hot) {
 
             // Advanced HMR for Lit (Production-Grade)
             if (isDev) {
+                const normalizedPath = filePath.replace(/\\/g, '/');
                 const componentId = canonicalHash(filePath).substring(0, 16);
                 finalCode += `
 
 // Nexxo Advanced HMR (Lit)
 import { createHotContext } from '/@nexxo/client';
 if (!import.meta.hot) {
-    import.meta.hot = createHotContext("${filePath}");
+    import.meta.hot = createHotContext("${normalizedPath}");
 }
 if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {

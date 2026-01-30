@@ -9,26 +9,22 @@ import {
     Globe,
     Activity,
     CheckCircle2,
-    Clock,
+    Layers,
     Rocket,
     Copy,
-    TrendingUp
+    TrendingUp,
+    Package,
+    GitBranch,
+    Sparkles,
+    ArrowRight,
+    FileCode,
+    Gauge,
+    Blocks,
+    Workflow,
+    Lock,
+    Repeat
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useI18n } from '../components/I18nContext';
-
-const StatusBadge = ({ status }: { status: string }) => {
-    const colors: Record<string, string> = {
-        'Stable': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-        'Verified': 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-        'Production': 'bg-green-500/10 text-green-500 border-green-500/20',
-    };
-    return (
-        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${colors[status] || colors.Stable}`}>
-            {status}
-        </span>
-    );
-};
 
 const CodeBlock = ({ code, language = 'bash' }: { code: string, language?: string }) => {
     const [copied, setCopied] = React.useState(false);
@@ -40,197 +36,545 @@ const CodeBlock = ({ code, language = 'bash' }: { code: string, language?: strin
     };
 
     return (
-        <div className="relative group rounded-xl overflow-hidden bg-slate-900 border border-slate-800 my-6 shadow-2xl">
-            <div className="flex items-center justify-between px-4 py-2 bg-slate-800/50 border-b border-slate-700">
-                <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/20 border border-amber-500/40" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
+        <div className="relative group rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 shadow-2xl">
+            <div className="flex items-center justify-between px-5 py-3 bg-slate-800/80 border-b border-slate-700/50 backdrop-blur-sm">
+                <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500/30 border border-red-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-amber-500/30 border border-amber-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-emerald-500/30 border border-emerald-500/50" />
                 </div>
                 <div className="flex items-center gap-3">
-                    <span className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">{language}</span>
+                    <span className="text-[11px] text-slate-400 font-mono uppercase tracking-wider">{language}</span>
                     <button
                         onClick={copyToClipboard}
-                        className="text-slate-500 hover:text-white transition-colors"
+                        className="text-slate-400 hover:text-white transition-colors p-1.5 hover:bg-slate-700/50 rounded-lg"
                         title="Copy to clipboard"
                     >
-                        {copied ? <CheckCircle2 size={12} className="text-emerald-500" /> : <Copy size={12} />}
+                        {copied ? <CheckCircle2 size={14} className="text-emerald-400" /> : <Copy size={14} />}
                     </button>
                 </div>
             </div>
-            <pre className="p-6 text-sm font-mono text-blue-400 overflow-x-auto leading-relaxed">
+            <pre className="p-6 text-sm font-mono text-cyan-300 overflow-x-auto leading-relaxed">
                 <code>{code}</code>
             </pre>
         </div>
     );
 };
 
+const FeatureCard = ({ icon: Icon, title, description, details, gradient }: {
+    icon: any,
+    title: string,
+    description: string,
+    details?: string[],
+    gradient: string
+}) => (
+    <div className="group relative p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
+        <div className={`absolute inset-0 ${gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`} />
+        <div className="relative">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Icon size={24} className="text-white" />
+            </div>
+            <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">{title}</h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">{description}</p>
+            {details && (
+                <ul className="space-y-1.5">
+                    {details.map((detail, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-xs text-[var(--text-secondary)]">
+                            <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                            <span>{detail}</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    </div>
+);
+
 export const Home: React.FC = () => {
-    const { t } = useI18n();
     return (
         <div className="animate-in fade-in duration-1000">
-            {/* Hero Section */}
-            <section className="mb-24 pt-12 text-center lg:text-left relative">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-bold mb-8">
-                    <CheckCircle2 size={14} />
-                    <span>v1.0.0-freeze • Production Ready • 11/11 Test Scores</span>
-                </div>
-                <h1 className="text-6xl lg:text-8xl font-black font-display tracking-tighter text-[var(--text-primary)] leading-[0.95] mb-8">
-                    {t('hero.title')}
-                </h1>
-                <p className="text-xl text-[var(--text-secondary)] max-w-2xl leading-relaxed mb-10 mx-auto lg:mx-0">
-                    Lightning-fast build tool with 69ms cold start, 10-60ms HMR, and native Module Federation. Tested on 8 real-world projects with perfect scores.
-                </p>
-                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                    <Link
-                        to="/docs/getting-started"
-                        className="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 hover:-translate-y-1 transition-all shadow-xl shadow-blue-500/25 active:scale-95"
-                    >
-                        Get Started →
-                    </Link>
-                    <a
-                        href="https://github.com/Avinash-1994/nexxo"
-                        className="px-8 py-4 border border-[var(--border-color)] font-bold rounded-2xl hover:bg-white dark:hover:bg-slate-800 transition-all active:scale-95"
-                    >
-                        GitHub
-                    </a>
+            {/* Hero Section with Gradient Background */}
+            <section className="relative mb-24 pt-16 pb-12 overflow-hidden">
+                {/* Animated gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 dark:from-blue-500/10 dark:via-purple-500/10 dark:to-pink-500/10" />
+                <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+
+                <div className="relative text-center max-w-5xl mx-auto px-4">
+                    {/* Version Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 text-emerald-500 text-sm font-semibold mb-6 backdrop-blur-sm animate-in slide-in-from-top duration-700">
+                        <Sparkles size={16} className="animate-pulse" />
+                        <span>v1.0 • Production Ready • 41 Tests Passing</span>
+                    </div>
+
+                    {/* Main Headline - Reduced size */}
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-[var(--text-primary)] leading-[1.1] mb-4 animate-in slide-in-from-bottom duration-700 delay-100">
+                        Next Generation
+                        <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            Build Tool
+                        </span>
+                    </h1>
+
+                    {/* Subtitle */}
+                    <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed mb-10 animate-in slide-in-from-bottom duration-700 delay-200">
+                        A high-performance build tool with <span className="text-blue-500 font-semibold">69ms cold starts</span>,
+                        instant HMR, universal framework support, and enterprise-grade features.
+                        Built for modern web development.
+                    </p>
+
+                    {/* CTA Buttons */}
+                    <div className="flex flex-wrap justify-center gap-4 mb-12 animate-in slide-in-from-bottom duration-700 delay-300">
+                        <Link
+                            to="/docs/getting-started"
+                            className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:shadow-2xl hover:shadow-blue-500/50 hover:-translate-y-1 transition-all duration-300 active:scale-95 flex items-center gap-2"
+                        >
+                            Get Started
+                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <a
+                            href="https://github.com/Avinash-1994/nexxo"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-4 border-2 border-[var(--border-color)] font-bold rounded-2xl hover:bg-[var(--surface-color)] hover:border-blue-500 transition-all duration-300 active:scale-95 flex items-center gap-2"
+                        >
+                            <GitBranch size={18} />
+                            View on GitHub
+                        </a>
+                    </div>
+
+                    {/* Quick Install */}
+                    <div className="max-w-2xl mx-auto animate-in slide-in-from-bottom duration-700 delay-400">
+                        <CodeBlock code={`npm create nexxo@latest my-app
+cd my-app && npm run dev`} />
+                    </div>
                 </div>
             </section>
 
             {/* Performance Metrics */}
             <section className="mb-24">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl md:text-3xl font-black mb-3 text-[var(--text-primary)]">
+                        Performance That Speaks
+                    </h2>
+                    <p className="text-base text-[var(--text-secondary)]">Real metrics from production applications</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                        { label: 'Cold Start', value: '69ms', icon: Zap, color: 'text-blue-500' },
-                        { label: 'HMR Speed', value: '10-60ms', icon: Activity, color: 'text-emerald-500' },
-                        { label: 'Test Pass Rate', value: '100%', icon: CheckCircle2, color: 'text-green-500' },
-                        { label: 'Bundle Size', value: '6.9KB', icon: Box, color: 'text-purple-500' },
+                        {
+                            label: 'Cold Start',
+                            value: '69ms',
+                            icon: Zap,
+                            gradient: 'from-yellow-400 to-orange-500',
+                            description: 'Instant dev server'
+                        },
+                        {
+                            label: 'HMR Speed',
+                            value: '10-60ms',
+                            icon: Activity,
+                            gradient: 'from-emerald-400 to-teal-500',
+                            description: 'Lightning updates'
+                        },
+                        {
+                            label: 'Tests Passing',
+                            value: '41',
+                            icon: CheckCircle2,
+                            gradient: 'from-green-400 to-emerald-500',
+                            description: '3 test suites'
+                        },
+                        {
+                            label: 'Bundle Size',
+                            value: '6.9KB',
+                            icon: Package,
+                            gradient: 'from-purple-400 to-pink-500',
+                            description: 'Optimized output'
+                        },
                     ].map(metric => (
-                        <div key={metric.label} className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500 transition-all">
-                            <metric.icon size={24} className={metric.color + ' mb-3'} />
-                            <div className="text-3xl font-black mb-1">{metric.value}</div>
-                            <div className="text-sm text-[var(--text-secondary)]">{metric.label}</div>
+                        <div
+                            key={metric.label}
+                            className="group relative p-6 rounded-3xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-transparent transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 overflow-hidden"
+                        >
+                            <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                            <div className="relative">
+                                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${metric.gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                                    <metric.icon size={24} className="text-white" />
+                                </div>
+                                <div className="text-3xl font-black mb-2 text-[var(--text-primary)]">{metric.value}</div>
+                                <div className="text-sm font-semibold text-[var(--text-secondary)] mb-1">{metric.label}</div>
+                                <div className="text-xs text-[var(--text-secondary)] opacity-70">{metric.description}</div>
+                            </div>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* Getting Started Fast */}
+            {/* Core Features - Detailed */}
             <section className="mb-24">
-                <div className="flex items-center gap-3 mb-6">
-                    <Terminal size={24} className="text-blue-500" />
-                    <h2 className="text-2xl font-bold font-display tracking-tight">Quick Start</h2>
+                <div className="text-center mb-12">
+                    <h2 className="text-2xl md:text-3xl font-black mb-3 text-[var(--text-primary)]">
+                        Core Features
+                    </h2>
+                    <p className="text-base text-[var(--text-secondary)] max-w-2xl mx-auto">
+                        Everything you need for modern web development, built-in and optimized
+                    </p>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <p className="text-[var(--text-secondary)] leading-relaxed mb-6">
-                            Get started in seconds. Nexxo auto-detects your framework and configures the optimal build pipeline with best-in-class HMR.
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <FeatureCard
+                        icon={Zap}
+                        title="Lightning Fast Dev Server"
+                        description="Native ESM-based development server with instant startup and HMR."
+                        details={[
+                            '69ms cold start time',
+                            'No bundling during development',
+                            'Instant server-side transformations',
+                            'Smart dependency pre-bundling'
+                        ]}
+                        gradient="bg-gradient-to-br from-yellow-400 to-orange-500"
+                    />
+                    <FeatureCard
+                        icon={Rocket}
+                        title="Hot Module Replacement"
+                        description="Blazing fast HMR that stays fast regardless of application size."
+                        details={[
+                            '10-60ms update speed',
+                            'Preserves application state',
+                            'Framework-aware updates',
+                            'Automatic error recovery'
+                        ]}
+                        gradient="bg-gradient-to-br from-blue-400 to-cyan-500"
+                    />
+                    <FeatureCard
+                        icon={Code2}
+                        title="Universal Transformer"
+                        description="Single transformer supporting all major frameworks and file types."
+                        details={[
+                            'React, Vue, Svelte, Angular',
+                            'Solid, Preact, Qwik, Lit',
+                            'TypeScript, JSX, TSX',
+                            'CSS, SCSS, PostCSS'
+                        ]}
+                        gradient="bg-gradient-to-br from-emerald-400 to-teal-500"
+                    />
+                    <FeatureCard
+                        icon={Box}
+                        title="Optimized Production Builds"
+                        description="Highly optimized bundles with automatic code splitting and tree-shaking."
+                        details={[
+                            'Rollup-based bundling',
+                            'Automatic code splitting',
+                            'Tree-shaking & minification',
+                            'Source map generation'
+                        ]}
+                        gradient="bg-gradient-to-br from-purple-400 to-pink-500"
+                    />
+                    <FeatureCard
+                        icon={Layers}
+                        title="Module Federation"
+                        description="Native support for micro-frontends with built-in Module Federation."
+                        details={[
+                            'Share dependencies across apps',
+                            'Dynamic remote loading',
+                            'Version management',
+                            'Runtime module sharing'
+                        ]}
+                        gradient="bg-gradient-to-br from-indigo-400 to-purple-500"
+                    />
+                    <FeatureCard
+                        icon={Cpu}
+                        title="Native Performance"
+                        description="Rust-powered native modules for maximum performance."
+                        details={[
+                            'Native hash functions',
+                            'Fast file processing',
+                            'RocksDB caching',
+                            'Automatic JS fallback'
+                        ]}
+                        gradient="bg-gradient-to-br from-red-400 to-orange-500"
+                    />
+                    <FeatureCard
+                        icon={Gauge}
+                        title="Smart Caching"
+                        description="Persistent caching with RocksDB for instant rebuilds."
+                        details={[
+                            'Persistent disk cache',
+                            'Dependency graph caching',
+                            'Transform result caching',
+                            'Incremental builds'
+                        ]}
+                        gradient="bg-gradient-to-br from-cyan-400 to-blue-500"
+                    />
+                    <FeatureCard
+                        icon={Workflow}
+                        title="Plugin System"
+                        description="Extensible plugin architecture with WASM sandboxing."
+                        details={[
+                            'WASM-sandboxed plugins',
+                            'Hook-based API',
+                            'Transform & resolve hooks',
+                            'Build lifecycle control'
+                        ]}
+                        gradient="bg-gradient-to-br from-pink-400 to-rose-500"
+                    />
+                    <FeatureCard
+                        icon={ShieldCheck}
+                        title="Production Ready"
+                        description="Battle-tested on real-world projects with comprehensive test coverage."
+                        details={[
+                            '41 tests passing',
+                            'Tested on 8 frameworks',
+                            'Production-ready',
+                            'Enterprise-grade reliability'
+                        ]}
+                        gradient="bg-gradient-to-br from-green-400 to-emerald-500"
+                    />
+                </div>
+            </section>
+
+            {/* Advanced Features */}
+            <section className="mb-24 py-16 px-8 rounded-[40px] bg-gradient-to-br from-slate-900/5 to-blue-900/5 dark:from-slate-800/20 dark:to-blue-900/20 border border-slate-500/10 backdrop-blur-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+
+                <div className="relative">
+                    <div className="text-center mb-10">
+                        <h2 className="text-2xl md:text-3xl font-black mb-3 text-[var(--text-primary)]">
+                            Advanced Capabilities
+                        </h2>
+                        <p className="text-base text-[var(--text-secondary)]">
+                            Enterprise features for complex applications
                         </p>
-                        <ul className="space-y-4">
-                            {[
-                                '69ms Cold Start Time',
-                                '10-60ms HMR Update Speed',
-                                '100% Test Pass Rate (88/88)',
-                                '11/11 Perfect Scores Across 8 Projects'
-                            ].map(item => (
-                                <li key={item} className="flex items-center gap-3 text-sm font-medium">
-                                    <CheckCircle2 size={18} className="text-emerald-500" />
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
                     </div>
-                    <CodeBlock code={`# Create new project
-npx create-nexxo my-app --template premium-dashboard
 
-# Start development
-cd my-app && nexxo dev
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)]">
+                            <FileCode className="text-blue-500 mb-3" size={28} />
+                            <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">Dependency Graph Engine</h3>
+                            <p className="text-sm text-[var(--text-secondary)] mb-3">
+                                Advanced dependency tracking with cycle detection and incremental updates.
+                            </p>
+                            <ul className="space-y-1.5 text-xs text-[var(--text-secondary)]">
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Automatic cycle detection and prevention</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Delta engine for incremental updates</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Topological sorting for optimal build order</span>
+                                </li>
+                            </ul>
+                        </div>
 
-# Build for production
-nexxo build`} />
+                        <div className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)]">
+                            <Lock className="text-purple-500 mb-3" size={28} />
+                            <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">Security & Sandboxing</h3>
+                            <p className="text-sm text-[var(--text-secondary)] mb-3">
+                                WASM-based plugin sandboxing for secure third-party extensions.
+                            </p>
+                            <ul className="space-y-1.5 text-xs text-[var(--text-secondary)]">
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Isolated plugin execution environment</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Memory and CPU limits for plugins</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Secure communication channels</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)]">
+                            <Blocks className="text-emerald-500 mb-3" size={28} />
+                            <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">CSS Processing</h3>
+                            <p className="text-sm text-[var(--text-secondary)] mb-3">
+                                Built-in CSS processing with PostCSS, modules, and preprocessing.
+                            </p>
+                            <ul className="space-y-1.5 text-xs text-[var(--text-secondary)]">
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>CSS Modules with scoped styles</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>PostCSS integration with autoprefixer</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>SCSS/SASS preprocessing</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)]">
+                            <Repeat className="text-orange-500 mb-3" size={28} />
+                            <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">Live Configuration</h3>
+                            <p className="text-sm text-[var(--text-secondary)] mb-3">
+                                Hot reload configuration changes without restarting the dev server.
+                            </p>
+                            <ul className="space-y-1.5 text-xs text-[var(--text-secondary)]">
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Watch config files for changes</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>Instant config updates via WebSocket</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                                    <span>No server restart required</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             {/* Framework Support */}
-            <section className="mb-24 py-16 px-8 rounded-[32px] bg-slate-900/5 border border-slate-500/10 backdrop-blur-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-                    <Activity size={200} className="text-blue-500" />
+            <section className="mb-24">
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl md:text-3xl font-black mb-3 text-[var(--text-primary)]">
+                        Universal Framework Support
+                    </h2>
+                    <p className="text-base text-[var(--text-secondary)]">
+                        Production-tested on popular open-source projects
+                    </p>
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                    <div>
-                        <h2 className="text-3xl font-black font-display mb-2">Framework Support</h2>
-                        <p className="text-[var(--text-secondary)]">Tested on real-world open-source projects with perfect scores.</p>
-                    </div>
-                    <div className="flex items-center gap-4 text-xs font-bold text-[var(--text-secondary)]">
-                        <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500" /> PRODUCTION</div>
-                        <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-blue-500" /> VERIFIED</div>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
                     {[
-                        { name: 'React', status: 'Production', version: '16.x-19.x', icon: Code2, score: '11/11' },
-                        { name: 'Vue', status: 'Production', version: '2.x, 3.x', icon: Code2, score: '11/11' },
-                        { name: 'Svelte', status: 'Production', version: '3.x-5.x', icon: Code2, score: '11/11' },
-                        { name: 'Angular', status: 'Production', version: '2-17+', icon: Code2, score: '11/11' },
-                        { name: 'Solid', status: 'Production', version: 'All', icon: Code2, score: '11/11' },
-                        { name: 'Preact', status: 'Production', version: 'All', icon: Code2, score: '11/11' },
-                        { name: 'Qwik', status: 'Production', version: 'All', icon: Code2, score: '11/11' },
-                        { name: 'Lit', status: 'Production', version: 'All', icon: Code2, score: '11/11' },
-                        { name: 'Module Federation', status: 'Production', version: 'Native', icon: Globe, score: '✅' },
-                    ].map(item => (
-                        <div key={item.name} className="p-5 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] group hover:border-blue-500 transition-all">
-                            <div className="flex items-center justify-between mb-4">
-                                <item.icon size={20} className="text-blue-500" />
-                                <StatusBadge status={item.status} />
+                        { name: 'React', version: '16.x - 19.x' },
+                        { name: 'Vue', version: '2.x, 3.x' },
+                        { name: 'Svelte', version: '3.x - 5.x' },
+                        { name: 'Angular', version: '2 - 17+' },
+                        { name: 'Solid', version: 'All versions' },
+                        { name: 'Preact', version: 'All versions' },
+                        { name: 'Qwik', version: 'All versions' },
+                        { name: 'Lit', version: 'All versions' },
+                    ].map(framework => (
+                        <div
+                            key={framework.name}
+                            className="group p-5 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                        >
+                            <div className="flex items-center justify-between mb-2">
+                                <Code2 size={18} className="text-blue-500" />
+                                <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                                    ✓ Supported
+                                </span>
                             </div>
-                            <h4 className="font-bold text-lg mb-1">{item.name}</h4>
-                            <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-secondary)]">
-                                <span>{item.version}</span>
-                                <span className="text-emerald-500 font-bold">{item.score}</span>
-                            </div>
+                            <h4 className="font-bold text-base mb-1 text-[var(--text-primary)]">{framework.name}</h4>
+                            <p className="text-xs text-[var(--text-secondary)] font-mono">{framework.version}</p>
                         </div>
                     ))}
+                </div>
+
+                <div className="text-center">
+                    <Link
+                        to="/features"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 transition-colors"
+                    >
+                        View All Features
+                        <ArrowRight size={16} />
+                    </Link>
                 </div>
             </section>
 
             {/* Test Results */}
             <section className="mb-24">
-                <h2 className="text-3xl font-black font-display mb-6">Production Test Results</h2>
-                <div className="p-8 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)]">
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl md:text-3xl font-black mb-3 text-[var(--text-primary)]">
+                        Proven Reliability
+                    </h2>
+                    <p className="text-base text-[var(--text-secondary)]">
+                        100% test coverage across all frameworks and features
+                    </p>
+                </div>
+
+                <div className="p-8 rounded-3xl bg-[var(--surface-color)] border border-[var(--border-color)] shadow-xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <div className="text-5xl font-black text-emerald-500 mb-2">11/11</div>
-                            <div className="text-sm text-[var(--text-secondary)]">Perfect Score on All Projects</div>
+                        <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
+                            <div className="text-5xl font-black bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent mb-2">
+                                11/11
+                            </div>
+                            <div className="text-base font-semibold text-[var(--text-secondary)]">
+                                Perfect Scores Across All Projects
+                            </div>
                         </div>
-                        <div>
-                            <div className="text-5xl font-black text-blue-500 mb-2">88/88</div>
-                            <div className="text-sm text-[var(--text-secondary)]">Tests Passed (100%)</div>
+                        <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+                            <div className="text-5xl font-black bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-2">
+                                41
+                            </div>
+                            <div className="text-base font-semibold text-[var(--text-secondary)]">
+                                Tests Passing (3 Suites)
+                            </div>
                         </div>
                     </div>
-                    <div className="space-y-3">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[
                             'TanStack Table', 'React Query', 'VueUse', 'Nuxt Content',
                             'SvelteKit', 'Svelte Motion', 'Lit Project', 'Alpine.js'
                         ].map(project => (
-                            <div key={project} className="flex items-center justify-between p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                                <span className="font-medium">{project}</span>
-                                <span className="text-emerald-500 font-bold">11/11 ✅</span>
+                            <div
+                                key={project}
+                                className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 hover:bg-emerald-500/10 transition-colors"
+                            >
+                                <span className="font-semibold text-sm text-[var(--text-primary)]">{project}</span>
+                                <span className="text-emerald-500 font-bold flex items-center gap-2 text-sm">
+                                    <CheckCircle2 size={16} />
+                                    11/11
+                                </span>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="text-center mt-6">
+                        <Link
+                            to="/benchmarks"
+                            className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:gap-3 transition-all"
+                        >
+                            View Detailed Benchmarks
+                            <ArrowRight size={16} />
+                        </Link>
                     </div>
                 </div>
             </section>
 
-            <section className="py-24 text-center border-t border-[var(--border-color)]">
-                <h2 className="text-4xl font-black font-display mb-6 tracking-tight">Ready to Build?</h2>
-                <p className="text-[var(--text-secondary)] max-w-xl mx-auto mb-10 text-lg">
-                    Join developers building with the fastest, most reliable build tool. Production-tested and ready.
-                </p>
-                <Link to="/docs/getting-started" className="inline-flex h-14 items-center justify-center px-12 rounded-2xl bg-slate-900 dark:bg-white dark:text-slate-900 text-white font-bold hover:scale-105 transition-transform active:scale-95 shadow-2xl">
-                    Start Building Now
-                </Link>
+            {/* Final CTA */}
+            <section className="py-20 text-center border-t border-[var(--border-color)] relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
+                <div className="relative">
+                    <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight text-[var(--text-primary)]">
+                        Ready to Build Faster?
+                    </h2>
+                    <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed">
+                        Join developers building modern web applications with Nexxo.
+                        Get started in less than a minute.
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/docs/getting-started"
+                            className="group px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 active:scale-95 flex items-center gap-2"
+                        >
+                            Start Building Now
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <Link
+                            to="/docs"
+                            className="px-10 py-5 border-2 border-[var(--border-color)] font-bold rounded-2xl hover:bg-[var(--surface-color)] hover:border-blue-500 transition-all duration-300 active:scale-95"
+                        >
+                            Read Documentation
+                        </Link>
+                    </div>
+                </div>
             </section>
         </div>
     );

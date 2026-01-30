@@ -13,28 +13,57 @@ import {
     Puzzle,
     TrendingUp,
     CheckCircle2,
-    Rocket
+    Rocket,
+    ArrowRight,
+    FileCode,
+    Settings,
+    Layers
 } from 'lucide-react';
 
-const StatusBadge = ({ status }: { status: string }) => {
-    const colors: Record<string, string> = {
-        'Core': 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-        'DevEx': 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-        'Styling': 'bg-pink-500/10 text-pink-500 border-pink-500/20',
-        'Federation': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-        'Production': 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-        'Tools': 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20',
-        'Quality': 'bg-red-500/10 text-red-500 border-red-500/20',
-        'Cloud': 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20',
-        'Plugins': 'bg-violet-500/10 text-violet-500 border-violet-500/20',
-        'Advanced': 'bg-teal-500/10 text-teal-500 border-teal-500/20',
-    };
+const StatusBadge = ({ status, color = 'blue' }: { status: string, color?: string }) => {
     return (
-        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${colors[status] || colors.Core}`}>
+        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-${color}-500/10 text-${color}-500 border border-${color}-500/20 shadow-sm`}>
             {status}
         </span>
     );
 };
+
+const FeatureItem = ({ name, description, implementation, file }: { name: string, description: string, implementation: string, file: string }) => (
+    <div className="group relative p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        <div className="relative">
+            <div className="flex items-start justify-between mb-4">
+                <h3 className="text-lg font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
+                    {name}
+                </h3>
+                <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+            </div>
+
+            <p className="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed min-h-[40px]">
+                {description}
+            </p>
+
+            <div className="space-y-3">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--border-color)] group-hover:bg-white dark:group-hover:bg-slate-800 transition-colors">
+                    <Settings size={14} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                        <div className="text-[10px] text-blue-500 font-bold uppercase tracking-wider mb-0.5">Implementation</div>
+                        <div className="text-xs text-[var(--text-secondary)] leading-relaxed">{implementation}</div>
+                    </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--border-color)] group-hover:bg-white dark:group-hover:bg-slate-800 transition-colors">
+                    <FileCode size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                        <div className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider mb-0.5">Source</div>
+                        <code className="text-xs text-[var(--text-secondary)] font-mono break-all">{file}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
 
 export const Features: React.FC = () => {
     const features = [
@@ -42,6 +71,8 @@ export const Features: React.FC = () => {
             category: "Core Build System",
             icon: Zap,
             tag: "Core",
+            color: "blue",
+            description: "The heart of Nexxo, designed for speed and reliability.",
             items: [
                 {
                     name: "Universal Framework Support",
@@ -73,6 +104,8 @@ export const Features: React.FC = () => {
             category: "Development Experience",
             icon: Code2,
             tag: "DevEx",
+            color: "purple",
+            description: "Features that make developers happy and productive.",
             items: [
                 {
                     name: "Hot Module Replacement (HMR)",
@@ -104,6 +137,8 @@ export const Features: React.FC = () => {
             category: "CSS & Styling",
             icon: Palette,
             tag: "Styling",
+            color: "pink",
+            description: "Advanced styling support out of the box.",
             items: [
                 {
                     name: "CSS Modules",
@@ -135,6 +170,8 @@ export const Features: React.FC = () => {
             category: "Module Federation",
             icon: Globe,
             tag: "Federation",
+            color: "emerald",
+            description: "Built-in micro-frontend capabilities.",
             items: [
                 {
                     name: "Micro-Frontend Architecture",
@@ -166,6 +203,8 @@ export const Features: React.FC = () => {
             category: "Production Optimization",
             icon: TrendingUp,
             tag: "Production",
+            color: "amber",
+            description: "Optimize your bundles for maximum performance.",
             items: [
                 {
                     name: "Tree Shaking",
@@ -197,6 +236,8 @@ export const Features: React.FC = () => {
             category: "Developer Tools",
             icon: Activity,
             tag: "Tools",
+            color: "cyan",
+            description: "Visualizers and metrics to understand your build.",
             items: [
                 {
                     name: "Dependency Graph Visualization",
@@ -222,6 +263,8 @@ export const Features: React.FC = () => {
             category: "Quality & Governance",
             icon: ShieldCheck,
             tag: "Quality",
+            color: "red",
+            description: "Ensure code quality and security standards.",
             items: [
                 {
                     name: "Built-in Linting",
@@ -253,6 +296,8 @@ export const Features: React.FC = () => {
             category: "Cloud & Deployment",
             icon: Cloud,
             tag: "Cloud",
+            color: "indigo",
+            description: "Deploy to any platform with ease.",
             items: [
                 {
                     name: "Edge Deployment",
@@ -284,6 +329,8 @@ export const Features: React.FC = () => {
             category: "Plugin System",
             icon: Puzzle,
             tag: "Plugins",
+            color: "violet",
+            description: "Extensible architecture for custom needs.",
             items: [
                 {
                     name: "Custom Plugins",
@@ -309,6 +356,8 @@ export const Features: React.FC = () => {
             category: "Advanced Features",
             icon: Cpu,
             tag: "Advanced",
+            color: "teal",
+            description: "For complex enterprise requirements.",
             items: [
                 {
                     name: "Monorepo Support",
@@ -341,75 +390,77 @@ export const Features: React.FC = () => {
     return (
         <div className="animate-in fade-in duration-1000">
             {/* Hero Section */}
-            <section className="mb-24 pt-12 text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-xs font-bold mb-8">
-                    <Rocket size={14} />
-                    <span>{features.reduce((acc, cat) => acc + cat.items.length, 0)} Production-Ready Features</span>
-                </div>
-                <h1 className="text-6xl lg:text-8xl font-black font-display tracking-tighter text-[var(--text-primary)] leading-[0.95] mb-8">
-                    Complete Feature Set
-                </h1>
-                <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed mb-10">
-                    Everything you need for modern web development, from zero-config builds to production deployment
-                </p>
-                <div className="flex justify-center gap-4 flex-wrap">
-                    {features.map((cat, idx) => (
-                        <div key={idx} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--surface-color)] border border-[var(--border-color)]">
-                            <cat.icon size={16} className="text-blue-500" />
-                            <span className="text-sm font-semibold">{cat.category}</span>
-                            <StatusBadge status={cat.tag} />
-                        </div>
-                    ))}
+            <section className="relative mb-24 pt-20 pb-12 text-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 dark:from-blue-500/10 dark:via-purple-500/10 dark:to-pink-500/10" />
+                <div className="relative">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-sm font-bold mb-8 backdrop-blur-sm">
+                        <Rocket size={16} />
+                        <span>{features.reduce((acc, cat) => acc + cat.items.length, 0)} Production-Ready Features</span>
+                    </div>
+
+                    <h1 className="text-5xl md:text-7xl font-black font-display tracking-tight text-[var(--text-primary)] leading-[1.1] mb-8">
+                        Complete
+                        <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent ml-4">
+                            Feature Set
+                        </span>
+                    </h1>
+
+                    <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed mb-12">
+                        Everything you need for modern web development, from zero-config builds to production deployment.
+                        Designed to scale from hobby projects to enterprise monorepos.
+                    </p>
+
+                    <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+                        {features.map((cat, idx) => (
+                            <a
+                                key={idx}
+                                href={`#${cat.tag.toLowerCase()}`}
+                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500 hover:shadow-lg transition-all duration-300 group"
+                            >
+                                <cat.icon size={16} className={`text-${cat.color}-500 group-hover:scale-110 transition-transform`} />
+                                <span className="text-sm font-bold text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]">{cat.tag}</span>
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </section>
 
             {/* Features Grid */}
-            <div className="space-y-16">
+            <div className="space-y-24">
                 {features.map((category, idx) => (
-                    <section key={idx} className="py-12 px-8 rounded-[32px] bg-slate-900/5 dark:bg-slate-900/20 border border-[var(--border-color)] backdrop-blur-sm relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-                            <category.icon size={200} className="text-blue-500" />
-                        </div>
-
-                        <div className="flex items-center justify-between mb-10">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 rounded-2xl bg-blue-500/10 border border-blue-500/20">
-                                    <category.icon size={28} className="text-blue-500" />
+                    <section
+                        key={idx}
+                        id={category.tag.toLowerCase()}
+                        className="scroll-mt-32"
+                    >
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 px-4">
+                            <div className="flex items-start gap-4">
+                                <div className={`p-4 rounded-2xl bg-${category.color}-500/10 border border-${category.color}-500/20 shadow-lg shadow-${category.color}-500/10`}>
+                                    <category.icon size={32} className={`text-${category.color}-500`} />
                                 </div>
                                 <div>
-                                    <h2 className="text-3xl font-black font-display tracking-tight">{category.category}</h2>
-                                    <p className="text-sm text-[var(--text-secondary)] mt-1">{category.items.length} features</p>
+                                    <h2 className="text-3xl font-black font-display tracking-tight text-[var(--text-primary)] mb-2">
+                                        {category.category}
+                                    </h2>
+                                    <p className="text-lg text-[var(--text-secondary)] max-w-xl">
+                                        {category.description}
+                                    </p>
                                 </div>
                             </div>
-                            <StatusBadge status={category.tag} />
+                            <div className="hidden md:block">
+                                <StatusBadge status={`${category.items.length} Features`} color={category.color} />
+                            </div>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
                             {category.items.map((feature, featureIdx) => (
-                                <div
+                                <FeatureItem
                                     key={featureIdx}
-                                    className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] group hover:border-blue-500 transition-all hover:shadow-xl"
-                                >
-                                    <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-lg font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
-                                            {feature.name}
-                                        </h3>
-                                        <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
-                                    </div>
-                                    <p className="text-sm text-[var(--text-secondary)] mb-4 leading-relaxed">
-                                        {feature.description}
-                                    </p>
-                                    <div className="space-y-2">
-                                        <div className="p-3 rounded-xl bg-slate-900/5 dark:bg-slate-900/50 border border-[var(--border-color)]">
-                                            <div className="text-[10px] text-blue-500 font-bold uppercase tracking-wider mb-1">Implementation</div>
-                                            <div className="text-xs text-[var(--text-secondary)] leading-relaxed">{feature.implementation}</div>
-                                        </div>
-                                        <div className="p-3 rounded-xl bg-slate-900/5 dark:bg-slate-900/50 border border-[var(--border-color)]">
-                                            <div className="text-[10px] text-blue-500 font-bold uppercase tracking-wider mb-1">Source File</div>
-                                            <code className="text-xs text-emerald-500 font-mono">{feature.file}</code>
-                                        </div>
-                                    </div>
-                                </div>
+                                    name={feature.name}
+                                    description={feature.description}
+                                    implementation={feature.implementation}
+                                    file={feature.file}
+                                />
                             ))}
                         </div>
                     </section>
@@ -417,26 +468,33 @@ export const Features: React.FC = () => {
             </div>
 
             {/* Footer CTA */}
-            <section className="py-24 text-center border-t border-[var(--border-color)] mt-24">
-                <h2 className="text-4xl font-black font-display mb-6 italic tracking-tight uppercase">Ready to Build?</h2>
-                <p className="text-[var(--text-secondary)] max-w-xl mx-auto mb-10 text-lg">
-                    Get started in seconds with zero configuration and production-grade features out of the box
-                </p>
-                <div className="flex justify-center gap-4">
-                    <Link
-                        to="/docs/getting-started"
-                        className="inline-flex h-14 items-center justify-center px-12 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-500 hover:-translate-y-1 transition-all shadow-xl shadow-blue-500/25 active:scale-95"
-                    >
-                        Get Started →
-                    </Link>
-                    <a
-                        href="https://github.com/Avinash-1994/nexxo"
-                        className="inline-flex h-14 items-center justify-center px-12 rounded-2xl border border-[var(--border-color)] font-bold hover:bg-white dark:hover:bg-slate-800 transition-all active:scale-95"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        View on GitHub
-                    </a>
+            <section className="py-24 text-center border-t border-[var(--border-color)] mt-32 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
+                <div className="relative">
+                    <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-[var(--text-primary)]">
+                        Ready to Build?
+                    </h2>
+                    <p className="text-xl text-[var(--text-secondary)] max-w-xl mx-auto mb-12 leading-relaxed">
+                        Get started in seconds with zero configuration and production-grade features out of the box.
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/docs/getting-started"
+                            className="group px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:shadow-2xl hover:shadow-blue-500/50 hover:scale-105 transition-all duration-300 active:scale-95 flex items-center gap-2"
+                        >
+                            Get Started
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                        <a
+                            href="https://github.com/Avinash-1994/nexxo"
+                            className="px-10 py-5 border-2 border-[var(--border-color)] font-bold rounded-2xl hover:bg-[var(--surface-color)] hover:border-blue-500 transition-all duration-300 active:scale-95 flex items-center gap-2"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Code2 size={20} />
+                            View on GitHub
+                        </a>
+                    </div>
                 </div>
             </section>
         </div>
