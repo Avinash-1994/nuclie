@@ -82,7 +82,7 @@ it('should always produce valid JavaScript from valid input', () => {
   - Cold build speed (< 5 seconds)
   - Warm build speed (20% faster than cold)
 
-**Test Count:** **10 load/stress tests**
+**Test Count:** **11 load/stress tests**
 
 **Example:**
 ```typescript
