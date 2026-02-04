@@ -1,6 +1,0 @@
-tests/fixtures/**
-node_modules/**
-dist/**
-*.min.js
-coverage/**
-.nexxo-cache/**

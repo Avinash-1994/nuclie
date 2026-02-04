@@ -4,6 +4,17 @@ import nexxoGovernance from 'eslint-plugin-nexxo-governance';
 import js from '@eslint/js';
 
 export default [
+    // Ignore patterns (replaces .eslintignore)
+    {
+        ignores: [
+            'tests/fixtures/**',
+            'node_modules/**',
+            'dist/**',
+            '*.min.js',
+            'coverage/**',
+            '.nexxo-cache/**'
+        ]
+    },
     js.configs.recommended,
     {
         files: ['**/*.ts', '**/*.tsx'],
@@ -59,6 +70,9 @@ export default [
                 ErrorEvent: 'readonly',
                 PromiseRejectionEvent: 'readonly',
                 requestAnimationFrame: 'readonly',
+                // Modern Web APIs
+                AbortController: 'readonly',
+                EventTarget: 'readonly',
                 // Jest globals
                 describe: 'readonly',
                 it: 'readonly',
