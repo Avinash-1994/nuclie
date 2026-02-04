@@ -152,7 +152,6 @@
     "playwright": "^1.58.0",
     "pngjs": "^7.0.0",
     "puppeteer": "^24.34.0",
-    "rocksdb": "^5.2.1",
     "rolldown": "^1.0.0-rc.1",
     "rollup": "^4.55.1",
     "svelte": "^5.43.14",
