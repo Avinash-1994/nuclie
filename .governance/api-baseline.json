@@ -100,7 +100,15 @@
     {
       "name": "log",
       "type": "const"
+    },
+    {
+      "name": "adaptPlugin",
+      "type": "const"
+    },
+    {
+      "name": "CommunityPlugin",
+      "type": "const"
     }
   ],
-  "timestamp": "2026-01-14T00:00:00.000Z"
+  "timestamp": "2026-01-30T07:30:00.000Z"
 }

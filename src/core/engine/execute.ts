@@ -93,6 +93,49 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                 }
             }
 
+            // Phase 3.5: TREE SHAKING (Production Only - Before Bundling)
+            if (isProd && moduleResults.size > 0) {
+                const { AutoFixEngine } = await import('../../fix/ast-transforms.js');
+                const autoFix = new AutoFixEngine();
+
+                // Collect modules with REAL paths from dependency graph
+                const modulesForShaking = new Map<string, string>();
+                const idToPath = new Map<string, string>();
+
+                for (const [modId, result] of moduleResults) {
+                    // Get actual file path from graph
+                    const node = ctx.graph.nodes.get(modId);
+                    if (node && node.path) {
+                        modulesForShaking.set(node.path, result.code);
+                        idToPath.set(modId, node.path);
+                    }
+                }
+
+                if (modulesForShaking.size > 0) {
+                    // Perform tree shaking with real paths
+                    const shakenResults = autoFix.treeShake(modulesForShaking);
+
+                    // Apply shaken code back to moduleResults using ID mapping
+                    for (const [modId, result] of moduleResults) {
+                        const realPath = idToPath.get(modId);
+                        if (realPath) {
+                            const shakenResult = shakenResults.get(realPath);
+                            if (shakenResult?.success && shakenResult.code) {
+                                const savings = result.code.length - shakenResult.code.length;
+                                if (savings > 0) {
+                                    moduleResults.set(modId, {
+                                        code: shakenResult.code,
+                                        originalSize: result.originalSize
+                                    });
+                                    explainReporter.report('execute', 'tree-shake',
+                                        `${realPath}: Removed ${shakenResult.changes.length} unused exports, saved ${savings} bytes`);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // Phase 2: Assemble with Short IDs
             for (const modId of chunk.modules) {
                 const res = moduleResults.get(modId);

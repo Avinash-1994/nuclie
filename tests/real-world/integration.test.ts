@@ -1,90 +1,33 @@
 import { describe, it, expect, beforeAll } from '@jest/globals';
 import { buildProject } from '../../src/build/index.js';
-import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
 describe('Real-World Project Integration Tests', () => {
-    const realWorldDir = path.resolve(process.cwd(), 'tests/fixtures/real-world');
+  const realWorldDir = path.resolve(process.cwd(), 'tests/fixtures/real-world');
 
-    beforeAll(() => {
-        if (!fs.existsSync(realWorldDir)) {
-            fs.mkdirSync(realWorldDir, { recursive: true });
-        }
-    });
+  beforeAll(() => {
+    if (!fs.existsSync(realWorldDir)) {
+      fs.mkdirSync(realWorldDir, { recursive: true });
+    }
+  });
 
-    describe('TanStack Table', () => {
-        const projectPath = path.join(realWorldDir, 'tanstack-table');
+  // Note: External repo tests (TanStack Table, React Query) removed
+  // They require cloning and installing dependencies which is too heavy for CI
+  // Use simplified real-world tests below instead
 
-        // Skip this test - it requires cloning external repo and installing dependencies
-        // which is too heavy for CI/CD
-        it.skip('should build without errors', async () => {
-            if (!fs.existsSync(projectPath)) {
-                console.warn('TanStack Table not available, skipping test');
-                return;
-            }
+  describe('Simplified Real-World Test', () => {
+    // For CI/CD, use a simplified version that doesn't require cloning
+    it('should build a complex React component', async () => {
+      const projectPath = path.join(realWorldDir, 'complex-component');
 
-            const result = await buildProject({
-                root: projectPath,
-                entry: ['src/index.ts'],
-                outDir: 'dist-nexxo'
-            });
+      if (!fs.existsSync(projectPath)) {
+        fs.mkdirSync(path.join(projectPath, 'src'), { recursive: true });
 
-            expect(result.errors).toHaveLength(0);
-            expect(result.warnings.length).toBeLessThan(10);
-        }, 30000);
-
-        it.skip('should produce valid output', async () => {
-            if (!fs.existsSync(projectPath)) {
-                return;
-            }
-
-            const distPath = path.join(projectPath, 'dist-nexxo');
-            if (!fs.existsSync(distPath)) {
-                return;
-            }
-
-            const files = fs.readdirSync(distPath);
-            expect(files.length).toBeGreaterThan(0);
-
-            // Should have JS files
-            const jsFiles = files.filter(f => f.endsWith('.js'));
-            expect(jsFiles.length).toBeGreaterThan(0);
-        });
-    });
-
-    describe('React Query', () => {
-        const projectPath = path.join(realWorldDir, 'react-query');
-
-        // Skip this test - it requires cloning external repo and installing dependencies
-        it.skip('should build without errors', async () => {
-            if (!fs.existsSync(projectPath)) {
-                console.warn('React Query not available, skipping test');
-                return;
-            }
-
-            const result = await buildProject({
-                root: projectPath,
-                entry: ['src/index.ts'],
-                outDir: 'dist-nexxo'
-            });
-
-            expect(result.errors).toHaveLength(0);
-        }, 30000);
-    });
-
-    describe('Simplified Real-World Test', () => {
-        // For CI/CD, use a simplified version that doesn't require cloning
-        it('should build a complex React component', async () => {
-            const projectPath = path.join(realWorldDir, 'complex-component');
-
-            if (!fs.existsSync(projectPath)) {
-                fs.mkdirSync(path.join(projectPath, 'src'), { recursive: true });
-
-                // Create a complex component with hooks, context, etc.
-                fs.writeFileSync(
-                    path.join(projectPath, 'src/ComplexComponent.tsx'),
-                    `import React, { useState, useEffect, useContext, createContext } from 'react';
+        // Create a complex component with hooks, context, etc.
+        fs.writeFileSync(
+          path.join(projectPath, 'src/ComplexComponent.tsx'),
+          `import React, { useState, useEffect, useContext, createContext } from 'react';
 
 const ThemeContext = createContext({ theme: 'light' });
 
@@ -133,65 +76,65 @@ export const ComplexComponent: React.FC<Props> = ({ title, items, onSelect }) =>
     </div>
   );
 };`
-                );
+        );
 
-                fs.writeFileSync(
-                    path.join(projectPath, 'src/index.ts'),
-                    `export { ComplexComponent } from './ComplexComponent';`
-                );
+        fs.writeFileSync(
+          path.join(projectPath, 'src/index.ts'),
+          `export { ComplexComponent } from './ComplexComponent';`
+        );
 
-                fs.writeFileSync(
-                    path.join(projectPath, 'package.json'),
-                    JSON.stringify({
-                        name: 'complex-component',
-                        type: 'module',
-                        dependencies: {
-                            'react': '^18.0.0',
-                            '@types/react': '^18.0.0'
-                        }
-                    }, null, 2)
-                );
+        fs.writeFileSync(
+          path.join(projectPath, 'package.json'),
+          JSON.stringify({
+            name: 'complex-component',
+            type: 'module',
+            dependencies: {
+              'react': '^18.0.0',
+              '@types/react': '^18.0.0'
             }
+          }, null, 2)
+        );
+      }
 
-            const result = await buildProject({
-                root: projectPath,
-                entry: ['src/index.ts'],
-                outDir: 'dist',
-                minify: true
-            });
+      const result = await buildProject({
+        root: projectPath,
+        entry: ['src/index.ts'],
+        outDir: 'dist',
+        minify: true
+      });
 
-            expect(result.success).toBe(true);
-            expect(result.errors).toHaveLength(0);
+      expect(result.success).toBe(true);
+      expect(result.errors).toHaveLength(0);
 
-            // Verify output exists
-            const distPath = path.join(projectPath, 'dist');
-            if (fs.existsSync(distPath)) {
-                const files = fs.readdirSync(distPath);
-                const jsFiles = files.filter(f => f.endsWith('.js'));
+      // Verify output exists
+      const distPath = path.join(projectPath, 'dist');
+      if (fs.existsSync(distPath)) {
+        const files = fs.readdirSync(distPath);
+        const jsFiles = files.filter(f => f.endsWith('.js'));
 
-                if (jsFiles.length > 0) {
-                    // Read the bundle
-                    const bundle = fs.readFileSync(
-                        path.join(distPath, jsFiles[0]),
-                        'utf-8'
-                    );
+        if (jsFiles.length > 0) {
+          // Read the bundle
+          const bundle = fs.readFileSync(
+            path.join(distPath, jsFiles[0]),
+            'utf-8'
+          );
 
-                    // Should contain React hooks
-                    expect(bundle).toContain('useState');
-                    expect(bundle).toContain('useEffect');
-                }
-            }
-        }, 15000);
+          // Should contain React hooks
+          expect(bundle).toContain('useState');
+          expect(bundle).toContain('useEffect');
+        }
+      }
+    }, 15000);
 
-        it('should handle TypeScript generics', async () => {
-            const projectPath = path.join(realWorldDir, 'ts-generics');
+    it('should handle TypeScript generics', async () => {
+      const projectPath = path.join(realWorldDir, 'ts-generics');
 
-            if (!fs.existsSync(projectPath)) {
-                fs.mkdirSync(path.join(projectPath, 'src'), { recursive: true });
+      if (!fs.existsSync(projectPath)) {
+        fs.mkdirSync(path.join(projectPath, 'src'), { recursive: true });
 
-                fs.writeFileSync(
-                    path.join(projectPath, 'src/utils.ts'),
-                    `export function identity<T>(value: T): T {
+        fs.writeFileSync(
+          path.join(projectPath, 'src/utils.ts'),
+          `export function identity<T>(value: T): T {
   return value;
 }
 
@@ -216,41 +159,41 @@ export interface Result<T, E> {
 export function createResult<T, E>(value: T): Result<T, E> {
   return { ok: true, value };
 }`
-                );
+        );
 
-                fs.writeFileSync(
-                    path.join(projectPath, 'package.json'),
-                    JSON.stringify({ name: 'ts-generics', type: 'module' }, null, 2)
-                );
-            }
+        fs.writeFileSync(
+          path.join(projectPath, 'package.json'),
+          JSON.stringify({ name: 'ts-generics', type: 'module' }, null, 2)
+        );
+      }
 
-            const result = await buildProject({
-                root: projectPath,
-                entry: ['src/utils.ts'],
-                outDir: 'dist'
-            });
+      const result = await buildProject({
+        root: projectPath,
+        entry: ['src/utils.ts'],
+        outDir: 'dist'
+      });
 
-            expect(result.success).toBe(true);
-            expect(result.errors).toHaveLength(0);
+      expect(result.success).toBe(true);
+      expect(result.errors).toHaveLength(0);
 
-            const distPath = path.join(projectPath, 'dist');
-            if (fs.existsSync(distPath)) {
-                const files = fs.readdirSync(distPath).filter(f => f.endsWith('.js'));
-                if (files.length > 0) {
-                    const output = fs.readFileSync(
-                        path.join(distPath, files[0]),
-                        'utf-8'
-                    );
+      const distPath = path.join(projectPath, 'dist');
+      if (fs.existsSync(distPath)) {
+        const files = fs.readdirSync(distPath).filter(f => f.endsWith('.js'));
+        if (files.length > 0) {
+          const output = fs.readFileSync(
+            path.join(distPath, files[0]),
+            'utf-8'
+          );
 
-                    // Type annotations should be removed
-                    expect(output).not.toContain('<T>');
-                    expect(output).not.toContain(': T');
+          // Type annotations should be removed
+          expect(output).not.toContain('<T>');
+          expect(output).not.toContain(': T');
 
-                    // But code should remain
-                    expect(output).toContain('identity');
-                    expect(output).toContain('Container');
-                }
-            }
-        });
+          // But code should remain
+          expect(output).toContain('identity');
+          expect(output).toContain('Container');
+        }
+      }
     });
+  });
 });
