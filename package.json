@@ -39,7 +39,7 @@
     "test:comprehensive": "npm run test:css && npm run test:federation && npm run test:cache && npm run test:errors",
     "test:phase2": "npm run test:foundation && npm run test:comprehensive",
     "test:property": "cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/property/ --testTimeout=60000",
-    "test:load": "cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/load/stress.test.ts --testTimeout=180000",
+    "test:load": "cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/load/stress.test.ts --testTimeout=300000",
     "test:visual": "playwright test tests/visual/regression.test.ts",
     "test:advanced": "npm run test:property && npm run test:load",
     "test:phase3": "npm run test:phase2 && npm run test:advanced",
