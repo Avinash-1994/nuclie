@@ -205,36 +205,41 @@ describe('Property-Based: Universal Transformer', () => {
      * Malformed code should produce meaningful error messages.
      */
     it('should handle invalid code gracefully', async () => {
-        await fc.assert(
-            fc.asyncProperty(
-                fc.oneof(
-                    fc.constant('const x = {{{'),
-                    fc.constant('function ((('),
-                    fc.constant('import from'),
-                    fc.constant('const 123abc = 1;')
-                ),
-                async (invalidCode) => {
-                    try {
-                        await transformer.transform({
-                            filePath: path.join(process.cwd(), 'test.js'),
-                            code: invalidCode,
-                            framework: 'vanilla',
-                            root: process.cwd(),
-                            isDev: false
-                        });
-                        // If it doesn't throw, that's also acceptable
-                        return true;
-                    } catch (error: any) {
-                        // Error should have a message
-                        expect(error.message).toBeDefined();
-                        expect(typeof error.message).toBe('string');
-                        expect(error.message.length).toBeGreaterThan(0);
-                        return true;
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        try {
+            await fc.assert(
+                fc.asyncProperty(
+                    fc.oneof(
+                        fc.constant('const x = {{{'),
+                        fc.constant('function ((('),
+                        fc.constant('import from'),
+                        fc.constant('const 123abc = 1;')
+                    ),
+                    async (invalidCode) => {
+                        try {
+                            await transformer.transform({
+                                filePath: path.join(process.cwd(), 'test.js'),
+                                code: invalidCode,
+                                framework: 'vanilla',
+                                root: process.cwd(),
+                                isDev: false
+                            });
+                            // If it doesn't throw, that's also acceptable
+                            return true;
+                        } catch (error: any) {
+                            // Error should have a message
+                            expect(error.message).toBeDefined();
+                            expect(typeof error.message).toBe('string');
+                            expect(error.message.length).toBeGreaterThan(0);
+                            return true;
+                        }
                     }
-                }
-            ),
-            { numRuns: 10 }
-        );
+                ),
+                { numRuns: 10 }
+            );
+        } finally {
+            consoleErrorSpy.mockRestore();
+        }
     }, 15000);
 
     /**
