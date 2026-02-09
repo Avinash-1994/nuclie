@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest, beforeAll } from '@jest/globals';
 import { buildProject } from '../../src/build/index.js';
 import path from 'path';
 import fs from 'fs';
@@ -39,6 +39,7 @@ function test() {
                 );
             }
 
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
             try {
                 const result = await buildProject({
                     root: projectPath,
@@ -50,6 +51,8 @@ function test() {
             } catch (error) {
                 // Build threw error - also acceptable for malformed code
                 expect(error).toBeDefined();
+            } finally {
+                consoleErrorSpy.mockRestore();
             }
         });
 
@@ -373,15 +376,20 @@ console.log(value);`
                 );
             }
 
-            // Try to write to invalid path (should handle gracefully)
-            const result = await buildProject({
-                root: projectPath,
-                entry: ['src/main.ts'],
-                outDir: '/invalid/path/that/does/not/exist'
-            });
+            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+            try {
+                // Try to write to invalid path (should handle gracefully)
+                const result = await buildProject({
+                    root: projectPath,
+                    entry: ['src/main.ts'],
+                    outDir: '/invalid/path/that/does/not/exist'
+                });
 
-            // Should either succeed or fail gracefully
-            expect(result).toBeDefined();
+                // Should either succeed or fail gracefully
+                expect(result).toBeDefined();
+            } finally {
+                consoleErrorSpy.mockRestore();
+            }
         });
     });
 
