@@ -6,7 +6,7 @@
  */
 
 import { test, expect, Page } from '@playwright/test';
-import { startDevServer } from '../../src/dev/server.js';
+import { startDevServer } from '../../src/dev/devServer.js';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
@@ -51,8 +51,7 @@ test.beforeAll(async () => {
     try {
         serverInstance = await startDevServer({
             root: testProjectPath,
-            port: 5174,
-            open: false
+            port: 5174
         });
         serverUrl = 'http://localhost:5174';
     } catch (error) {
@@ -363,3 +362,4 @@ test.describe('Visual Regression: Accessibility', () => {
         expect(focusedElement).toBeTruthy();
     });
 });
+

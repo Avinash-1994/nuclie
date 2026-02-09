@@ -10,6 +10,7 @@ export default {
         '/node_modules/',
         '/tests/e2e/',
         '/tests/fixtures/',  // Ignore all fixture test files
+        '/tests/visual/',  // Visual tests use Playwright, not Jest
         '/tests/module7_.*\\.test\\.ts$'  // These use custom Nexxo test API, not Jest
     ],
     roots: ['<rootDir>/tests', '<rootDir>/src'], // Run tests in both directories
@@ -26,7 +27,7 @@ export default {
         }],
     },
     moduleNameMapper: {
-        '^(\\.{1,2}/.*)\\.js$': '$1',
+        '^(\\.\\.?/.*)\\.js$': '$1',  // Fixed: matches ./ and ../ imports
     },
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',
