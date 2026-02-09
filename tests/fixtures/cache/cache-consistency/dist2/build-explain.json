@@ -3,49 +3,49 @@
     "stage": "init",
     "decision": "initialize",
     "reason": "Starting build initialization",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:json@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:asset@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:js-transform@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:postcss@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:linker@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:html@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:static@1.0.0 (js)",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "init",
@@ -65,22 +65,22 @@
         "cssModules": false
       }
     },
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "init",
     "decision": "performance",
-    "reason": "Initialization took 0.17ms",
+    "reason": "Initialization took 0.12ms",
     "data": {
-      "duration": 0.1693000000000211
+      "duration": 0.12159999999994398
     },
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "fingerprint",
     "decision": "start",
     "reason": "Computing input fingerprint",
-    "timestamp": 1770614152774
+    "timestamp": 1770623529880
   },
   {
     "stage": "fingerprint",
@@ -89,61 +89,61 @@
     "data": {
       "inputHash": "4682de0ed4312611"
     },
-    "timestamp": 1770614152775
+    "timestamp": 1770623529881
   },
   {
     "stage": "fingerprint",
     "decision": "performance",
-    "reason": "Fingerprinting took 1.09ms",
+    "reason": "Fingerprinting took 1.07ms",
     "data": {
-      "duration": 1.0909999999998945
+      "duration": 1.0720000000001164
     },
-    "timestamp": 1770614152775
+    "timestamp": 1770623529881
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nexxo:asset:load (1770614150457.26ms)",
-    "timestamp": 1770614152775
+    "reason": "Executed nexxo:asset:load (1770623526173.54ms)",
+    "timestamp": 1770623529881
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nexxo:json:load (1770614150457.22ms)",
-    "timestamp": 1770614152775
+    "reason": "Executed nexxo:json:load (1770623526173.51ms)",
+    "timestamp": 1770623529881
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nexxo:asset:load (1770614150457.80ms)",
-    "timestamp": 1770614152792
+    "reason": "Executed nexxo:asset:load (1770623526173.39ms)",
+    "timestamp": 1770623529898
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nexxo:json:load (1770614150457.76ms)",
-    "timestamp": 1770614152792
+    "reason": "Executed nexxo:json:load (1770623526173.35ms)",
+    "timestamp": 1770623529898
   },
   {
     "stage": "graph",
     "decision": "attached",
     "reason": "Dependency graph attached",
-    "timestamp": 1770614152792
+    "timestamp": 1770623529898
   },
   {
     "stage": "graph",
     "decision": "performance",
-    "reason": "Dependency Graph took 17.09ms",
+    "reason": "Dependency Graph took 17.78ms",
     "data": {
-      "duration": 17.08759999999984
+      "duration": 17.77890000000025
     },
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "plan",
     "decision": "start",
     "reason": "Starting build planning",
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "plan",
@@ -153,22 +153,22 @@
       "planId": "98d25eb964019691",
       "chunkCount": 1
     },
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "plan",
     "decision": "performance",
-    "reason": "Build Planning took 0.24ms",
+    "reason": "Build Planning took 0.22ms",
     "data": {
-      "duration": 0.24420000000009168
+      "duration": 0.22339999999985594
     },
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "parallel_plan",
     "decision": "start",
     "reason": "Planning parallel execution",
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "parallel_plan",
@@ -177,120 +177,120 @@
     "data": {
       "groups": 1
     },
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "parallel_plan",
     "decision": "performance",
     "reason": "Parallel Planning took 0.01ms",
     "data": {
-      "duration": 0.005099999999856664
+      "duration": 0.005300000000261207
     },
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "determinism",
     "decision": "check",
     "reason": "Checking determinism for mode: production",
-    "timestamp": 1770614152792
+    "timestamp": 1770623529899
   },
   {
     "stage": "determinism",
     "decision": "pass",
     "reason": "Determinism checks passed",
-    "timestamp": 1770614152793
+    "timestamp": 1770623529899
   },
   {
     "stage": "determinism",
     "decision": "performance",
     "reason": "Determinism Check took 0.01ms",
     "data": {
-      "duration": 0.010999999999967258
+      "duration": 0.010499999999865395
     },
-    "timestamp": 1770614152793
+    "timestamp": 1770623529899
   },
   {
     "stage": "execute",
     "decision": "start",
     "reason": "Starting optimized execution",
-    "timestamp": 1770614152793
+    "timestamp": 1770623529899
   },
   {
     "stage": "optimize",
     "decision": "start",
     "reason": "Starting Global Native Optimization",
-    "timestamp": 1770614152808
+    "timestamp": 1770623529938
   },
   {
     "stage": "optimize",
     "decision": "complete",
     "reason": "Optimized assets/entry2.30501056.bundle.js: 1430 -> 1430 bytes (0.00% savings)",
-    "timestamp": 1770614152808
+    "timestamp": 1770623529938
   },
   {
     "stage": "execute",
     "decision": "performance",
-    "reason": "Execution took 15.21ms",
+    "reason": "Execution took 39.03ms",
     "data": {
-      "duration": 15.211899999999787
+      "duration": 39.0287000000003
     },
-    "timestamp": 1770614152808
+    "timestamp": 1770623529938
   },
   {
     "stage": "optimize",
     "decision": "start",
     "reason": "Starting parallel optimization passes",
-    "timestamp": 1770614152808
+    "timestamp": 1770623529938
   },
   {
     "stage": "optimize",
     "decision": "minify",
     "reason": "Minifying assets/entry2.30501056.bundle.js",
-    "timestamp": 1770614152808
+    "timestamp": 1770623529938
   },
   {
     "stage": "optimize",
     "decision": "complete",
     "reason": "Optimization finished. 3 artifacts generated.",
-    "timestamp": 1770614152821
+    "timestamp": 1770623529943
   },
   {
     "stage": "optimize",
     "decision": "performance",
-    "reason": "Optimization took 13.45ms",
+    "reason": "Optimization took 4.75ms",
     "data": {
-      "duration": 13.44970000000012
+      "duration": 4.747600000000148
     },
-    "timestamp": 1770614152821
+    "timestamp": 1770623529943
   },
   {
     "stage": "emit",
     "decision": "start",
     "reason": "Starting emit phase",
-    "timestamp": 1770614152821
+    "timestamp": 1770623529943
   },
   {
     "stage": "emit",
     "decision": "writing",
     "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\assets\\entry2.30501056.bundle.js",
-    "timestamp": 1770614152822
+    "timestamp": 1770623529944
   },
   {
     "stage": "emit",
     "decision": "writing",
     "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\assets\\entry2.30501056.bundle.js.gz",
-    "timestamp": 1770614152823
+    "timestamp": 1770623529945
   },
   {
     "stage": "emit",
     "decision": "writing",
     "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\assets\\entry2.30501056.bundle.js.br",
-    "timestamp": 1770614152824
+    "timestamp": 1770623529945
   },
   {
     "stage": "emit",
     "decision": "writing",
     "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\index.html",
-    "timestamp": 1770614152825
+    "timestamp": 1770623529946
   }
 ]
