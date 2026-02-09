@@ -5,6 +5,7 @@
  * that traditional example-based testing might miss.
  */
 
+import { jest } from '@jest/globals';
 import fc from 'fast-check';
 import { UniversalTransformer } from '../../src/core/universal-transformer.js';
 import * as acorn from 'acorn';
@@ -287,35 +288,42 @@ describe('Property-Based: Universal Transformer', () => {
      * Transformed code should not be unreasonably larger than input.
      */
     it('should not produce unreasonably large output', async () => {
-        await fc.assert(
-            fc.asyncProperty(
-                fc.string({ minLength: 10, maxLength: 500 }).filter(s => {
-                    // Filter to valid-ish JavaScript
-                    return /^[a-zA-Z0-9\s;=(){}[\]"'.,]*$/.test(s);
-                }),
-                async (code) => {
-                    try {
-                        const result = await transformer.transform({
-                            filePath: path.join(process.cwd(), 'test.js'),
-                            code,
-                            framework: 'vanilla',
-                            root: process.cwd(),
-                            isDev: false
-                        });
+        // Suppress console.error for this test as we expect transformer errors on random input
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
 
-                        // Output should not be more than 20x input size (lenient)
-                        const sizeRatio = result.code.length / code.length;
-                        expect(sizeRatio).toBeLessThan(20);
+        try {
+            await fc.assert(
+                fc.asyncProperty(
+                    fc.string({ minLength: 10, maxLength: 500 }).filter(s => {
+                        // Filter to valid-ish JavaScript
+                        return /^[a-zA-Z0-9\s;=(){}[\]"'.,]*$/.test(s);
+                    }),
+                    async (code) => {
+                        try {
+                            const result = await transformer.transform({
+                                filePath: path.join(process.cwd(), 'test.js'),
+                                code,
+                                framework: 'vanilla',
+                                root: process.cwd(),
+                                isDev: false
+                            });
 
-                        return true;
-                    } catch {
-                        // Invalid code is acceptable
-                        return true;
+                            // Output should not be more than 20x input size (lenient)
+                            const sizeRatio = result.code.length / code.length;
+                            expect(sizeRatio).toBeLessThan(20);
+
+                            return true;
+                        } catch {
+                            // Invalid code is acceptable
+                            return true;
+                        }
                     }
-                }
-            ),
-            { numRuns: 30 }
-        );
+                ),
+                { numRuns: 30 }
+            );
+        } finally {
+            consoleErrorSpy.mockRestore();
+        }
     }, 30000);
 
     // Simple sanity test
