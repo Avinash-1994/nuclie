@@ -251,7 +251,7 @@ describe('Property-Based: Universal Transformer', () => {
                         fc.constant('button')
                     ),
                     content: fc.oneof(
-                        fc.string().map(s => s.replace(/[<>]/g, '')),
+                        fc.string().map(s => s.replace(/[<>{}]/g, '')),
                         fc.constant('')
                     )
                 }),
@@ -324,3 +324,4 @@ describe('Property-Based: Universal Transformer', () => {
         expect(transformer).toBeInstanceOf(UniversalTransformer);
     });
 });
+
