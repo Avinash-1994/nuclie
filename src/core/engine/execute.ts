@@ -94,38 +94,42 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
             }
 
             // Phase 3.5: TREE SHAKING (Production Only - Before Bundling)
-            console.log('[DEBUG] Tree shaking check:', { isProd, moduleResultsSize: moduleResults.size, mode: ctx.mode });
             if (isProd && moduleResults.size > 0) {
-                console.log('[DEBUG] Starting tree shaking...');
                 const { AutoFixEngine } = await import('../../fix/ast-transforms.js');
                 const autoFix = new AutoFixEngine();
 
-                // Collect modules for tree shaking
+                // Collect modules with REAL paths from dependency graph
                 const modulesForShaking = new Map<string, string>();
+                const idToPath = new Map<string, string>();
+
                 for (const [modId, result] of moduleResults) {
-                    modulesForShaking.set(modId, result.code);
+                    // Get actual file path from graph
+                    const node = ctx.graph.nodes.get(modId);
+                    if (node && node.path) {
+                        modulesForShaking.set(node.path, result.code);
+                        idToPath.set(modId, node.path);
+                    }
                 }
 
-                console.log('[DEBUG] Modules for shaking:', Array.from(modulesForShaking.keys()));
+                if (modulesForShaking.size > 0) {
+                    // Perform tree shaking with real paths
+                    const shakenResults = autoFix.treeShake(modulesForShaking);
 
-                // Perform tree shaking
-                const shakenResults = autoFix.treeShake(modulesForShaking);
-
-                console.log('[DEBUG] Shaken results:', shakenResults.size);
-
-                // Apply shaken code back to moduleResults
-                for (const [modId, shakenResult] of shakenResults) {
-                    if (shakenResult.success && shakenResult.code) {
-                        const original = moduleResults.get(modId);
-                        if (original) {
-                            const savings = original.code.length - shakenResult.code.length;
-                            if (savings > 0) {
-                                moduleResults.set(modId, {
-                                    code: shakenResult.code,
-                                    originalSize: original.originalSize
-                                });
-                                explainReporter.report('execute', 'tree-shake',
-                                    `Removed ${shakenResult.changes.length} unused exports from ${modId}, saved ${savings} bytes`);
+                    // Apply shaken code back to moduleResults using ID mapping
+                    for (const [modId, result] of moduleResults) {
+                        const realPath = idToPath.get(modId);
+                        if (realPath) {
+                            const shakenResult = shakenResults.get(realPath);
+                            if (shakenResult?.success && shakenResult.code) {
+                                const savings = result.code.length - shakenResult.code.length;
+                                if (savings > 0) {
+                                    moduleResults.set(modId, {
+                                        code: shakenResult.code,
+                                        originalSize: result.originalSize
+                                    });
+                                    explainReporter.report('execute', 'tree-shake',
+                                        `${realPath}: Removed ${shakenResult.changes.length} unused exports, saved ${savings} bytes`);
+                                }
                             }
                         }
                     }
