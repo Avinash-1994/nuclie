@@ -93,6 +93,45 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                 }
             }
 
+            // Phase 3.5: TREE SHAKING (Production Only - Before Bundling)
+            console.log('[DEBUG] Tree shaking check:', { isProd, moduleResultsSize: moduleResults.size, mode: ctx.mode });
+            if (isProd && moduleResults.size > 0) {
+                console.log('[DEBUG] Starting tree shaking...');
+                const { AutoFixEngine } = await import('../../fix/ast-transforms.js');
+                const autoFix = new AutoFixEngine();
+
+                // Collect modules for tree shaking
+                const modulesForShaking = new Map<string, string>();
+                for (const [modId, result] of moduleResults) {
+                    modulesForShaking.set(modId, result.code);
+                }
+
+                console.log('[DEBUG] Modules for shaking:', Array.from(modulesForShaking.keys()));
+
+                // Perform tree shaking
+                const shakenResults = autoFix.treeShake(modulesForShaking);
+
+                console.log('[DEBUG] Shaken results:', shakenResults.size);
+
+                // Apply shaken code back to moduleResults
+                for (const [modId, shakenResult] of shakenResults) {
+                    if (shakenResult.success && shakenResult.code) {
+                        const original = moduleResults.get(modId);
+                        if (original) {
+                            const savings = original.code.length - shakenResult.code.length;
+                            if (savings > 0) {
+                                moduleResults.set(modId, {
+                                    code: shakenResult.code,
+                                    originalSize: original.originalSize
+                                });
+                                explainReporter.report('execute', 'tree-shake',
+                                    `Removed ${shakenResult.changes.length} unused exports from ${modId}, saved ${savings} bytes`);
+                            }
+                        }
+                    }
+                }
+            }
+
             // Phase 2: Assemble with Short IDs
             for (const modId of chunk.modules) {
                 const res = moduleResults.get(modId);
