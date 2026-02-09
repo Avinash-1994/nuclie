@@ -51,10 +51,15 @@ async function runTest() {
     if (!result1.success) console.error(result1.error);
     assert.ok(result1.success, 'Build should succeed');
     assert.ok(result1.fingerprint, 'Build should have a fingerprint');
-    assert.equal(result1.artifacts?.length, 1, 'Should emit 1 artifact (bundled)');
+    assert.ok(result1.artifacts?.length === 1 || result1.artifacts?.length === 2, 'Should emit 1 (bundle) or 2 (bundle+map) artifacts');
 
-    // Check output file
-    const outfile = path.join(TEST_DIR, 'dist', 'entry.bundle.js');
+    // Check output file (now in assets/ with content hash)
+    const assetsDir = path.join(TEST_DIR, 'dist', 'assets');
+    const files = await fs.readdir(assetsDir);
+    const bundleFile = files.find(f => f.includes('entry') && f.endsWith('.bundle.js'));
+    assert.ok(bundleFile, 'Should have entry bundle file in assets/');
+
+    const outfile = path.join(assetsDir, bundleFile);
     const content1 = await fs.readFile(outfile, 'utf-8');
     assert.ok(content1.includes('bar'), 'Output should contain module content');
 
