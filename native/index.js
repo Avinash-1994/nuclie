@@ -107,36 +107,36 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (process.config?.variables?.shlib_suffix === 'dll.a' || process.config?.variables?.node_target_type === 'shared_library') {
         try {
-          return require('./nexxo_native.win32-x64-gnu.node')
-        } catch (e) {
-          loadErrors.push(e)
+        return require('./nexxo_native.win32-x64-gnu.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        const binding = require('nexxo-native-win32-x64-gnu')
+        const bindingPackageVersion = require('nexxo-native-win32-x64-gnu/package.json').version
+        if (bindingPackageVersion !== '0.1.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.1.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
-        try {
-          const binding = require('nexxo-native-win32-x64-gnu')
-          const bindingPackageVersion = require('nexxo-native-win32-x64-gnu/package.json').version
-          if (bindingPackageVersion !== '0.1.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
-            throw new Error(`Native binding package version mismatch, expected 0.1.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
-          }
-          return binding
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return binding
+      } catch (e) {
+        loadErrors.push(e)
+      }
       } else {
         try {
-          return require('./nexxo_native.win32-x64-msvc.node')
-        } catch (e) {
-          loadErrors.push(e)
+        return require('./nexxo_native.win32-x64-msvc.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        const binding = require('nexxo-native-win32-x64-msvc')
+        const bindingPackageVersion = require('nexxo-native-win32-x64-msvc/package.json').version
+        if (bindingPackageVersion !== '0.1.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
+          throw new Error(`Native binding package version mismatch, expected 0.1.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
-        try {
-          const binding = require('nexxo-native-win32-x64-msvc')
-          const bindingPackageVersion = require('nexxo-native-win32-x64-msvc/package.json').version
-          if (bindingPackageVersion !== '0.1.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
-            throw new Error(`Native binding package version mismatch, expected 0.1.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
-          }
-          return binding
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return binding
+      } catch (e) {
+        loadErrors.push(e)
+      }
       }
     } else if (process.arch === 'ia32') {
       try {
@@ -555,36 +555,21 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
 }
 
 if (!nativeBinding) {
-  // Provide fallback mock implementation instead of throwing
-  if (process.env.DEBUG) console.log('[DEBUG] Native worker not found, using JS fallback');
-  const crypto = require('crypto');
-  nativeBinding = {
-    GraphAnalyzer: class { },
-    BuildOrchestrator: class { },
-    BuildCache: class { },
-    fastHash: (s) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16),
-    batchHash: (sa) => sa.map(s => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16)),
-    scanImports: (s) => [],
-    normalizePath: (s) => s.replace(/\\/g, '/'),
-    PluginRuntime: class { },
-    NativeWorker: class {
-      constructor() { }
-      processFile() { return null; }
-    },
-    helloRust: () => "Mock",
-    minifySync: (code) => code,
-    getOptimalParallelism: () => 4,
-    benchmarkGraphAnalysis: () => ({}),
-    benchmarkParallelism: () => ({}),
-    benchmarkTransform: () => ({}),
-    BuildStage: {},
-    createArtifactKey: (s) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16),
-    createGraphKey: (s) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16),
-    createInputKey: (s) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16),
-    createPlanKey: (s) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16)
-  };
+  if (loadErrors.length > 0) {
+    throw new Error(
+      `Cannot find native binding. ` +
+        `npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). ` +
+        'Please try `npm i` again after removing both package-lock.json and node_modules directory.',
+      {
+        cause: loadErrors.reduce((err, cur) => {
+          cur.cause = err
+          return cur
+        }),
+      },
+    )
+  }
+  throw new Error(`Failed to load native binding`)
 }
-
 
 module.exports = nativeBinding
 module.exports.BuildCache = nativeBinding.BuildCache

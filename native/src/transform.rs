@@ -318,38 +318,51 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
 pub fn minify_js(code: String) -> Result<String, String> {
     GLOBALS.set(&Default::default(), || {
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Anon, code);
 
+        // PRE-PASS: Convert any remaining ESM import/export to CJS before parsing.
+        // The bundle uses globalThis.d/r runtime, so ESM syntax would break the parser.
+        let cleaned_code = pre_convert_esm_to_cjs(code);
+
+        let fm = cm.new_source_file(FileName::Anon, cleaned_code);
+
+        // Parse as Script (NOT Module) - the bundle is a plain script using a custom runtime,
+        // not native ES modules. Module mode rejects top-level require() calls.
         let mut parser = Parser::new(
-            Syntax::Typescript(TsConfig {
-                tsx: true,
-                decorators: true,
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             StringInput::from(&*fm),
             None,
         );
 
-        let mut module = parser.parse_module().map_err(|e| format!("Parser Error (M): {:?}", e))?;
+        let script = parser.parse_script().map_err(|e| format!("Parser Error (M): {:?}", e))?;
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
+
+        // Convert Script -> Module so we can use the SWC optimizer API
+        use swc_core::ecma::ast::*;
+        let mut module = Module {
+            span: script.span,
+            body: script.body.into_iter().map(ModuleItem::Stmt).collect(),
+            shebang: None,
+        };
+
         module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let mut options = MinifyOptions::default();
         let mut compress = swc_core::ecma::minifier::option::CompressOptions::default();
         
-        compress.unused = true;
-        compress.dead_code = true;
-        compress.join_vars = true;
-        compress.collapse_vars = true;
-        compress.reduce_vars = true;
-        compress.drop_console = true;
-        compress.top_level = Some(TopLevelOptions { functions: true });
+        // Conservative settings to preserve runtime correctness
+        compress.unused = false;        // Don't remove - might be used by runtime
+        compress.dead_code = false;     // Be conservative
+        compress.join_vars = true;      // Safe: var a; var b; -> var a,b;
+        compress.collapse_vars = false; // Don't collapse - can break code
+        compress.reduce_vars = false;   // Don't reduce - can break code
+        compress.drop_console = false;  // Never drop console
+        compress.top_level = None;      // Don't optimize top level
         
         options.compress = Some(compress);
-        options.mangle = Some(Default::default());
-        options.rename = true;
+        options.mangle = Some(Default::default()); // Mangle variable names for size
+        options.rename = false;         // Don't rename - can break runtime references
         
         module = optimize(
             module.into(),
@@ -383,4 +396,45 @@ pub fn minify_js(code: String) -> Result<String, String> {
 
         String::from_utf8(buf).map_err(|e| format!("UTF8 Error: {:?}", e))
     })
+}
+
+/// Pre-converts any remaining ESM import/export statements to CJS-compatible code
+/// before native minification. Handles external library code with hash-based module IDs.
+fn pre_convert_esm_to_cjs(code: String) -> String {
+    use regex::Regex;
+    
+    let mut result = code;
+    
+    // import Default, { Named } from "hash16chars"
+    let re1 = Regex::new(r#"(?m)\bimport\s+(\w+)\s*,\s*\{([^}]+)\}\s+from\s+["']([a-f0-9]{16})["'];?"#).unwrap();
+    result = re1.replace_all(&result, |caps: &regex::Captures| {
+        format!("const {} = require(\"{}\");const {{{}}} = require(\"{}\");",
+            &caps[1], &caps[3], &caps[2], &caps[3])
+    }).to_string();
+    
+    // import { Named } from "hash16chars"
+    let re2 = Regex::new(r#"(?m)\bimport\s+\{([^}]+)\}\s+from\s+["']([a-f0-9]{16})["'];?"#).unwrap();
+    result = re2.replace_all(&result, |caps: &regex::Captures| {
+        format!("const {{{}}} = require(\"{}\");", &caps[1], &caps[2])
+    }).to_string();
+    
+    // import Default from "hash16chars"
+    let re3 = Regex::new(r#"(?m)\bimport\s+(\w+)\s+from\s+["']([a-f0-9]{16})["'];?"#).unwrap();
+    result = re3.replace_all(&result, |caps: &regex::Captures| {
+        format!("const {} = require(\"{}\");", &caps[1], &caps[2])
+    }).to_string();
+    
+    // import * as NS from "hash16chars"
+    let re4 = Regex::new(r#"(?m)\bimport\s+\*\s+as\s+(\w+)\s+from\s+["']([a-f0-9]{16})["'];?"#).unwrap();
+    result = re4.replace_all(&result, |caps: &regex::Captures| {
+        format!("const {} = require(\"{}\");", &caps[1], &caps[2])
+    }).to_string();
+    
+    // import "hash16chars" (side-effect only)
+    let re5 = Regex::new(r#"(?m)\bimport\s+["']([a-f0-9]{16})["'];?"#).unwrap();
+    result = re5.replace_all(&result, |caps: &regex::Captures| {
+        format!("require(\"{}\");", &caps[1])
+    }).to_string();
+    
+    result
 }

@@ -312,6 +312,7 @@ async function main() {
           .demandCommand(1, 'You must specify a subcommand: detect, list, add, purge, migrate');
       }
     )
+    /*
     .command(
       'optimize',
       'Analyze and optimize project configuration',
@@ -378,6 +379,7 @@ async function main() {
         }
       }
     )
+    */
     .command(
       'inspect',
       'Inspect the dependency graph',

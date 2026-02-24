@@ -21,11 +21,44 @@ export class Transformer {
     }
 
     public static minifySync(code: string): string {
-        try {
-            return minifySync(code);
-        } catch (e) {
-            log.error('Native minify failed:', { category: 'build', stack: (e as any).stack });
+        const sizeInMB = Buffer.byteLength(code, 'utf8') / (1024 * 1024);
+        // Skip minification for very large files (>100MB) to avoid memory issues
+        if (sizeInMB > 100) {
+            log.warn(`Skipping minification for large bundle (${sizeInMB.toFixed(2)}MB). Consider code splitting.`, { category: 'build' });
             return code;
+        }
+
+        try {
+            const result = minifySync(code);
+            if (result && result.length > 0) {
+                return result;
+            }
+            throw new Error('Native minifier returned empty result');
+        } catch (e: any) {
+            // Fallback to esbuild minification if native fails
+            log.warn(`Native minify failed (${e.message}), falling back to esbuild`, { category: 'build' });
+            try {
+                const esbuild = require('esbuild');
+                // Use 'iife' format to avoid import/export statements in output.
+                // Our bundle uses a custom runtime (globalThis.d/r) which is CJS-compatible.
+                const result = esbuild.transformSync(code, {
+                    minify: true,
+                    target: 'es2020',
+                    loader: 'js',
+                    format: 'iife',
+                    treeShaking: false,
+                    legalComments: 'none',
+                    // Don't try to re-interpret import/export - it's a runtime module system
+                    platform: 'browser'
+                });
+                if (result.code && result.code.length > 0) {
+                    return result.code;
+                }
+                throw new Error('esbuild returned empty result');
+            } catch (esbuildError: any) {
+                log.warn(`esbuild minification also failed (${esbuildError.message.substring(0, 120)}). Bundle size: ${sizeInMB.toFixed(2)}MB. Returning original code.`, { category: 'build' });
+                return code;
+            }
         }
     }
 

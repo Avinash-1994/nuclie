@@ -147,8 +147,44 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                 if (isCss) {
                     bundleContent += `\n/* ${modId} */\n${res.code}`;
                 } else {
+                    // Convert any remaining ESM import statements to require calls
+                    // This handles external libraries that may have hash-based imports
+                    let moduleCode = res.code;
+
+                    // Pattern: import React, { Suspense } from "hash16chars"
+                    moduleCode = moduleCode.replace(
+                        /\bimport\s+(\w+)\s*,\s*\{([^}]+)\}\s+from\s+["']([a-f0-9]{16})["'];?/g,
+                        (match, defaultImport, namedImports, hash) => {
+                            return `const ${defaultImport} = require("${hash}"); const {${namedImports}} = require("${hash}");`;
+                        }
+                    );
+
+                    // Pattern: import { x, y } from "hash16chars"
+                    moduleCode = moduleCode.replace(
+                        /\bimport\s+\{([^}]+)\}\s+from\s+["']([a-f0-9]{16})["'];?/g,
+                        'const {$1} = require("$2");'
+                    );
+
+                    // Pattern: import x from "hash16chars"
+                    moduleCode = moduleCode.replace(
+                        /\bimport\s+(\w+)\s+from\s+["']([a-f0-9]{16})["'];?/g,
+                        'const $1 = require("$2");'
+                    );
+
+                    // Pattern: import * as x from "hash16chars"
+                    moduleCode = moduleCode.replace(
+                        /\bimport\s+\*\s+as\s+(\w+)\s+from\s+["']([a-f0-9]{16})["'];?/g,
+                        'const $1 = require("$2");'
+                    );
+
+                    // Pattern: import "hash16chars"
+                    moduleCode = moduleCode.replace(
+                        /\bimport\s+["']([a-f0-9]{16})["'];?/g,
+                        'require("$1");'
+                    );
+
                     // Always use 'globalThis.d' as defined in condensed runtime
-                    bundleContent += `\nglobalThis.d("${shortId}",function(module,exports,require,h){\n${res.code}\n});`;
+                    bundleContent += `\nglobalThis.d("${shortId}",function(module,exports,require,h){\n${moduleCode}\n});`;
                 }
             }
 
@@ -170,6 +206,42 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                 source: bundleContent,
                 modules: artifactModules
             };
+
+            // Generate source map if enabled
+            if (!isCss && ctx.config.sourceMaps) {
+                const sourceMapContent = {
+                    version: 3,
+                    sources: chunk.modules.map(modId => {
+                        const node = ctx.graph.nodes.get(modId);
+                        return node?.path || modId;
+                    }),
+                    names: [],
+                    mappings: '', // Basic mapping - can be enhanced later
+                    file: chunk.outputName
+                };
+
+                const sourceMapJson = JSON.stringify(sourceMapContent);
+
+                if (ctx.config.sourceMaps === 'inline') {
+                    // Inline source map
+                    artifact.source += `\n//# sourceMappingURL=data:application/json;base64,${Buffer.from(sourceMapJson).toString('base64')}`;
+                } else if (ctx.config.sourceMaps === 'external' || ctx.config.sourceMaps === true) {
+                    // External source map file
+                    const mapFileName = chunk.outputName + '.map';
+                    artifact.source += `\n//# sourceMappingURL=${mapFileName}`;
+
+                    // Create separate map artifact
+                    const mapArtifact: BuildArtifact = {
+                        id: canonicalHash(sourceMapJson).substring(0, 16),
+                        type: 'map',
+                        fileName: mapFileName,
+                        dependencies: [],
+                        source: sourceMapJson
+                    };
+                    artifactMap.set(chunk.id + '_map', mapArtifact);
+                }
+                // 'hidden' mode: generate map but don't add reference
+            }
 
             ctx.cache.set(chunkKey, { hash: chunkKey, artifact });
             artifactMap.set(chunk.id, artifact);
