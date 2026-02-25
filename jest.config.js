@@ -17,7 +17,6 @@ export default {
     transform: {
         '^.+\\.m?[tj]sx?$': ['ts-jest', {
             useESM: true,
-            isolatedModules: true,
             tsconfig: {
                 module: 'esnext',
                 target: 'es2020',
@@ -27,8 +26,16 @@ export default {
         }],
     },
     moduleNameMapper: {
+        // Map native binding imports to our CJS shim (must be before the .js stripper)
+        '^.*[/\\\\]native[/\\\\]index(\\.js)?$': '<rootDir>/native/index.cjs',
         '^(\\.\\.?/.*)\\.js$': '$1',  // Fixed: matches ./ and ../ imports
     },
+    // Don't transform native CJS files or binary .node files
+    transformIgnorePatterns: [
+        '/node_modules/',
+        '\\.node$',
+        '/native/index\\.cjs$',
+    ],
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',
         '!src/**/*.d.ts',

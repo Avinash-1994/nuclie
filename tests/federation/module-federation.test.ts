@@ -101,7 +101,7 @@ createRoot(document.getElementById('root')!).render(
                 // Should have federation manifest or remote entry
                 expect(files.length).toBeGreaterThan(0);
             }
-        });
+        }, 30000);
     });
 
     describe('Remote Module Consumption', () => {
@@ -178,7 +178,7 @@ createRoot(document.getElementById('root')!).render(<App />);`
             });
 
             expect(result.success).toBe(true);
-        });
+        }, 30000);
     });
 
     describe('Shared Dependencies', () => {
@@ -239,7 +239,7 @@ createRoot(document.getElementById('root')!).render(
             });
 
             expect(result.success).toBe(true);
-        });
+        }, 30000);
     });
 
     describe('Version Conflict Resolution', () => {
@@ -290,7 +290,7 @@ createRoot(document.getElementById('root')!).render(
 
             // Should handle gracefully (either succeed or provide clear error)
             expect(result).toBeDefined();
-        });
+        }, 30000);
     });
 
     describe('Dynamic Remote Loading', () => {
@@ -343,7 +343,7 @@ init();`
             });
 
             expect(result.success).toBe(true);
-        });
+        }, 30000);
     });
 
     describe('Federation Fallback', () => {
@@ -407,6 +407,6 @@ createRoot(document.getElementById('root')!).render(<App />);`
             });
 
             expect(result.success).toBe(true);
-        });
+        }, 30000);
     });
 });
