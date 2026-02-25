@@ -1,37 +1,39 @@
-# ⚡ Nexxo - Modern Build Tool
-
-**Fast, feature-rich build tool with native performance**
+# ⚡ Nexxo — Modern Build Tool
 
 [![npm version](https://img.shields.io/npm/v/nexxo.svg)](https://www.npmjs.com/package/nexxo)
+[![CI](https://github.com/Avinash-1994/Nexxo/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Nexxo/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Test Coverage](https://img.shields.io/badge/tests-106%2F106-brightgreen)](./PRODUCTION_AUDIT_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-106%2F106-brightgreen)](./PRODUCTION_AUDIT_REPORT.md)
+[![Node >=20](https://img.shields.io/badge/node-%3E%3D20-blue)](https://nodejs.org)
 
-Nexxo is a modern build tool designed for speed and developer experience, featuring built-in HMR, source maps, tree shaking, and module federation.
+Nexxo is a build tool with built-in HMR, source maps, tree shaking, module federation, and support for multiple JavaScript frameworks.
+
+---
 
 ## ✨ Features
 
-- ⚡ **Fast Builds** - Optimized build pipeline with parallel execution
-- 🔥 **Hot Module Replacement** - Framework-aware HMR for instant updates
-- 🗺️ **Source Maps** - Full source map support (inline, external, hidden)
-- 🌳 **Tree Shaking** - Automatic dead code elimination in production
-- 📦 **Module Federation** - Built-in micro-frontend support
-- 🎯 **Zero Config** - Works out of the box with smart defaults
-- 🌐 **Multi-Framework** - Supports React, Vue, Svelte, Solid, and more
-- 🎨 **CSS Processing** - PostCSS, Tailwind, and CSS Modules built-in
-- 📊 **Build Analytics** - Detailed performance insights
-- 🔌 **Plugin System** - Extensible with custom plugins
-- 💾 **Smart Caching** - Fingerprint-based incremental builds
+- ⚡ **Fast Builds** — Parallel build pipeline with smart caching
+- 🔥 **Hot Module Replacement** — Framework-aware HMR
+- 🗺️ **Source Maps** — `inline`, `external`, and `hidden` modes
+- 🌳 **Tree Shaking** — AST-based dead code elimination in production
+- 📦 **Module Federation** — Micro-frontend support built in
+- 🎨 **CSS Processing** — PostCSS, CSS Modules, and Tailwind CSS
+- 🔌 **Plugin System** — Extensible with `load` and `transform` hooks
+- 💾 **Smart Caching** — Fingerprint-based incremental builds
+- 🌐 **Multi-Framework** — React, Vue, Svelte, Solid, Preact, and more
+
+---
 
 ## 🚀 Quick Start
 
 ```bash
-# Create a new project
-npx create-nexxo my-app
+# Install globally
+npm install -g nexxo
 
-# Or use a specific template
-npx create-nexxo my-app --template react-spa
+# Start a new project from a template
+nexxo bootstrap --name my-app --template react-ts
 
-# Start development
+# Enter the project and start dev server
 cd my-app
 nexxo dev
 
@@ -39,191 +41,177 @@ nexxo dev
 nexxo build
 ```
 
+---
+
 ## 📦 Installation
 
 ```bash
-# Global installation
 npm install -g nexxo
-
-# Or use directly with npx
-npx nexxo dev
 ```
 
-## 🎯 Supported Frameworks
+**Requirements:** Node.js ≥ 20
 
-| Framework | Auto-Detect | HMR | TypeScript |
-|-----------|-------------|-----|------------|
-| React | ✅ | ✅ | ✅ |
-| Vue | ✅ | ✅ | ✅ |
-| Svelte | ✅ | ✅ | ✅ |
-| Solid | ✅ | ✅ | ✅ |
-| Preact | ✅ | ✅ | ✅ |
-| Angular | ✅ | ✅ | ✅ |
-| Qwik | ✅ | ✅ | ✅ |
-| Lit | ✅ | ✅ | ✅ |
-| Astro | ✅ | ✅ | ✅ |
+---
+
+## 🎯 Framework Support
+
+| Framework  | Auto-Detect | HMR | TypeScript |
+|------------|-------------|-----|------------|
+| React      | ✅ | ✅ | ✅ |
+| Vue 3      | ✅ | ✅ | ✅ |
+| Svelte     | ✅ | ✅ | ✅ |
+| Solid      | ✅ | ✅ | ✅ |
+| Preact     | ✅ | ✅ | ✅ |
+| Qwik       | ✅ | ✅ | ✅ |
+| Lit        | ✅ | ✅ | ✅ |
+| Alpine.js  | ✅ | ✅ | ✅ |
+| Mithril    | ✅ | ✅ | ✅ |
 | Vanilla JS | ✅ | ✅ | ✅ |
+
+---
 
 ## ⚙️ Configuration
 
-Create a `nexxo.config.js`:
+Create `nexxo.config.js` in your project root:
 
 ```javascript
 module.exports = {
-  entry: ['./src/index.tsx'],
+  entry: ['./src/main.tsx'],
   outDir: './dist',
-  
+
   build: {
     minify: true,
     sourcemap: 'external', // 'inline' | 'external' | 'hidden' | false
     cssModules: true,
   },
-  
+
   dev: {
     port: 3000,
     hmr: true,
   },
-  
+};
+```
+
+---
+
+## 📦 Module Federation
+
+```javascript
+// Host app — consume remotes
+module.exports = {
   federation: {
-    name: 'my_app',
+    name: 'host',
+    remotes: {
+      cart: 'http://localhost:3001/remoteEntry.js',
+    },
+  },
+};
+
+// Remote app — expose modules
+module.exports = {
+  federation: {
+    name: 'cart',
     exposes: {
-      './App': './src/App.tsx',
+      './CartWidget': './src/CartWidget.tsx',
     },
   },
 };
 ```
 
-## 🔥 Module Federation
-
-Build micro-frontends with native support:
-
-```javascript
-// Host app
-federation: {
-  name: 'host',
-  remotes: {
-    'cart': 'http://localhost:3001/remoteEntry.js',
-  },
-}
-
-// Remote app
-federation: {
-  name: 'cart',
-  exposes: {
-    './CartWidget': './src/CartWidget.tsx',
-  },
-}
-```
-
 ```tsx
-// Use remote module
+// In your host app
 import CartWidget from 'cart/CartWidget';
-
-function App() {
-  return <CartWidget />;
-}
 ```
+
+---
 
 ## 🗺️ Source Maps
-
-Full source map support for debugging:
 
 ```javascript
 module.exports = {
   build: {
     sourcemap: 'external',  // Separate .map files
-    // sourcemap: 'inline',  // Inline in bundle
-    // sourcemap: 'hidden',  // Generate but don't reference
-    // sourcemap: false,     // Disable
+    // sourcemap: 'inline', // Embedded in the bundle
+    // sourcemap: 'hidden', // Generated but not referenced
+    // sourcemap: false,    // Disabled
   },
 };
 ```
 
-## 🌳 Tree Shaking
-
-Automatic dead code elimination in production builds:
-
-- AST-based analysis
-- Removes unused exports
-- Optimizes bundle size
-- Works with ES modules
-
-## 📊 Performance
-
-Nexxo is optimized for speed:
-
-- **Cold Start**: ~69ms
-- **HMR Updates**: 10-60ms
-- **Build Time**: Optimized with caching
-- **Bundle Size**: Minimal runtime overhead
-
-*Benchmarks from real-world projects. See [Production Audit Report](./PRODUCTION_AUDIT_REPORT.md)*
-
-## 🧪 Production Ready
-
-**100% Test Pass Rate** (106/106 tests passing)
-
-Verified across 8 real-world open-source projects:
-- ✅ TanStack Table
-- ✅ React Query
-- ✅ VueUse
-- ✅ Nuxt Content
-- ✅ SvelteKit
-- ✅ Svelte Motion
-- ✅ Lit Project
-- ✅ Alpine.js
-
-See [Production Audit Report](./PRODUCTION_AUDIT_REPORT.md) for details.
-
-## 🎨 Templates
-
-Choose from production-ready templates:
-
-- `react-spa` - React Single Page Application
-- `react-ssr` - React with Server-Side Rendering
-- `vue-spa` - Vue 3 Application
-- `svelte-spa` - Svelte Application
-- `solid-spa` - Solid.js Application
-- `preact-spa` - Preact Lightweight SPA
-- `angular-spa` - Angular Application
-- `monorepo` - Multi-package Workspace
-- `edge` - Edge Runtime Optimized
-- `fintech` - Enterprise Fintech Template
-
-## 🛠️ CLI Commands
-
-```bash
-nexxo dev          # Start development server
-nexxo build        # Build for production
-nexxo ssr          # Start SSR server
-nexxo analyze      # Analyze bundle
-nexxo init         # Initialize config
-nexxo bootstrap    # Create from template
-nexxo inspect      # Inspect dependency graph
-nexxo audit        # Run audits (A11y, Perf, SEO)
-nexxo doctor       # Health diagnostics
-```
+---
 
 ## 🔌 Plugin System
-
-Create custom plugins:
 
 ```javascript
 module.exports = {
   plugins: [
     {
       name: 'my-plugin',
+      // Intercept module loading
       load(id) {
-        // Custom module loading
+        if (id.endsWith('.yaml')) {
+          return { code: `export default {}` };
+        }
       },
+      // Transform module source
       transform(code, id) {
-        // Transform code
-        return { code };
+        return { code: code.replace('__VERSION__', '1.0.0') };
       },
     },
   ],
 };
 ```
+
+---
+
+## 🛠️ CLI Commands
+
+```bash
+nexxo dev                        # Start dev server with HMR
+nexxo build                      # Production build
+nexxo ssr                        # SSR server (Next.js / Nuxt / Remix)
+nexxo bootstrap --name <n> --template <t>  # Scaffold a new project
+nexxo init                       # Generate nexxo.config.js
+nexxo inspect                    # Inspect dependency graph
+nexxo analyze                    # Analyze bundle size
+nexxo audit                      # Accessibility, performance & SEO audit
+nexxo verify                     # Health check for your project config
+nexxo doctor                     # Diagnose common issues
+nexxo test                       # Run tests with the built-in runner
+nexxo css purge                  # Remove unused CSS
+```
+
+---
+
+## 🎨 Templates
+
+```bash
+# JavaScript
+nexxo bootstrap --name my-app --template react-js
+nexxo bootstrap --name my-app --template vue-js
+nexxo bootstrap --name my-app --template svelte-js
+nexxo bootstrap --name my-app --template solid-js
+nexxo bootstrap --name my-app --template preact-js
+nexxo bootstrap --name my-app --template qwik-js
+nexxo bootstrap --name my-app --template lit-js
+nexxo bootstrap --name my-app --template alpine-js
+nexxo bootstrap --name my-app --template vanilla-js
+
+# TypeScript variants
+nexxo bootstrap --name my-app --template react-ts
+nexxo bootstrap --name my-app --template vue-ts
+nexxo bootstrap --name my-app --template svelte-ts
+# ... and more
+```
+
+---
+
+## 🧪 Test Status
+
+- **106 / 106** tests passing across 13 test suites
+- Covers: cache correctness, module federation (6/6), CSS processing, error handling, load/stress, performance regression, build snapshots, real-world integration
+
+---
 
 ## 📖 Documentation
 
@@ -232,31 +220,24 @@ module.exports = {
 - [Module Federation](./docs/guides/federation.md)
 - [Plugin Development](./docs/guides/plugins.md)
 - [API Reference](./docs/api/README.md)
-- [Testing Strategy](./TESTING_STRATEGY.md)
+- [Changelog](./CHANGELOG.md)
 
-## 🌐 Ecosystem
-
-- **@nexxo/plugin-react-refresh** - React Fast Refresh
-- **@nexxo/plugin-vue** - Vue 3 support
-- **@nexxo/plugin-svelte** - Svelte support
-- **@nexxo/plugin-federation** - Module Federation
-- **@nexxo/plugin-pwa** - Progressive Web App
+---
 
 ## 🤝 Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+Contributions are welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+---
 
 ## 📄 License
 
 MIT © [Avinash-1994](https://github.com/Avinash-1994)
 
-## 📞 Support
-
-- 📖 [Documentation](./docs/index.md)
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/nexxo/discussions)
-- 🐛 [Report Issues](https://github.com/Avinash-1994/nexxo/issues)
-- 🌟 [Star on GitHub](https://github.com/Avinash-1994/nexxo)
-
 ---
 
-**Made with ❤️ by the Nexxo team**
+## 📞 Support
+
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Nexxo/discussions)
+- 🐛 [Issues](https://github.com/Avinash-1994/Nexxo/issues)
+- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Nexxo)
