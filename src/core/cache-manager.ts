@@ -130,8 +130,6 @@ export class CacheManager {
                 // Simple strategy: Clear everything or specific targets. 
                 // RocksDB makes LRU hard without column families or manual tracking.
                 // We'll clear 'dev' builds first, preserving 'prod'.
-                const initialSize = stats.totalEntries;
-                // @ts-ignore - native clearTarget expects target prefix
                 const cleared = this.cache.clearTarget('dev');
                 log.info(`Evicted ${cleared} dev entries.`);
 

@@ -28,7 +28,7 @@ interface BunTranspiler {
 
 declare global {
     var Bun: {
-        transpiler: new (options?: any) => BunTranspiler;
+        Transpiler: new (options?: BunTranspilerOptions) => BunTranspiler;
         version: string;
         spawn: any;
         write: any;
@@ -43,8 +43,7 @@ export class BunParser {
     constructor() {
         this.isBunRuntime = typeof Bun !== 'undefined';
         if (this.isBunRuntime) {
-            // @ts-ignore
-            this.transpiler = new Bun.Transpiler({
+            this.transpiler = new Bun!.Transpiler({
                 loader: 'tsx', // Default loader, can be overridden per file
                 target: 'browser'
             });
