@@ -672,8 +672,8 @@ if (import.meta.hot) {
                 const mod = await import(compilerPath);
                 qwik = typeof mod.createOptimizer === 'function' ? mod : (mod.default || mod);
             } catch {
-                // @ts-ignore
-                const mod = await import('@builder.io/qwik/optimizer');
+                const fallbackQwikOptimizer = '@builder.io/qwik/optimizer';
+                const mod = await import(fallbackQwikOptimizer);
                 qwik = typeof mod.createOptimizer === 'function' ? mod : (mod.default || mod);
             }
 
@@ -782,8 +782,8 @@ if (import.meta.hot) {
                 const mod = await import(compilerPath);
                 astro = typeof mod.transform === 'function' ? mod : (mod.default || mod);
             } catch {
-                // @ts-ignore
-                const mod = await import('@astrojs/compiler');
+                const fallbackAstroCompiler = '@astrojs/compiler';
+                const mod = await import(fallbackAstroCompiler);
                 astro = typeof mod.transform === 'function' ? mod : (mod.default || mod);
             }
 
