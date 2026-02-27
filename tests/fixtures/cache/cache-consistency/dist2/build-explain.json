@@ -3,49 +3,49 @@
     "stage": "init",
     "decision": "initialize",
     "reason": "Starting build initialization",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:json@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:asset@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:js-transform@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:postcss@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:linker@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:html@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "plugins",
     "decision": "load",
     "reason": "Loaded plugin: nexxo:static@1.0.0 (js)",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "init",
@@ -56,7 +56,7 @@
         "entryPoints": [
           "src/entry2.ts"
         ],
-        "outputDir": "/home/avinash/Desktop/framework_practis/build/tests/fixtures/cache/cache-consistency/dist2",
+        "outputDir": "C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2",
         "publicPath": "/",
         "splittingStrategy": "route",
         "hashing": "content",
@@ -65,110 +65,86 @@
         "cssModules": false
       }
     },
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "init",
     "decision": "performance",
-    "reason": "Initialization took 0.05ms",
+    "reason": "Initialization took 0.12ms",
     "data": {
-      "duration": 0.046188000000029206
+      "duration": 0.120600000000195
     },
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "fingerprint",
     "decision": "start",
     "reason": "Computing input fingerprint",
-    "timestamp": 1771320393666
+    "timestamp": 1772040089540
   },
   {
     "stage": "fingerprint",
     "decision": "computed",
     "reason": "Input fingerprint ready",
     "data": {
-      "inputHash": "c63a1cfb83f298a2"
+      "inputHash": "stub-hash-7b22636f"
     },
-    "timestamp": 1771320393667
+    "timestamp": 1772040089542
   },
   {
     "stage": "fingerprint",
     "decision": "performance",
-    "reason": "Fingerprinting took 0.41ms",
+    "reason": "Fingerprinting took 1.18ms",
     "data": {
-      "duration": 0.4095240000000331
+      "duration": 1.1791000000002896
     },
-    "timestamp": 1771320393667
-  },
-  {
-    "stage": "plugins",
-    "decision": "hook",
-    "reason": "Executed nexxo:asset:load (1771320392695.08ms)",
-    "timestamp": 1771320393667
-  },
-  {
-    "stage": "plugins",
-    "decision": "hook",
-    "reason": "Executed nexxo:json:load (1771320392695.06ms)",
-    "timestamp": 1771320393667
-  },
-  {
-    "stage": "plugins",
-    "decision": "hook",
-    "reason": "Executed nexxo:asset:load (1771320392694.40ms)",
-    "timestamp": 1771320393673
-  },
-  {
-    "stage": "plugins",
-    "decision": "hook",
-    "reason": "Executed nexxo:json:load (1771320392694.38ms)",
-    "timestamp": 1771320393673
+    "timestamp": 1772040089542
   },
   {
     "stage": "graph",
     "decision": "attached",
     "reason": "Dependency graph attached",
-    "timestamp": 1771320393673
+    "timestamp": 1772040089560
   },
   {
     "stage": "graph",
     "decision": "performance",
-    "reason": "Dependency Graph took 6.88ms",
+    "reason": "Dependency Graph took 18.15ms",
     "data": {
-      "duration": 6.881948999999963
+      "duration": 18.152600000000348
     },
-    "timestamp": 1771320393673
+    "timestamp": 1772040089560
   },
   {
     "stage": "plan",
     "decision": "start",
     "reason": "Starting build planning",
-    "timestamp": 1771320393673
+    "timestamp": 1772040089560
   },
   {
     "stage": "plan",
     "decision": "complete",
     "reason": "Build plan created",
     "data": {
-      "planId": "23ce1f603b586440",
+      "planId": "stub-hash-7b226173",
       "chunkCount": 1
     },
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "plan",
     "decision": "performance",
-    "reason": "Build Planning took 0.11ms",
+    "reason": "Build Planning took 0.21ms",
     "data": {
-      "duration": 0.10835100000008424
+      "duration": 0.21160000000054424
     },
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "parallel_plan",
     "decision": "start",
     "reason": "Planning parallel execution",
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "parallel_plan",
@@ -177,120 +153,120 @@
     "data": {
       "groups": 1
     },
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "parallel_plan",
     "decision": "performance",
-    "reason": "Parallel Planning took 0.00ms",
+    "reason": "Parallel Planning took 0.01ms",
     "data": {
-      "duration": 0.0024950000000671935
+      "duration": 0.006899999999404827
     },
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "determinism",
     "decision": "check",
     "reason": "Checking determinism for mode: production",
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "determinism",
     "decision": "pass",
     "reason": "Determinism checks passed",
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "determinism",
     "decision": "performance",
-    "reason": "Determinism Check took 0.09ms",
+    "reason": "Determinism Check took 0.01ms",
     "data": {
-      "duration": 0.08586700000000747
+      "duration": 0.010200000000622822
     },
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "execute",
     "decision": "start",
     "reason": "Starting optimized execution",
-    "timestamp": 1771320393674
+    "timestamp": 1772040089560
   },
   {
     "stage": "optimize",
     "decision": "start",
     "reason": "Starting Global Native Optimization",
-    "timestamp": 1771320393678
+    "timestamp": 1772040089562
   },
   {
     "stage": "optimize",
     "decision": "complete",
-    "reason": "Optimized assets/entry2.f50ac7b9.bundle.js: 1428 -> 694 bytes (51.40% savings)",
-    "timestamp": 1771320393680
+    "reason": "Optimized assets/entry2.stub-has.bundle.js: 285 -> 285 bytes (0.00% savings)",
+    "timestamp": 1772040089562
   },
   {
     "stage": "execute",
     "decision": "performance",
-    "reason": "Execution took 6.08ms",
+    "reason": "Execution took 1.62ms",
     "data": {
-      "duration": 6.083488999999986
+      "duration": 1.62079999999969
     },
-    "timestamp": 1771320393680
+    "timestamp": 1772040089562
   },
   {
     "stage": "optimize",
     "decision": "start",
     "reason": "Starting parallel optimization passes",
-    "timestamp": 1771320393680
+    "timestamp": 1772040089562
   },
   {
     "stage": "optimize",
     "decision": "minify",
-    "reason": "Minifying assets/entry2.f50ac7b9.bundle.js",
-    "timestamp": 1771320393680
+    "reason": "Minifying assets/entry2.stub-has.bundle.js",
+    "timestamp": 1772040089562
+  },
+  {
+    "stage": "optimize",
+    "decision": "error",
+    "reason": "Minification failed for assets/entry2.stub-has.bundle.js: Transform failed with 1 error:\n<stdin>:4:7: ERROR: Unexpected \"{\"",
+    "timestamp": 1772040089631
   },
   {
     "stage": "optimize",
     "decision": "complete",
     "reason": "Optimization finished. 3 artifacts generated.",
-    "timestamp": 1771320393683
+    "timestamp": 1772040089633
   },
   {
     "stage": "optimize",
     "decision": "performance",
-    "reason": "Optimization took 3.45ms",
+    "reason": "Optimization took 71.51ms",
     "data": {
-      "duration": 3.449814999999944
+      "duration": 71.50740000000042
     },
-    "timestamp": 1771320393683
+    "timestamp": 1772040089633
   },
   {
     "stage": "emit",
     "decision": "start",
     "reason": "Starting emit phase",
-    "timestamp": 1771320393683
+    "timestamp": 1772040089633
   },
   {
     "stage": "emit",
     "decision": "writing",
-    "reason": "Writing artifact: /home/avinash/Desktop/framework_practis/build/tests/fixtures/cache/cache-consistency/dist2/assets/entry2.f50ac7b9.bundle.js",
-    "timestamp": 1771320393683
+    "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\assets\\entry2.stub-has.bundle.js",
+    "timestamp": 1772040089634
   },
   {
     "stage": "emit",
     "decision": "writing",
-    "reason": "Writing artifact: /home/avinash/Desktop/framework_practis/build/tests/fixtures/cache/cache-consistency/dist2/assets/entry2.f50ac7b9.bundle.js.gz",
-    "timestamp": 1771320393684
+    "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\assets\\entry2.stub-has.bundle.js.gz",
+    "timestamp": 1772040089635
   },
   {
     "stage": "emit",
     "decision": "writing",
-    "reason": "Writing artifact: /home/avinash/Desktop/framework_practis/build/tests/fixtures/cache/cache-consistency/dist2/assets/entry2.f50ac7b9.bundle.js.br",
-    "timestamp": 1771320393684
-  },
-  {
-    "stage": "emit",
-    "decision": "writing",
-    "reason": "Writing artifact: /home/avinash/Desktop/framework_practis/build/tests/fixtures/cache/cache-consistency/dist2/index.html",
-    "timestamp": 1771320393684
+    "reason": "Writing artifact: C:\\Users\\Hi\\Desktop\\urja\\urja\\tests\\fixtures\\cache\\cache-consistency\\dist2\\assets\\entry2.stub-has.bundle.js.br",
+    "timestamp": 1772040089635
   }
 ]
