@@ -9,6 +9,13 @@ export interface PermissionSet {
     env?: string[];    // List of allowed env vars
 }
 
+
+
+function isPathWithin(basePath: string, targetPath: string): boolean {
+    const relative = path.relative(basePath, targetPath);
+    return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
 export class PermissionManager {
     private permissions: PermissionSet;
     private rootDir: string;
@@ -25,7 +32,7 @@ export class PermissionManager {
         const resolvedPath = path.resolve(this.rootDir, filePath);
         return this.permissions.read.some(p => {
             const allowedPath = path.resolve(this.rootDir, p);
-            return resolvedPath.startsWith(allowedPath);
+            return isPathWithin(allowedPath, resolvedPath);
         });
     }
 
@@ -36,7 +43,7 @@ export class PermissionManager {
         const resolvedPath = path.resolve(this.rootDir, filePath);
         return this.permissions.write.some(p => {
             const allowedPath = path.resolve(this.rootDir, p);
-            return resolvedPath.startsWith(allowedPath);
+            return isPathWithin(allowedPath, resolvedPath);
         });
     }
 
