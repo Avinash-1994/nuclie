@@ -3,6 +3,14 @@ import fs from 'fs';
 import path from 'path';
 import { PermissionManager } from './permissions.js';
 
+
+function normalizePathForPermission(filePath: fs.PathOrFileDescriptor): string {
+    if (typeof filePath === 'string') return filePath;
+    if (filePath instanceof URL) return filePath.pathname;
+    if (Buffer.isBuffer(filePath)) return filePath.toString();
+    throw new Error('File descriptor access is not allowed in sandbox.');
+}
+
 export class PluginSandbox {
     private context: vm.Context;
     private permissionManager: PermissionManager;
@@ -51,19 +59,21 @@ export class PluginSandbox {
 
     private createFsProxy() {
         return {
-            readFileSync: (filePath: string, ...args: any[]) => {
-                if (!this.permissionManager.canRead(filePath)) {
-                    throw new Error(`Read access denied: ${filePath}`);
+            readFileSync: (...args: Parameters<typeof fs.readFileSync>) => {
+                const [filePath] = args;
+                const normalizedPath = normalizePathForPermission(filePath);
+                if (!this.permissionManager.canRead(normalizedPath)) {
+                    throw new Error(`Read access denied: ${normalizedPath}`);
                 }
-                // @ts-ignore
-                return fs.readFileSync(filePath, ...args);
+                return fs.readFileSync(...args);
             },
-            writeFileSync: (filePath: string, ...args: any[]) => {
-                if (!this.permissionManager.canWrite(filePath)) {
-                    throw new Error(`Write access denied: ${filePath}`);
+            writeFileSync: (...args: Parameters<typeof fs.writeFileSync>) => {
+                const [filePath] = args;
+                const normalizedPath = normalizePathForPermission(filePath);
+                if (!this.permissionManager.canWrite(normalizedPath)) {
+                    throw new Error(`Write access denied: ${normalizedPath}`);
                 }
-                // @ts-ignore
-                return fs.writeFileSync(filePath, ...args);
+                return fs.writeFileSync(...args);
             },
             // Add other fs methods as needed
         };
