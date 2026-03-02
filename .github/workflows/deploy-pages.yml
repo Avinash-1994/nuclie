@@ -29,7 +29,16 @@ jobs:
           cache: 'npm'
           cache-dependency-path: nexxo-web-app/package-lock.json
 
-      - name: 📦 Install Dependencies
+      - name: 🦀 Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 📦 Install Root Dependencies
+        run: npm ci
+
+      - name: 🔨 Build Nexxo (creates dist/cli.js)
+        run: npm run build
+
+      - name: 📦 Install Web App Dependencies
         run: npm ci
         working-directory: nexxo-web-app
 
