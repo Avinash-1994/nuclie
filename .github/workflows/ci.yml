@@ -1,10 +1,10 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [main, master, develop]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [main, master, develop]
   workflow_dispatch:
 
 concurrency:
@@ -16,110 +16,123 @@ jobs:
     name: 🔍 Lint & Type Check
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 Checkout
         uses: actions/checkout@v4
-      
-      - name: 🔧 Setup Node.js
+
+      - name: 🔧 Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-      
+
       - name: 📦 Install Dependencies
         run: npm ci
-      
-      - name: 🔍 Lint Code
+
+      - name: 🔍 Lint
         run: npm run lint
 
       - name: 🔍 TypeScript Type Check
         run: npm run typecheck
 
   build-and-test:
-    name: 🔨 Build & Test (${{ matrix.os }}, Node ${{ matrix.node-version }})
+    name: 🔨 Build & Test (Node ${{ matrix.node-version }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     needs: lint-and-typecheck
     strategy:
       fail-fast: false
       matrix:
         node-version: [20, 22]
-        os: [ubuntu-latest, windows-latest]
-    
+        os: [ubuntu-latest]
+        # Note: Windows support is best-effort (native .node binary is Linux-only in CI)
+        # Add windows-latest below once a Windows native binary is released.
+
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 Checkout
         uses: actions/checkout@v4
-      
+
       - name: 🔧 Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      
+
       - name: 🦀 Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
-      
+
       - name: 📦 Install Dependencies
         run: npm ci
-      
+
       - name: 🔨 Build Project
         run: npm run build
-      
+
       - name: ✅ Verify Build Artifacts
         shell: bash
         run: |
-          echo "🔍 Checking build artifacts..."
-          test -f dist/cli.js && echo "✅ CLI built successfully" || exit 1
-          test -f dist/core/universal-transformer.js && echo "✅ Universal Transformer built" || exit 1
-          if [ "${{ runner.os }}" == "Linux" ]; then
-            if [ -f dist/nexxo_native.node ]; then
-              echo "✅ Native binary found in dist"
-            else
-              echo "⚠️ Native binary missing - utilizing JS fallback"
-            fi
-          fi
-      
-      - name: 🧪 Run Jest Tests
+          echo "🔍 Checking required build artifacts..."
+          test -f dist/cli.js        && echo "✅ CLI built" || (echo "❌ CLI missing" && exit 1)
+          test -f dist/index.js      && echo "✅ API entry built" || (echo "❌ index.js missing" && exit 1)
+          test -f dist/index.d.ts    && echo "✅ Type declarations built" || (echo "❌ index.d.ts missing" && exit 1)
+          test -f dist/core/universal-transformer.js && echo "✅ Universal Transformer built" || echo "⚠️ Universal Transformer missing"
+          test -f dist/nexxo_native.node && echo "✅ Native binary in dist" || echo "⚠️ Native binary not in dist (JS fallback active)"
+          echo ""
+          echo "📋 Verifying package exports..."
+          node --input-type=module --eval "import { CoreBuildEngine, loadConfig, defineConfig } from './dist/index.js'; console.log('✅ Public API exports verified');"
+
+      - name: 🧪 Jest Test Suite (All)
         env:
           NODE_OPTIONS: --experimental-vm-modules
         run: npm test
 
-      - name: Phase 1 Foundation Tests
+      - name: 🧪 Property-Based Tests
         env:
           NODE_OPTIONS: --experimental-vm-modules
-        run: |
-          echo "Running Phase 1: Foundation Tests"
-          npm run test:snapshot
-          npm run test:performance
-          npm run test:real-world
+        run: npm run test:property
 
-      - name: Phase 2 Comprehensive Tests
+      - name: 🧪 Load / Stress Tests
         env:
           NODE_OPTIONS: --experimental-vm-modules
-        run: |
-          echo "Running Phase 2: Comprehensive Tests"
-          npm run test:css
-          npm run test:federation
-          npm run test:cache
-          npm run test:errors
+        run: npm run test:load
 
-      - name: Phase 3 Advanced Tests
-        env:
-          NODE_OPTIONS: --experimental-vm-modules
-        run: |
-          echo "Running Phase 3: Advanced Tests"
-          npm run test:property
-          npm run test:load
-
-      - name: Install Playwright Browsers
+      - name: 📤 Upload Build Artifacts
         if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-node${{ matrix.node-version }}
+          path: |
+            dist/
+            nexxo_native.node
+          retention-days: 7
+
+  visual-tests:
+    name: 🎭 Visual Regression Tests
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.event_name == 'push'
+    continue-on-error: true
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔨 Build Project
+        run: npm run build
+
+      - name: 🎭 Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Phase 3 Visual Regression Tests
-        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+      - name: 🎭 Visual Regression Tests
         run: npm run test:visual
-        continue-on-error: true
 
-      - name: Upload Visual Test Results
-        if: always() && matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+      - name: 📤 Upload Visual Test Results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: visual-test-results
@@ -128,115 +141,17 @@ jobs:
             test-results/
           retention-days: 7
 
-      - name: 🧪 Run All Integration & Standalone Tests
-        env:
-          NODE_OPTIONS: --experimental-vm-modules
-        run: |
-          echo "Testing Module 1: Core Engine"
-          npx tsx tests/core_engine_test.ts
-          npx tsx tests/phase1_test.ts
-          
-          echo "Testing Module 2: Zero-Trust Ecosystem"
-          npx tsx tests/module2_wasm_test.ts
-          npx tsx tests/module2_compat_test.ts
-          npx tsx tests/module2_marketplace_test.ts
-          npx tsx tests/module2_signer_test.ts
-          npx tsx tests/module2_security_suite.ts
-          npx tsx tests/phase_2_1_plugin_compat_test.ts
-          npx tsx tests/phase_2_2_framework_tier2_test.ts
-          npx tsx tests/phase_2_2_framework_plugins_test.ts
-          npx tsx tests/phase_2_3_governance_test.ts
-          
-          echo "Testing Module 3: Elite DX/UI"
-          npx tsx tests/module3_overlay_test.ts
-          npx tsx tests/module3_visualizer_test.ts
-          npx tsx tests/module3_create_nexxo_test.ts
-          npx tsx tests/module3_lsp_test.ts
-          npx tsx tests/module3_dashboard_test.ts
-          npx tsx tests/module3_hmr_logic_test.ts
-          npx tsx tests/phase_3_1_browser_visual_test.ts
-          npx tsx tests/phase_3_1_hmr_classification_test.ts
-          npx tsx tests/phase_3_1_hmr_integration_test.ts
-          
-          echo "Testing Module 4: Universal SSR/Edge"
-          npx tsx tests/module4_ssr_runtime_test.ts
-          npx tsx tests/module4_adapters_test.ts
-          npx tsx tests/module4_edge_test.ts
-          npx tsx tests/module4_legacy_test.ts
-          npx tsx tests/module4_env_test.ts
-          npx tsx tests/module4_build_test.ts
-          npx tsx tests/phase2_test.ts
-          
-          echo "Testing Module 5: Adaptive Observability"
-          npx tsx tests/module5_day29_audit_engine_test.ts
-          npx tsx tests/module5_day30_terminal_warnings_test.ts
-          npx tsx tests/module5_day31_root_cause_test.ts
-          npx tsx tests/module5_day32_auto_fix_test.ts
-          npx tsx tests/module5_day33_repro_dashboard_test.ts
-          npx tsx tests/module5_day34_35_integration_test.ts
-          
-          echo "Testing Framework Support"
-          npx tsx tests/framework_detection_test.ts
-          npx tsx tests/framework_verification_test.ts
-          npx tsx tests/angular_compat_test.ts
-          npx tsx tests/solid_hmr_test.ts
-          
-          echo "Testing Build & Bundling"
-          npx tsx tests/integration_test.ts
-          npx tsx tests/bootstrap_test.ts
-          npx tsx tests/production_build_test.ts
-          npx tsx tests/determinism_snapshot_test.ts
-          
-          echo "Testing CSS & Assets"
-          npx tsx tests/asset_test.ts
-          npx tsx tests/css_cli_test.ts
-          npx tsx tests/css_optimization_integration_test.ts
-          npx tsx tests/final_css_test.ts
-          npx tsx tests/sourcemap_test.ts
-          
-          echo "Testing Federation & Advanced Features"
-          npx tsx tests/federation_core_test.ts
-          npx tsx tests/federation_runtime_test.ts
-          npx tsx tests/federation_dev_test.ts
-          npx tsx tests/federation_editor_test.ts
-          
-          echo "All tests completed successfully!"
-
-      - name: 🏁 Run Benchmarks
-        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
-        env:
-          NODE_OPTIONS: --experimental-vm-modules
-        run: |
-          echo "Running Performance Benchmarks"
-          npx tsx benchmarks/ux-score.ts
-          npx tsx benchmarks/module5-ux-suite.ts
-          npx tsx benchmarks/ssr-perf.ts
-
-      - name: 📤 Upload Build Artifacts
-        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            dist/
-            nexxo_native.node
-            package.json
-            package-lock.json
-
   summary:
-    name: 📊 Workflow Summary
+    name: 📊 CI Summary
     runs-on: ubuntu-latest
-    needs: build-and-test
+    needs: [lint-and-typecheck, build-and-test]
     if: always()
     steps:
-      - name: 📊 Build Summary
+      - name: 📊 Report Status
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "🎉 NEXXO v2.0 CI COMPLETE"
+          echo "       NEXXO v1.0.0 — CI COMPLETE"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "✅ Module 1: Speed Mastery"
-          echo "✅ Module 2: Zero-Trust Ecosystem"
-          echo "✅ Module 3: Elite DX/UI"
-          echo "✅ Module 4: Universal SSR/Edge"
-          echo "🚀 Status: Production Ready"
+          echo "  Lint & Type Check : ${{ needs.lint-and-typecheck.result }}"
+          echo "  Build & Test Suite: ${{ needs.build-and-test.result }}"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

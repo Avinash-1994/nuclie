@@ -5,6 +5,14 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "bin": {
     "nexxo": "./dist/cli.js",
     "create-nexxo": "./dist/create-nexxo.js"
@@ -12,7 +20,8 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "nexxo_native.node"
   ],
   "scripts": {
     "build": "npm run build:native && tsc -p tsconfig.build.json && node ./scripts/postbuild.js",

@@ -23,202 +23,307 @@ export const FrameworkGuides = () => {
             name: 'React',
             status: 'Stable (Tier 1)',
             statusColor: 'text-emerald-500 border-emerald-500/20 bg-emerald-500/5',
-            install: 'npm install react react-dom',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template react-ts',
             preset: 'react',
-            hmr: 'Fast Refresh (Component-level)',
+            hmr: 'Fast Refresh (Component-level state preserved)',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'react-adapter',
   entry: ['./src/main.tsx'],
-  preset: 'spa'
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+  },
+
+  dev: {
+    port: 3000,
+    hmr: true,
+  },
+
+  // Optional: CSS Modules + Tailwind
+  css: {
+    modules: true,
+    framework: 'tailwind',
+  },
 };`,
             features: [
-                { title: 'Full HMR Support', desc: 'Preserves state during development.' },
-                { title: 'Babel-free Refresh', desc: 'Direct AST transformation for speed.' },
-                { title: 'TSX/JSX Support', desc: 'Native support through Universal Transformer.' }
+                { title: 'Full HMR', desc: 'Component-level Fast Refresh preserves state.' },
+                { title: 'TSX / JSX', desc: 'Native transform via SWC — no Babel needed.' },
+                { title: 'React 18 & 19', desc: 'Server components and concurrent mode ready.' }
             ],
             limitations: [
-                'No support for automatic class component transformations.',
-                'Requires react 17+ for the new JSX transform.'
+                'Class components fully supported; legacy createClass is not.',
+                'Requires React ≥17 for the automatic JSX runtime.',
             ]
         },
         vue: {
             name: 'Vue',
             status: 'Stable (Tier 1)',
             statusColor: 'text-emerald-500 border-emerald-500/20 bg-emerald-500/5',
-            install: 'npm install vue',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template vue-ts',
             preset: 'vue',
-            hmr: 'SFC Reload (File-level)',
+            hmr: 'SFC Hot-Reload (file-level)',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'vue-adapter',
-  entry: ['./src/main.js'],
-  preset: 'spa'
+  entry: ['./src/main.ts'],
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+  },
+
+  dev: {
+    port: 5173,
+    hmr: true,
+  },
+
+  // Optional: enable Vue i18n or Pinia
+  plugins: [
+    // nexxo plugins go here
+  ],
 };`,
             features: [
-                { title: 'SFC Transformation', desc: 'Native support for .vue files.' },
-                { title: 'Vue Router Integration', desc: 'Built-in path resolving support.' },
-                { title: 'Optimized Builds', desc: 'Automatic production flagging.' }
+                { title: 'SFC Transform', desc: 'Native .vue single-file component support.' },
+                { title: 'Vue 3 Composition API', desc: '<script setup> and composables fully supported.' },
+                { title: 'Pinia / Vuex', desc: 'State managers work with HMR out of the box.' }
             ],
             limitations: [
-                'SSR requires a separate federation configuration.',
-                'Vue 2 is supported through a legacy adapter.'
+                'Vue 2 requires the legacy-vue adapter plugin.',
+                'SSR mode is experimental — use a standard Node server for now.',
             ]
         },
         svelte: {
             name: 'Svelte',
             status: 'Stable (Tier 1)',
             statusColor: 'text-emerald-500 border-emerald-500/20 bg-emerald-500/5',
-            install: 'npm install svelte',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template svelte-ts',
             preset: 'svelte',
-            hmr: 'Component Reload',
+            hmr: 'Component Hot-Reload',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'svelte-adapter',
-  entry: ['./src/main.js'],
-  preset: 'spa'
+  entry: ['./src/main.ts'],
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+  },
+
+  dev: {
+    port: 5173,
+    hmr: true,
+  },
+
+  // Optional: enable preprocessor for TypeScript/SCSS inside .svelte files
+  css: {
+    modules: false,  // Svelte handles CSS scoping natively
+  },
 };`,
             features: [
-                { title: 'Compiler Integration', desc: 'Direct 5.x compiler mapping.' },
-                { title: 'Reactive Prop Sync', desc: 'HMR preserves reactive state.' },
-                { title: 'Styling Isolation', desc: 'Automatic scoped CSS extraction.' }
+                { title: 'Svelte 5 Runes', desc: 'Full $state, $derived, $effect support.' },
+                { title: 'Scoped CSS', desc: 'Automatic style isolation per component.' },
+                { title: 'Zero Runtime', desc: 'Compiles to vanilla JS — no framework overhead.' }
             ],
             limitations: [
-                'Legacy Svelte 3/4 requires compatibility shim.',
-                'No support for multi-entry Svelte files.'
+                'Svelte 3/4 requires the svelte-compat preset.',
+                'SvelteKit SSR (adapter-node) needs separate configuration.',
             ]
         },
         solid: {
             name: 'SolidJS',
             status: 'Stable (Tier 1)',
             statusColor: 'text-emerald-500 border-emerald-500/20 bg-emerald-500/5',
-            install: 'npm install solid-js',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template solid-ts',
             preset: 'solid',
-            hmr: 'Brotli-compressed Fast Refresh',
+            hmr: 'Hot Module Replacement (signal-aware)',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'solid-adapter',
   entry: ['./src/index.tsx'],
-  preset: 'spa'
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+  },
+
+  dev: {
+    port: 3000,
+    hmr: true,
+  },
 };`,
             features: [
-                { title: 'Reactive JSX', desc: 'Pure signals, zero virtual DOM overhead.' },
-                { title: 'High-Perf HMR', desc: 'Sub-30ms reload times.' },
-                { title: 'Graph Aware', desc: 'Optimized for Solid module boundaries.' }
+                { title: 'Fine-grained Reactivity', desc: 'Signal-based — no VDOM diffing.' },
+                { title: 'JSX Compilation', desc: 'Compile-time JSX optimisation via babel-preset-solid.' },
+                { title: 'createSignal HMR', desc: 'Reactive primitives preserved across reloads.' }
             ],
             limitations: [
-                'Experimental SSR support only.',
-                'Strict requirement for pure function components.'
+                'Experimental SSR support only via SolidStart.',
+                'Components must be pure functions (no class components).',
             ]
         },
         preact: {
             name: 'Preact',
             status: 'Stable (Tier 1)',
             statusColor: 'text-emerald-500 border-emerald-500/20 bg-emerald-500/5',
-            install: 'npm install preact',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template preact-ts',
             preset: 'preact',
             hmr: 'Fast Refresh',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'preact-adapter',
-  entry: ['./src/index.js'],
-  preset: 'spa'
+  entry: ['./src/index.tsx'],
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+  },
+
+  dev: {
+    port: 3000,
+    hmr: true,
+  },
+
+  // Optional: alias 'react' to 'preact/compat' for React library compatibility
+  resolve: {
+    alias: {
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat',
+    },
+  },
 };`,
             features: [
-                { title: 'VNode Optimization', desc: 'Custom preact/jsx-runtime integration.' },
-                { title: 'Signals Support', desc: 'Deep-integrated preact-signals tracking.' },
-                { title: 'Ultra Lightweight', desc: '3KB core with full fresh support.' }
+                { title: 'Tiny Bundle', desc: '~3KB runtime, identical API to React.' },
+                { title: 'React Compat', desc: 'Use most React libraries via preact/compat alias.' },
+                { title: 'Preact Signals', desc: 'Deep integration with @preact/signals.' }
             ],
             limitations: [
-                'Requires manual aliasing for some React libraries.',
+                'Some advanced React 18 APIs (useTransition, useDeferredValue) need shimming.',
             ]
         },
         lit: {
             name: 'Lit',
             status: 'Verified',
             statusColor: 'text-blue-500 border-blue-500/20 bg-blue-500/5',
-            install: 'npm install lit',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template lit-ts',
             preset: 'lit',
             hmr: 'Web Component Hot-Patch',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'lit-adapter',
   entry: ['./src/main.ts'],
-  preset: 'spa'
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+    target: 'es2020',   // Lit needs modern JS
+  },
+
+  dev: {
+    port: 3000,
+    hmr: true,
+  },
 };`,
             features: [
                 { title: 'Decorator Support', desc: 'TC39 and TypeScript legacy decorators.' },
-                { title: 'Shadow DOM HMR', desc: 'In-place style updates without reload.' },
-                { title: 'Standard Compliant', desc: 'Pure Web Components orchestration.' }
+                { title: 'Shadow DOM HMR', desc: 'In-place style updates without full reload.' },
+                { title: 'Platform Native', desc: 'Standards-based Web Components — no polyfills needed in modern browsers.' }
             ],
             limitations: [
-                'Requires custom element registry management for HMR.',
+                'HMR requires re-registration of custom elements on reload.',
             ]
         },
         alpine: {
             name: 'Alpine.js',
             status: 'Verified',
             statusColor: 'text-blue-500 border-blue-500/20 bg-blue-500/5',
-            install: 'npm install alpinejs',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template alpine-js',
             preset: 'alpine',
             hmr: 'Reactive Core Reload',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'alpine-adapter',
   entry: ['./src/main.js'],
-  preset: 'spa'
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: false,
+  },
+
+  dev: {
+    port: 3000,
+    hmr: true,
+  },
 };`,
             features: [
-                { title: 'Runtime Only', desc: 'Optimized for directive-driven logic.' },
-                { title: 'State Preservation', desc: 'Global $store remains after refresh.' },
-                { title: 'Vanilla First', desc: 'Zero-configuration template handling.' }
+                { title: 'Zero Config', desc: 'Import Alpine.js and you are done.' },
+                { title: 'Store HMR', desc: 'Global $store data survives hot reloads.' },
+                { title: 'HTML-first', desc: 'Directives live in HTML — ideal for server-rendered pages.' }
             ],
             limitations: [
-                'Complex component loops may require partial mount.',
+                'Complex component trees with x-for loops may need full page refresh.',
             ]
         },
         qwik: {
             name: 'Qwik',
             status: 'Experimental',
             statusColor: 'text-amber-500 border-amber-500/20 bg-amber-500/5',
-            install: 'npm install @builder.io/qwik',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template qwik-ts',
             preset: 'qwik',
-            hmr: 'Modular Resumability',
+            hmr: 'Resumability-aware HMR',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'qwik-adapter',
-  entry: ['./src/main.tsx'],
-  preset: 'spa'
+  entry: ['./src/root.tsx'],
+  outDir: './dist',
+
+  build: {
+    minify: true,
+    sourcemap: 'external',
+  },
+
+  dev: {
+    port: 5173,
+    hmr: true,
+  },
 };`,
             features: [
-                { title: 'Resumability', desc: 'Zero hydration on client side.' },
-                { title: 'Optimizer Integration', desc: 'Full support for Qwik Optimizer hooks.' },
-                { title: 'Serializers', desc: 'Fast serialization of component state.' }
+                { title: 'Resumability', desc: 'Zero hydration — serializes state, not code.' },
+                { title: 'Optimizer Hooks', desc: 'Full support for the Qwik Optimizer symbols.' },
+                { title: 'Lazy Loading', desc: 'Automatic code splitting at component level.' }
             ],
             limitations: [
-                'Experimental SSR mode only.',
+                'Experimental — SSR mode only for now.',
             ]
         },
         mithril: {
             name: 'Mithril.js',
             status: 'Legacy',
             statusColor: 'text-slate-500 border-slate-500/20 bg-slate-500/5',
-            install: 'npm install mithril',
+            install: 'npm install -g nexxo\nnexxo bootstrap --name my-app --template mithril-js',
             preset: 'mithril',
             hmr: 'Full Module Replacement',
             example: `// nexxo.config.js
 module.exports = {
-  adapter: 'mithril-adapter',
   entry: ['./src/main.js'],
-  preset: 'spa'
+  outDir: './dist',
+
+  build: {
+    minify: true,
+  },
+
+  dev: {
+    port: 3000,
+    hmr: true,
+  },
 };`,
             features: [
-                { title: 'Fast VDOM', desc: 'High-speed diffing and patching.' },
-                { title: 'Routing', desc: 'Built-in support for Mithril routing.' },
-                { title: 'Small Footprint', desc: 'Minimalistic core size.' }
+                { title: 'Hyperscript', desc: 'm() API for programmatic VDOM construction.' },
+                { title: 'Built-in Router', desc: 'Zero-dependency routing with m.route.' },
+                { title: 'Small Core', desc: 'Under 10KB — ideal for embedded apps.' }
             ],
             limitations: [
-                'State preservation requires extra boilerplate.',
+                'State preservation across HMR cycles requires extra boilerplate.',
             ]
         }
     }[framework.toLowerCase()] || { name: framework, install: '', preset: '', example: '', features: [], limitations: [], status: 'Community', statusColor: 'text-slate-500 border-slate-500/20 bg-slate-500/5', hmr: 'Full Refresh' };

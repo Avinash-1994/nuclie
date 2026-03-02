@@ -171,13 +171,27 @@ async function testFramework(test: FrameworkTest): Promise<{ success: boolean; e
         const distDir = path.join(testDir, 'dist');
         let content = '';
         try {
-            const distFiles = await fs.readdir(distDir);
-            const jsFiles = distFiles.filter(f => f.endsWith('.js'));
+            // Build engine outputs to dist/assets/*.bundle.js — search recursively
+            const findJsFiles = async (dir: string): Promise<string[]> => {
+                const entries = await fs.readdir(dir, { withFileTypes: true });
+                const files: string[] = [];
+                for (const entry of entries) {
+                    const full = path.join(dir, entry.name);
+                    if (entry.isDirectory()) {
+                        files.push(...await findJsFiles(full));
+                    } else if (entry.name.endsWith('.js') && !entry.name.includes('manifest') && !entry.name.includes('explain')) {
+                        files.push(full);
+                    }
+                }
+                return files;
+            };
+            const jsFiles = await findJsFiles(distDir);
             if (jsFiles.length === 0) {
+                const topFiles = await fs.readdir(distDir);
                 await engine.close();
-                return { success: false, error: `No JS files found in dist/. Got: ${distFiles.join(', ') || 'empty dir'}` };
+                return { success: false, error: `No JS files found in dist/. Got: ${topFiles.join(', ') || 'empty dir'}` };
             }
-            content = await fs.readFile(path.join(distDir, jsFiles[0]), 'utf-8');
+            content = await fs.readFile(jsFiles[0], 'utf-8');
         } catch (e: any) {
             await engine.close();
             return { success: false, error: `dist/ not found or unreadable: ${e.message}` };

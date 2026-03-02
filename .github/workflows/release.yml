@@ -1,4 +1,4 @@
-name: Release
+name: Release & Publish
 
 on:
   push:
@@ -7,43 +7,81 @@ on:
 
 permissions:
   contents: write
+  id-token: write  # For npm provenance
 
 jobs:
-  build-and-release:
+  verify:
+    name: 🔍 Pre-Release Verification
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
-      
+
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-      
+
       - name: 🦀 Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
-      
+
       - name: 📦 Install Dependencies
         run: npm ci
-      
+
+      - name: 🔍 Type Check
+        run: npm run typecheck
+
+      - name: 🔍 Lint
+        run: npm run lint
+
+      - name: ✅ Run Tests
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+        run: npm test
+
+  build-and-release:
+    name: 🚀 Build & Release
+    runs-on: ubuntu-latest
+    needs: verify
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 🦀 Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
       - name: 🔨 Build Project
         run: npm run build
-      
-      - name: 📦 Pack and Verify
-        run: npm run prepack
-      
+
+      - name: 📦 Verify Pack Contents
+        run: |
+          npm pack --dry-run
+          echo "✅ Pack verification complete"
+
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/*
+            nexxo-*.tgz
             nexxo_native.node
-            package.json
-            README.md
-            LICENSE
           generate_release_notes: true
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📤 Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

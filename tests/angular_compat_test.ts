@@ -130,7 +130,22 @@ async function runTest() {
         // The transformer imports 'typescript' directly (not resolving from root).
         // Since we run this test from the build tool repo, it should find `typescript` in OUR node_modules.
 
-        const bundlePath = path.join(testDir, 'dist', 'main.bundle.js');
+        // Build engine emits to dist/assets/<name>.<hash>.bundle.js — find it recursively
+        const findBundle = async (dir: string): Promise<string | null> => {
+            const entries = await fs.readdir(dir, { withFileTypes: true });
+            for (const entry of entries) {
+                const full = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                    const found = await findBundle(full);
+                    if (found) return found;
+                } else if (entry.name.endsWith('.bundle.js')) {
+                    return full;
+                }
+            }
+            return null;
+        };
+        const bundlePath = await findBundle(path.join(testDir, 'dist'));
+        if (!bundlePath) throw new Error('No bundle.js file found in dist/');
         const content = await fs.readFile(bundlePath, 'utf-8');
 
         // Verify content

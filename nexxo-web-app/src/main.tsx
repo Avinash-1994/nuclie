@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ThemeProvider } from './components/ThemeContext';
 import { I18nProvider } from './components/I18nContext';
@@ -38,7 +38,7 @@ const App = () => {
     return (
         <ThemeProvider>
             <I18nProvider>
-                <BrowserRouter>
+                <HashRouter>
                     <Layout>
                         <Suspense fallback={<LoadingFallback />}>
                             <Routes>
@@ -86,7 +86,7 @@ const App = () => {
                             </Routes>
                         </Suspense>
                     </Layout>
-                </BrowserRouter>
+                </HashRouter>
             </I18nProvider>
         </ThemeProvider>
     );

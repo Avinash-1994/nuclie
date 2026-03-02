@@ -1,5 +1,8 @@
-# Native binaries — platform-specific, not bundled in npm package
-*.node
+# ============================================================
+# Nexxo .npmignore — Excludes dev/test files from npm package
+# NOTE: package.json "files" whitelist takes precedence over
+# patterns here. nexxo_native.node is included via "files".
+# ============================================================
 
 # Source & tests — not needed by consumers
 src/
@@ -13,23 +16,54 @@ docs/
 .github/
 .agent/
 .governance/
+cloud-backend/
+ci-templates/
+docker-benchmarks/
+docker/
+eslint-plugin-nexxo-governance/
+examples/
+framework-tests/
+frameworks/
+marketplace/
+build_output/
+test_output_prod/
+test-production-app/
+config/
+extensions/
 
 # Dev config
 jest.config.js
 tsconfig*.json
+eslint.config.js
+playwright.config.ts
 .eslintrc*
 .prettierrc*
 *.tsbuildinfo
 
-# Misc
+# Database & cache files
+*.db
+*.db.json
+.nexxo_cache/
+.nexxo-marketplace.db
+
+# Build logs & scripts
 *.log
+build-output.log
+fix-ci-tests.ps1
+fix-error-tests.ps1
+
+# Packaged archives
 *.tgz
+
+# Documentation & status reports (not needed by consumers)
 BRUTAL_HONEST_ASSESSMENT.md
 FINAL_*.md
 CI_*.md
 PRODUCTION_*.md
 CLEANUP_*.md
 TESTING_*.md
+BUILD_*.md
+MINIFICATION_*.md
 GOVERNANCE.md
 CONTRIBUTING.md
 CHANGELOG.md
