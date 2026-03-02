@@ -5,11 +5,9 @@ import {
     ShieldCheck,
     Code2,
     Cpu,
-    Globe,
     Activity,
     Palette,
     Package,
-    Cloud,
     Puzzle,
     TrendingUp,
     CheckCircle2,
@@ -17,27 +15,47 @@ import {
     ArrowRight,
     FileCode,
     Settings,
-    Layers
+    Layers,
+    Globe
 } from 'lucide-react';
 
 const StatusBadge = ({ status, color = 'blue' }: { status: string, color?: string }) => {
+    const colorMap: Record<string, string> = {
+        blue: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
+        purple: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
+        pink: 'bg-pink-500/10 text-pink-500 border-pink-500/20',
+        emerald: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+        amber: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+        cyan: 'bg-cyan-500/10 text-cyan-500 border-cyan-500/20',
+        red: 'bg-red-500/10 text-red-500 border-red-500/20',
+        violet: 'bg-violet-500/10 text-violet-500 border-violet-500/20',
+        teal: 'bg-teal-500/10 text-teal-500 border-teal-500/20',
+    };
     return (
-        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-${color}-500/10 text-${color}-500 border border-${color}-500/20 shadow-sm`}>
+        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm ${colorMap[color] || colorMap.blue}`}>
             {status}
         </span>
     );
 };
 
-const FeatureItem = ({ name, description, implementation, file }: { name: string, description: string, implementation: string, file: string }) => (
-    <div className="group relative p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1 overflow-hidden">
+const FeatureItem = ({ name, description, implementation, file, available = true }: {
+    name: string,
+    description: string,
+    implementation: string,
+    file: string,
+    available?: boolean
+}) => (
+    <div className={`group relative p-6 rounded-2xl bg-[var(--surface-color)] border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden ${available ? 'border-[var(--border-color)] hover:border-blue-500/50' : 'border-amber-500/20 opacity-80'}`}>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
         <div className="relative">
             <div className="flex items-start justify-between mb-4">
                 <h3 className="text-lg font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
                     {name}
                 </h3>
-                <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+                {available
+                    ? <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
+                    : <span className="text-[10px] font-bold text-amber-500 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full">Experimental</span>
+                }
             </div>
 
             <p className="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed min-h-[40px]">
@@ -45,15 +63,15 @@ const FeatureItem = ({ name, description, implementation, file }: { name: string
             </p>
 
             <div className="space-y-3">
-                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--border-color)] group-hover:bg-white dark:group-hover:bg-slate-800 transition-colors">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--border-color)]">
                     <Settings size={14} className="text-blue-500 mt-0.5 flex-shrink-0" />
                     <div>
-                        <div className="text-[10px] text-blue-500 font-bold uppercase tracking-wider mb-0.5">Implementation</div>
+                        <div className="text-[10px] text-blue-500 font-bold uppercase tracking-wider mb-0.5">How it works</div>
                         <div className="text-xs text-[var(--text-secondary)] leading-relaxed">{implementation}</div>
                     </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--border-color)] group-hover:bg-white dark:group-hover:bg-slate-800 transition-colors">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-[var(--border-color)]">
                     <FileCode size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
                     <div>
                         <div className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider mb-0.5">Source</div>
@@ -68,67 +86,67 @@ const FeatureItem = ({ name, description, implementation, file }: { name: string
 export const Features: React.FC = () => {
     const features = [
         {
-            category: "Core Build System",
+            category: "Core Build Engine",
             icon: Zap,
             tag: "Core",
             color: "blue",
-            description: "The heart of Nexxo, designed for speed and reliability.",
+            description: "The actual engine under the hood — what runs when you type nexxo build.",
             items: [
                 {
-                    name: "Universal Framework Support",
-                    description: "Single build tool for React, Vue, Svelte, Solid, Angular, Lit, Preact, Qwik, Astro, and more",
-                    implementation: "UniversalTransformer with framework-specific adapters using esbuild and SWC",
+                    name: "Universal Transformer",
+                    description: "Transforms TypeScript, JSX, TSX, Vue SFCs, Svelte components, and plain JS/CSS through a single pipeline.",
+                    implementation: "SWC-based native transformer with per-file type detection and fallback JS paths",
                     file: "src/core/universal-transformer.ts"
                 },
                 {
-                    name: "Zero-Config Auto-Detection",
-                    description: "Automatically detects your framework from package.json and project structure",
-                    implementation: "Framework detection via dependency analysis and file patterns",
-                    file: "src/core/framework-detector.ts"
+                    name: "Dependency Graph Engine",
+                    description: "Builds a module dependency graph with cycle detection, topological sorting, and incremental invalidation.",
+                    implementation: "Custom graph built from static import analysis; nodes are content-hashed for cache keys",
+                    file: "src/core/graph/"
+                },
+                {
+                    name: "Parallel Chunk Execution",
+                    description: "Chunks are grouped into parallel waves and processed concurrently to minimise wall-clock build time.",
+                    implementation: "Promise.all over parallelGroups computed by the execution planner",
+                    file: "src/core/engine/execute.ts"
                 },
                 {
                     name: "Incremental Builds",
-                    description: "Only rebuild changed modules for lightning-fast development",
-                    implementation: "File-level caching with content hashing and dependency tracking",
-                    file: "src/core/engine/incremental.ts"
-                },
-                {
-                    name: "Parallel Processing",
-                    description: "Multi-threaded builds using Rust-powered native workers",
-                    implementation: "Rust native module with worker pool for CPU-intensive tasks",
-                    file: "native/src/lib.rs"
+                    description: "Only chunks whose content hash has changed are rebuilt. Unchanged chunks are served from the in-memory cache.",
+                    implementation: "Per-chunk cache keyed on module content hashes, config hash, and plugin pipeline hash",
+                    file: "src/core/engine/cache.ts"
                 }
             ]
         },
         {
-            category: "Development Experience",
+            category: "Development Server",
             icon: Code2,
-            tag: "DevEx",
+            tag: "DevServer",
             color: "purple",
-            description: "Features that make developers happy and productive.",
+            description: "The local dev server — designed for fast feedback during development.",
             items: [
                 {
                     name: "Hot Module Replacement (HMR)",
-                    description: "Instant updates without full page reload for all frameworks",
-                    implementation: "WebSocket-based HMR with framework-specific runtime adapters",
-                    file: "src/dev/hmr.ts"
-                },
-                {
-                    name: "Dev Server with Middleware",
-                    description: "Built-in dev server with proxy, CORS, and custom middleware support",
-                    implementation: "Node.js HTTP server with middleware pipeline and WebSocket support",
+                    description: "Pushes updated modules to the browser over WebSocket without a full page reload.",
+                    implementation: "WebSocket server sends module update events; client runtime patches the running module graph",
                     file: "src/dev/devServer.ts"
                 },
                 {
-                    name: "Source Maps",
-                    description: "Full source map support for debugging transformed code",
-                    implementation: "Inline and external source maps via esbuild and custom transformers",
-                    file: "src/core/universal-transformer.ts"
+                    name: "Dependency Pre-bundling",
+                    description: "Node_modules are pre-bundled on first start so the browser only fetches a single optimised file per dependency.",
+                    implementation: "esbuild-based prebundler that batches all declared deps and caches the output",
+                    file: "src/dev/preBundler.ts"
+                },
+                {
+                    name: "Framework Auto-Detection",
+                    description: "Nexxo reads your package.json and project structure to pick the right transformer and HMR strategy automatically.",
+                    implementation: "Dependency name + file extension heuristics implemented in the detection scanner",
+                    file: "src/core/framework-detector.ts"
                 },
                 {
                     name: "TypeScript Support",
-                    description: "First-class TypeScript support with type checking",
-                    implementation: "TSX loader with optional type checking via tsc",
+                    description: "TS / TSX files are transpiled on the fly. Type checking is intentionally left to your editor (tsc --noEmit) for speed.",
+                    implementation: "SWC strips types at transform time; tsc is only invoked via npm run typecheck",
                     file: "src/core/universal-transformer.ts"
                 }
             ]
@@ -138,31 +156,32 @@ export const Features: React.FC = () => {
             icon: Palette,
             tag: "Styling",
             color: "pink",
-            description: "Advanced styling support out of the box.",
+            description: "CSS processing built into the core pipeline — no extra config needed for basics.",
             items: [
                 {
-                    name: "CSS Modules",
-                    description: "Scoped CSS with automatic class name hashing",
-                    implementation: "PostCSS-based CSS Modules with local scope transformation",
-                    file: "src/plugins/css.ts"
+                    name: "LightningCSS Processing",
+                    description: "CSS is parsed and transformed by LightningCSS (Rust-native) for vendor prefixing, syntax lowering, and minification.",
+                    implementation: "Native .node binding wraps the LightningCSS library; JS fallback available if native fails",
+                    file: "src/core/css/engine.ts"
                 },
                 {
-                    name: "Tailwind CSS",
-                    description: "Built-in Tailwind CSS support with JIT compilation",
-                    implementation: "Tailwind plugin with automatic config detection and JIT engine",
+                    name: "CSS Framework Detection",
+                    description: "Automatically detects if your project uses Tailwind CSS, UnoCSS, or plain CSS and applies the right PostCSS pipeline.",
+                    implementation: "config file scanning + package.json dependency inspection",
+                    file: "src/core/css-framework-detector.ts"
+                },
+                {
+                    name: "Tailwind CSS Integration",
+                    description: "Tailwind is processed through the standard PostCSS plugin chain. JIT mode works as configured in your tailwind.config.*.",
+                    implementation: "PostCSS pipeline with tailwindcss plugin auto-injected when detected",
                     file: "src/plugins/tailwind.ts"
                 },
                 {
-                    name: "CSS-in-JS",
-                    description: "Support for Emotion, Styled-Components, and other CSS-in-JS libraries",
-                    implementation: "Framework-agnostic CSS-in-JS bundling with runtime injection",
-                    file: "src/plugins/css-in-js.ts"
-                },
-                {
-                    name: "SASS/SCSS",
-                    description: "Native SASS/SCSS compilation",
-                    implementation: "Sass compiler integration with source maps",
-                    file: "src/plugins/sass.ts"
+                    name: "SCSS / Sass",
+                    description: "Import .scss files directly. Nexxo compiles them via the sass package if installed in your project.",
+                    implementation: "Dynamic import of the sass compiler; gracefully errors if sass is not installed",
+                    file: "src/plugins/sass.ts",
+                    available: false
                 }
             ]
         },
@@ -171,157 +190,98 @@ export const Features: React.FC = () => {
             icon: Globe,
             tag: "Federation",
             color: "emerald",
-            description: "Built-in micro-frontend capabilities.",
+            description: "Built-in support for micro-frontend architectures via module federation.",
             items: [
                 {
-                    name: "Micro-Frontend Architecture",
-                    description: "Build and deploy independent micro-frontends",
-                    implementation: "Custom module federation runtime with dynamic remote loading",
-                    file: "src/runtime/federation.js"
+                    name: "Remote Module Loading",
+                    description: "Load UI components from separately deployed apps at runtime — no rebuild required.",
+                    implementation: "createFederationPlugin() wraps remoteEntry.js negotiation and exposes a module map",
+                    file: "src/plugins/federation_next.ts"
                 },
                 {
-                    name: "Shared Dependencies",
-                    description: "Share common dependencies across micro-frontends",
-                    implementation: "Dependency deduplication with version resolution and singleton enforcement",
-                    file: "src/federation/shared.ts"
+                    name: "Shared Dependency Singleton",
+                    description: "Libraries like React can be shared across remotes to avoid loading them twice.",
+                    implementation: "Version range matching at runtime; shared map is checked before module download",
+                    file: "src/plugins/federation_next.ts"
                 },
                 {
-                    name: "Hot Federation",
-                    description: "HMR support for federated modules",
-                    implementation: "WebSocket-based federation updates with runtime module replacement",
-                    file: "src/dev/hotFederation.ts"
+                    name: "Expose Modules",
+                    description: "Any module in your app can be exposed as a federated remote and consumed by another Nexxo app.",
+                    implementation: "exposes config key generates a remoteEntry.js with the specified module map",
+                    file: "src/plugins/federation_next.ts"
                 },
                 {
-                    name: "Framework-Agnostic Federation",
-                    description: "Mix React, Vue, Svelte, and other frameworks in the same app",
-                    implementation: "Universal module wrapper with framework-specific adapters",
-                    file: "src/federation/universal.ts"
+                    name: "Dev-mode Federation",
+                    description: "Remotes work in development mode with HMR — changes to a remote propagate to the host without restart.",
+                    implementation: "WebSocket federation event bus shared between dev server instances",
+                    file: "src/plugins/federation_next.ts",
+                    available: false
                 }
             ]
         },
         {
-            category: "Production Optimization",
+            category: "Production Optimisation",
             icon: TrendingUp,
             tag: "Production",
             color: "amber",
-            description: "Optimize your bundles for maximum performance.",
+            description: "What happens when you run nexxo build.",
             items: [
                 {
                     name: "Tree Shaking",
-                    description: "Remove unused code for smaller bundles",
-                    implementation: "ESM-based tree shaking via esbuild with dead code elimination",
-                    file: "src/core/engine/bundler.ts"
-                },
-                {
-                    name: "Code Splitting",
-                    description: "Automatic code splitting with dynamic imports",
-                    implementation: "Chunk graph analysis with optimal splitting strategy",
-                    file: "src/core/engine/splitter.ts"
+                    description: "Dead code is detected via static export analysis and removed before the final bundle is written.",
+                    implementation: "AutoFixEngine.treeShake() analyses each module's exports and prunes unused ones",
+                    file: "src/fix/ast-transforms.ts"
                 },
                 {
                     name: "Minification",
-                    description: "Advanced minification with terser and esbuild",
-                    implementation: "Multi-pass minification with identifier mangling and compression",
-                    file: "src/core/engine/minifier.ts"
+                    description: "JS is minified through the native SWC minifier; CSS through LightningCSS. Falls back to esbuild if native fails.",
+                    implementation: "GlobalOptimizer runs minifier in sequence: native → esbuild fallback",
+                    file: "src/core/build/globalOptimizer.ts"
                 },
                 {
-                    name: "Asset Optimization",
-                    description: "Image optimization, font subsetting, and asset compression",
-                    implementation: "Sharp-based image optimization with WebP conversion and lazy loading",
-                    file: "src/plugins/assets.ts"
+                    name: "Code Splitting",
+                    description: "Dynamic imports create separate chunk boundaries. Each async import becomes its own bundle file.",
+                    implementation: "Async import edges in the dependency graph trigger separate ChunkPlan entries in the planner",
+                    file: "src/core/engine/plan.ts"
+                },
+                {
+                    name: "Source Maps",
+                    description: "External, inline, or hidden source maps are generated for production bundles.",
+                    implementation: "Source map JSON is appended or written as a separate .map file depending on config",
+                    file: "src/core/engine/execute.ts"
                 }
             ]
         },
         {
-            category: "Developer Tools",
-            icon: Activity,
-            tag: "Tools",
-            color: "cyan",
-            description: "Visualizers and metrics to understand your build.",
+            category: "Native Performance",
+            icon: Cpu,
+            tag: "Native",
+            color: "teal",
+            description: "Rust-powered native modules that speed up the most expensive operations.",
             items: [
                 {
-                    name: "Dependency Graph Visualization",
-                    description: "Interactive visualization of your project's dependency graph",
-                    implementation: "D3.js-based graph rendering with real-time updates",
-                    file: "src/visual/graph-ui.ts"
+                    name: "Native Hash Functions",
+                    description: "Content hashing uses xxHash via a Rust native addon for consistent, collision-resistant, fast IDs.",
+                    implementation: "napi-rs binding exposes xxHash64; fallback to Node.js crypto.createHash('sha256')",
+                    file: "native/src/lib.rs"
                 },
                 {
-                    name: "Bundle Analyzer",
-                    description: "Analyze bundle size and composition",
-                    implementation: "Treemap visualization with size breakdown and optimization suggestions",
-                    file: "src/visual/bundle-analyzer.ts"
+                    name: "SWC Transform",
+                    description: "JavaScript and TypeScript are transformed by SWC — a Rust-based JS compiler significantly faster than Babel.",
+                    implementation: "swc_core crate with configurable jsx_runtime, target, and decorator support",
+                    file: "native/src/transform.rs"
                 },
                 {
-                    name: "Performance Metrics",
-                    description: "Track build times, bundle sizes, and HMR performance",
-                    implementation: "Performance API integration with historical tracking",
-                    file: "src/dev/metrics.ts"
-                }
-            ]
-        },
-        {
-            category: "Quality & Governance",
-            icon: ShieldCheck,
-            tag: "Quality",
-            color: "red",
-            description: "Ensure code quality and security standards.",
-            items: [
-                {
-                    name: "Built-in Linting",
-                    description: "ESLint integration with framework-specific rules",
-                    implementation: "Custom ESLint plugin with governance rules",
-                    file: "eslint-plugin-nexxo-governance/index.js"
+                    name: "LightningCSS Minifier",
+                    description: "CSS minification is handled in Rust by LightningCSS rather than a JS postcss plugin.",
+                    implementation: "lightningcss crate with PrinterOptions { minify: true }",
+                    file: "native/src/transform.rs"
                 },
                 {
-                    name: "Accessibility Audits",
-                    description: "Automatic accessibility checking during builds",
-                    implementation: "axe-core integration with HTML parsing and ARIA validation",
-                    file: "src/plugins/a11y.ts"
-                },
-                {
-                    name: "Security Scanning",
-                    description: "Dependency vulnerability scanning",
-                    implementation: "npm audit integration with SNYK API for advanced scanning",
-                    file: "src/security/scanner.ts"
-                },
-                {
-                    name: "Governance Rules",
-                    description: "Enforce architectural boundaries and best practices",
-                    implementation: "Custom rule engine with import restrictions and pattern enforcement",
-                    file: "src/governance/rules.ts"
-                }
-            ]
-        },
-        {
-            category: "Cloud & Deployment",
-            icon: Cloud,
-            tag: "Cloud",
-            color: "indigo",
-            description: "Deploy to any platform with ease.",
-            items: [
-                {
-                    name: "Edge Deployment",
-                    description: "Deploy to Cloudflare Workers, Vercel Edge, and more",
-                    implementation: "Platform-specific adapters with automatic code transformation",
-                    file: "src/deploy/edge.ts"
-                },
-                {
-                    name: "SSR/SSG Support",
-                    description: "Server-side rendering and static site generation",
-                    implementation: "Framework-specific SSR adapters with hydration support",
-                    file: "src/ssr/renderer.ts"
-                },
-                {
-                    name: "CDN Integration",
-                    description: "Automatic asset upload to CDN",
-                    implementation: "S3-compatible storage with CloudFront invalidation",
-                    file: "src/deploy/cdn.ts"
-                },
-                {
-                    name: "Docker Support",
-                    description: "Generate optimized Docker images",
-                    implementation: "Multi-stage Dockerfile generation with layer caching",
-                    file: "src/deploy/docker.ts"
+                    name: "JS Fallback",
+                    description: "If the native .node binary is unavailable (e.g., unsupported OS or arch), all native operations fall back transparently to JS equivalents.",
+                    implementation: "try/catch around native binding import; graceful downgrade to esbuild / crypto",
+                    file: "native/index.cjs"
                 }
             ]
         },
@@ -330,58 +290,64 @@ export const Features: React.FC = () => {
             icon: Puzzle,
             tag: "Plugins",
             color: "violet",
-            description: "Extensible architecture for custom needs.",
+            description: "A simple, hook-based plugin API for extending the build pipeline.",
             items: [
                 {
-                    name: "Custom Plugins",
-                    description: "Extend Nexxo with custom transformations and hooks",
-                    implementation: "Plugin API with lifecycle hooks and transform pipeline",
-                    file: "src/plugins/plugin-api.ts"
+                    name: "load Hook",
+                    description: "Override how any module is read. Return { code } to replace file contents before transformation.",
+                    implementation: "PluginManager.runHook('load', ...) is called before fs.readFile in the execute stage",
+                    file: "src/core/plugins/manager.ts"
                 },
                 {
-                    name: "Plugin Marketplace",
-                    description: "Discover and install community plugins",
-                    implementation: "NPM-based plugin registry with version management",
-                    file: "marketplace/index.ts"
+                    name: "transform Hook",
+                    description: "Process module source code after it is loaded. Return { code } to deliver transformed output.",
+                    implementation: "Applied after UniversalTransformer; last plugin wins",
+                    file: "src/core/plugins/manager.ts"
                 },
                 {
-                    name: "Framework Adapters",
-                    description: "Add support for new frameworks via adapters",
-                    implementation: "Adapter API with framework detection and transformation hooks",
-                    file: "src/adapters/adapter-api.ts"
+                    name: "100+ Bundled Plugin Stubs",
+                    description: "Plugin definitions exist for Tailwind, ESLint, Vitest, Playwright, Prisma, Zustand, and many more — ready to be wired up.",
+                    implementation: "Type-safe plugin factory functions in src/plugins/implementations/",
+                    file: "src/plugins/implementations/"
+                },
+                {
+                    name: "Plugin Compat Layer",
+                    description: "A compatibility shim allows most Rollup-style plugins to run inside Nexxo with minimal changes.",
+                    implementation: "Rollup hook → Nexxo hook mapping in the compat adapter",
+                    file: "src/plugins/compat/rollup.ts"
                 }
             ]
         },
         {
-            category: "Advanced Features",
-            icon: Cpu,
-            tag: "Advanced",
-            color: "teal",
-            description: "For complex enterprise requirements.",
+            category: "Quality & Testing",
+            icon: ShieldCheck,
+            tag: "Quality",
+            color: "red",
+            description: "What we test and how we verify Nexxo works correctly.",
             items: [
                 {
-                    name: "Monorepo Support",
-                    description: "Build multiple packages in a monorepo efficiently",
-                    implementation: "Workspace detection with shared cache and parallel builds",
-                    file: "src/core/workspace.ts"
+                    name: "109 Tests — 14 Suites",
+                    description: "Unit, integration, property-based, real-world, and load tests all run on every CI push.",
+                    implementation: "Jest with ts-jest; fast-check for property-based tests; Node.js worker load tests",
+                    file: "tests/ + src/**/__tests__/"
                 },
                 {
-                    name: "Pre-bundling",
-                    description: "Pre-bundle dependencies for faster dev server startup",
-                    implementation: "Dependency analysis with esbuild-based pre-bundling and caching",
-                    file: "src/dev/prebundle.ts"
+                    name: "Permission Boundary Enforcement",
+                    description: "File system access outside the declared project root is rejected at the engine level.",
+                    implementation: "Path traversal checks in PermissionManager before any fs.readFile call",
+                    file: "src/core/permissions.ts"
                 },
                 {
-                    name: "Watch Mode",
-                    description: "Intelligent file watching with debouncing",
-                    implementation: "Chokidar-based file watcher with change detection and rebuild queue",
-                    file: "src/dev/watcher.ts"
+                    name: "Build Determinism",
+                    description: "Given identical inputs, Nexxo always produces byte-identical output — verified by snapshot tests.",
+                    implementation: "Module sort order + content hash determinism enforced in plan.ts and execute.ts",
+                    file: "tests/build/snapshot.test.ts"
                 },
                 {
-                    name: "Environment Variables",
-                    description: "Dotenv support with mode-specific files",
-                    implementation: "Dotenv parsing with mode resolution and build-time replacement",
-                    file: "src/config/env.ts"
+                    name: "CLI Health Check",
+                    description: "nexxo doctor diagnoses common configuration problems and suggests fixes.",
+                    implementation: "Checks for missing entry files, conflicting deps, and native binary availability",
+                    file: "src/commands/doctor.ts"
                 }
             ]
         }
@@ -395,19 +361,21 @@ export const Features: React.FC = () => {
                 <div className="relative">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-sm font-bold mb-8 backdrop-blur-sm">
                         <Rocket size={16} />
-                        <span>{features.reduce((acc, cat) => acc + cat.items.length, 0)} Production-Ready Features</span>
+                        <span>What Nexxo v1.0 actually ships</span>
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-black font-display tracking-tight text-[var(--text-primary)] leading-[1.1] mb-8">
-                        Complete
+                        Honest
                         <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent ml-4">
                             Feature Set
                         </span>
                     </h1>
 
-                    <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed mb-12">
-                        Everything you need for modern web development, from zero-config builds to production deployment.
-                        Designed to scale from hobby projects to enterprise monorepos.
+                    <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed mb-4">
+                        Every feature listed here is implemented and ships in v1.0. Items marked <span className="text-amber-500 font-semibold">Experimental</span> exist in code but aren't fully production-validated yet.
+                    </p>
+                    <p className="text-sm text-[var(--text-secondary)] max-w-2xl mx-auto mb-12 opacity-70">
+                        Source file paths link to actual files in the repository — check for yourself.
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
@@ -417,7 +385,7 @@ export const Features: React.FC = () => {
                                 href={`#${cat.tag.toLowerCase()}`}
                                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500 hover:shadow-lg transition-all duration-300 group"
                             >
-                                <cat.icon size={16} className={`text-${cat.color}-500 group-hover:scale-110 transition-transform`} />
+                                <cat.icon size={16} className="text-blue-500 group-hover:scale-110 transition-transform" />
                                 <span className="text-sm font-bold text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]">{cat.tag}</span>
                             </a>
                         ))}
@@ -435,8 +403,8 @@ export const Features: React.FC = () => {
                     >
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 px-4">
                             <div className="flex items-start gap-4">
-                                <div className={`p-4 rounded-2xl bg-${category.color}-500/10 border border-${category.color}-500/20 shadow-lg shadow-${category.color}-500/10`}>
-                                    <category.icon size={32} className={`text-${category.color}-500`} />
+                                <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20 shadow-lg shadow-blue-500/10">
+                                    <category.icon size={32} className="text-blue-500" />
                                 </div>
                                 <div>
                                     <h2 className="text-3xl font-black font-display tracking-tight text-[var(--text-primary)] mb-2">
@@ -452,7 +420,7 @@ export const Features: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-2 gap-6">
                             {category.items.map((feature, featureIdx) => (
                                 <FeatureItem
                                     key={featureIdx}
@@ -460,6 +428,7 @@ export const Features: React.FC = () => {
                                     description={feature.description}
                                     implementation={feature.implementation}
                                     file={feature.file}
+                                    available={'available' in feature ? feature.available : true}
                                 />
                             ))}
                         </div>
@@ -475,7 +444,7 @@ export const Features: React.FC = () => {
                         Ready to Build?
                     </h2>
                     <p className="text-xl text-[var(--text-secondary)] max-w-xl mx-auto mb-12 leading-relaxed">
-                        Get started in seconds with zero configuration and production-grade features out of the box.
+                        Install Nexxo globally and scaffold your first project in under a minute.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link
@@ -486,7 +455,7 @@ export const Features: React.FC = () => {
                             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                         <a
-                            href="https://github.com/Avinash-1994/nexxo"
+                            href="https://github.com/Avinash-1994/Nexxo"
                             className="px-10 py-5 border-2 border-[var(--border-color)] font-bold rounded-2xl hover:bg-[var(--surface-color)] hover:border-blue-500 transition-all duration-300 active:scale-95 flex items-center gap-2"
                             target="_blank"
                             rel="noopener noreferrer"

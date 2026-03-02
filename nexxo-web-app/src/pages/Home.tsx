@@ -104,7 +104,7 @@ export const Home: React.FC = () => {
                     {/* Version Badge */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 text-emerald-500 text-sm font-semibold mb-6 backdrop-blur-sm animate-in slide-in-from-top duration-700">
                         <Sparkles size={16} className="animate-pulse" />
-                        <span>v1.0 • Production Ready • 41 Tests Passing</span>
+                        <span>v1.0 • Production Ready • 109 Tests Passing</span>
                     </div>
 
                     {/* Main Headline - Reduced size */}
@@ -144,8 +144,9 @@ export const Home: React.FC = () => {
 
                     {/* Quick Install */}
                     <div className="max-w-2xl mx-auto animate-in slide-in-from-bottom duration-700 delay-400">
-                        <CodeBlock code={`npm create nexxo@latest my-app
-cd my-app && npm run dev`} />
+                        <CodeBlock code={`npm install -g nexxo
+nexxo bootstrap --name my-app --template react-ts
+cd my-app && nexxo dev`} />
                     </div>
                 </div>
             </section>
@@ -177,10 +178,10 @@ cd my-app && npm run dev`} />
                         },
                         {
                             label: 'Tests Passing',
-                            value: '41',
+                            value: '109',
                             icon: CheckCircle2,
                             gradient: 'from-green-400 to-emerald-500',
-                            description: '3 test suites'
+                            description: '14 test suites'
                         },
                         {
                             label: 'Bundle Size',
@@ -319,12 +320,12 @@ cd my-app && npm run dev`} />
                     <FeatureCard
                         icon={ShieldCheck}
                         title="Production Ready"
-                        description="Battle-tested on real-world projects with comprehensive test coverage."
+                        description="Tested with a comprehensive suite covering core engine, federation, caching, CSS, and more."
                         details={[
-                            '41 tests passing',
-                            'Tested on 8 frameworks',
-                            'Production-ready',
-                            'Enterprise-grade reliability'
+                            '109 tests passing',
+                            '14 test suites',
+                            'Property-based tests included',
+                            'Load & stress tests included'
                         ]}
                         gradient="bg-gradient-to-br from-green-400 to-emerald-500"
                     />
@@ -494,7 +495,7 @@ cd my-app && npm run dev`} />
                         Proven Reliability
                     </h2>
                     <p className="text-base text-[var(--text-secondary)]">
-                        100% test coverage across all frameworks and features
+                        109 tests across 14 suites — unit, integration, property-based, and stress
                     </p>
                 </div>
 
@@ -502,35 +503,45 @@ cd my-app && npm run dev`} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
                             <div className="text-5xl font-black bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent mb-2">
-                                11/11
+                                14
                             </div>
                             <div className="text-base font-semibold text-[var(--text-secondary)]">
-                                Perfect Scores Across All Projects
+                                Test Suites
                             </div>
                         </div>
                         <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20">
                             <div className="text-5xl font-black bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-2">
-                                41
+                                109
                             </div>
                             <div className="text-base font-semibold text-[var(--text-secondary)]">
-                                Tests Passing (3 Suites)
+                                Tests Passing
                             </div>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {[
-                            'TanStack Table', 'React Query', 'VueUse', 'Nuxt Content',
-                            'SvelteKit', 'Svelte Motion', 'Lit Project', 'Alpine.js'
-                        ].map(project => (
+                            { suite: 'Core Engine', count: '✓' },
+                            { suite: 'Module Federation', count: '✓' },
+                            { suite: 'CSS Processing', count: '✓' },
+                            { suite: 'Cache Correctness', count: '✓' },
+                            { suite: 'Universal Transformer', count: '✓' },
+                            { suite: 'Error Handling', count: '✓' },
+                            { suite: 'Property-Based (Resolver)', count: '✓' },
+                            { suite: 'Property-Based (Transformer)', count: '✓' },
+                            { suite: 'Build Snapshot', count: '✓' },
+                            { suite: 'Performance Regression', count: '✓' },
+                            { suite: 'Real-World Integration', count: '✓' },
+                            { suite: 'Load / Stress', count: '✓' },
+                        ].map(item => (
                             <div
-                                key={project}
+                                key={item.suite}
                                 className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 hover:bg-emerald-500/10 transition-colors"
                             >
-                                <span className="font-semibold text-sm text-[var(--text-primary)]">{project}</span>
+                                <span className="font-semibold text-sm text-[var(--text-primary)]">{item.suite}</span>
                                 <span className="text-emerald-500 font-bold flex items-center gap-2 text-sm">
                                     <CheckCircle2 size={16} />
-                                    11/11
+                                    {item.count}
                                 </span>
                             </div>
                         ))}
