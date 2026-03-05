@@ -1,5 +1,5 @@
 {
-  "name": "@avinash_94/nexxo",
+  "name": "nexxo",
   "version": "1.0.1",
   "description": "⚡ Fast build tool with HMR, source maps, tree shaking, and module federation",
   "type": "module",
