@@ -1,6 +1,6 @@
 {
   "name": "nexxo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "⚡ Fast build tool with HMR, source maps, tree shaking, and module federation",
   "type": "module",
   "main": "./dist/index.js",
