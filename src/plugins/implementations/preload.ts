@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-preload
+ * @urja/plugin-preload
  * Resource preloading
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPreloadPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-preload',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-preload',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-preload] Starting performance optimization...');
+            console.log('[@urja/plugin-preload] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPreloadPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-preload] Performance optimization complete');
+            console.log('[@urja/plugin-preload] Performance optimization complete');
         }
     };
 }

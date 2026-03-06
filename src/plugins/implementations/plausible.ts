@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-plausible
+ * @urja/plugin-plausible
  * Plausible Analytics integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPlausiblePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-plausible',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-plausible',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Analytics: Plausible Analytics integration
@@ -16,7 +16,7 @@ export function createPlausiblePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-plausible] Analytics integration ready');
+            console.log('[@urja/plugin-plausible] Analytics integration ready');
         }
     };
 }

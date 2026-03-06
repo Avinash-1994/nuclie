@@ -1,7 +1,7 @@
 /**
- * Nexxo Build Tool - Public API
+ * Urja Build Tool - Public API
  * 
- * This is the ONLY stable public surface for Nexxo.
+ * This is the ONLY stable public surface for Urja.
  * Everything not exported here is considered internal and may change without notice.
  * 
  * @public
@@ -27,7 +27,7 @@ export type { BuildConfig } from './config/index.js';
 // ============================================================================
 
 export type {
-    NexxoPlugin,
+    UrjaPlugin,
     PluginHookName,
     PluginManifest,
     PluginType

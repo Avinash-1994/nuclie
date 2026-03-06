@@ -1,6 +1,6 @@
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
-import nexxoGovernance from 'eslint-plugin-nexxo-governance';
+import urjaGovernance from 'eslint-plugin-urja-governance';
 import js from '@eslint/js';
 
 export default [
@@ -12,7 +12,7 @@ export default [
             'dist/**',
             '*.min.js',
             'coverage/**',
-            '.nexxo-cache/**'
+            '.urja-cache/**'
         ]
     },
     js.configs.recommended,
@@ -88,7 +88,7 @@ export default [
         },
         plugins: {
             '@typescript-eslint': tsPlugin,
-            'nexxo-governance': nexxoGovernance,
+            'urja-governance': urjaGovernance,
         },
         rules: {
             ...tsPlugin.configs.recommended.rules,
@@ -100,10 +100,10 @@ export default [
             'no-empty': 'off',
             'no-useless-escape': 'off',
             'no-case-declarations': 'off',
-            'nexxo-governance/no-internal-imports': 'error',
-            'nexxo-governance/require-experimental-flag': 'warn',
-            'nexxo-governance/no-graph-mutation': 'error',
-            'nexxo-governance/no-cache-access': 'error',
+            'urja-governance/no-internal-imports': 'error',
+            'urja-governance/require-experimental-flag': 'warn',
+            'urja-governance/no-graph-mutation': 'error',
+            'urja-governance/no-cache-access': 'error',
         },
     },
     {
@@ -127,16 +127,16 @@ export default [
             'src/marketplace/**/*.ts'
         ],
         rules: {
-            'nexxo-governance/no-internal-imports': 'off',
-            'nexxo-governance/no-graph-mutation': 'off',
-            'nexxo-governance/no-cache-access': 'off',
+            'urja-governance/no-internal-imports': 'off',
+            'urja-governance/no-graph-mutation': 'off',
+            'urja-governance/no-cache-access': 'off',
         }
     },
     {
         // Allow tests to be more permissive during stabilization
         files: ['tests/**/*.ts', 'examples/**/*.ts', 'benchmarks/**/*.ts', 'src/test/**/*.ts'],
         rules: {
-            'nexxo-governance/no-internal-imports': 'off',
+            'urja-governance/no-internal-imports': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-unused-vars': 'off'
         }

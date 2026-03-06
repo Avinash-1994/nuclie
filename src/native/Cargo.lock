@@ -273,7 +273,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "nexxo-native"
+name = "urja-native"
 version = "0.1.0"
 dependencies = [
  "bincode",

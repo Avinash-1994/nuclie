@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-wasm-sandbox
+ * @urja/plugin-wasm-sandbox
  * WASM plugin sandbox
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createWasmSandboxPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-wasm-sandbox',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-wasm-sandbox',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Security check: WASM plugin sandbox
@@ -29,7 +29,7 @@ export function createWasmSandboxPlugin(): PluginAdapter {
             }
             
             if (issues.length > 0) {
-                console.warn(`[@nexxo/plugin-wasm-sandbox] Security issues found:`, issues);
+                console.warn(`[@urja/plugin-wasm-sandbox] Security issues found:`, issues);
             }
         }
     };

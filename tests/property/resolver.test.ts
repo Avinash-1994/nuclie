@@ -14,7 +14,7 @@ describe('Property-Based: Module Resolution', () => {
     let tempDir: string;
 
     beforeAll(() => {
-        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nexxo-property-test-'));
+        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'urja-property-test-'));
     });
 
     afterAll(() => {

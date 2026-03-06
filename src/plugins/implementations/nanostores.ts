@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-nanostores
+ * @urja/plugin-nanostores
  * Nano Stores integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createNanostoresPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-nanostores',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-nanostores',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // State management: Nano Stores integration
@@ -16,7 +16,7 @@ export function createNanostoresPlugin(): PluginAdapter {
         },
 
         async buildStart() {
-            console.log('[@nexxo/plugin-nanostores] State management initialized');
+            console.log('[@urja/plugin-nanostores] State management initialized');
         }
     };
 }

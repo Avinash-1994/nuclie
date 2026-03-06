@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Nexxo Stability Audit — API Surface Check
+ * Urja Stability Audit — API Surface Check
  * 
  * Verifies that public API surface has not changed unexpectedly.
  * Compares current exports with baseline from last release.
@@ -125,7 +125,7 @@ function compareAPIs(baseline: APIExport[], current: APIExport[]): {
 }
 
 async function main() {
-    console.log('🔍 Nexxo API Surface Audit\n');
+    console.log('🔍 Urja API Surface Audit\n');
 
     const currentExports = await extractPublicAPI();
     console.log(`✅ Extracted ${currentExports.length} public exports\n`);

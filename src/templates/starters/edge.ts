@@ -14,12 +14,12 @@ export const edgeTemplate: TemplateConfig = {
     dependencies: {},
     devDependencies: {
         "typescript": "^5.0.0",
-        "@nexxo/plugin-edge": "^1.0.0"
+        "@urja/plugin-edge": "^1.0.0"
     },
     files: {
-        'nexxo.config.ts': `
-import { defineConfig } from 'nexxo';
-import edge from '@nexxo/plugin-edge';
+        'urja.config.ts': `
+import { defineConfig } from 'urja';
+import edge from '@urja/plugin-edge';
 
 export default defineConfig({
     plugins: [edge()],
@@ -36,7 +36,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/hello') {
-        return new Response('Hello from Nexxo Edge!', {
+        return new Response('Hello from Urja Edge!', {
             headers: { 'content-type': 'text/plain' }
         });
     }
@@ -44,9 +44,9 @@ export default {
     return new Response(\`
       <!DOCTYPE html>
       <html>
-        <head><title>Nexxo Edge</title></head>
+        <head><title>Urja Edge</title></head>
         <body>
-          <h1>⚡ Nexxo Edge Runtime</h1>
+          <h1>⚡ Urja Edge Runtime</h1>
           <p>Request URL: \${request.url}</p>
           <p>Region: \${request.cf?.colo || 'Local'}</p>
         </body>
@@ -72,7 +72,7 @@ export default {
 }
 `,
         'README.md': `
-# Nexxo Edge Function
+# Urja Edge Function
 
 This is a universal Edge Function starter compatible with:
 - Cloudflare Workers

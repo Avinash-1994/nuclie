@@ -9,7 +9,7 @@
 
 ## 🎯 MISSION
 
-Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
+Transform Urja from "competitive" to **"undisputed #1 build tool"** by:
 1. Fixing all Module 7 performance gaps
 2. Achieving real benchmark wins vs ALL competitors
 3. Implementing missing production features
@@ -53,7 +53,7 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
 - [x] Zero-dependency entry point optimization
  
 - [x] Persistent cache for Docker/Edge
-  - [x] Create `/tmp/nexxo-cache` volume mount fallback
+  - [x] Create `/tmp/urja-cache` volume mount fallback
   - [x] Implement cache warming on container start
   - [x] Add cache preloading script
  
@@ -75,13 +75,13 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
 - [x] Implement Argument-injected H helpers
 - [x] Implement Deterministic Short IDs (Numeric IDs)
 - [x] Implement Production Flattening (Scope Hoisting Lite)
-- [x] Implement Bulk Definition Delivery (`__nexxo_bulk_d`)
+- [x] Implement Bulk Definition Delivery (`__urja_bulk_d`)
  
 - [x] Bundle size optimization
   - [x] Aggressive tree-shaking (Verified via esbuild)
   - [x] Minification optimization (Deferred to final bundle pass)
   - [x] Code splitting optimization
-  - [x] Remove unused CSS (Heuristic Nexxo Purge)
+  - [x] Remove unused CSS (Heuristic Urja Purge)
  
 - [x] Bundle analyzer integration
 - [x] Verification
@@ -92,11 +92,11 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
  
 ### Day 53: Real Benchmarks (All 7 Tools) 📊
  
-**Objective**: Replace baselines with real measurements, prove Nexxo wins
+**Objective**: Replace baselines with real measurements, prove Urja wins
  
 **Tasks**:
 - [x] Docker benchmark matrix setup
-- [x] Install all 7 tools: Nexxo, Vite, Webpack, Rspack, Turbopack, Angular CLI, esbuild
+- [x] Install all 7 tools: Urja, Vite, Webpack, Rspack, Turbopack, Angular CLI, esbuild
 - [x] Create test apps for each tool
 - [x] Automated benchmark runner
 - [x] Benchmark scenarios (Small/Medium complete)
@@ -136,7 +136,7 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
   - [x] Route handlers (API routes in app-router)
  
 - [x] Production template (Started)
-  - [x] Create `templates/nextjs-nexxo-starter`
+  - [x] Create `templates/nextjs-urja-starter`
   - [x] Basic App Router structure (layout.tsx, page.tsx)
   - [ ] Full Next.js app example
   - [ ] Deployment configs (Vercel, Cloudflare)
@@ -148,7 +148,7 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
 - [x] `src/ssr/rsc.ts` - React Server Components
 - [x] `src/ssr/adapters/edge.ts` - Edge runtime adapters
 - [x] `src/ssr/image.ts` - Image optimization engine
-- [x] `templates/nextjs-nexxo-starter/` - Starter template
+- [x] `templates/nextjs-urja-starter/` - Starter template
  
 **Success Criteria**: ✅ Architecture locked, ready for runtime integration
  
@@ -208,10 +208,10 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
   - [ ] Integrate SWC linter
   - [ ] Create `src/lint/engine.ts`
   - [ ] Auto-fix capabilities
-  - [ ] Custom rules for Nexxo best practices
-  - [ ] CLI: `nexxo lint [--fix]`
+  - [ ] Custom rules for Urja best practices
+  - [ ] CLI: `urja lint [--fix]`
 
-- [ ] Enhanced `nexxo doctor`
+- [ ] Enhanced `urja doctor`
   - [ ] Add performance diagnostics
   - [ ] Bundle size analysis
   - [ ] Memory leak detection
@@ -314,7 +314,7 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
 - [ ] ✅ Edge runtime (Vercel/Cloudflare)
 - [ ] ✅ Built-in linter
 - [ ] ✅ Rust core (critical paths)
-- [ ] ✅ Live benchmarks (benchmarks.nexxo.dev)
+- [ ] ✅ Live benchmarks (benchmarks.urja.dev)
 
 ### Quality Standards
 
@@ -330,7 +330,7 @@ Transform Nexxo from "competitive" to **"undisputed #1 build tool"** by:
 
 ## 🎯 FINAL GOAL
 
-**By Day 57, Nexxo will be**:
+**By Day 57, Urja will be**:
 - ✅ **Fastest cold start** (<200ms, beats esbuild)
 - ✅ **Smallest bundles** (20% smaller than Vite)
 - ✅ **Best HMR** (<10ms, beats everyone)

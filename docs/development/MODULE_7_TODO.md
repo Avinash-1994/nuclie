@@ -6,7 +6,7 @@
 **Git Tag**: v2.0.0-rc1
 
 ## LOCKED STACK
-- **Migration**: Vite/Webpack/Rollup/Angular CLI → Nexxo
+- **Migration**: Vite/Webpack/Rollup/Angular CLI → Urja
 - **Plugins**: 20 → 100+ real plugins (WASM-sandboxed)
 - **Templates**: SPA/SSR/Edge/Fintech/Monorepo starters
 - **Benchmarks**: Honest comparison vs Vite/Turbopack/Rspack/Webpack
@@ -26,11 +26,11 @@
 
 ## Day 44: Migration Generator (✅ COMPLETE)
 - [x] Create `src/migrate/generator.ts`
-- [x] Generate `nexxo.config.ts` from existing config
+- [x] Generate `urja.config.ts` from existing config
 - [x] Update package.json scripts
 - [x] Framework-specific adjustments (React/Vue/Angular)
 - [x] Create `MIGRATION_REPORT.md` template
-- [x] Add CLI: `nexxo migrate <path> [--dry-run]`
+- [x] Add CLI: `urja migrate <path> [--dry-run]`
 - [x] Create tests: `tests/module7_generator_vite.test.ts`
 - [x] Create tests: `tests/module7_generator_webpack.test.ts`
 - [x] Target: 90%+ auto-build success rate (✅ All tests passing)
@@ -51,16 +51,16 @@
 - [x] Create SSR templates (React SSR with Express)
 - [x] Create Edge template (Cloudflare/Netlify/Vercel)
 - [x] Create Fintech template (UPI/QR payments)
-- [x] Create Monorepo template (PNPM via Nexxo)
+- [x] Create Monorepo template (PNPM via Urja)
 - [x] Create `TemplateManager` registry
-- [x] Update `create-nexxo` CLI with template selection
+- [x] Update `create-urja` CLI with template selection
 - [x] Create tests: `tests/module7_templates_smoke.test.ts`
 - [x] Target: 10+ templates, production-ready config (✅ 10 templates)
 
 ## Day 47: Benchmarks & Comparison Site (✅ COMPLETE)
 - [x] Create `benchmarks/module7-benchmarks.ts`
 - [x] Benchmark scenarios: Small app (100 components)
-- [x] Compare: Nexxo vs Vite (Real), Webpack/Rspack (Baseline)
+- [x] Compare: Urja vs Vite (Real), Webpack/Rspack (Baseline)
 - [x] Metrics: Cold start, HMR, build time, bundle size
 - [x] Generate `BENCHMARKS.md` with honest results
 - [x] Target: Reproducible, honest numbers (✅ Report generated)
@@ -80,8 +80,8 @@
 - [x] Create `.github/ISSUE_TEMPLATE/bug_report.md`
 - [x] Create `.github/ISSUE_TEMPLATE/feature_request.md`
 - [x] Create `.github/PULL_REQUEST_TEMPLATE.md`
-- [x] Add `nexxo doctor` command
-- [x] Add `nexxo report` command
+- [x] Add `urja doctor` command
+- [x] Add `urja report` command
 - [x] Update README with clear messaging
 - [x] Target: Easy bug reporting, self-diagnosis
 

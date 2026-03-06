@@ -1,4 +1,4 @@
-# Contributing to Nexxo
+# Contributing to Urja
 
 We welcome contributions! Please follow these guidelines to ensure a smooth process.
 

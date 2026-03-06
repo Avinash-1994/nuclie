@@ -1,7 +1,7 @@
 // tests/runner_verification_test.ts
-// This file tests the custom @nexxo/test runner itself
+// This file tests the custom @urja/test runner itself
 
-describe('Nexxo Test Runner', () => {
+describe('Urja Test Runner', () => {
     it('should support describe/it blocks', () => {
         expect(true).toBe(true);
     });

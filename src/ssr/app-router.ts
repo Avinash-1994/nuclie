@@ -4,7 +4,7 @@ import { SSRContext, RenderResult } from './universal-engine.js';
 import { Route, RouteManifest } from '../meta-frameworks/types.js';
 
 /**
- * Nexxo App Router Engine
+ * Urja App Router Engine
  * Implements nested layout rendering and segment resolution
  * Day 54: SSR Power Locked
  */

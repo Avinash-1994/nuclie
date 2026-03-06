@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-react-query
+ * @urja/plugin-react-query
  * React Query integration
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReactQueryPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-react-query',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-react-query',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // react transformation

@@ -1,20 +1,20 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { NexxoPlugin } from '../core/plugins/types.js';
+import { UrjaPlugin } from '../core/plugins/types.js';
 import { log } from '../utils/logger.js';
 
-export function createStaticPlugin(rootDir: string, outDir: string): NexxoPlugin {
+export function createStaticPlugin(rootDir: string, outDir: string): UrjaPlugin {
     return {
         manifest: {
-            name: 'nexxo:static',
+            name: 'urja:static',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['buildEnd'],
             permissions: { fs: 'read' }
         },
-        id: 'nexxo:static',
+        id: 'urja:static',
         async runHook(hook, data) {
             if (hook !== 'buildEnd') return data;
 

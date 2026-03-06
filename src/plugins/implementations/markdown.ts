@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-markdown
+ * @urja/plugin-markdown
  * Markdown processing
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMarkdownPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-markdown',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-markdown',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Markdown processing

@@ -38,7 +38,7 @@ export const TerminalWarnings: React.FC<TerminalWarningsProps> = ({
             {/* Header */}
             <Box marginBottom={1}>
                 <Text bold color="cyan">
-                    ⚡ Nexxo Build Diagnostics
+                    ⚡ Urja Build Diagnostics
                 </Text>
             </Box>
 

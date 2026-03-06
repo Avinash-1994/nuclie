@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-zustand
+ * @urja/plugin-zustand
  * Zustand state management
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createZustandPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-zustand',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-zustand',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // zustand transformation

@@ -16,10 +16,10 @@ if (root) {
     <div class="app-container" x-data="{ count: 0 }">
       <header class="hero">
         <span class="badge">v1.0.0 Stable</span>
-        <h1>Nexxo</h1>
+        <h1>Urja</h1>
         <p class="subtitle">
           The high-performance build engine for modern web applications.<br />
-          Built with Alpine.js + TypeScript + Nexxo.
+          Built with Alpine.js + TypeScript + Urja.
         </p>
       </header>
 
@@ -45,7 +45,7 @@ if (root) {
       </div>
 
       <footer class="footer">
-        Powered by <a href="https://nexxo.dev" target="_blank" rel="noopener noreferrer">Nexxo Build Tool</a>
+        Powered by <a href="https://urja.dev" target="_blank" rel="noopener noreferrer">Urja Build Tool</a>
       </footer>
     </div>
   `;

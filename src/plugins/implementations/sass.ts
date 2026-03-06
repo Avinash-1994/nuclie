@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-sass
+ * @urja/plugin-sass
  * Sass/SCSS compilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSassPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-sass',
+        name: '@urja/plugin-sass',
         originalPlugin: 'sass-loader',
         
         async transform(code: string, id: string) {

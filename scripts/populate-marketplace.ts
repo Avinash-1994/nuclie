@@ -1,7 +1,7 @@
 
 /**
  * populate-marketplace.ts
- * Mass publishes 20 Core Plugins to local Nexxo Registry
+ * Mass publishes 20 Core Plugins to local Urja Registry
  * Day 12: Curated Plugin Suite Lock
  */
 
@@ -10,26 +10,26 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const PLUGINS = [
-    { name: '@nexxo/plugin-react', desc: 'Secure React Fast Refresh & JSX' },
-    { name: '@nexxo/plugin-vue', desc: 'Vue 3 SFC Compiler (Sandboxed)' },
-    { name: '@nexxo/plugin-svelte', desc: 'Svelte 5 Compiler & HMR' },
-    { name: '@nexxo/plugin-solid', desc: 'SolidJS Fine-grained Reactivity' },
-    { name: '@nexxo/plugin-lit', desc: 'Web Components & Lit Support' },
-    { name: '@nexxo/plugin-angular', desc: 'Angular Ivy Compat' },
-    { name: '@nexxo/plugin-postcss', desc: 'PostCSS 8 Adapter' },
-    { name: '@nexxo/plugin-tailwindcss', desc: 'Tailwind JIT Engine' },
-    { name: '@nexxo/plugin-sass', desc: 'Dart Sass (WASM)' },
-    { name: '@nexxo/plugin-less', desc: 'Less CSS Support' },
-    { name: '@nexxo/plugin-mdx', desc: 'Markdown to JSX' },
-    { name: '@nexxo/plugin-optimize-css', desc: 'CSS Minification' },
-    { name: '@nexxo/plugin-terser', desc: 'JS Minification (Terser)' },
-    { name: '@nexxo/plugin-visualizer', desc: 'Bundle Analysis UI' },
-    { name: '@nexxo/plugin-audit', desc: 'Lighthouse & Performance Audit' },
-    { name: '@nexxo/plugin-pwa', desc: 'PWA Manifest & Service Workers' },
-    { name: '@nexxo/plugin-legacy', desc: 'Polyfills for older browsers' },
-    { name: '@nexxo/plugin-compression', desc: 'Gzip/Brotli Compression' },
-    { name: '@nexxo/plugin-inspector', desc: 'DevTools & Debugging Overlay' },
-    { name: '@nexxo/plugin-wasm', desc: 'Native WASM Modules Support' }
+    { name: '@urja/plugin-react', desc: 'Secure React Fast Refresh & JSX' },
+    { name: '@urja/plugin-vue', desc: 'Vue 3 SFC Compiler (Sandboxed)' },
+    { name: '@urja/plugin-svelte', desc: 'Svelte 5 Compiler & HMR' },
+    { name: '@urja/plugin-solid', desc: 'SolidJS Fine-grained Reactivity' },
+    { name: '@urja/plugin-lit', desc: 'Web Components & Lit Support' },
+    { name: '@urja/plugin-angular', desc: 'Angular Ivy Compat' },
+    { name: '@urja/plugin-postcss', desc: 'PostCSS 8 Adapter' },
+    { name: '@urja/plugin-tailwindcss', desc: 'Tailwind JIT Engine' },
+    { name: '@urja/plugin-sass', desc: 'Dart Sass (WASM)' },
+    { name: '@urja/plugin-less', desc: 'Less CSS Support' },
+    { name: '@urja/plugin-mdx', desc: 'Markdown to JSX' },
+    { name: '@urja/plugin-optimize-css', desc: 'CSS Minification' },
+    { name: '@urja/plugin-terser', desc: 'JS Minification (Terser)' },
+    { name: '@urja/plugin-visualizer', desc: 'Bundle Analysis UI' },
+    { name: '@urja/plugin-audit', desc: 'Lighthouse & Performance Audit' },
+    { name: '@urja/plugin-pwa', desc: 'PWA Manifest & Service Workers' },
+    { name: '@urja/plugin-legacy', desc: 'Polyfills for older browsers' },
+    { name: '@urja/plugin-compression', desc: 'Gzip/Brotli Compression' },
+    { name: '@urja/plugin-inspector', desc: 'DevTools & Debugging Overlay' },
+    { name: '@urja/plugin-wasm', desc: 'Native WASM Modules Support' }
 ];
 
 const TEMP_DIR = path.resolve('.temp_plugins');
@@ -54,7 +54,7 @@ async function run() {
         const meta = {
             name: p.name,
             version: '1.0.0',
-            author: 'Nexxo Core Team',
+            author: 'Urja Core Team',
             description: p.desc,
             permissions: { network: false, fs: false } // Zero-trust default
         };

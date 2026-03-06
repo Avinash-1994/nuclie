@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-copy
+ * @urja/plugin-copy
  * Static file copying
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCopyPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-copy',
+        name: '@urja/plugin-copy',
         originalPlugin: 'copy-webpack-plugin',
         
         async transform(code: string, id: string) {

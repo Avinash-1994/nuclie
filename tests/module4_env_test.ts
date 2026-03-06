@@ -4,19 +4,19 @@
  * Validates Day 26 Unified HMR & Config
  */
 
-import { NexxoEnv } from '../src/env/api.js';
+import { UrjaEnv } from '../src/env/api.js';
 
 async function runEnvTest() {
     console.log('🧪 Testing Environment API...');
 
     // 1. Initialize
-    const env = NexxoEnv.init({
+    const env = UrjaEnv.init({
         mode: 'development',
         ssr: true,
         base: '/'
     });
 
-    if (NexxoEnv.get().config.mode !== 'development') {
+    if (UrjaEnv.get().config.mode !== 'development') {
         throw new Error('Config mismatch');
     }
     console.log('  ✅ Env Initialization Verified');

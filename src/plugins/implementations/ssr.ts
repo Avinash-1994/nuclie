@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-ssr
+ * @urja/plugin-ssr
  * Universal SSR support
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSsrPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-ssr',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-ssr',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // ssr transformation

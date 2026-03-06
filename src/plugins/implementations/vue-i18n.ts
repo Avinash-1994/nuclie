@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-vue-i18n
+ * @urja/plugin-vue-i18n
  * Vue i18n integration
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVueI18nPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-vue-i18n',
+        name: '@urja/plugin-vue-i18n',
         originalPlugin: 'vite-plugin-vue-i18n',
         
         async transform(code: string, id: string) {

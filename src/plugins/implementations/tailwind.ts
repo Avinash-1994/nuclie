@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-tailwind
+ * @urja/plugin-tailwind
  * Tailwind CSS integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTailwindPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-tailwind',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-tailwind',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for tailwind

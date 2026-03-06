@@ -1,5 +1,5 @@
 
-import { NexxoPlugin } from '../core/plugins/types.js';
+import { UrjaPlugin } from '../core/plugins/types.js';
 import { canonicalHash } from '../core/engine/hash.js';
 import crypto from 'crypto';
 import path from 'path';
@@ -17,10 +17,10 @@ export interface FederationConfig {
     healthCheck?: string;
 }
 
-export function createFederationPlugin(config: FederationConfig): NexxoPlugin {
+export function createFederationPlugin(config: FederationConfig): UrjaPlugin {
     return {
         manifest: {
-            name: 'nexxo:federation',
+            name: 'urja:federation',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',

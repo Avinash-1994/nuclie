@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-manifest
+ * @urja/plugin-manifest
  * Web manifest generation
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createManifestPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-manifest',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-manifest',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Web manifest generation

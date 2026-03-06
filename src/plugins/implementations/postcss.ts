@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-postcss
+ * @urja/plugin-postcss
  * PostCSS processing
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPostcssPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-postcss',
+        name: '@urja/plugin-postcss',
         originalPlugin: 'postcss-loader',
         
         async transform(code: string, id: string) {

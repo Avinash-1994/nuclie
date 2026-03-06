@@ -20,7 +20,7 @@ async function runTest() {
         },
         rootDir: '/test',
         target: 'browser',
-        engine: { name: 'nexxo', version: '1.0.0' }
+        engine: { name: 'urja', version: '1.0.0' }
     };
 
     // Test 1: Build Integration Initialization

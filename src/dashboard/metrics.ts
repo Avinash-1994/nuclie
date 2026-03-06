@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Dashboard Metrics Collector
+ * Urja Dashboard Metrics Collector
  * Day 19: tRPC Dashboard Lock
  */
 
@@ -68,7 +68,7 @@ export class MetricsCollector {
     generateReport(): string {
         const summary = this.getSummary();
         return JSON.stringify({
-            title: 'Nexxo Build Report',
+            title: 'Urja Build Report',
             generatedAt: new Date().toISOString(),
             stats: summary,
             history: this.builds.slice(-10) // Last 10 details

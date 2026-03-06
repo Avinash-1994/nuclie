@@ -58,7 +58,7 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
             if (!isCss) {
                 bundleContent += isProd
                     ? `(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`
-                    : `/* Nexxo Runtime */\n(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`;
+                    : `/* Urja Runtime */\n(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`;
             }
 
             const artifactModules: any[] = [];

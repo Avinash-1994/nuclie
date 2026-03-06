@@ -1,4 +1,4 @@
-# Nexxo Plugins Guide
+# Urja Plugins Guide
 
 > **100+ production-ready plugins** with WASM sandboxing and WebCrypto signing.
 
@@ -8,29 +8,29 @@
 
 ```bash
 # Search for plugins
-nexxo plugin search react
+urja plugin search react
 
 # Install a plugin
-nexxo plugin install @nexxo/plugin-react
+urja plugin install @urja/plugin-react
 
 # List installed plugins
-nexxo plugin list
+urja plugin list
 
 # Verify plugin signatures
-nexxo plugin verify @nexxo/plugin-react
+urja plugin verify @urja/plugin-react
 ```
 
 ---
 
 ## Using Plugins
 
-### In `nexxo.config.ts`
+### In `urja.config.ts`
 
 ```typescript
-import { defineConfig } from 'nexxo';
-import react from '@nexxo/plugin-react';
-import tailwind from '@nexxo/plugin-tailwind';
-import pwa from '@nexxo/plugin-pwa';
+import { defineConfig } from 'urja';
+import react from '@urja/plugin-react';
+import tailwind from '@urja/plugin-tailwind';
+import pwa from '@urja/plugin-pwa';
 
 export default defineConfig({
   preset: 'spa',
@@ -66,90 +66,90 @@ export default defineConfig({
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-react` | React Fast Refresh + JSX | `nexxo plugin install @nexxo/plugin-react` |
-| `@nexxo/plugin-vue` | Vue 3 SFC support | `nexxo plugin install @nexxo/plugin-vue` |
-| `@nexxo/plugin-svelte` | Svelte compiler | `nexxo plugin install @nexxo/plugin-svelte` |
-| `@nexxo/plugin-solid` | Solid.js JSX | `nexxo plugin install @nexxo/plugin-solid` |
-| `@nexxo/plugin-angular` | Angular AOT compiler | `nexxo plugin install @nexxo/plugin-angular` |
-| `@nexxo/plugin-preact` | Preact with Fast Refresh | `nexxo plugin install @nexxo/plugin-preact` |
+| `@urja/plugin-react` | React Fast Refresh + JSX | `urja plugin install @urja/plugin-react` |
+| `@urja/plugin-vue` | Vue 3 SFC support | `urja plugin install @urja/plugin-vue` |
+| `@urja/plugin-svelte` | Svelte compiler | `urja plugin install @urja/plugin-svelte` |
+| `@urja/plugin-solid` | Solid.js JSX | `urja plugin install @urja/plugin-solid` |
+| `@urja/plugin-angular` | Angular AOT compiler | `urja plugin install @urja/plugin-angular` |
+| `@urja/plugin-preact` | Preact with Fast Refresh | `urja plugin install @urja/plugin-preact` |
 
 ### CSS & Styling
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-tailwind` | Tailwind CSS v3+ | `nexxo plugin install @nexxo/plugin-tailwind` |
-| `@nexxo/plugin-sass` | Sass/SCSS compiler | `nexxo plugin install @nexxo/plugin-sass` |
-| `@nexxo/plugin-less` | Less compiler | `nexxo plugin install @nexxo/plugin-less` |
-| `@nexxo/plugin-postcss` | PostCSS processor | `nexxo plugin install @nexxo/plugin-postcss` |
-| `@nexxo/plugin-styled-components` | CSS-in-JS support | `nexxo plugin install @nexxo/plugin-styled-components` |
-| `@nexxo/plugin-emotion` | Emotion CSS-in-JS | `nexxo plugin install @nexxo/plugin-emotion` |
+| `@urja/plugin-tailwind` | Tailwind CSS v3+ | `urja plugin install @urja/plugin-tailwind` |
+| `@urja/plugin-sass` | Sass/SCSS compiler | `urja plugin install @urja/plugin-sass` |
+| `@urja/plugin-less` | Less compiler | `urja plugin install @urja/plugin-less` |
+| `@urja/plugin-postcss` | PostCSS processor | `urja plugin install @urja/plugin-postcss` |
+| `@urja/plugin-styled-components` | CSS-in-JS support | `urja plugin install @urja/plugin-styled-components` |
+| `@urja/plugin-emotion` | Emotion CSS-in-JS | `urja plugin install @urja/plugin-emotion` |
 
 ### Assets & Media
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-svgr` | SVG to React components | `nexxo plugin install @nexxo/plugin-svgr` |
-| `@nexxo/plugin-image-optimizer` | Image compression | `nexxo plugin install @nexxo/plugin-image-optimizer` |
-| `@nexxo/plugin-webp` | WebP conversion | `nexxo plugin install @nexxo/plugin-webp` |
-| `@nexxo/plugin-fonts` | Font optimization | `nexxo plugin install @nexxo/plugin-fonts` |
+| `@urja/plugin-svgr` | SVG to React components | `urja plugin install @urja/plugin-svgr` |
+| `@urja/plugin-image-optimizer` | Image compression | `urja plugin install @urja/plugin-image-optimizer` |
+| `@urja/plugin-webp` | WebP conversion | `urja plugin install @urja/plugin-webp` |
+| `@urja/plugin-fonts` | Font optimization | `urja plugin install @urja/plugin-fonts` |
 
 ### Performance
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-compression` | Gzip/Brotli compression | `nexxo plugin install @nexxo/plugin-compression` |
-| `@nexxo/plugin-preload` | Resource preloading | `nexxo plugin install @nexxo/plugin-preload` |
-| `@nexxo/plugin-lazy-load` | Code splitting helpers | `nexxo plugin install @nexxo/plugin-lazy-load` |
-| `@nexxo/plugin-bundle-analyzer` | Bundle size analysis | `nexxo plugin install @nexxo/plugin-bundle-analyzer` |
+| `@urja/plugin-compression` | Gzip/Brotli compression | `urja plugin install @urja/plugin-compression` |
+| `@urja/plugin-preload` | Resource preloading | `urja plugin install @urja/plugin-preload` |
+| `@urja/plugin-lazy-load` | Code splitting helpers | `urja plugin install @urja/plugin-lazy-load` |
+| `@urja/plugin-bundle-analyzer` | Bundle size analysis | `urja plugin install @urja/plugin-bundle-analyzer` |
 
 ### Security
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-csp` | Content Security Policy | `nexxo plugin install @nexxo/plugin-csp` |
-| `@nexxo/plugin-sri` | Subresource Integrity | `nexxo plugin install @nexxo/plugin-sri` |
-| `@nexxo/plugin-security-headers` | HTTP security headers | `nexxo plugin install @nexxo/plugin-security-headers` |
+| `@urja/plugin-csp` | Content Security Policy | `urja plugin install @urja/plugin-csp` |
+| `@urja/plugin-sri` | Subresource Integrity | `urja plugin install @urja/plugin-sri` |
+| `@urja/plugin-security-headers` | HTTP security headers | `urja plugin install @urja/plugin-security-headers` |
 
 ### Testing
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-vitest` | Vitest integration | `nexxo plugin install @nexxo/plugin-vitest` |
-| `@nexxo/plugin-jest` | Jest integration | `nexxo plugin install @nexxo/plugin-jest` |
-| `@nexxo/plugin-playwright` | E2E testing | `nexxo plugin install @nexxo/plugin-playwright` |
+| `@urja/plugin-vitest` | Vitest integration | `urja plugin install @urja/plugin-vitest` |
+| `@urja/plugin-jest` | Jest integration | `urja plugin install @urja/plugin-jest` |
+| `@urja/plugin-playwright` | E2E testing | `urja plugin install @urja/plugin-playwright` |
 
 ### i18n
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-i18next` | i18next integration | `nexxo plugin install @nexxo/plugin-i18next` |
-| `@nexxo/plugin-react-intl` | React Intl | `nexxo plugin install @nexxo/plugin-react-intl` |
-| `@nexxo/plugin-vue-i18n` | Vue I18n | `nexxo plugin install @nexxo/plugin-vue-i18n` |
+| `@urja/plugin-i18next` | i18next integration | `urja plugin install @urja/plugin-i18next` |
+| `@urja/plugin-react-intl` | React Intl | `urja plugin install @urja/plugin-react-intl` |
+| `@urja/plugin-vue-i18n` | Vue I18n | `urja plugin install @urja/plugin-vue-i18n` |
 
 ### State Management
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-redux` | Redux DevTools | `nexxo plugin install @nexxo/plugin-redux` |
-| `@nexxo/plugin-zustand` | Zustand integration | `nexxo plugin install @nexxo/plugin-zustand` |
-| `@nexxo/plugin-jotai` | Jotai atoms | `nexxo plugin install @nexxo/plugin-jotai` |
+| `@urja/plugin-redux` | Redux DevTools | `urja plugin install @urja/plugin-redux` |
+| `@urja/plugin-zustand` | Zustand integration | `urja plugin install @urja/plugin-zustand` |
+| `@urja/plugin-jotai` | Jotai atoms | `urja plugin install @urja/plugin-jotai` |
 
 ### Deployment
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-vercel` | Vercel deployment | `nexxo plugin install @nexxo/plugin-vercel` |
-| `@nexxo/plugin-netlify` | Netlify deployment | `nexxo plugin install @nexxo/plugin-netlify` |
-| `@nexxo/plugin-cloudflare` | Cloudflare Workers | `nexxo plugin install @nexxo/plugin-cloudflare` |
-| `@nexxo/plugin-docker` | Docker containerization | `nexxo plugin install @nexxo/plugin-docker` |
+| `@urja/plugin-vercel` | Vercel deployment | `urja plugin install @urja/plugin-vercel` |
+| `@urja/plugin-netlify` | Netlify deployment | `urja plugin install @urja/plugin-netlify` |
+| `@urja/plugin-cloudflare` | Cloudflare Workers | `urja plugin install @urja/plugin-cloudflare` |
+| `@urja/plugin-docker` | Docker containerization | `urja plugin install @urja/plugin-docker` |
 
 ### Analytics
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nexxo/plugin-google-analytics` | GA4 integration | `nexxo plugin install @nexxo/plugin-google-analytics` |
-| `@nexxo/plugin-plausible` | Plausible Analytics | `nexxo plugin install @nexxo/plugin-plausible` |
-| `@nexxo/plugin-sentry` | Error tracking | `nexxo plugin install @nexxo/plugin-sentry` |
+| `@urja/plugin-google-analytics` | GA4 integration | `urja plugin install @urja/plugin-google-analytics` |
+| `@urja/plugin-plausible` | Plausible Analytics | `urja plugin install @urja/plugin-plausible` |
+| `@urja/plugin-sentry` | Error tracking | `urja plugin install @urja/plugin-sentry` |
 
 ---
 
@@ -179,11 +179,11 @@ Every plugin is **cryptographically signed**:
 
 ```bash
 # Verify plugin signature
-nexxo plugin verify @nexxo/plugin-react
+urja plugin verify @urja/plugin-react
 
 # Output:
 ✅ Signature valid
-✅ Publisher: Nexxo Team
+✅ Publisher: Urja Team
 ✅ Published: 2026-01-15
 ✅ SHA-256: a3f2...
 ```
@@ -192,9 +192,9 @@ nexxo plugin verify @nexxo/plugin-react
 
 ```json
 {
-  "name": "@nexxo/plugin-react",
+  "name": "@urja/plugin-react",
   "version": "2.0.0",
-  "author": "Nexxo Team",
+  "author": "Urja Team",
   "signature": "...",
   "permissions": [
     "transform:jsx",
@@ -213,9 +213,9 @@ nexxo plugin verify @nexxo/plugin-react
 
 ```typescript
 // my-plugin.ts
-import { NexxoPlugin } from 'nexxo';
+import { UrjaPlugin } from 'urja';
 
-export default function myPlugin(options = {}): NexxoPlugin {
+export default function myPlugin(options = {}): UrjaPlugin {
   return {
     name: 'my-plugin',
     version: '1.0.0',
@@ -246,7 +246,7 @@ export default function myPlugin(options = {}): NexxoPlugin {
 ### Plugin Hooks
 
 ```typescript
-export interface NexxoPlugin {
+export interface UrjaPlugin {
   name: string;
   version: string;
   
@@ -272,12 +272,12 @@ export interface NexxoPlugin {
 ### Example: Custom Markdown Plugin
 
 ```typescript
-import { NexxoPlugin } from 'nexxo';
+import { UrjaPlugin } from 'urja';
 import { marked } from 'marked';
 
-export default function markdownPlugin(): NexxoPlugin {
+export default function markdownPlugin(): UrjaPlugin {
   return {
-    name: 'nexxo-plugin-markdown',
+    name: 'urja-plugin-markdown',
     version: '1.0.0',
     
     transform(code, id) {
@@ -296,7 +296,7 @@ export default function markdownPlugin(): NexxoPlugin {
 
 **Usage**:
 ```typescript
-// nexxo.config.ts
+// urja.config.ts
 import markdown from './my-plugin';
 
 export default defineConfig({
@@ -320,8 +320,8 @@ function App() {
 ### Vite Plugin Adapter
 
 ```typescript
-import { defineConfig } from 'nexxo';
-import { vitePluginAdapter } from '@nexxo/plugin-compat';
+import { defineConfig } from 'urja';
+import { vitePluginAdapter } from '@urja/plugin-compat';
 import viteReactSvgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -337,7 +337,7 @@ export default defineConfig({
 ### Webpack Loader Adapter
 
 ```typescript
-import { webpackLoaderAdapter } from '@nexxo/plugin-compat';
+import { webpackLoaderAdapter } from '@urja/plugin-compat';
 
 export default defineConfig({
   plugins: [
@@ -360,26 +360,26 @@ export default defineConfig({
 
 ```bash
 # List all plugins
-nexxo plugin list --all
+urja plugin list --all
 
 # Search by category
-nexxo plugin search --category framework
+urja plugin search --category framework
 
 # Filter by verified
-nexxo plugin search --verified
+urja plugin search --verified
 ```
 
 ### Plugin Ratings
 
 ```bash
 # View plugin details
-nexxo plugin info @nexxo/plugin-react
+urja plugin info @urja/plugin-react
 
 # Output:
-📦 @nexxo/plugin-react v2.0.0
+📦 @urja/plugin-react v2.0.0
 ⭐ 4.8/5.0 (1,234 reviews)
 📥 50,000 downloads/week
-✅ Verified by Nexxo Team
+✅ Verified by Urja Team
 🔒 WASM sandboxed
 📝 React Fast Refresh + JSX transform
 ```
@@ -409,11 +409,11 @@ export default defineConfig({
 **Solution**:
 ```bash
 # Re-install plugin
-npm uninstall @nexxo/plugin-name
-nexxo plugin install @nexxo/plugin-name
+npm uninstall @urja/plugin-name
+urja plugin install @urja/plugin-name
 
 # Or skip verification (not recommended)
-nexxo plugin install @nexxo/plugin-name --skip-verify
+urja plugin install @urja/plugin-name --skip-verify
 ```
 
 ### Plugin Conflicts
@@ -438,7 +438,7 @@ export default defineConfig({
 
 ✅ **Good**:
 ```typescript
-import react from '@nexxo/plugin-react';
+import react from '@urja/plugin-react';
 ```
 
 ⚠️ **Avoid** (unless necessary):
@@ -450,7 +450,7 @@ import react from 'some-unofficial-plugin';
 
 ```bash
 # Always verify before using
-nexxo plugin verify @nexxo/plugin-name
+urja plugin verify @urja/plugin-name
 ```
 
 ### 3. Minimal Plugin Configuration
@@ -475,7 +475,7 @@ plugins: [
 
 ```bash
 # Profile plugin impact
-nexxo build --profile
+urja build --profile
 
 # Output shows plugin timings
 ```
@@ -491,20 +491,20 @@ nexxo build --profile
 npm run build
 
 # 2. Sign plugin
-nexxo plugin sign ./dist
+urja plugin sign ./dist
 
 # 3. Publish to marketplace
-nexxo plugin publish
+urja plugin publish
 
 # 4. Verify published
-nexxo plugin verify @your-org/your-plugin
+urja plugin verify @your-org/your-plugin
 ```
 
 ### Plugin Testing
 
 ```typescript
 // plugin.test.ts
-import { describe, it, expect } from '@nexxo/test';
+import { describe, it, expect } from '@urja/test';
 import myPlugin from './plugin';
 
 describe('My Plugin', () => {

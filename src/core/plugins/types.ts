@@ -50,7 +50,7 @@ export interface PluginExecutionRecord {
 }
 
 /** @public */
-export interface NexxoPlugin {
+export interface UrjaPlugin {
     manifest: PluginManifest;
     id: string; // sha256(name + version)
 

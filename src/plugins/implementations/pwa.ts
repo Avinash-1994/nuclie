@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-pwa
+ * @urja/plugin-pwa
  * Progressive Web App support
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPwaPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-pwa',
+        name: '@urja/plugin-pwa',
         originalPlugin: 'vite-plugin-pwa',
         
         async transform(code: string, id: string) {

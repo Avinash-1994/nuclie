@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-posthog
+ * @urja/plugin-posthog
  * PostHog analytics integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPosthogPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-posthog',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-posthog',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Analytics: PostHog analytics integration
@@ -16,7 +16,7 @@ export function createPosthogPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-posthog] Analytics integration ready');
+            console.log('[@urja/plugin-posthog] Analytics integration ready');
         }
     };
 }

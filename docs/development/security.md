@@ -3,7 +3,7 @@
 ## Issue Detected
 
 GitHub detected a sensitive file in git history:
-- **File**: `test_output_config/.nexxo/certs/dev.key`
+- **File**: `test_output_config/.urja/certs/dev.key`
 - **Type**: Private key (development certificate)
 - **Commit**: b86bbc5
 - **Status**: ✅ RESOLVED
@@ -29,7 +29,7 @@ Added comprehensive security patterns:
 *.csr
 *.priv
 **/certs/**
-**/.nexxo/certs/**
+**/.urja/certs/**
 .env
 .env.local
 .env.*.local
@@ -44,8 +44,8 @@ Added patterns to prevent test output commits:
 test_output*/
 test_*/
 temp_*/
-.nexxo_cache/
-.nexxo/telemetry/
+.urja_cache/
+.urja/telemetry/
 ```
 
 ## Risk Assessment
@@ -89,7 +89,7 @@ The key remains in git history (commit b86bbc5) but:
 
 ```bash
 # Verify file is deleted
-ls test_output_config/.nexxo/certs/dev.key
+ls test_output_config/.urja/certs/dev.key
 # Output: No such file or directory ✅
 
 # Verify .gitignore patterns

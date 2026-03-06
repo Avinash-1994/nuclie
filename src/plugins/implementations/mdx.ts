@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-mdx
+ * @urja/plugin-mdx
  * MDX support
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMdxPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-mdx',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-mdx',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: MDX support

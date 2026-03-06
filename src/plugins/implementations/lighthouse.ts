@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-lighthouse
+ * @urja/plugin-lighthouse
  * Lighthouse CI integration
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLighthousePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-lighthouse',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-lighthouse',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-lighthouse] Starting performance optimization...');
+            console.log('[@urja/plugin-lighthouse] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createLighthousePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-lighthouse] Performance optimization complete');
+            console.log('[@urja/plugin-lighthouse] Performance optimization complete');
         }
     };
 }

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-crypto-sign
+ * @urja/plugin-crypto-sign
  * Plugin signature verification
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCryptoSignPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-crypto-sign',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-crypto-sign',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Security check: Plugin signature verification
@@ -29,7 +29,7 @@ export function createCryptoSignPlugin(): PluginAdapter {
             }
             
             if (issues.length > 0) {
-                console.warn(`[@nexxo/plugin-crypto-sign] Security issues found:`, issues);
+                console.warn(`[@urja/plugin-crypto-sign] Security issues found:`, issues);
             }
         }
     };

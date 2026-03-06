@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-edge
+ * @urja/plugin-edge
  * Edge runtime adapter
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createEdgePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-edge',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-edge',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // edge transformation

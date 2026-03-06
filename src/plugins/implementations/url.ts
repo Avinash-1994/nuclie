@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-url
+ * @urja/plugin-url
  * URL/data URI assets
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createUrlPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-url',
+        name: '@urja/plugin-url',
         originalPlugin: 'url-loader',
         
         async load(id: string) {

@@ -1,6 +1,6 @@
-# 🔍 Nexxo Feature Failure Report
+# 🔍 Urja Feature Failure Report
 
-This report provides a deep dive into specifically which Nexxo features are failing and why, based on real-project edge cases.
+This report provides a deep dive into specifically which Urja features are failing and why, based on real-project edge cases.
 
 | Project | Feature | Error Type | Root Cause | Status |
 |---------|---------|------------|------------|--------|
@@ -13,13 +13,13 @@ This report provides a deep dive into specifically which Nexxo features are fail
 ## 🛠️ Technical Deep Dive
 
 ### 1. Configuration Validation Rigidity
-*   **Symptom**: Nexxo fails immediately if `nexxo.config.js` slightly deviates from the latest internal Zod schema.
-*   **Issue**: Most build tools (like Vite) auto-convert strings to arrays for convenience. Nexxo is currently too strict.
+*   **Symptom**: Urja fails immediately if `urja.config.js` slightly deviates from the latest internal Zod schema.
+*   **Issue**: Most build tools (like Vite) auto-convert strings to arrays for convenience. Urja is currently too strict.
 *   **Impact**: Blocks initial project setup unless configurations are "perfect".
 
 ### 2. Alpine.js ESM Resolution
 *   **Symptom**: Tree shaking test failed.
-*   **Hypothesis**: Nexxo might not be correctly identifying the "sideEffects" flag in Alpine's vanilla structure, leading to over-aggressive or under-aggressive shaking.
+*   **Hypothesis**: Urja might not be correctly identifying the "sideEffects" flag in Alpine's vanilla structure, leading to over-aggressive or under-aggressive shaking.
 
 ---
 

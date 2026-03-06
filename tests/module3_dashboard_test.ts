@@ -43,7 +43,7 @@ async function runDashboardTest() {
     const reportJson = await caller.generateReport();
     const report = JSON.parse(reportJson);
 
-    if (report.title !== 'Nexxo Build Report') throw new Error('Report title mismatch');
+    if (report.title !== 'Urja Build Report') throw new Error('Report title mismatch');
     if (report.history.length !== 2) throw new Error('History length mismatch');
     console.log('  ✅ Report Generation Verified');
 

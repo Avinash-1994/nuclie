@@ -56,9 +56,9 @@ createRoot(document.getElementById('root')!).render(
 );`
                 );
 
-                // Nexxo config with federation
+                // Urja config with federation
                 fs.writeFileSync(
-                    path.join(hostPath, 'nexxo.config.json'),
+                    path.join(hostPath, 'urja.config.json'),
                     JSON.stringify({
                         entry: ['src/main.tsx'],
                         preset: 'spa',
@@ -145,7 +145,7 @@ createRoot(document.getElementById('root')!).render(<App />);`
                 );
 
                 fs.writeFileSync(
-                    path.join(consumerPath, 'nexxo.config.json'),
+                    path.join(consumerPath, 'urja.config.json'),
                     JSON.stringify({
                         entry: ['src/main.tsx'],
                         preset: 'spa',
@@ -199,7 +199,7 @@ createRoot(document.getElementById('root')!).render(
                 );
 
                 fs.writeFileSync(
-                    path.join(sharedPath, 'nexxo.config.json'),
+                    path.join(sharedPath, 'urja.config.json'),
                     JSON.stringify({
                         entry: ['src/main.tsx'],
                         preset: 'spa',
@@ -256,7 +256,7 @@ createRoot(document.getElementById('root')!).render(
 
                 // Config with conflicting version requirements
                 fs.writeFileSync(
-                    path.join(conflictPath, 'nexxo.config.json'),
+                    path.join(conflictPath, 'urja.config.json'),
                     JSON.stringify({
                         entry: ['src/main.ts'],
                         preset: 'spa',

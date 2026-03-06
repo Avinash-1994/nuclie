@@ -8,7 +8,7 @@
 
 ## 🎯 Purpose
 
-This guide explains **HOW** framework compatibility adapters work in Nexxo.
+This guide explains **HOW** framework compatibility adapters work in Urja.
 
 Written for core engineers who need to understand or modify framework integrations.
 
@@ -24,7 +24,7 @@ Vue SFC → [Vue Compiler] → JavaScript + CSS
 Svelte → [Svelte Compiler] → JavaScript + CSS
 ```
 
-**Key Insight**: Each framework has a **compiler** that Nexxo wraps.
+**Key Insight**: Each framework has a **compiler** that Urja wraps.
 
 ---
 
@@ -58,7 +58,7 @@ function detectFramework(config: BuildConfig): Framework {
 
 ```typescript
 // src/presets/index.ts
-export function getFrameworkPreset(framework: Framework): NexxoPlugin[] {
+export function getFrameworkPreset(framework: Framework): UrjaPlugin[] {
   switch (framework) {
     case 'react':
       return reactPreset();
@@ -74,7 +74,7 @@ export function getFrameworkPreset(framework: Framework): NexxoPlugin[] {
 
 **Presets are just plugin arrays**:
 ```typescript
-function reactPreset(): NexxoPlugin[] {
+function reactPreset(): UrjaPlugin[] {
   return [
     jsTransformPlugin({ jsx: 'automatic' }),
     reactRefreshPlugin(),
@@ -87,7 +87,7 @@ function reactPreset(): NexxoPlugin[] {
 ### 3. **Transform Pipeline**
 
 ```
-Source File → [Framework Compiler] → JavaScript → [Nexxo Pipeline] → Bundle
+Source File → [Framework Compiler] → JavaScript → [Urja Pipeline] → Bundle
 ```
 
 **Example: React**
@@ -227,7 +227,7 @@ transform(code: string, id: string) {
 **How it works**:
 ```typescript
 // Angular uses JIT compilation at runtime
-// Nexxo only compiles TypeScript → JavaScript
+// Urja only compiles TypeScript → JavaScript
 transform(code: string, id: string) {
   if (!id.endsWith('.ts')) return null;
   
@@ -364,7 +364,7 @@ if (isReactComponent(code)) {
 
 2. **Implement Transform Hook**
    ```typescript
-   export function myFrameworkPlugin(): NexxoPlugin {
+   export function myFrameworkPlugin(): UrjaPlugin {
      return {
        name: 'my-framework',
        transform(code, id) {
@@ -384,7 +384,7 @@ if (isReactComponent(code)) {
 3. **Add to Presets**
    ```typescript
    // src/presets/index.ts
-   export function myFrameworkPreset(): NexxoPlugin[] {
+   export function myFrameworkPreset(): UrjaPlugin[] {
      return [
        myFrameworkPlugin(),
        jsTransformPlugin(),

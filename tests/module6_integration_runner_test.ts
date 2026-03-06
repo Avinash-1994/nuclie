@@ -3,7 +3,7 @@ import { CoreBuildEngine } from '../src/core/engine/index.js';
 import { BuildConfig } from '../src/config/index.js';
 import path from 'path';
 
-describe('Module 6 Integration: Core Engine on Nexxo Runner', () => {
+describe('Module 6 Integration: Core Engine on Urja Runner', () => {
     it('should initialize CoreBuildEngine', () => {
         const engine = new CoreBuildEngine();
         expect(engine).toBeDefined();

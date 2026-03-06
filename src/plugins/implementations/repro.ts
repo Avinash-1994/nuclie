@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-repro
+ * @urja/plugin-repro
  * Reproduction case generator
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReproPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-repro',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-repro',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Reproduction case generator

@@ -1,4 +1,4 @@
-# 🧪 Nexxo Testing Strategy - Current & Recommended
+# 🧪 Urja Testing Strategy - Current & Recommended
 
 ## 📊 Current Testing Coverage (41 Tests)
 

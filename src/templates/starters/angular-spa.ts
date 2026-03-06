@@ -27,12 +27,12 @@ export const angularSpaTemplate: TemplateConfig = {
         "@angular/cli": "^17.0.0",
         "@angular/compiler-cli": "^17.0.0",
         "typescript": "~5.2.0",
-        "@nexxo/plugin-angular": "^1.0.0"
+        "@urja/plugin-angular": "^1.0.0"
     },
     files: {
-        'nexxo.config.ts': `
-import { defineConfig } from 'nexxo';
-import angular from '@nexxo/plugin-angular';
+        'urja.config.ts': `
+import { defineConfig } from 'urja';
+import angular from '@urja/plugin-angular';
 
 export default defineConfig({
     plugins: [angular()],
@@ -77,13 +77,13 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'nexxo-angular';
+  title = 'urja-angular';
 }
 `,
         'src/app/app.component.html': `
 <main class="main">
   <div class="content">
-    <h1>Nexxo + Angular 17</h1>
+    <h1>Urja + Angular 17</h1>
     <p>Build with speed.</p>
   </div>
 </main>

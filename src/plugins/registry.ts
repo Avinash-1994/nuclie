@@ -1,7 +1,7 @@
 /**
  * Plugin Registry and Loader (Production-Ready)
  * 
- * Centralized registry for all 101 Nexxo plugins with:
+ * Centralized registry for all 101 Urja plugins with:
  * - Lazy loading
  * - WASM sandbox integration
  * - Signature verification
@@ -76,7 +76,7 @@ export class ProductionPluginRegistry {
     }
 
     private async loadImplementation(pluginName: string): Promise<PluginAdapter> {
-        const fileName = pluginName.replace('@nexxo/plugin-', '') + '.ts';
+        const fileName = pluginName.replace('@urja/plugin-', '') + '.ts';
         const filePath = path.join(this.implementationsDir, fileName);
 
         if (!fs.existsSync(filePath)) {
@@ -85,7 +85,7 @@ export class ProductionPluginRegistry {
 
         // Dynamic import
         const module = await import(filePath);
-        const createPlugin = module.default || module[`create${this.capitalize(pluginName.replace('@nexxo/plugin-', ''))}Plugin`];
+        const createPlugin = module.default || module[`create${this.capitalize(pluginName.replace('@urja/plugin-', ''))}Plugin`];
 
         if (typeof createPlugin !== 'function') {
             throw new Error(`Plugin ${pluginName} does not export a factory function`);
@@ -175,11 +175,11 @@ export async function loadPlugins(names: string[]): Promise<PluginAdapter[]> {
  */
 export async function getRecommendedPlugins(framework: string): Promise<PluginAdapter[]> {
     const recommendations: Record<string, string[]> = {
-        'react': ['@nexxo/plugin-react', '@nexxo/plugin-react-query', '@nexxo/plugin-typescript'],
-        'vue': ['@nexxo/plugin-vue', '@nexxo/plugin-pinia', '@nexxo/plugin-typescript'],
-        'svelte': ['@nexxo/plugin-svelte', '@nexxo/plugin-typescript'],
-        'angular': ['@nexxo/plugin-typescript', '@nexxo/plugin-sass'],
-        'solid': ['@nexxo/plugin-solid', '@nexxo/plugin-typescript']
+        'react': ['@urja/plugin-react', '@urja/plugin-react-query', '@urja/plugin-typescript'],
+        'vue': ['@urja/plugin-vue', '@urja/plugin-pinia', '@urja/plugin-typescript'],
+        'svelte': ['@urja/plugin-svelte', '@urja/plugin-typescript'],
+        'angular': ['@urja/plugin-typescript', '@urja/plugin-sass'],
+        'solid': ['@urja/plugin-solid', '@urja/plugin-typescript']
     };
 
     const names = recommendations[framework] || [];

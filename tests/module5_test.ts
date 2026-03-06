@@ -1,5 +1,5 @@
 
-import { NexxoDevServer } from '../src/dev/server.js';
+import { UrjaDevServer } from '../src/dev/server.js';
 import { BuildConfig } from '../src/config/index.js';
 import path from 'path';
 import fs from 'fs/promises';
@@ -28,7 +28,7 @@ async function testModule5() {
         preset: 'spa'
     };
 
-    const server = new NexxoDevServer(config);
+    const server = new UrjaDevServer(config);
 
     console.log('[Test] Server Startup...');
     await server.start();

@@ -1,7 +1,7 @@
-# 🎯 Nexxo Web App Update Requirements
+# 🎯 Urja Web App Update Requirements
 
 ## Current Status
-The nexxo-web-app exists at `/home/avinash/Desktop/framework_practis/build/nexxo-web-app` but needs updating with **accurate production data** from our v1.0 release.
+The urja-web-app exists at `/home/avinash/Desktop/framework_practis/build/urja-web-app` but needs updating with **accurate production data** from our v1.0 release.
 
 ---
 
@@ -61,20 +61,20 @@ The nexxo-web-app exists at `/home/avinash/Desktop/framework_practis/build/nexxo
 
 ### CLI Commands (ACTUAL)
 ```bash
-nexxo dev        # Start development server
-nexxo build      # Build for production
-nexxo analyze    # Analyze bundle
-nexxo ssr        # Start SSR server
-nexxo init       # Initialize config
-nexxo bootstrap  # Create from template
-nexxo css        # CSS utilities
-nexxo optimize   # Optimize config
-nexxo inspect    # Inspect dependency graph
-nexxo report     # Generate build report
-nexxo audit      # Run audits (A11y, Perf, SEO)
-nexxo verify     # Verify project health
-nexxo test       # Run tests
-nexxo doctor     # Health diagnostics
+urja dev        # Start development server
+urja build      # Build for production
+urja analyze    # Analyze bundle
+urja ssr        # Start SSR server
+urja init       # Initialize config
+urja bootstrap  # Create from template
+urja css        # CSS utilities
+urja optimize   # Optimize config
+urja inspect    # Inspect dependency graph
+urja report     # Generate build report
+urja audit      # Run audits (A11y, Perf, SEO)
+urja verify     # Verify project health
+urja test       # Run tests
+urja doctor     # Health diagnostics
 ```
 
 ---
@@ -116,17 +116,17 @@ nexxo doctor     # Health diagnostics
 **Update CLI Example (line 125):**
 ```tsx
 // OLD
-<CodeBlock code="$ npx nexxo build --preset react" />
+<CodeBlock code="$ npx urja build --preset react" />
 
 // NEW
 <CodeBlock code={`# Create new project
-npx create-nexxo my-app --template premium-dashboard
+npx create-urja my-app --template premium-dashboard
 
 # Start development
-cd my-app && nexxo dev
+cd my-app && urja dev
 
 # Build for production
-nexxo build`} />
+urja build`} />
 ```
 
 **Update Framework Status (line 147-169):**
@@ -164,17 +164,17 @@ nexxo build`} />
 ```tsx
 {
   coldStart: {
-    nexxo: 69,
+    urja: 69,
     vite: 100,
     webpack: 2000
   },
   hmr: {
-    nexxo: '10-60',
+    urja: '10-60',
     vite: '<100',
     webpack: '~500'
   },
   bundleSize: {
-    nexxo: 6.9,
+    urja: 6.9,
     vite: 7.2,
     webpack: 8.5
   }
@@ -186,10 +186,10 @@ nexxo build`} />
 **Update Getting Started:**
 ```bash
 # Install
-npm install -g nexxo
+npm install -g urja
 
 # Create project
-npx create-nexxo my-app
+npx create-urja my-app
 
 # Choose template
 - premium-dashboard (Feature showcase)
@@ -199,10 +199,10 @@ npx create-nexxo my-app
 - And 9 more...
 
 # Start dev server
-nexxo dev
+urja dev
 
 # Build
-nexxo build
+urja build
 ```
 
 ### 5. Templates Page (`src/pages/TemplateStarters.tsx`)

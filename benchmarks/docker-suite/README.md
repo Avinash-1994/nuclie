@@ -1,6 +1,6 @@
-# Nexxo v2.0 Module 1 - Docker Benchmark Suite
+# Urja v2.0 Module 1 - Docker Benchmark Suite
 
-This directory contains automated benchmarks comparing Nexxo v2.0 against 5 major rivals:
+This directory contains automated benchmarks comparing Urja v2.0 against 5 major rivals:
 - Vite 8 (with Rolldown/Oxc)
 - Turbopack
 - Rspack/Rsbuild
@@ -11,7 +11,7 @@ This directory contains automated benchmarks comparing Nexxo v2.0 against 5 majo
 
 ```
 docker-suite/
-├── Dockerfile.nexxo       # Nexxo v2.0 environment
+├── Dockerfile.urja       # Urja v2.0 environment
 ├── Dockerfile.vite8       # Vite 8 environment
 ├── Dockerfile.turbopack   # Turbopack environment
 ├── Dockerfile.rspack      # Rspack environment
@@ -34,7 +34,7 @@ docker-suite/
 ./run-benchmarks.sh
 
 # Run specific tool
-./run-benchmarks.sh --tool nexxo
+./run-benchmarks.sh --tool urja
 
 # Run specific scenario
 ./run-benchmarks.sh --scenario small-app
@@ -58,7 +58,7 @@ Results are saved in JSON format:
 
 ```json
 {
-  "tool": "nexxo",
+  "tool": "urja",
   "version": "2.0.0",
   "scenario": "small-app",
   "framework": "react",

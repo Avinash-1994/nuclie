@@ -220,8 +220,8 @@ export class UniversalTransformer {
                 const normalizedPath = filePath.replace(/\\/g, '/');
                 const hmrFooter = `
 
-// Nexxo Advanced HMR (React)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (React)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -248,7 +248,7 @@ if (import.meta.hot) {
                 line: error.loc?.line,
                 column: error.loc?.column,
                 type: 'Transformation Error',
-                plugin: 'nexxo:universal-transformer'
+                plugin: 'urja:universal-transformer'
             });
 
             // Re-throw the error instead of falling back
@@ -279,8 +279,8 @@ if (import.meta.hot) {
 const _sfc_main = { template: \`${code.replace(/`/g, '\\`')}\` };
 export default _sfc_main;
 
-// Nexxo Advanced HMR (Vue - Fallback)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Vue - Fallback)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -380,8 +380,8 @@ if (import.meta.hot) {
                 const normalizedPath = filePath.replace(/\\/g, '/');
                 output += `
 
-// Nexxo Advanced HMR (Vue)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Vue)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -443,8 +443,8 @@ if (import.meta.hot) {
                 const componentId = canonicalHash(filePath).substring(0, 16);
                 finalCode += `
 
-// Nexxo Advanced HMR (Svelte)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Svelte)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -452,7 +452,7 @@ if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
         if (!newModule) return;
         // Svelte HMR: Re-create component instances
-        const instances = window.__NEXXO_SVELTE_INSTANCES__ || (window.__NEXXO_SVELTE_INSTANCES__ = new Map());
+        const instances = window.__URJA_SVELTE_INSTANCES__ || (window.__URJA_SVELTE_INSTANCES__ = new Map());
         const componentInstances = instances.get("${componentId}") || [];
         componentInstances.forEach(instance => {
             if (instance && instance.$set) {
@@ -516,8 +516,8 @@ if (import.meta.hot) {
                         const componentId = canonicalHash(filePath).substring(0, 16);
                         finalCode += `
 
-// Nexxo Advanced HMR (Angular)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Angular)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -525,7 +525,7 @@ if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
         if (!newModule) return;
         // Angular HMR: Re-bootstrap components
-        const registry = window.__NEXXO_ANGULAR_REGISTRY__ || (window.__NEXXO_ANGULAR_REGISTRY__ = new Map());
+        const registry = window.__URJA_ANGULAR_REGISTRY__ || (window.__URJA_ANGULAR_REGISTRY__ = new Map());
         const components = registry.get("${componentId}") || [];
         components.forEach(({ componentRef, viewContainerRef }) => {
             if (componentRef && viewContainerRef) {
@@ -587,8 +587,8 @@ if (import.meta.hot) {
                 const normalizedPath = filePath.replace(/\\/g, '/');
                 const hmrFooter = `
 
-// Nexxo Advanced HMR (Solid)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Solid)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -596,7 +596,7 @@ if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
         if (!newModule) return;
         // Solid HMR: Re-render root components
-        const roots = window.__NEXXO_SOLID_ROOTS__ || (window.__NEXXO_SOLID_ROOTS__ = new Map());
+        const roots = window.__URJA_SOLID_ROOTS__ || (window.__URJA_SOLID_ROOTS__ = new Map());
         const componentRoots = roots.get("${normalizedPath}") || [];
         componentRoots.forEach(({ dispose, container, component }) => {
             if (dispose) dispose();
@@ -634,8 +634,8 @@ if (import.meta.hot) {
                     const normalizedPath = filePath.replace(/\\/g, '/');
                     const hmrFooter = `
 
-// Nexxo Advanced HMR (Solid - Fallback)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Solid - Fallback)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -729,8 +729,8 @@ if (import.meta.hot) {
                 const componentId = canonicalHash(filePath).substring(0, 16);
                 finalCode += `
 
-// Nexxo Advanced HMR (Lit)
-import { createHotContext } from '/@nexxo/client';
+// Urja Advanced HMR (Lit)
+import { createHotContext } from '/@urja/client';
 if (!import.meta.hot) {
     import.meta.hot = createHotContext("${normalizedPath}");
 }
@@ -738,7 +738,7 @@ if (import.meta.hot) {
     import.meta.hot.accept((newModule) => {
         if (!newModule) return;
         // Lit HMR: Re-register custom elements
-        const registry = window.__NEXXO_LIT_REGISTRY__ || (window.__NEXXO_LIT_REGISTRY__ = new Map());
+        const registry = window.__URJA_LIT_REGISTRY__ || (window.__URJA_LIT_REGISTRY__ = new Map());
         const elements = registry.get("${componentId}") || [];
         elements.forEach(({ tagName, constructor }) => {
             const instances = document.querySelectorAll(tagName);

@@ -1,7 +1,7 @@
 
 /**
- * Nexxo Compatibility Layer
- * Adapts Vite/Rollup Plugins to Nexxo Architecture
+ * Urja Compatibility Layer
+ * Adapts Vite/Rollup Plugins to Urja Architecture
  * Day 11: Vite/Rollup Compat Layer Lock
  */
 
@@ -21,7 +21,7 @@ export class CompatPluginAdapter {
 
     /**
      * Converts a secure WASM plugin into a Rollup-compatible plugin interface
-     * This allows Nexxo (using Rolldown) to bundle using WASM plugins transparently.
+     * This allows Urja (using Rolldown) to bundle using WASM plugins transparently.
      */
     adapt(manifest: any, wasmBytes: Buffer): RollupPlugin {
         return {
@@ -84,7 +84,7 @@ export class CompatPluginAdapter {
             if (outputStr === 'Success') return null; // Logic in WASM handle default?
             // Our minimal WASM stubs returned "Success" or raw string. 
             // Real Plugin Protocol requires JSON return.
-            // We assume the WASM plugin complies with Nexxo V2 Plugin Protocol.
+            // We assume the WASM plugin complies with Urja V2 Plugin Protocol.
             return JSON.parse(outputStr);
         } catch (e) {
             console.error('WASM Plugin Error:', e);

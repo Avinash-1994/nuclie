@@ -12,7 +12,7 @@ interface DoctorCheck {
     fix?: string;
 }
 
-export class NexxoDoctor {
+export class UrjaDoctor {
     private cwd: string;
     private checks: DoctorCheck[] = [];
 
@@ -21,11 +21,11 @@ export class NexxoDoctor {
     }
 
     async diagnose(): Promise<void> {
-        console.log('\n🩺 Nexxo Doctor - Running Diagnostics...\n');
+        console.log('\n🩺 Urja Doctor - Running Diagnostics...\n');
 
         await this.checkNodeVersion();
         await this.checkPackageJson();
-        await this.checkNexxoConfig();
+        await this.checkUrjaConfig();
         await this.checkDependencies();
         await this.checkGitIgnore();
         await this.checkEnvironment();
@@ -61,30 +61,30 @@ export class NexxoDoctor {
         try {
             const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
 
-            // Check for nexxo in dependencies
-            const hasNexxo = pkg.dependencies?.nexxo || pkg.devDependencies?.nexxo;
-            if (hasNexxo) {
-                this.addCheck('package.json', 'pass', `Nexxo ${hasNexxo} configured`);
+            // Check for urja in dependencies
+            const hasUrja = pkg.dependencies?.urja || pkg.devDependencies?.urja;
+            if (hasUrja) {
+                this.addCheck('package.json', 'pass', `Urja ${hasUrja} configured`);
             } else {
-                this.addCheck('package.json', 'warn', 'Nexxo not in dependencies', 'Run `npm install nexxo`');
+                this.addCheck('package.json', 'warn', 'Urja not in dependencies', 'Run `npm install urja`');
             }
 
             // Check for scripts
             if (pkg.scripts?.dev || pkg.scripts?.build) {
                 this.addCheck('npm scripts', 'pass', 'Build scripts configured');
             } else {
-                this.addCheck('npm scripts', 'warn', 'No dev/build scripts', 'Add "dev": "nexxo dev" and "build": "nexxo build"');
+                this.addCheck('npm scripts', 'warn', 'No dev/build scripts', 'Add "dev": "urja dev" and "build": "urja build"');
             }
         } catch (e) {
             this.addCheck('package.json', 'fail', 'Invalid JSON', 'Fix JSON syntax errors');
         }
     }
 
-    private async checkNexxoConfig(): Promise<void> {
+    private async checkUrjaConfig(): Promise<void> {
         const configPaths = [
-            'nexxo.config.ts',
-            'nexxo.config.js',
-            'nexxo.config.mjs'
+            'urja.config.ts',
+            'urja.config.js',
+            'urja.config.mjs'
         ];
 
         const configFile = configPaths.find(p => fs.existsSync(path.join(this.cwd, p)));
@@ -92,7 +92,7 @@ export class NexxoDoctor {
         if (configFile) {
             try {
                 const config = await loadConfig(this.cwd);
-                this.addCheck('Nexxo Config', 'pass', `Found ${configFile}`);
+                this.addCheck('Urja Config', 'pass', `Found ${configFile}`);
 
                 // Validate config
                 if (!config.entry || config.entry.length === 0) {
@@ -101,10 +101,10 @@ export class NexxoDoctor {
                     this.addCheck('Config Validation', 'pass', `${config.entry.length} entry point(s)`);
                 }
             } catch (e: any) {
-                this.addCheck('Nexxo Config', 'fail', `Error loading config: ${e.message}`, 'Check config syntax');
+                this.addCheck('Urja Config', 'fail', `Error loading config: ${e.message}`, 'Check config syntax');
             }
         } else {
-            this.addCheck('Nexxo Config', 'warn', 'No config file found', 'Run `nexxo init` to create one');
+            this.addCheck('Urja Config', 'warn', 'No config file found', 'Run `urja init` to create one');
         }
     }
 
@@ -227,7 +227,7 @@ export class NexxoDoctor {
     }
 
     private async checkCacheHealth(): Promise<void> {
-        const cacheDir = path.join(this.cwd, 'node_modules', '.nexxo');
+        const cacheDir = path.join(this.cwd, 'node_modules', '.urja');
 
         if (!fs.existsSync(cacheDir)) {
             this.addCheck('Build Cache', 'pass', 'No cache yet (will be created on first build)');
@@ -240,7 +240,7 @@ export class NexxoDoctor {
             const sizeMB = sizeBytes / (1024 ** 2);
 
             if (sizeMB > 1000) {
-                this.addCheck('Build Cache', 'warn', `${sizeMB.toFixed(0)} MB (large)`, 'Consider clearing cache with `rm -rf node_modules/.nexxo`');
+                this.addCheck('Build Cache', 'warn', `${sizeMB.toFixed(0)} MB (large)`, 'Consider clearing cache with `rm -rf node_modules/.urja`');
             } else {
                 this.addCheck('Build Cache', 'pass', `${sizeMB.toFixed(0)} MB`);
             }
@@ -275,7 +275,7 @@ export class NexxoDoctor {
         const outputDir = fs.existsSync(buildDir) ? buildDir : fs.existsSync(distDir) ? distDir : null;
 
         if (!outputDir) {
-            this.addCheck('Performance', 'pass', 'No build output yet (run `nexxo build` first)');
+            this.addCheck('Performance', 'pass', 'No build output yet (run `urja build` first)');
             return;
         }
 
@@ -367,12 +367,12 @@ export class NexxoDoctor {
         console.log(`   CPU: ${os.cpus()[0].model} (${os.cpus().length} cores)`);
         console.log(`   Memory: ${(os.totalmem() / (1024 ** 3)).toFixed(1)} GB total, ${(os.freemem() / (1024 ** 3)).toFixed(1)} GB free`);
 
-        // Try to get Nexxo version
+        // Try to get Urja version
         try {
-            const pkgPath = path.join(this.cwd, 'node_modules', 'nexxo', 'package.json');
+            const pkgPath = path.join(this.cwd, 'node_modules', 'urja', 'package.json');
             if (fs.existsSync(pkgPath)) {
                 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-                console.log(`   Nexxo: v${pkg.version}`);
+                console.log(`   Urja: v${pkg.version}`);
             }
         } catch (e) {
             // Ignore
@@ -386,12 +386,12 @@ export class NexxoDoctor {
         } else if (warnings > 0) {
             console.log('⚠️  Some warnings detected. Consider addressing them for optimal performance.\n');
         } else {
-            console.log('✅ All checks passed! Your Nexxo project is healthy.\n');
+            console.log('✅ All checks passed! Your Urja project is healthy.\n');
         }
     }
 }
 
 export async function runDoctor(cwd: string = process.cwd()): Promise<void> {
-    const doctor = new NexxoDoctor(cwd);
+    const doctor = new UrjaDoctor(cwd);
     await doctor.diagnose();
 }

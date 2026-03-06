@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-tanstack-query
+ * @urja/plugin-tanstack-query
  * TanStack Query (React Query)
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTanstackQueryPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-tanstack-query',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-tanstack-query',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // State management: TanStack Query (React Query)
@@ -16,7 +16,7 @@ export function createTanstackQueryPlugin(): PluginAdapter {
         },
 
         async buildStart() {
-            console.log('[@nexxo/plugin-tanstack-query] State management initialized');
+            console.log('[@urja/plugin-tanstack-query] State management initialized');
         }
     };
 }

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-pages
+ * @urja/plugin-pages
  * File-based routing
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPagesPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-pages',
+        name: '@urja/plugin-pages',
         originalPlugin: 'vite-plugin-pages',
         
         async transform(code: string, id: string) {

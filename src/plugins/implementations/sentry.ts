@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-sentry
+ * @urja/plugin-sentry
  * Sentry error tracking
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSentryPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-sentry',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-sentry',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Sentry error tracking

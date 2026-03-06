@@ -11,7 +11,7 @@ export class ChatCLI {
         const analyzer = new Analyzer(root);
         const profile = await analyzer.analyze();
 
-        console.log('\n🤖 Nexxo AI Chat');
+        console.log('\n🤖 Urja AI Chat');
         console.log('Type "exit" to quit.\n');
 
         const rl = createInterface({

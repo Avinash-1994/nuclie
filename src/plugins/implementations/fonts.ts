@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-fonts
+ * @urja/plugin-fonts
  * Web font optimization
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createFontsPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-fonts',
+        name: '@urja/plugin-fonts',
         originalPlugin: 'vite-plugin-fonts',
         
         async load(id: string) {

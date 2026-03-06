@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Environment API
+ * Urja Environment API
  * Unified Runtime for Browser, Node, and Edge
  * Day 26: Environment API Lock
  */
@@ -11,8 +11,8 @@ export interface EnvConfig {
     base: string;
 }
 
-export class NexxoEnv {
-    private static instance: NexxoEnv;
+export class UrjaEnv {
+    private static instance: UrjaEnv;
     public config: EnvConfig;
     private listeners: Function[] = [];
 
@@ -20,18 +20,18 @@ export class NexxoEnv {
         this.config = config;
     }
 
-    static init(config: EnvConfig): NexxoEnv {
-        if (!NexxoEnv.instance) {
-            NexxoEnv.instance = new NexxoEnv(config);
+    static init(config: EnvConfig): UrjaEnv {
+        if (!UrjaEnv.instance) {
+            UrjaEnv.instance = new UrjaEnv(config);
         }
-        return NexxoEnv.instance;
+        return UrjaEnv.instance;
     }
 
-    static get(): NexxoEnv {
-        if (!NexxoEnv.instance) {
-            throw new Error('NexxoEnv not initialized');
+    static get(): UrjaEnv {
+        if (!UrjaEnv.instance) {
+            throw new Error('UrjaEnv not initialized');
         }
-        return NexxoEnv.instance;
+        return UrjaEnv.instance;
     }
 
     /**

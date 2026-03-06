@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-file
+ * @urja/plugin-file
  * File asset handling
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createFilePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-file',
+        name: '@urja/plugin-file',
         originalPlugin: 'file-loader',
         
         async load(id: string) {

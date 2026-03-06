@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-lazy-load
+ * @urja/plugin-lazy-load
  * Component lazy loading
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLazyLoadPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-lazy-load',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-lazy-load',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-lazy-load] Starting performance optimization...');
+            console.log('[@urja/plugin-lazy-load] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createLazyLoadPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-lazy-load] Performance optimization complete');
+            console.log('[@urja/plugin-lazy-load] Performance optimization complete');
         }
     };
 }

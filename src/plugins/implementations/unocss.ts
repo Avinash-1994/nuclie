@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-unocss
+ * @urja/plugin-unocss
  * UnoCSS integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createUnocssPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-unocss',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-unocss',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for unocss

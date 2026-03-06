@@ -1,4 +1,4 @@
-# Nexxo Framework HMR Implementation Status
+# Urja Framework HMR Implementation Status
 
 **Date**: 2026-01-06  
 **Status**: ✅ All frameworks have HMR support
@@ -19,7 +19,7 @@ All framework plugins include Hot Module Replacement (HMR) support that is:
 
 ### 🟢 Tier 1: Production-Ready
 
-#### React (`nexxoReact`)
+#### React (`urjaReact`)
 **HMR Status**: ✅ **Fast Refresh Enabled**
 
 **Features**:
@@ -39,7 +39,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-nexxoReact({
+urjaReact({
   fastRefresh: true,  // Enable Fast Refresh
   development: true,  // Enable HMR
   sourceMaps: true
@@ -48,7 +48,7 @@ nexxoReact({
 
 ---
 
-#### Vue (`nexxoVue`)
+#### Vue (`urjaVue`)
 **HMR Status**: ✅ **Vue HMR Runtime Enabled**
 
 **Features**:
@@ -67,7 +67,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-nexxoVue({
+urjaVue({
   hmr: true,         // Enable HMR
   development: true,
   sourceMaps: true
@@ -78,7 +78,7 @@ nexxoVue({
 
 ### 🟡 Tier 2: Stable
 
-#### Svelte (`nexxoSvelte`)
+#### Svelte (`urjaSvelte`)
 **HMR Status**: ✅ **Svelte HMR Enabled**
 
 **Features**:
@@ -101,7 +101,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-nexxoSvelte({
+urjaSvelte({
   hmr: true,         // Enable HMR
   development: true,
   compilerOptions: { dev: true }
@@ -110,7 +110,7 @@ nexxoSvelte({
 
 ---
 
-#### Solid (`nexxoSolid`)
+#### Solid (`urjaSolid`)
 **HMR Status**: ✅ **Solid HMR Enabled**
 
 **Features**:
@@ -133,7 +133,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-nexxoSolid({
+urjaSolid({
   hmr: true,         // Enable HMR
   development: true,
   sourceMaps: true
@@ -142,7 +142,7 @@ nexxoSolid({
 
 ---
 
-#### Lit (`nexxoLit`)
+#### Lit (`urjaLit`)
 **HMR Status**: ✅ **Lit HMR Enabled**
 
 **Features**:
@@ -168,7 +168,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-nexxoLit({
+urjaLit({
   hmr: true,         // Enable HMR
   development: true,
   typescript: { experimentalDecorators: true }
@@ -186,7 +186,7 @@ All plugins **automatically disable HMR** in production:
 const development = process.env.NODE_ENV !== 'production';
 
 // Or explicit configuration
-nexxoReact({ development: false, fastRefresh: false })
+urjaReact({ development: false, fastRefresh: false })
 ```
 
 **Production builds**:
@@ -204,11 +204,11 @@ nexxoReact({ development: false, fastRefresh: false })
 All plugins follow this pattern:
 
 ```typescript
-export function nexxoFramework(options = {}) {
+export function urjaFramework(options = {}) {
   const { hmr = true, development = true } = options;
   
   return {
-    name: 'nexxo-framework',
+    name: 'urja-framework',
     
     async transform(code, id) {
       // 1. Transform framework code
@@ -331,4 +331,4 @@ No plugin wrapper needed ✅
 ✅ **Zero global state**  
 ✅ **Automatic production optimization**  
 
-Nexxo's HMR implementation is **complete and verified**.
+Urja's HMR implementation is **complete and verified**.

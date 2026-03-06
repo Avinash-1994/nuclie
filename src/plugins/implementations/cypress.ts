@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-cypress
+ * @urja/plugin-cypress
  * Cypress integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCypressPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-cypress',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-cypress',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Cypress integration

@@ -1,14 +1,14 @@
 
-// TypeScript bindings for Nexxo v2.0 native WASM runtime
+// TypeScript bindings for Urja v2.0 native WASM runtime
 // Day 8: Zero-Trust Ecosystem
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const nativeModule = require('../../nexxo_native.node');
+const nativeModule = require('../../urja_native.node');
 
 const { PluginRuntime: NativePluginRuntime } = nativeModule;
 
-import type { PluginRuntime as NativePluginRuntimeType } from '../../nexxo_native.node';
+import type { PluginRuntime as NativePluginRuntimeType } from '../../urja_native.node';
 
 /**
  * Secure WASM Runtime wrapper

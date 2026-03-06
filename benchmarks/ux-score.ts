@@ -1,12 +1,12 @@
 
 /**
- * Nexxo UX Benchmark Suite
- * Compares Nexxo v2.0 Metrics against Industry Standards (Vite, Angular CLI)
+ * Urja UX Benchmark Suite
+ * Compares Urja v2.0 Metrics against Industry Standards (Vite, Angular CLI)
  * Day 21: Onboarding Mastery
  */
 
 import { performance } from 'perf_hooks';
-import { main as createNexxo } from '../src/create-nexxo/cli.js';
+import { main as createUrja } from '../src/create-urja/cli.js';
 
 // Industry Baselines (Jan 2026)
 const BASELINES = {
@@ -32,25 +32,25 @@ async function runUXBenchmarks() {
     // Simulate creation (mocked args) inside the function? 
     // We'll rely on our previous test measurement (<1s)
     // Here we assume 5ms for the generator logic
-    const nexxoCreate = 5;
+    const urjaCreate = 5;
 
     // 2. Dev Start (Module 1 verified)
-    const nexxoStart = 280; // <300ms target met
+    const urjaStart = 280; // <300ms target met
 
     // 3. HMR Latency (Module 1 verified)
-    const nexxoHMR = 2; // <10ms target met (Logic is instant)
+    const urjaHMR = 2; // <10ms target met (Logic is instant)
 
-    console.log('| Metric | Nexxo v2.0 | Vite 8 | Angular CLI | Winner |');
+    console.log('| Metric | Urja v2.0 | Vite 8 | Angular CLI | Winner |');
     console.log('|:---|:---|:---|:---|:---|');
-    console.log(`| Setup Time | ${nexxoCreate}ms | ${BASELINES.vite.create}ms | ${BASELINES.angular.create}ms | 🏆 Nexxo |`);
-    console.log(`| Dev Start | ${nexxoStart}ms | ${BASELINES.vite.devStart}ms | ${BASELINES.angular.devStart}ms | 🏆 Nexxo |`);
-    console.log(`| HMR Latency | ${nexxoHMR}ms | ${BASELINES.vite.hmr}ms | ${BASELINES.angular.hmr}ms | 🏆 Nexxo |`);
-    console.log(`| Overlay | Isolated | Good | Basic | 🏆 Nexxo |`);
+    console.log(`| Setup Time | ${urjaCreate}ms | ${BASELINES.vite.create}ms | ${BASELINES.angular.create}ms | 🏆 Urja |`);
+    console.log(`| Dev Start | ${urjaStart}ms | ${BASELINES.vite.devStart}ms | ${BASELINES.angular.devStart}ms | 🏆 Urja |`);
+    console.log(`| HMR Latency | ${urjaHMR}ms | ${BASELINES.vite.hmr}ms | ${BASELINES.angular.hmr}ms | 🏆 Urja |`);
+    console.log(`| Overlay | Isolated | Good | Basic | 🏆 Urja |`);
 
     // Calculate Improvement Scores
-    const speedupCreate = BASELINES.vite.create / nexxoCreate;
-    const speedupStart = BASELINES.vite.devStart / nexxoStart;
-    const speedupHMR = BASELINES.vite.hmr / nexxoHMR;
+    const speedupCreate = BASELINES.vite.create / urjaCreate;
+    const speedupStart = BASELINES.vite.devStart / urjaStart;
+    const speedupHMR = BASELINES.vite.hmr / urjaHMR;
 
     console.log('\n📊 Improvement vs Vite 8:');
     console.log(`- Setup: ${speedupCreate.toFixed(1)}x Faster`);
@@ -60,7 +60,7 @@ async function runUXBenchmarks() {
     if (speedupCreate > 1 && speedupStart > 1 && speedupHMR > 1) {
         console.log('\n✅ CERTIFIED: Elite DX beats Vite/Angular CLI across all metrics.');
     } else {
-        throw new Error('Nexxo failed to beat baselines.');
+        throw new Error('Urja failed to beat baselines.');
     }
 }
 

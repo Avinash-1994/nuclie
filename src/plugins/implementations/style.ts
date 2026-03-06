@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-style
+ * @urja/plugin-style
  * CSS injection
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createStylePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-style',
+        name: '@urja/plugin-style',
         originalPlugin: 'style-loader',
         
         async transform(code: string, id: string) {

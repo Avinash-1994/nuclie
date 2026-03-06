@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Dashboard tRPC Router
+ * Urja Dashboard tRPC Router
  * Day 19: tRPC Dashboard Lock
  */
 

@@ -1,6 +1,6 @@
 
 /**
- * Nexxo React Server Components (RSC) Implementation
+ * Urja React Server Components (RSC) Implementation
  * Day 54: SSR Power Locked
  */
 
@@ -21,7 +21,7 @@ export class RSCEngine {
             start(controller) {
                 // Simplified RSC protocol
                 // In reality, this would be the 'react-server-dom-webpack' format 
-                // but for Nexxo architecture, we use a custom optimized binary/text hybrid.
+                // but for Urja architecture, we use a custom optimized binary/text hybrid.
 
                 controller.enqueue(encoder.encode('J0:["$","div",null,{"children":"RSC Root"}]\n'));
                 controller.close();
@@ -34,7 +34,7 @@ export class RSCEngine {
      */
     static getRSCClientBuffer(): string {
         return `
-            window.__NEXXO_RSC__ = {
+            window.__URJA_RSC__ = {
                 cache: new Map(),
                 push(chunk) { /* implementation */ }
             };

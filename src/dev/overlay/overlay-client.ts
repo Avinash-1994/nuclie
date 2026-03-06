@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Error Overlay Client
+ * Urja Error Overlay Client
  * Injected into the browser to capture Runtime & Build errors.
  * Day 15: Reliable Error Overlay Lock
  */
@@ -12,7 +12,7 @@ let overlayInstance: HTMLElement | null = null;
 
 function getOverlay() {
     if (!overlayInstance || !overlayInstance.isConnected) {
-        overlayInstance = document.createElement('nexxo-error-overlay');
+        overlayInstance = document.createElement('urja-error-overlay');
         document.body.appendChild(overlayInstance);
     }
     return overlayInstance as any;
@@ -37,7 +37,7 @@ function handleRejection(event: PromiseRejectionEvent) {
 }
 
 // Global API for HMR Client
-(window as any).__NEXXO_OVERLAY__ = {
+(window as any).__URJA_OVERLAY__ = {
     reportBuildError(err: any) {
         const overlay = getOverlay();
         overlay.showError(err);
@@ -53,7 +53,7 @@ function handleRejection(event: PromiseRejectionEvent) {
 export function activateOverlay() {
     window.addEventListener('error', handleRuntimeError);
     window.addEventListener('unhandledrejection', handleRejection);
-    console.log('[Nexxo] Error Overlay Active');
+    console.log('[Urja] Error Overlay Active');
 }
 
 // Auto-activate if running in browser

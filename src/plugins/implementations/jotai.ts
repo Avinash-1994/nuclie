@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-jotai
+ * @urja/plugin-jotai
  * Jotai state management
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createJotaiPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-jotai',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-jotai',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // jotai transformation

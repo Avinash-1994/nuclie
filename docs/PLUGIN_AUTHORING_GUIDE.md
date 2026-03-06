@@ -1,17 +1,17 @@
 /**
- * Plugin Authoring Guide for Nexxo v1
+ * Plugin Authoring Guide for Urja v1
  * 
  * follow strict strict rules to ensure stability and compatibility.
  */
 
 /*
-# Nexxo Plugin API Reference
+# Urja Plugin API Reference
 
-Nexxo plugins are compatible with Rollup plugins, with additional governance for stability.
+Urja plugins are compatible with Rollup plugins, with additional governance for stability.
 
 ## Required Properties
 
-- `name` (string): Unique ID (e.g. `nexxo-plugin-my-feature`)
+- `name` (string): Unique ID (e.g. `urja-plugin-my-feature`)
 - `stability` (string): 'experimental' | 'stable' | 'deprecated'
 
 ## Hooks
@@ -26,11 +26,11 @@ All standard Rollup hooks are supported:
 ## Example
 
 ```typescript
-import { Plugin } from 'nexxo';
+import { Plugin } from 'urja';
 
 export function myPlugin(): Plugin {
   return {
-    name: 'nexxo-plugin-example',
+    name: 'urja-plugin-example',
     stability: 'stable',
     async transform(code, id) {
       if (id.endsWith('.foo')) {

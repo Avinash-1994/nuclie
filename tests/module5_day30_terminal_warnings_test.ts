@@ -64,7 +64,7 @@ async function runTest() {
         },
         rootDir: '/test',
         target: 'browser',
-        engine: { name: 'Nexxo', version: '1.0.0' }
+        engine: { name: 'Urja', version: '1.0.0' }
     };
 
     const configWarnings = detector.analyzeContext(mockContext as BuildContext);

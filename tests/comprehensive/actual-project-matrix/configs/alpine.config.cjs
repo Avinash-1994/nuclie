@@ -14,7 +14,7 @@ module.exports = {
     hmr: true,
   },
   federation: {
-    name: 'nexxo_remote',
+    name: 'urja_remote',
     filename: 'remoteEntry.js',
     exposes: {
       './Content': './packages/alpinejs/src/index.js'

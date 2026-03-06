@@ -1,7 +1,7 @@
 {
-    "name": "nexxo-real-project-matrix",
+    "name": "urja-real-project-matrix",
     "version": "1.0.0",
-    "description": "Test Nexxo against 8 real production open-source projects",
+    "description": "Test Urja against 8 real production open-source projects",
     "main": "dist/runner.js",
     "scripts": {
         "build": "tsc",
@@ -13,11 +13,11 @@
         "test:report": "node dist/runner.js --report"
     },
     "keywords": [
-        "nexxo",
+        "urja",
         "benchmark",
         "testing",
         "matrix"
     ],
-    "author": "Nexxo Team",
+    "author": "Urja Team",
     "license": "MIT"
 }

@@ -1,4 +1,4 @@
-name: Nexxo CI
+name: Urja CI
 
 on:
   push:

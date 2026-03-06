@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-inspect
+ * @urja/plugin-inspect
  * Plugin inspection tool
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createInspectPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-inspect',
+        name: '@urja/plugin-inspect',
         originalPlugin: 'vite-plugin-inspect',
         
         async transform(code: string, id: string) {

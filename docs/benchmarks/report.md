@@ -7,7 +7,7 @@
 
 ## Results
 
-| Metric | Nexxo | Vite | Webpack | Rspack |
+| Metric | Urja | Vite | Webpack | Rspack |
 |--------|-------|------|---------|--------|
 | Small - Cold Start | 119ms | ~350ms | ~1500ms | ~250ms |
 | Small - Build Time | 239ms | ~1200ms | ~2500ms | ~400ms |
@@ -17,7 +17,7 @@
 | Medium - Size | 371.5KB | ~1500KB | ~2000KB | ~1800KB |
 
 **Notes:**
-- **Nexxo** values are measured live.
+- **Urja** values are measured live.
 - **Competitor** values are standard baselines for this class of hardware.
 - "Small App": Minimal React Hello World.
-- "Medium App": Nexxo Documentation Site (~50 components).
+- "Medium App": Urja Documentation Site (~50 components).

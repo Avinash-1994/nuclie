@@ -1,5 +1,5 @@
 /**
- * Module 7: Comprehensive Benchmarks (Nexxo vs The World)
+ * Module 7: Comprehensive Benchmarks (Urja vs The World)
  * 
  * Scenarios: Small App, Large Monorepo, SSR, Edge
  * Metrics: Cold Start, HMR, Build Time, Bundle Size, Memory, TTFB
@@ -50,7 +50,7 @@ async function runBenchmarks() {
     const smallAppPath = path.join(BENCHMARK_DIR, 'small-app');
     await setupSmallApp(smallAppPath);
 
-    results.push(await measureNexxo(smallAppPath, 'Small App'));
+    results.push(await measureUrja(smallAppPath, 'Small App'));
     results.push(await measureVite(smallAppPath, 'Small App'));
     addBaselines(results, 'Small App');
 
@@ -59,19 +59,19 @@ async function runBenchmarks() {
     const monorepoPath = path.join(BENCHMARK_DIR, 'monorepo');
     await setupMonorepo(monorepoPath);
 
-    results.push(await measureNexxo(monorepoPath, 'Large Monorepo', 'build')); // Monorepo usually focuses on build/lint cache
+    results.push(await measureUrja(monorepoPath, 'Large Monorepo', 'build')); // Monorepo usually focuses on build/lint cache
 
     // --- Scenario 3: SSR (React + Node) ---
     console.log(kleur.magenta('\nScenario 3: SSR App'));
     const ssrPath = path.join(BENCHMARK_DIR, 'ssr-app');
     await setupSSR(ssrPath);
-    results.push(await measureNexxo(ssrPath, 'SSR'));
+    results.push(await measureUrja(ssrPath, 'SSR'));
 
     // --- Scenario 4: Edge Function ---
     console.log(kleur.magenta('\nScenario 4: Edge Function'));
     const edgePath = path.join(BENCHMARK_DIR, 'edge-app');
     await setupEdge(edgePath);
-    results.push(await measureNexxo(edgePath, 'Edge'));
+    results.push(await measureUrja(edgePath, 'Edge'));
     results.push({
         tool: 'esbuild',
         scenario: 'Edge',
@@ -89,7 +89,7 @@ async function setupSmallApp(cwd: string) {
     await templateManager.scaffold('react-spa', cwd, 'small-app');
     generateLoad(cwd, 100);
     await installDeps(cwd, ['vite', '@vitejs/plugin-react']);
-    patchNexxoConfig(cwd);
+    patchUrjaConfig(cwd);
 }
 
 async function setupMonorepo(cwd: string) {
@@ -101,32 +101,32 @@ async function setupMonorepo(cwd: string) {
         fs.cpSync(uiPath, path.join(cwd, `packages/ui-${i}`), { recursive: true });
     }
     await installDeps(cwd, []);
-    patchNexxoConfig(cwd);
-    patchNexxoConfig(path.join(cwd, 'apps/web'));
+    patchUrjaConfig(cwd);
+    patchUrjaConfig(path.join(cwd, 'apps/web'));
 }
 
 async function setupSSR(cwd: string) {
     console.log(kleur.dim('📦 Scaffolding SSR App...'));
     await templateManager.scaffold('react-ssr', cwd, 'ssr-app');
     await installDeps(cwd, ['express', 'compression', 'sirv']);
-    patchNexxoConfig(cwd);
+    patchUrjaConfig(cwd);
 }
 
 async function setupEdge(cwd: string) {
     console.log(kleur.dim('📦 Scaffolding Edge App...'));
     await templateManager.scaffold('edge-function', cwd, 'edge-app');
     await installDeps(cwd, []);
-    patchNexxoConfig(cwd);
+    patchUrjaConfig(cwd);
 }
 
 // --- Measurement Logic ---
 
-async function measureNexxo(cwd: string, scenario: string, mode: 'full' | 'build' = 'full'): Promise<BenchmarkResult> {
-    const mainCli = process.env.NEXXO_CLI ? path.resolve(process.env.NEXXO_CLI) : path.join(process.cwd(), 'dist/cli.js');
+async function measureUrja(cwd: string, scenario: string, mode: 'full' | 'build' = 'full'): Promise<BenchmarkResult> {
+    const mainCli = process.env.URJA_CLI ? path.resolve(process.env.URJA_CLI) : path.join(process.cwd(), 'dist/cli.js');
 
     // Warmup for RocksDB (Simulate persistent cache benefit)
     if (mode === 'full') {
-        console.log(kleur.dim(`  🔥 Warming up Nexxo (RocksDB)...`));
+        console.log(kleur.dim(`  🔥 Warming up Urja (RocksDB)...`));
         const warmupProc = spawn('node', [mainCli, 'dev', '--port', '4005'], { cwd, detached: true, stdio: 'inherit' });
         await waitForServer(4005);
         try { process.kill(-warmupProc.pid!); } catch { }
@@ -168,7 +168,7 @@ async function measureNexxo(cwd: string, scenario: string, mode: 'full' | 'build
     const bundleSize = getDirSize(path.join(cwd, 'dist'));
 
     return {
-        tool: 'Nexxo',
+        tool: 'Urja',
         scenario,
         coldStart,
         hmr: 15, // Stub: hard to measure automated HMR without browser automation
@@ -227,13 +227,13 @@ function addBaselines(results: BenchmarkResult[], scenario: string) {
 }
 
 async function installDeps(cwd: string, extras: string[]) {
-    // Patch package.json to remove local nexxo deps
+    // Patch package.json to remove local urja deps
     const pkgPath = path.join(cwd, 'package.json');
     if (fs.existsSync(pkgPath)) {
         const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-        pkg.devDependencies && delete pkg.devDependencies['nexxo'];
-        pkg.devDependencies && delete pkg.devDependencies['@nexxo/plugin-react'];
-        if (pkg.dependencies && pkg.dependencies['nexxo']) delete pkg.dependencies['nexxo'];
+        pkg.devDependencies && delete pkg.devDependencies['urja'];
+        pkg.devDependencies && delete pkg.devDependencies['@urja/plugin-react'];
+        if (pkg.dependencies && pkg.dependencies['urja']) delete pkg.dependencies['urja'];
         extras.forEach(d => {
             if (!pkg.devDependencies) pkg.devDependencies = {};
             pkg.devDependencies[d] = 'latest';
@@ -245,22 +245,22 @@ async function installDeps(cwd: string, extras: string[]) {
         try { execSync('npm install --no-audit --no-fund', { cwd, stdio: 'ignore' }); } catch (e) { }
     }
 
-    // Link local nexxo for resolution
-    const localNexxo = process.cwd();
-    const destNexxo = path.join(cwd, 'node_modules/nexxo');
-    if (!fs.existsSync(destNexxo)) {
-        if (!fs.existsSync(path.dirname(destNexxo))) fs.mkdirSync(path.dirname(destNexxo), { recursive: true });
-        try { fs.symlinkSync(localNexxo, destNexxo, 'dir'); } catch (e) { }
+    // Link local urja for resolution
+    const localUrja = process.cwd();
+    const destUrja = path.join(cwd, 'node_modules/urja');
+    if (!fs.existsSync(destUrja)) {
+        if (!fs.existsSync(path.dirname(destUrja))) fs.mkdirSync(path.dirname(destUrja), { recursive: true });
+        try { fs.symlinkSync(localUrja, destUrja, 'dir'); } catch (e) { }
     }
 }
 
-function patchNexxoConfig(cwd: string) {
-    const configPath = path.join(cwd, 'nexxo.config.ts');
+function patchUrjaConfig(cwd: string) {
+    const configPath = path.join(cwd, 'urja.config.ts');
     if (fs.existsSync(configPath)) {
         let content = fs.readFileSync(configPath, 'utf-8');
-        // Simple heuristic to replace @nexxo/plugin-X with relative path to implementation
+        // Simple heuristic to replace @urja/plugin-X with relative path to implementation
         const implementationsDir = path.resolve(process.cwd(), 'src/plugins/implementations');
-        content = content.replace(/@nexxo\/plugin-([a-z-]+)/g, (match, p1) => {
+        content = content.replace(/@urja\/plugin-([a-z-]+)/g, (match, p1) => {
             return path.join(implementationsDir, p1 === 'react' ? 'react.ts' : `${p1}.ts`);
         });
 
@@ -321,7 +321,7 @@ function generateReport(results: BenchmarkResult[]) {
     console.log(kleur.green('\n📊 Benchmark Results:'));
     console.table(results.map(r => ({ ...r, coldStart: r.coldStart.toFixed(0), build: r.build.toFixed(0), ttfb: r.ttfb.toFixed(0) })));
 
-    let md = `# Nexxo Benchmarks (Day 47)\n\n`;
+    let md = `# Urja Benchmarks (Day 47)\n\n`;
     md += `> **15ms HMR • 0.1MB memory • Scales monorepos**\n`;
     md += `> Date: ${new Date().toISOString().split('T')[0]}\n\n`;
     const scenarios = [...new Set(results.map(r => r.scenario))];
@@ -334,7 +334,7 @@ function generateReport(results: BenchmarkResult[]) {
         md += '\n';
     });
 
-    md += `\n* **Cold Start***: Nexxo measures "Warm Cache" (2nd run) performance using persistent RocksDB. True cold start (warmup) is ~15s.\n`;
+    md += `\n* **Cold Start***: Urja measures "Warm Cache" (2nd run) performance using persistent RocksDB. True cold start (warmup) is ~15s.\n`;
 
     fs.writeFileSync(RESULTS_FILE, md);
     console.log(kleur.green(`✅ Report saved to ${RESULTS_FILE}`));

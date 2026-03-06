@@ -1,6 +1,6 @@
-# Migration Guide: Moving to Nexxo
+# Migration Guide: Moving to Urja
 
-> **Goal**: Migrate from Vite, Webpack, Rollup, or Angular CLI to Nexxo in **under 30 minutes**.
+> **Goal**: Migrate from Vite, Webpack, Rollup, or Angular CLI to Urja in **under 30 minutes**.
 
 ---
 
@@ -8,10 +8,10 @@
 
 ```bash
 # Analyze your existing project
-npx nexxo migrate /path/to/your/project --dry-run
+npx urja migrate /path/to/your/project --dry-run
 
-# Apply migration (creates nexxo.config.ts, updates package.json)
-npx nexxo migrate /path/to/your/project
+# Apply migration (creates urja.config.ts, updates package.json)
+npx urja migrate /path/to/your/project
 
 # Install dependencies
 npm install
@@ -34,7 +34,7 @@ npm run dev
 - Tailwind CSS configuration
 - Build output settings
 
-### Example: Vite → Nexxo
+### Example: Vite → Urja
 
 **Before** (`vite.config.ts`):
 ```typescript
@@ -58,9 +58,9 @@ export default defineConfig({
 });
 ```
 
-**After** (`nexxo.config.ts`):
+**After** (`urja.config.ts`):
 ```typescript
-import { defineConfig } from 'nexxo';
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'spa',
@@ -90,17 +90,17 @@ export default defineConfig({
 ```json
 {
   "scripts": {
-    "dev": "nexxo dev",
-    "build": "nexxo build",
-    "preview": "nexxo preview",
-    "test": "nexxo test"
+    "dev": "urja dev",
+    "build": "urja build",
+    "preview": "urja preview",
+    "test": "urja test"
   }
 }
 ```
 
 ### Manual Steps
 
-1. **Vite Plugins**: Check if equivalent Nexxo plugins exist in marketplace
+1. **Vite Plugins**: Check if equivalent Urja plugins exist in marketplace
 2. **Custom Rollup Plugins**: May need adaptation (see [Plugins Guide](./plugins.md))
 3. **SSR**: Use `preset: 'ssr'` and configure server entry
 
@@ -112,12 +112,12 @@ export default defineConfig({
 
 - Entry points
 - Output configuration
-- Loaders → Nexxo plugins
+- Loaders → Urja plugins
 - Aliases
 - DevServer settings
 - Environment variables
 
-### Example: Webpack → Nexxo
+### Example: Webpack → Urja
 
 **Before** (`webpack.config.js`):
 ```javascript
@@ -159,9 +159,9 @@ module.exports = {
 };
 ```
 
-**After** (`nexxo.config.ts`):
+**After** (`urja.config.ts`):
 ```typescript
-import { defineConfig } from 'nexxo';
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'spa',
@@ -187,23 +187,23 @@ export default defineConfig({
 });
 ```
 
-### Common Webpack Loaders → Nexxo
+### Common Webpack Loaders → Urja
 
-| Webpack Loader | Nexxo Equivalent |
+| Webpack Loader | Urja Equivalent |
 |----------------|------------------|
 | `ts-loader` | Built-in TypeScript support |
 | `babel-loader` | Built-in (via Bun parser) |
 | `css-loader` | Built-in CSS support |
-| `sass-loader` | `@nexxo/plugin-sass` |
+| `sass-loader` | `@urja/plugin-sass` |
 | `file-loader` | Built-in asset handling |
 | `url-loader` | Built-in (auto inline < 4KB) |
-| `svg-loader` | `@nexxo/plugin-svgr` |
+| `svg-loader` | `@urja/plugin-svgr` |
 
 ### Manual Steps
 
 1. **Complex Webpack Plugins**: Check marketplace or write custom plugin
-2. **Module Federation**: Use Nexxo's built-in federation
-3. **Custom Loaders**: Adapt to Nexxo plugin API
+2. **Module Federation**: Use Urja's built-in federation
+3. **Custom Loaders**: Adapt to Urja plugin API
 
 ---
 
@@ -216,7 +216,7 @@ export default defineConfig({
 - External dependencies
 - Tree-shaking settings
 
-### Example: Rollup → Nexxo
+### Example: Rollup → Urja
 
 **Before** (`rollup.config.js`):
 ```javascript
@@ -238,9 +238,9 @@ export default {
 };
 ```
 
-**After** (`nexxo.config.ts`):
+**After** (`urja.config.ts`):
 ```typescript
-import { defineConfig } from 'nexxo';
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'spa',
@@ -268,7 +268,7 @@ export default defineConfig({
 - Environment files
 - Build configurations
 
-### Example: Angular CLI → Nexxo
+### Example: Angular CLI → Urja
 
 **Before** (`angular.json`):
 ```json
@@ -296,9 +296,9 @@ export default defineConfig({
 }
 ```
 
-**After** (`nexxo.config.ts`):
+**After** (`urja.config.ts`):
 ```typescript
-import { defineConfig } from 'nexxo';
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'spa',
@@ -321,10 +321,10 @@ export default defineConfig({
 ```json
 {
   "scripts": {
-    "ng": "nexxo",
-    "start": "nexxo dev",
-    "build": "nexxo build",
-    "test": "nexxo test"
+    "ng": "urja",
+    "start": "urja dev",
+    "build": "urja build",
+    "test": "urja test"
   }
 }
 ```
@@ -333,10 +333,10 @@ export default defineConfig({
 
 ## Migration Analyzer
 
-Nexxo includes an intelligent migration analyzer:
+Urja includes an intelligent migration analyzer:
 
 ```bash
-npx nexxo migrate /path/to/project --dry-run
+npx urja migrate /path/to/project --dry-run
 ```
 
 **Output**:
@@ -356,7 +356,7 @@ npx nexxo migrate /path/to/project --dry-run
     ✓ React Fast Refresh
 
   Manual steps:
-    ⚠ vite-plugin-pwa → Check @nexxo/plugin-pwa
+    ⚠ vite-plugin-pwa → Check @urja/plugin-pwa
     ⚠ Custom Vite plugin → Needs adaptation
 
 📊 Expected Success Rate: 95%
@@ -372,8 +372,8 @@ Run without --dry-run to apply changes.
 ### 1. Monorepo Migration
 
 ```typescript
-// nexxo.config.ts (root)
-import { defineConfig } from 'nexxo';
+// urja.config.ts (root)
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'monorepo',
@@ -389,8 +389,8 @@ export default defineConfig({
 ### 2. SSR Migration
 
 ```typescript
-// nexxo.config.ts
-import { defineConfig } from 'nexxo';
+// urja.config.ts
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'ssr',
@@ -411,8 +411,8 @@ export default defineConfig({
 ### 3. Edge Function Migration
 
 ```typescript
-// nexxo.config.ts
-import { defineConfig } from 'nexxo';
+// urja.config.ts
+import { defineConfig } from 'urja';
 
 export default defineConfig({
   preset: 'edge',
@@ -436,7 +436,7 @@ export default defineConfig({
 
 **Solution**:
 ```typescript
-// nexxo.config.ts
+// urja.config.ts
 export default defineConfig({
   resolve: {
     alias: {
@@ -475,7 +475,7 @@ npm run build  # Second run: ~500ms (warm)
 
 ## Honest Limitations
 
-### What Nexxo Does Better ✅
+### What Urja Does Better ✅
 
 - **Memory efficiency**: ~0.1MB vs 20MB+ (Vite)
 - **HMR speed**: Consistent 15ms updates
@@ -499,10 +499,10 @@ npm run build  # Second run: ~500ms (warm)
 
 ## Migration Checklist
 
-- [ ] Run `nexxo migrate --dry-run`
+- [ ] Run `urja migrate --dry-run`
 - [ ] Review migration plan
 - [ ] Backup existing config files
-- [ ] Run `nexxo migrate`
+- [ ] Run `urja migrate`
 - [ ] Install dependencies (`npm install`)
 - [ ] Test dev server (`npm run dev`)
 - [ ] Test production build (`npm run build`)
@@ -515,10 +515,10 @@ npm run build  # Second run: ~500ms (warm)
 
 ## Getting Help
 
-- **Documentation**: [https://nexxo.dev/docs](https://nexxo.dev/docs)
-- **GitHub Issues**: [https://github.com/your-org/nexxo/issues](https://github.com/your-org/nexxo/issues)
-- **Discord**: [https://discord.gg/nexxo](https://discord.gg/nexxo)
-- **Migration Tool**: `nexxo doctor` for diagnostics
+- **Documentation**: [https://urja.dev/docs](https://urja.dev/docs)
+- **GitHub Issues**: [https://github.com/your-org/urja/issues](https://github.com/your-org/urja/issues)
+- **Discord**: [https://discord.gg/urja](https://discord.gg/urja)
+- **Migration Tool**: `urja doctor` for diagnostics
 
 ---
 

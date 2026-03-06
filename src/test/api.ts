@@ -1,5 +1,5 @@
 /**
- * Nexxo Test API
+ * Urja Test API
  * Lightweight implementation of Vitest/Jest API
  */
 
@@ -182,8 +182,8 @@ export const vi = {
     },
     mock: (moduleName: string, factory: any) => {
         // This relies on the runner to intercept imports
-        (globalThis as any).__NEXXO_MOCKS__ = (globalThis as any).__NEXXO_MOCKS__ || {};
-        (globalThis as any).__NEXXO_MOCKS__[moduleName] = factory;
+        (globalThis as any).__URJA_MOCKS__ = (globalThis as any).__URJA_MOCKS__ || {};
+        (globalThis as any).__URJA_MOCKS__[moduleName] = factory;
     }
 };
 

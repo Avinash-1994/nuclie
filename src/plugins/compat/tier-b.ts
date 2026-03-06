@@ -3,11 +3,11 @@ import fs from 'fs/promises';
 import path from 'path';
 
 /**
- * NEXXO TIER B PLUGINS (IO / ASSETS)
+ * URJA TIER B PLUGINS (IO / ASSETS)
  * 
  * Includes:
- * - nexxoCopy (copy-webpack-plugin)
- * - nexxoHtml (html-webpack-plugin)
+ * - urjaCopy (copy-webpack-plugin)
+ * - urjaHtml (html-webpack-plugin)
  */
 
 export interface CopyTarget {
@@ -21,12 +21,12 @@ export interface CopyOptions {
 }
 
 /**
- * Copy Plugin (nexxo-copy)
+ * Copy Plugin (urja-copy)
  * Copies files or directories from src to dest at build end.
  */
-export function nexxoCopy(options: CopyOptions): Plugin {
+export function urjaCopy(options: CopyOptions): Plugin {
     return {
-        name: 'nexxo-copy',
+        name: 'urja-copy',
         async buildEnd() {
             if (!options.targets || options.targets.length === 0) return;
 
@@ -39,10 +39,10 @@ export function nexxoCopy(options: CopyOptions): Plugin {
                     await fs.cp(srcPath, destPath, { recursive: true, force: true });
 
                     if (options.verbose) {
-                        console.log(`[nexxo-copy] Copied ${target.src} -> ${target.dest}`);
+                        console.log(`[urja-copy] Copied ${target.src} -> ${target.dest}`);
                     }
                 } catch (e: any) {
-                    console.warn(`[nexxo-copy] Failed to copy ${target.src}: ${e.message}`);
+                    console.warn(`[urja-copy] Failed to copy ${target.src}: ${e.message}`);
                 }
             }
         }
@@ -58,17 +58,17 @@ export interface HtmlOptions {
 }
 
 /**
- * HTML Plugin (nexxo-html)
+ * HTML Plugin (urja-html)
  * Generates an index.html file in the output directory.
  * Advanced: Supports variable interpolation (e.g., %PUBLIC_URL%, %TITLE%)
  */
-export function nexxoHtml(options: HtmlOptions = {}): Plugin {
+export function urjaHtml(options: HtmlOptions = {}): Plugin {
     return {
-        name: 'nexxo-html',
+        name: 'urja-html',
         stability: 'stable',
         async buildEnd() {
             const filename = options.filename || 'index.html';
-            const title = options.title || 'Nexxo App';
+            const title = options.title || 'Urja App';
             const destPath = path.resolve(process.cwd(), 'dist', filename);
 
             let content = '';
@@ -78,7 +78,7 @@ export function nexxoHtml(options: HtmlOptions = {}): Plugin {
                     const templatePath = path.resolve(process.cwd(), options.template);
                     content = await fs.readFile(templatePath, 'utf-8');
                 } catch (e) {
-                    console.warn(`[nexxo-html] Template not found: ${options.template}`);
+                    console.warn(`[urja-html] Template not found: ${options.template}`);
                     content = getDefaultHtml(title);
                 }
             } else {
@@ -101,7 +101,7 @@ export function nexxoHtml(options: HtmlOptions = {}): Plugin {
                 await fs.mkdir(path.dirname(destPath), { recursive: true });
                 await fs.writeFile(destPath, content);
             } catch (e: any) {
-                console.error(`[nexxo-html] Failed to generate HTML: ${e.message}`);
+                console.error(`[urja-html] Failed to generate HTML: ${e.message}`);
             }
         }
     };

@@ -1,5 +1,5 @@
 {
-  "name": "nexxo",
+  "name": "urja",
   "version": "1.0.0",
   "description": "⚡ Fast build tool with HMR, source maps, tree shaking, and module federation",
   "type": "module",
@@ -14,14 +14,14 @@
   },
   "sideEffects": false,
   "bin": {
-    "nexxo": "./dist/cli.js",
-    "create-nexxo": "./dist/create-nexxo.js"
+    "urja": "./dist/cli.js",
+    "create-urja": "./dist/create-urja.js"
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE",
-    "nexxo_native.node"
+    "urja_native.node"
   ],
   "scripts": {
     "build": "npm run build:native && tsc -p tsconfig.build.json && node ./scripts/postbuild.js",
@@ -79,12 +79,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Avinash-1994/nexxo.git"
+    "url": "git+https://github.com/Avinash-1994/urja.git"
   },
   "bugs": {
-    "url": "https://github.com/Avinash-1994/nexxo/issues"
+    "url": "https://github.com/Avinash-1994/urja/issues"
   },
-  "homepage": "https://github.com/Avinash-1994/nexxo#readme",
+  "homepage": "https://github.com/Avinash-1994/urja#readme",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -150,7 +150,7 @@
     "autocannon": "^8.0.0",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
-    "eslint-plugin-nexxo-governance": "file:eslint-plugin-nexxo-governance",
+    "eslint-plugin-urja-governance": "file:eslint-plugin-urja-governance",
     "fast-check": "^4.5.3",
     "jest": "^30.2.0",
     "jsdom": "^27.2.0",

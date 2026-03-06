@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-workbox
+ * @urja/plugin-workbox
  * Service worker generation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createWorkboxPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-workbox',
+        name: '@urja/plugin-workbox',
         originalPlugin: 'workbox-webpack-plugin',
         
         async transform(code: string, id: string) {

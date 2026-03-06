@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-testing-library-react
+ * @urja/plugin-testing-library-react
  * React Testing Library
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTestingLibraryReactPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-testing-library-react',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-testing-library-react',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Testing: React Testing Library

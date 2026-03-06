@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-hmr-classify
+ * @urja/plugin-hmr-classify
  * HMR classification
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createHmrClassifyPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-hmr-classify',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-hmr-classify',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-hmr-classify] Starting performance optimization...');
+            console.log('[@urja/plugin-hmr-classify] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createHmrClassifyPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-hmr-classify] Performance optimization complete');
+            console.log('[@urja/plugin-hmr-classify] Performance optimization complete');
         }
     };
 }

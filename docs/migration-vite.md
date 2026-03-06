@@ -1,11 +1,11 @@
-# Migrating from Vite to Nexxo
+# Migrating from Vite to Urja
 
-Nexxo is designed to be a drop-in 10x faster replacement for Vite.
+Urja is designed to be a drop-in 10x faster replacement for Vite.
 
 ## 1. Quick Switch
 Run the auto-migration command:
 ```bash
-npx nexxo migrate
+npx urja migrate
 ```
 
 ## 2. Manual Migration
@@ -14,32 +14,32 @@ npx nexxo migrate
 Change your content in `package.json`:
 ```json
 "scripts": {
-  "dev": "nexxo dev",
-  "build": "nexxo build"
+  "dev": "urja dev",
+  "build": "urja build"
 }
 ```
 
 ### Reuse Vite Plugins
-Nexxo supports Vite plugins natively via the compatibility adapter.
+Urja supports Vite plugins natively via the compatibility adapter.
 
 ```ts
-// nexxo.config.ts
-import { defineConfig } from 'nexxo';
-import { viteToNexxo } from 'nexxo';
+// urja.config.ts
+import { defineConfig } from 'urja';
+import { viteToUrja } from 'urja';
 import someVitePlugin from 'vite-plugin-cool';
 
 export default defineConfig({
   plugins: [
-    viteToNexxo(someVitePlugin())
+    viteToUrja(someVitePlugin())
   ]
 });
 ```
 
 ## 3. Environment Variables
-Nexxo respects `.env` files exactly like Vite. Use `import.meta.env` as usual.
+Urja respects `.env` files exactly like Vite. Use `import.meta.env` as usual.
 
 ## 4. Key Differences
-| Feature | Vite | Nexxo |
+| Feature | Vite | Urja |
 |---------|------|-------|
 | Startup | ~400ms | < 50ms |
 | Build | esbuild/Rollup | Native Rust |

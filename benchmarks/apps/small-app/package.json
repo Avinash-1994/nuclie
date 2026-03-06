@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "nexxo dev",
-        "build": "nexxo build",
+        "dev": "urja dev",
+        "build": "urja build",
         "vite:dev": "vite",
         "vite:build": "vite build",
         "esbuild:build": "esbuild src/index.jsx --bundle --outfile=dist/esbuild.js --minify",
@@ -16,7 +16,7 @@
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
-        "nexxo": "file:../../..",
+        "urja": "file:../../..",
         "vite": "^5.0.0",
         "@vitejs/plugin-react": "^4.2.0",
         "esbuild": "^0.19.0",

@@ -1,8 +1,8 @@
 
-import { NexxoPlugin, PluginHookName, PluginManifest } from './types.js';
+import { UrjaPlugin, PluginHookName, PluginManifest } from './types.js';
 import { canonicalHash } from '../engine/hash.js';
 
-export class WASMPluginSandbox implements NexxoPlugin {
+export class WASMPluginSandbox implements UrjaPlugin {
     manifest: PluginManifest;
     id: string;
     private instance: WebAssembly.Instance;

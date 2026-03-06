@@ -1,13 +1,13 @@
-# Nexxo Benchmarks: Performance Perfection (Module 8)
+# Urja Benchmarks: Performance Perfection (Module 8)
 
-Nexxo is designed to be the fastest build tool for modern web development. Below are the verified measurements comparing Nexxo against industry leaders.
+Urja is designed to be the fastest build tool for modern web development. Below are the verified measurements comparing Urja against industry leaders.
 
 ## ⚡ Cold Start (True Cold)
-Measured from execution of `nexxo dev` to first successful HTTP response with a clean cache.
+Measured from execution of `urja dev` to first successful HTTP response with a clean cache.
 
 | Tool | Cold Start (ms) | Speed Advantage |
 |------|-----------------|-----------------|
-| **Nexxo** | **70.05ms** | **Baseline** |
+| **Urja** | **70.05ms** | **Baseline** |
 | esbuild | 180.00ms | 2.5x slower |
 | Vite | 192.00ms | 2.7x slower |
 | Rspack | 300.00ms | 4.2x slower |
@@ -18,7 +18,7 @@ Time to classify and trigger an update after a file change.
 
 | Tool | HMR Latency (ms) |
 |------|------------------|
-| **Nexxo** | **15ms** |
+| **Urja** | **15ms** |
 | Vite | 30ms |
 | Turbopack | 30ms |
 | esbuild | 40ms |
@@ -28,7 +28,7 @@ Production build with minification and optimization.
 
 | Tool | Build Time (ms) | Bundle Size (KB) |
 |------|-----------------|------------------|
-| **Nexxo** | **129ms** | **~180KB** |
+| **Urja** | **129ms** | **~180KB** |
 | esbuild | 300ms | ~220KB |
 | Vite | 715ms | 238KB |
 | Rspack | 1200ms | ~250KB |

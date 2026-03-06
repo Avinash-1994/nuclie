@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-react
+ * @urja/plugin-react
  * React support with Fast Refresh
  * Ported from: @vitejs/plugin-react
  */
@@ -8,7 +8,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReactPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-react',
+        name: '@urja/plugin-react',
         originalPlugin: '@vitejs/plugin-react',
 
         async transform(code: string, id: string) {

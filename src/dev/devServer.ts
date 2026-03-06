@@ -18,11 +18,11 @@ let NativeWorker: any;
 
 try {
   const candidates = [
-    path.resolve(__dirname, '../../nexxo_native.node'), // From src/dev/devServer.ts
-    path.resolve(__dirname, '../nexxo_native.node'),    // From dist/dev/devServer.js
-    path.resolve(__dirname, './nexxo_native.node'),     // From dist/
-    path.resolve(process.cwd(), 'nexxo_native.node'),   // Root fallback
-    path.resolve(process.cwd(), 'dist/nexxo_native.node')
+    path.resolve(__dirname, '../../urja_native.node'), // From src/dev/devServer.ts
+    path.resolve(__dirname, '../urja_native.node'),    // From dist/dev/devServer.js
+    path.resolve(__dirname, './urja_native.node'),     // From dist/
+    path.resolve(process.cwd(), 'urja_native.node'),   // Root fallback
+    path.resolve(process.cwd(), 'dist/urja_native.node')
   ];
 
   let pathFound = '';
@@ -99,7 +99,7 @@ async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Ma
           const pkgName = specifier.startsWith('@') ? parts.slice(0, 2).join('/') : parts[0];
           if (preBundledDeps.has(pkgName)) {
             const safeName = specifier.replace(/\//g, '_');
-            replacement = `/@nexxo-deps/${safeName}.js?v=${Date.now()}`;
+            replacement = `/@urja-deps/${safeName}.js?v=${Date.now()}`;
           }
         }
 
@@ -208,7 +208,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
   // Filter public env vars
   const publicEnv = Object.keys(process.env)
-    .filter(key => key.startsWith('NEXXO_') || key.startsWith('PUBLIC_') || key === 'NODE_ENV')
+    .filter(key => key.startsWith('URJA_') || key.startsWith('PUBLIC_') || key === 'NODE_ENV')
     .reduce((acc, key) => ({ ...acc, [key]: process.env[key] }), {
       NODE_ENV: process.env.NODE_ENV || 'development'
     });
@@ -402,7 +402,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         line: error?.loc?.line,
         column: error?.loc?.column,
         type: 'Build Error',
-        plugin: 'nexxo:pipeline'
+        plugin: 'urja:pipeline'
       });
       log.error('→ Dev Server: Warmup build failed - Fix the errors above');
     } else {
@@ -447,7 +447,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       httpsOptions = cfg.server.https;
     } else {
       // Generate self-signed cert
-      const certDir = path.join(cfg.root, '.nexxo', 'certs');
+      const certDir = path.join(cfg.root, '.urja', 'certs');
       await fs.mkdir(certDir, { recursive: true });
       const keyPath = path.join(certDir, 'dev.key');
       const certPath = path.join(certDir, 'dev.crt');
@@ -614,11 +614,11 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     // Security Scan (Day 41)
     if (!anomalyDetector.scanRequest({ url: req.url || '', headers: req.headers, method: req.method || 'GET' })) {
       res.writeHead(403, { 'Content-Type': 'text/plain' });
-      res.end('Request Blocked by Nexxo Security Shield');
+      res.end('Request Blocked by Urja Security Shield');
       return;
     }
 
-    if (req.url === '/__nexxo/security') {
+    if (req.url === '/__urja/security') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(anomalyDetector.getDashboard(), null, 2));
       return;
@@ -729,7 +729,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         // Inject only client runtime
         let clientScript = `
-    <script type="module" src="/@nexxo/client"></script>
+    <script type="module" src="/@urja/client"></script>
         `;
 
         // Always inject basic shims in dev mode to prevent ReferenceErrors from any React-ish modules
@@ -746,7 +746,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         if (isReact) {
           if (process.env.DEBUG) {
-            log.info('[Nexxo] Injecting React Refresh Preamble', { category: 'server' });
+            log.info('[Urja] Injecting React Refresh Preamble', { category: 'server' });
           }
           preamble += `
     <script type="module">
@@ -797,11 +797,11 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     }
 
     // Serve pre-bundled dependencies
-    if (url.startsWith('/@nexxo-deps/')) {
+    if (url.startsWith('/@urja-deps/')) {
       // Strip query parameters
       const cleanUrl = url.split('?')[0];
-      const depFile = cleanUrl.replace('/@nexxo-deps/', '');
-      const depPath = path.join(cfg.root, 'node_modules', '.nexxo', depFile);
+      const depFile = cleanUrl.replace('/@urja-deps/', '');
+      const depPath = path.join(cfg.root, 'node_modules', '.urja', depFile);
       try {
         const content = await fs.readFile(depPath, 'utf-8');
         res.writeHead(200, {
@@ -865,7 +865,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
 
 
-    if (url === '/@nexxo/client') {
+    if (url === '/@urja/client') {
       const clientPath = path.resolve(__dirname, '../runtime/client.ts');
       try {
         const raw = await fs.readFile(clientPath, 'utf-8');
@@ -882,13 +882,13 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
           res.end(client);
         } catch (e2) {
           res.writeHead(404);
-          res.end('Nexxo client runtime not found');
+          res.end('Urja client runtime not found');
         }
       }
       return;
     }
 
-    if (url === '/@nexxo/error-overlay.js') {
+    if (url === '/@urja/error-overlay.js') {
       // Also transform error-overlay if ts
       const overlayPath = path.resolve(__dirname, '../runtime/error-overlay.ts');
       try {
@@ -906,7 +906,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
           res.end(overlay);
         } catch (e2) {
           res.writeHead(404);
-          res.end('Nexxo error overlay not found');
+          res.end('Urja error overlay not found');
         }
       }
       return;
@@ -1116,7 +1116,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         // Aggressive In-Module Shim: Guarantee $RefreshSig$ existence
         if (ext === '.ts' || ext === '.tsx' || ext === '.jsx' || ext === '.js' || ext === '.mjs') {
           raw = `
-/** Nexxo Dev Preamble **/
+/** Urja Dev Preamble **/
 if (typeof window !== 'undefined') {
   window.$RefreshReg$ = window.$RefreshReg$ || (() => {});
   window.$RefreshSig$ = window.$RefreshSig$ || (() => (type) => type);
@@ -1261,12 +1261,12 @@ ${raw}
           // Serve a JS fallback that throws in console and triggers overlay
           res.writeHead(200, { 'Content-Type': 'application/javascript' });
           res.end(`
-            console.error("[Nexxo Build Error] ${e.message.replace(/"/g, '\\"')}");
+            console.error("[Urja Build Error] ${e.message.replace(/"/g, '\\"')}");
             const error = ${JSON.stringify(errorData)};
-            if (window.__NEXXO_ERROR_OVERLAY__) {
-              window.__NEXXO_ERROR_OVERLAY__.show(error);
+            if (window.__URJA_ERROR_OVERLAY__) {
+              window.__URJA_ERROR_OVERLAY__.show(error);
             }
-            throw new Error("[Nexxo Build Error] See overlay for details");
+            throw new Error("[Urja Build Error] See overlay for details");
           `);
           return;
         }
@@ -1282,7 +1282,7 @@ ${raw}
   let server;
   if (existingServer) {
     server = existingServer;
-    (server as any).__nexxo_handler = requestHandler;
+    (server as any).__urja_handler = requestHandler;
   } else {
     if (httpsOptions) {
       const https = await import('https');
@@ -1357,7 +1357,7 @@ ${raw}
 
   const { default: chokidar } = await import('chokidar');
   const watcher = chokidar.watch(cfg.root, {
-    ignored: ['**/node_modules/**', '**/.git/**', '**/.nexxo/**', '**/.nexxo_cache/**'],
+    ignored: ['**/node_modules/**', '**/.git/**', '**/.urja/**', '**/.urja_cache/**'],
     ignoreInitial: true
   });
   watcher.on('change', async (file: string) => {

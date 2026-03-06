@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-redux
+ * @urja/plugin-redux
  * Redux integration
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReduxPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-redux',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-redux',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // redux transformation

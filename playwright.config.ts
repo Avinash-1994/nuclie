@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright configuration for Nexxo visual regression tests
+ * Playwright configuration for Urja visual regression tests
  * 
  * See https://playwright.dev/docs/test-configuration
  */
