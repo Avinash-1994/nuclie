@@ -73,7 +73,7 @@ jobs:
           test -f dist/index.js      && echo "✅ API entry built" || (echo "❌ index.js missing" && exit 1)
           test -f dist/index.d.ts    && echo "✅ Type declarations built" || (echo "❌ index.d.ts missing" && exit 1)
           test -f dist/core/universal-transformer.js && echo "✅ Universal Transformer built" || echo "⚠️ Universal Transformer missing"
-          test -f dist/nexxo_native.node && echo "✅ Native binary in dist" || echo "⚠️ Native binary not in dist (JS fallback active)"
+          test -f dist/urja_native.node && echo "✅ Native binary in dist" || echo "⚠️ Native binary not in dist (JS fallback active)"
           echo ""
           echo "📋 Verifying package exports..."
           node --input-type=module --eval "import { CoreBuildEngine, loadConfig, defineConfig } from './dist/index.js'; console.log('✅ Public API exports verified');"
@@ -100,7 +100,7 @@ jobs:
           name: build-artifacts-node${{ matrix.node-version }}
           path: |
             dist/
-            nexxo_native.node
+            urja_native.node
           retention-days: 7
 
   visual-tests:
@@ -150,7 +150,7 @@ jobs:
       - name: 📊 Report Status
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "       NEXXO v1.0.0 — CI COMPLETE"
+          echo "       URJA v1.0.0 — CI COMPLETE"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "  Lint & Type Check : ${{ needs.lint-and-typecheck.result }}"
           echo "  Build & Test Suite: ${{ needs.build-and-test.result }}"

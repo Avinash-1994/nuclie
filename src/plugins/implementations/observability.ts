@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-observability
+ * @urja/plugin-observability
  * Build observability
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createObservabilityPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-observability',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-observability',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Build observability

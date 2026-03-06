@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-chromatic
+ * @urja/plugin-chromatic
  * Chromatic visual testing
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createChromaticPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-chromatic',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-chromatic',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Chromatic visual testing

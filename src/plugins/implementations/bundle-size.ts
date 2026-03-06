@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-bundle-size
+ * @urja/plugin-bundle-size
  * Bundle size tracking
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createBundleSizePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-bundle-size',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-bundle-size',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-bundle-size] Starting performance optimization...');
+            console.log('[@urja/plugin-bundle-size] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createBundleSizePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-bundle-size] Performance optimization complete');
+            console.log('[@urja/plugin-bundle-size] Performance optimization complete');
         }
     };
 }

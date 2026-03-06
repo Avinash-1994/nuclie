@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-visualizer
+ * @urja/plugin-visualizer
  * WebGPU dependency visualizer
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVisualizerPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-visualizer',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-visualizer',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: WebGPU dependency visualizer

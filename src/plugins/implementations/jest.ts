@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-jest
+ * @urja/plugin-jest
  * Jest testing framework
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createJestPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-jest',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-jest',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Testing: Jest testing framework

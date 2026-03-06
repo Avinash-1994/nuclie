@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-vue-layouts
+ * @urja/plugin-vue-layouts
  * Vue layout system
  * Ported from: vite-plugin-vue-layouts
  */
@@ -8,7 +8,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVueLayoutsPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-vue-layouts',
+        name: '@urja/plugin-vue-layouts',
         originalPlugin: 'vite-plugin-vue-layouts',
         
         async transform(code: string, id: string) {

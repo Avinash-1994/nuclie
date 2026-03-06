@@ -267,7 +267,7 @@ export class ReproDashboard {
      * Generate shareable link
      */
     private generateShareableLink(id: string): string {
-        return `https://nexxo.dev/repro/${id}`;
+        return `https://urja.dev/repro/${id}`;
     }
 
     /**

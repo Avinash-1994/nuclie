@@ -1,19 +1,19 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { NexxoPlugin } from '../core/plugins/types.js';
+import { UrjaPlugin } from '../core/plugins/types.js';
 
-export function createHtmlPlugin(rootDir: string, outDir: string): NexxoPlugin {
+export function createHtmlPlugin(rootDir: string, outDir: string): UrjaPlugin {
     return {
         manifest: {
-            name: 'nexxo:html',
+            name: 'urja:html',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['buildEnd'],
             permissions: { fs: 'read' }
         },
-        id: 'nexxo:html',
+        id: 'urja:html',
         async runHook(hook, data) {
             if (hook !== 'buildEnd') return data;
 
@@ -29,7 +29,7 @@ export function createHtmlPlugin(rootDir: string, outDir: string): NexxoPlugin {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexxo Build</title>
+    <title>Urja Build</title>
     ${links}
 </head>
 <body>

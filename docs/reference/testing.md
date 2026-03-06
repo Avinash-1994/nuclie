@@ -1,4 +1,4 @@
-# 🧪 Nexxo Testing - Quick Reference Guide
+# 🧪 Urja Testing - Quick Reference Guide
 
 ## 🚀 Quick Start
 
@@ -148,7 +148,7 @@ npm run test:snapshot -- --updateSnapshot
 
 ### Enable Debug Logging
 ```bash
-DEBUG=nexxo:* npm test
+DEBUG=urja:* npm test
 ```
 
 ### Run Single Test

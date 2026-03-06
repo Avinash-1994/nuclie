@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-vitest
+ * @urja/plugin-vitest
  * Vitest integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVitestPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-vitest',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-vitest',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Vitest integration

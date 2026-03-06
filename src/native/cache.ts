@@ -4,11 +4,11 @@ const require = createRequire(import.meta.url);
 let nativeModule: any;
 
 const candidatePaths = [
-    './nexxo_native.node',
-    '../nexxo_native.node',
-    '../../nexxo_native.node',
-    path.join(process.cwd(), 'nexxo_native.node'),
-    path.join(process.cwd(), 'dist/nexxo_native.node')
+    './urja_native.node',
+    '../urja_native.node',
+    '../../urja_native.node',
+    path.join(process.cwd(), 'urja_native.node'),
+    path.join(process.cwd(), 'dist/urja_native.node')
 ];
 
 for (const p of candidatePaths) {
@@ -43,7 +43,7 @@ if (!nativeModule) {
 const { BuildCache: NativeBuildCache } = nativeModule;
 
 
-import type { BuildCache as NativeBuildCacheType, CacheStats } from '../../nexxo_native.node';
+import type { BuildCache as NativeBuildCacheType, CacheStats } from '../../urja_native.node';
 
 export { CacheStats };
 
@@ -58,7 +58,7 @@ export { CacheStats };
  * 
  * @example
  * ```ts
- * const cache = new BuildCache('.nexxo_cache');
+ * const cache = new BuildCache('.urja_cache');
  * 
  * // Set a value
  * cache.set('input:src/App.tsx:abc123', JSON.stringify(transformResult));

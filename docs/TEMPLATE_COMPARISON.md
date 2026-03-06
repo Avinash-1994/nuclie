@@ -1,4 +1,4 @@
-# 🎨 Nexxo Premium Templates - Design Showcase
+# 🎨 Urja Premium Templates - Design Showcase
 
 ## Template Comparison Guide
 
@@ -263,22 +263,22 @@ Here are **5 stunning, production-ready templates** with different design aesthe
 
 ```bash
 # Premium Dashboard
-npx create-nexxo my-app --template premium-dashboard
+npx create-urja my-app --template premium-dashboard
 
 # Minimalist Portfolio
-npx create-nexxo my-app --template minimalist-portfolio
+npx create-urja my-app --template minimalist-portfolio
 
 # E-Commerce
-npx create-nexxo my-app --template ecommerce-modern
+npx create-urja my-app --template ecommerce-modern
 
 # SaaS Landing
-npx create-nexxo my-app --template saas-landing
+npx create-urja my-app --template saas-landing
 
 # Crypto Dashboard
-npx create-nexxo my-app --template crypto-dashboard
+npx create-urja my-app --template crypto-dashboard
 
 # Magazine Blog
-npx create-nexxo my-app --template blog-magazine
+npx create-urja my-app --template blog-magazine
 ```
 
 ### 2. Customize
@@ -383,8 +383,8 @@ All templates include:
 ## 📞 Need Help?
 
 - 📖 [Full Documentation](../README.md)
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/nexxo/discussions)
-- 🐛 [Report Issues](https://github.com/Avinash-1994/nexxo/issues)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/urja/discussions)
+- 🐛 [Report Issues](https://github.com/Avinash-1994/urja/issues)
 
 ---
 

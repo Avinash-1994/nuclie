@@ -83,7 +83,7 @@ async function runBenchmark() {
     } else {
         console.log(`⚠️ Bun is ${Math.abs(diff).toFixed(2)}ms slower`);
         // Note: If running in Node properly, spawning bun for every file IS slower than esbuild's running service.
-        // The architecture goal "Bun.js Parser" likely implies running Nexxo WITH Bun runtime,
+        // The architecture goal "Bun.js Parser" likely implies running Urja WITH Bun runtime,
         // OR using a persistent worker.
     }
 }

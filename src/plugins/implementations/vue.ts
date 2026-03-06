@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-vue
+ * @urja/plugin-vue
  * Vue 3 SFC support
  * Ported from: @vitejs/plugin-vue
  */
@@ -8,7 +8,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVuePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-vue',
+        name: '@urja/plugin-vue',
         originalPlugin: '@vitejs/plugin-vue',
         
         async transform(code: string, id: string) {

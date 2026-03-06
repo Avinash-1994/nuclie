@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-compression
+ * @urja/plugin-compression
  * Asset compression
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCompressionPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-compression',
+        name: '@urja/plugin-compression',
         originalPlugin: 'compression-webpack-plugin',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-compression] Starting performance optimization...');
+            console.log('[@urja/plugin-compression] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createCompressionPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-compression] Performance optimization complete');
+            console.log('[@urja/plugin-compression] Performance optimization complete');
         }
     };
 }

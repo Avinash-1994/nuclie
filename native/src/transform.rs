@@ -78,7 +78,7 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
         let top_level_mark = Mark::new();
         module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-        // 2. ESM Conversion (Nexxo Runtime Format)
+        // 2. ESM Conversion (Urja Runtime Format)
         // Instead of stripping, we convert 'export' to 'exports' assignments
         // and 'import' to 'require' calls.
         use swc_core::ecma::ast::*;

@@ -2,7 +2,7 @@
 
 ## Current Status
 
-**Native Binary Size:** 15MB (nexxo_native.node)  
+**Native Binary Size:** 15MB (urja_native.node)  
 **Total Distribution:** 19MB (including JS/TS compiled code)
 
 ## Optimization Applied
@@ -78,9 +78,9 @@ Load heavy features on-demand:
 ### 4. Split Binaries (Future)
 
 ```
-nexxo_native_core.node     (~5MB)  - Core transformation
-nexxo_native_cache.node    (~2MB)  - Caching layer
-nexxo_native_wasm.node     (~3MB)  - WASM runtime
+urja_native_core.node     (~5MB)  - Core transformation
+urja_native_cache.node    (~2MB)  - Caching layer
+urja_native_wasm.node     (~3MB)  - WASM runtime
 ```
 
 ### 5. Compression (Already Applied)
@@ -93,7 +93,7 @@ Distribution uses compression:
 
 | Tool | Binary Size | Notes |
 |------|-------------|-------|
-| Nexxo | 15MB | Full-featured |
+| Urja | 15MB | Full-featured |
 | esbuild | 8MB | Go binary, fewer features |
 | SWC | 12MB | Rust, similar features |
 | Vite | N/A | Pure JS, slower |

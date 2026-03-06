@@ -130,58 +130,58 @@ export type BuildConfig = {
 };
 
 export async function loadConfig(cwd: string): Promise<BuildConfig> {
-  const nexxoTsPath = path.join(cwd, 'nexxo.config.ts');
-  const nexxoJsPath = path.join(cwd, 'nexxo.config.js');
-  const nexxoCjsPath = path.join(cwd, 'nexxo.config.cjs');
-  const nexxoJsonPath = path.join(cwd, 'nexxo.config.json');
-  const nexxoYamlPath = path.join(cwd, 'nexxo.config.yaml');
-  const nexxoYmlPath = path.join(cwd, 'nexxo.config.yml');
-  const legacyJsonPath = path.join(cwd, 'nexxo.build.json');
-  const legacyTsPath = path.join(cwd, 'nexxo.build.ts');
-  const legacyYamlPath = path.join(cwd, 'nexxo.build.yaml');
-  const legacyYmlPath = path.join(cwd, 'nexxo.build.yml');
+  const urjaTsPath = path.join(cwd, 'urja.config.ts');
+  const urjaJsPath = path.join(cwd, 'urja.config.js');
+  const urjaCjsPath = path.join(cwd, 'urja.config.cjs');
+  const urjaJsonPath = path.join(cwd, 'urja.config.json');
+  const urjaYamlPath = path.join(cwd, 'urja.config.yaml');
+  const urjaYmlPath = path.join(cwd, 'urja.config.yml');
+  const legacyJsonPath = path.join(cwd, 'urja.build.json');
+  const legacyTsPath = path.join(cwd, 'urja.build.ts');
+  const legacyYamlPath = path.join(cwd, 'urja.build.yaml');
+  const legacyYmlPath = path.join(cwd, 'urja.build.yml');
 
   let rawConfig: any;
   let loadedConfigPath = 'default';
 
   try {
-    if (await fs.access(nexxoTsPath).then(() => true).catch(() => false)) {
-      rawConfig = await loadModuleConfig(nexxoTsPath, cwd);
-      loadedConfigPath = 'nexxo.config.ts';
-    } else if (await fs.access(nexxoCjsPath).then(() => true).catch(() => false)) {
-      rawConfig = require(nexxoCjsPath);
-      loadedConfigPath = 'nexxo.config.cjs';
-    } else if (await fs.access(nexxoJsPath).then(() => true).catch(() => false)) {
-      const mod = await import('file://' + nexxoJsPath);
+    if (await fs.access(urjaTsPath).then(() => true).catch(() => false)) {
+      rawConfig = await loadModuleConfig(urjaTsPath, cwd);
+      loadedConfigPath = 'urja.config.ts';
+    } else if (await fs.access(urjaCjsPath).then(() => true).catch(() => false)) {
+      rawConfig = require(urjaCjsPath);
+      loadedConfigPath = 'urja.config.cjs';
+    } else if (await fs.access(urjaJsPath).then(() => true).catch(() => false)) {
+      const mod = await import('file://' + urjaJsPath);
       rawConfig = mod.default || mod;
-      loadedConfigPath = 'nexxo.config.js';
-    } else if (await fs.access(nexxoJsonPath).then(() => true).catch(() => false)) {
-      const raw = await fs.readFile(nexxoJsonPath, 'utf-8');
+      loadedConfigPath = 'urja.config.js';
+    } else if (await fs.access(urjaJsonPath).then(() => true).catch(() => false)) {
+      const raw = await fs.readFile(urjaJsonPath, 'utf-8');
       rawConfig = JSON.parse(raw);
-      loadedConfigPath = 'nexxo.config.json';
-    } else if (await fs.access(nexxoYamlPath).then(() => true).catch(() => false)) {
-      const raw = await fs.readFile(nexxoYamlPath, 'utf-8');
+      loadedConfigPath = 'urja.config.json';
+    } else if (await fs.access(urjaYamlPath).then(() => true).catch(() => false)) {
+      const raw = await fs.readFile(urjaYamlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'nexxo.config.yaml';
-    } else if (await fs.access(nexxoYmlPath).then(() => true).catch(() => false)) {
-      const raw = await fs.readFile(nexxoYmlPath, 'utf-8');
+      loadedConfigPath = 'urja.config.yaml';
+    } else if (await fs.access(urjaYmlPath).then(() => true).catch(() => false)) {
+      const raw = await fs.readFile(urjaYmlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'nexxo.config.yml';
+      loadedConfigPath = 'urja.config.yml';
     } else if (await fs.access(legacyTsPath).then(() => true).catch(() => false)) {
       rawConfig = await loadModuleConfig(legacyTsPath, cwd);
-      loadedConfigPath = 'nexxo.build.ts';
+      loadedConfigPath = 'urja.build.ts';
     } else if (await fs.access(legacyJsonPath).then(() => true).catch(() => false)) {
       const raw = await fs.readFile(legacyJsonPath, 'utf-8');
       rawConfig = JSON.parse(raw);
-      loadedConfigPath = 'nexxo.build.json';
+      loadedConfigPath = 'urja.build.json';
     } else if (await fs.access(legacyYamlPath).then(() => true).catch(() => false)) {
       const raw = await fs.readFile(legacyYamlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'nexxo.build.yaml';
+      loadedConfigPath = 'urja.build.yaml';
     } else if (await fs.access(legacyYmlPath).then(() => true).catch(() => false)) {
       const raw = await fs.readFile(legacyYmlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'nexxo.build.yml';
+      loadedConfigPath = 'urja.build.yml';
     } else {
       // Return default config if file not found, with auto-detection
       log.info('No config file found, using defaults...');
@@ -250,7 +250,7 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
 async function loadModuleConfig(tsPath: string, cwd: string): Promise<any> {
   log.info(`Loading config from ${path.basename(tsPath)}...`);
   const { build } = await import('esbuild');
-  const outfile = path.join(cwd, `nexxo.config.temp.${Date.now()}.mjs`);
+  const outfile = path.join(cwd, `urja.config.temp.${Date.now()}.mjs`);
 
   try {
     await build({
@@ -276,7 +276,7 @@ async function loadModuleConfig(tsPath: string, cwd: string): Promise<any> {
 }
 
 export async function saveConfig(cwd: string, config: any): Promise<void> {
-  const jsonPath = path.join(cwd, 'nexxo.build.json');
+  const jsonPath = path.join(cwd, 'urja.build.json');
   await fs.writeFile(jsonPath, JSON.stringify(config, null, 2), 'utf-8');
   log.info(`Configuration saved to ${jsonPath}`);
 }

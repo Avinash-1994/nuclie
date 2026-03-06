@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Nexxo v2.0 Module 1 - Day 1: Total Baseline Audit (Enhanced)
+# Urja v2.0 Module 1 - Day 1: Total Baseline Audit (Enhanced)
 # This script establishes comprehensive performance baseline for all features
 
 set -e
 
-echo "📊 Nexxo v2.0 Module 1 - Day 1: Total Baseline Audit"
+echo "📊 Urja v2.0 Module 1 - Day 1: Total Baseline Audit"
 echo "======================================================"
 echo ""
 
@@ -19,7 +19,7 @@ echo "# Baseline Metrics - $(date)" > "$RESULTS_DIR/metrics.jsonl"
 echo "🏗️ Step 1: Build Project"
 echo "------------------------"
 if [ ! -d "dist" ]; then
-  echo "  Building Nexxo..."
+  echo "  Building Urja..."
   npm run build 2>&1 | tee "$RESULTS_DIR/build.log"
   echo "  ✓ Build complete"
 else
@@ -45,7 +45,7 @@ if [ -d "framework-tests/react-ts" ]; then
   cd framework-tests/react-ts
   
   # Clear cache
-  rm -rf .nexxo_cache build_output 2>/dev/null || true
+  rm -rf .urja_cache build_output 2>/dev/null || true
   
   # Measure build
   START=$(date +%s%N)
@@ -69,7 +69,7 @@ echo "-----------------------------------"
 TOTAL_FEATURES=$(grep -c "^- \[ \]" MODULE_1_FEATURE_CHECKLIST.md 2>/dev/null || echo "300+")
 
 cat > "$RESULTS_DIR/BASELINE_REPORT.md" << EOF
-# Nexxo v1.0 Baseline Audit Report
+# Urja v1.0 Baseline Audit Report
 
 **Date**: $(date +%Y-%m-%d)
 **Time**: $(date +%H:%M:%S)
@@ -79,7 +79,7 @@ cat > "$RESULTS_DIR/BASELINE_REPORT.md" << EOF
 
 ## Executive Summary
 
-This report establishes the performance baseline for Nexxo v1.0 before upgrading to v2.0 with the new stack (Bun.js, Rolldown, Tokio, RocksDB).
+This report establishes the performance baseline for Urja v1.0 before upgrading to v2.0 with the new stack (Bun.js, Rolldown, Tokio, RocksDB).
 
 ---
 

@@ -69,14 +69,14 @@ describe('E2E Smoke Test', () => {
         }
     });
 
-    it('should serve the index page with Nexxo client', async () => {
+    it('should serve the index page with Urja client', async () => {
         try {
             await page.goto('http://localhost:3099', { waitUntil: 'networkidle0' });
             const content = await page.content();
 
             expect(content).toBeDefined();
-            // Nexxo always injects client script
-            expect(content).toContain('@nexxo/client');
+            // Urja always injects client script
+            expect(content).toContain('@urja/client');
         } catch (e: any) {
             console.error('E2E Navigation Error:', e);
             throw e;

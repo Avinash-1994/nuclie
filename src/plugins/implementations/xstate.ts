@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-xstate
+ * @urja/plugin-xstate
  * XState state machines
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createXstatePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-xstate',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-xstate',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // State management: XState state machines
@@ -16,7 +16,7 @@ export function createXstatePlugin(): PluginAdapter {
         },
 
         async buildStart() {
-            console.log('[@nexxo/plugin-xstate] State management initialized');
+            console.log('[@urja/plugin-xstate] State management initialized');
         }
     };
 }

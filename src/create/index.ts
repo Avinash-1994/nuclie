@@ -38,12 +38,12 @@ import { text, select, multiselect, closeUI } from './ui.js';
 // ... (removing old helper definitions) ...
 
 // Main Flow
-export async function createNexxoProject(initialName?: string) {
+export async function createUrjaProject(initialName?: string) {
     console.log(kleur.bold().magenta("\n" + "=".repeat(40)));
-    console.log(kleur.bold().white("  ⚡ NEXXO: THE NEXT-GEN BUILD PROJECT  "));
+    console.log(kleur.bold().white("  ⚡ URJA: THE NEXT-GEN BUILD PROJECT  "));
     console.log(kleur.bold().magenta("=".repeat(40) + "\n"));
 
-    const name = initialName || await text('Project Name:', 'my-nexxo-app');
+    const name = initialName || await text('Project Name:', 'my-urja-app');
 
     // Validate name
     const nameSchema = z.string()
@@ -183,10 +183,10 @@ async function generateProject(config: ProjectConfig) {
     const packageJson = generatePackageJson(config);
     await fsPromises.writeFile(path.join(projectPath, 'package.json'), JSON.stringify(packageJson, null, 2));
 
-    // Generate nexxo.config.ts
-    const nexxoConfig = generateNexxoConfig(config);
-    const configFileName = config.language === 'TypeScript' ? 'nexxo.config.ts' : 'nexxo.config.js';
-    await fsPromises.writeFile(path.join(projectPath, configFileName), nexxoConfig);
+    // Generate urja.config.ts
+    const urjaConfig = generateUrjaConfig(config);
+    const configFileName = config.language === 'TypeScript' ? 'urja.config.ts' : 'urja.config.js';
+    await fsPromises.writeFile(path.join(projectPath, configFileName), urjaConfig);
 
     // Generate Folder Structure
     await generateStructure(projectPath, config);
@@ -197,7 +197,7 @@ async function generateProject(config: ProjectConfig) {
     }
 
     // Note: tailwind.config.js and postcss.config.js are now OPTIONAL. 
-    // Nexxo handles them internally if missing.
+    // Urja handles them internally if missing.
 
     // Generate README.md
     const readme = generateReadme(config);
@@ -232,13 +232,13 @@ function generatePackageJson(config: ProjectConfig) {
         private: true,
         type: 'module',
         scripts: {
-            dev: 'nexxo dev',
-            build: 'nexxo build',
-            preview: 'nexxo preview'
+            dev: 'urja dev',
+            build: 'urja build',
+            preview: 'urja preview'
         },
         dependencies: {},
         devDependencies: {
-            nexxo: 'latest'
+            urja: 'latest'
         }
     };
 
@@ -251,7 +251,7 @@ function generatePackageJson(config: ProjectConfig) {
 
     // Add framework dependencies
     const frameworkKey = config.framework.toLowerCase();
-    pkg.devDependencies[`@nexxo/framework-${frameworkKey}`] = 'latest';
+    pkg.devDependencies[`@urja/framework-${frameworkKey}`] = 'latest';
 
     switch (config.framework) {
         case 'React':
@@ -304,16 +304,16 @@ function generatePackageJson(config: ProjectConfig) {
     return pkg;
 }
 
-function generateNexxoConfig(config: ProjectConfig) {
+function generateUrjaConfig(config: ProjectConfig) {
     const isVanilla = config.framework === 'Vanilla';
     const frameworkImport = config.framework.toLowerCase();
-    const adapterPkg = `@nexxo/framework-${frameworkImport}`;
+    const adapterPkg = `@urja/framework-${frameworkImport}`;
     const isTS = config.language === 'TypeScript';
     const entryExt = isTS ?
         (['React', 'Preact', 'Mithril'].includes(config.framework) ? 'tsx' : 'ts') :
         (['React', 'Preact', 'Mithril'].includes(config.framework) ? 'jsx' : 'js');
 
-    let content = `import { defineConfig } from "nexxo";\n`;
+    let content = `import { defineConfig } from "urja";\n`;
 
     if (!isVanilla) {
         content += `import ${frameworkImport} from "${adapterPkg}";\n\n`;
@@ -393,7 +393,7 @@ async function generateStructure(projectPath: string, config: ProjectConfig) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${config.name} | Nexxo</title>
+    <title>${config.name} | Urja</title>
   </head>
   <body>
     <div id="root"></div>
@@ -463,7 +463,7 @@ h1 { font-size: 3.2em; line-height: 1.1; }
     // Public Assets
     const publicDir = path.join(projectPath, 'public');
     await fsPromises.mkdir(publicDir, { recursive: true });
-    await fsPromises.writeFile(path.join(publicDir, 'nexxo.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#38BDF8" /><path d="M50 20 L80 80 L20 80 Z" fill="white" /></svg>`);
+    await fsPromises.writeFile(path.join(publicDir, 'urja.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#38BDF8" /><path d="M50 20 L80 80 L20 80 Z" fill="white" /></svg>`);
 }
 
 function generateEslintConfig(config: ProjectConfig) {
@@ -505,7 +505,7 @@ function generateReadme(config: ProjectConfig) {
     let mfeWarning = '';
     if (config.projectType.includes('Micro-Frontend')) {
         mfeWarning = `
-> ⚠️ **Micro-Frontend Note**: Only one framework per micro-frontend is supported in the current version of Nexxo.
+> ⚠️ **Micro-Frontend Note**: Only one framework per micro-frontend is supported in the current version of Urja.
 `;
     }
 
@@ -518,7 +518,7 @@ ${mfeWarning}
 - Language: **${config.language}**
 - Styling: **${config.styling}**
 - CSS Framework: **${config.cssFramework}**
-- Bundler: **Nexxo ⚡**
+- Bundler: **Urja ⚡**
 
 ## Getting Started
 
@@ -528,10 +528,10 @@ ${runCmd} dev
 \`\`\`
 
 ## Architecture
-- **Adapter**: ${config.framework === 'Vanilla' ? 'None' : `@nexxo/framework-${config.framework.toLowerCase()}`}
-- **Config**: \`nexxo.config.${config.language === 'TypeScript' ? 'ts' : 'js'}\`
+- **Adapter**: ${config.framework === 'Vanilla' ? 'None' : `@urja/framework-${config.framework.toLowerCase()}`}
+- **Config**: \`urja.config.${config.language === 'TypeScript' ? 'ts' : 'js'}\`
 
-Built with energy, powered by Nexxo.
+Built with energy, powered by Urja.
 `;
 }
 
@@ -570,13 +570,13 @@ export default app;`;
 import { customElement, property } from 'lit/decorators.js';
 import '${styleImportSource}';
 
-@customElement('nexxo-app')
-export class NexxoApp extends LitElement {
+@customElement('urja-app')
+export class UrjaApp extends LitElement {
   render() {
-    return html\`<h1>Hello from Lit + Nexxo</h1>\`;
+    return html\`<h1>Hello from Lit + Urja</h1>\`;
   }
 }
-document.getElementById('root')!.innerHTML = '<nexxo-app></nexxo-app>';`;
+document.getElementById('root')!.innerHTML = '<urja-app></urja-app>';`;
         case 'Alpine':
             return `import Alpine from 'alpinejs';
 import '${styleImportSource}';
@@ -584,7 +584,7 @@ import '${styleImportSource}';
 window.Alpine = Alpine;
 Alpine.start();
 document.getElementById('root')!.innerHTML = \`<div x-data="{ count: 0 }">
-  <h1>Alpine + Nexxo</h1>
+  <h1>Alpine + Urja</h1>
   <button @click="count++">Count: <span x-text="count"></span></button>
 </div>\`;`;
         case 'Mithril':
@@ -592,7 +592,7 @@ document.getElementById('root')!.innerHTML = \`<div x-data="{ count: 0 }">
 import '${styleImportSource}';
 
 m.mount(document.getElementById('root')!, {
-  view: () => m("h1", "Mithril + Nexxo")
+  view: () => m("h1", "Mithril + Urja")
 });`;
         case 'Vanilla':
             if (config.styling === 'CSS Modules') {
@@ -601,7 +601,7 @@ import styles from './App.module.css';
 
 document.querySelector('#root')!.innerHTML = \`
   <div class="\${styles.container}">
-    <h1 class="\${styles.title}">⚡ Vanilla JS + Nexxo</h1>
+    <h1 class="\${styles.title}">⚡ Vanilla JS + Urja</h1>
     <p>Zero dependencies. Pure speed. CSS Modules.</p>
   </div>
 \`;`;
@@ -610,13 +610,13 @@ document.querySelector('#root')!.innerHTML = \`
 // Vanilla Entry
 document.querySelector('#root')!.innerHTML = \`
   <div style="text-align: center; font-family: sans-serif;">
-    <h1>⚡ Vanilla JS + Nexxo</h1>
+    <h1>⚡ Vanilla JS + Urja</h1>
     <p>Zero dependencies. Pure speed.</p>
   </div>
 \`;`;
         default:
             return `import '${styleImportSource}';
-document.getElementById('root')!.innerHTML = '<h1>Hello Nexxo</h1>';`;
+document.getElementById('root')!.innerHTML = '<h1>Hello Urja</h1>';`;
     }
 }
 
@@ -631,7 +631,7 @@ function getAppComponentContent(config: ProjectConfig): string {
 export default function App() {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Nexxo + ${config.framework} + CSS Modules</h1>
+      <h1 className={styles.title}>Urja + ${config.framework} + CSS Modules</h1>
       <p>Modern, Fast, Energy-powered building.</p>
     </div>
   );
@@ -640,7 +640,7 @@ export default function App() {
             return `export default function App() {
   return (
     <div>
-      <h1>Nexxo + ${config.framework}</h1>
+      <h1>Urja + ${config.framework}</h1>
       <p>Modern, Fast, Energy-powered building.</p>
     </div>
   );
@@ -648,7 +648,7 @@ export default function App() {
         case 'Vue':
             return `<template>
   <div class="app">
-    <h1>Nexxo + Vue</h1>
+    <h1>Urja + Vue</h1>
   </div>
 </template>
 <script setup>
@@ -660,7 +660,7 @@ export default function App() {
 </style>`;
         case 'Svelte':
             return `<main>
-  <h1>Nexxo + Svelte</h1>
+  <h1>Urja + Svelte</h1>
 </main>
 <style>
   main {

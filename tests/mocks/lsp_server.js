@@ -1,11 +1,11 @@
 /**
- * Nexxo Language Server Logic (Mock for Tests)
+ * Urja Language Server Logic (Mock for Tests)
  * Copied from extensions/vscode-lsp to ensure reliable loading in tests
  */
 
-export class NexxoLSPServer {
+export class UrjaLSPServer {
     constructor() {
-        console.log('Nexxo LSP Initialized');
+        console.log('Urja LSP Initialized');
     }
 
     onCompletion(documentText, position) {
@@ -14,10 +14,10 @@ export class NexxoLSPServer {
 
         if (line.includes('plugins:') || (line.trim().startsWith('[') && lines[position.line - 1]?.includes('plugins:'))) {
             return [
-                { label: '@nexxo/plugin-react', kind: 9, detail: 'React 19 Adapter' },
-                { label: '@nexxo/plugin-vue', kind: 9, detail: 'Vue 3 Adapter' },
-                { label: '@nexxo/plugin-tailwindcss', kind: 9, detail: 'Tailwind JIT' },
-                { label: '@nexxo/plugin-visualizer', kind: 9, detail: 'Bundle Analysis' }
+                { label: '@urja/plugin-react', kind: 9, detail: 'React 19 Adapter' },
+                { label: '@urja/plugin-vue', kind: 9, detail: 'Vue 3 Adapter' },
+                { label: '@urja/plugin-tailwindcss', kind: 9, detail: 'Tailwind JIT' },
+                { label: '@urja/plugin-visualizer', kind: 9, detail: 'Bundle Analysis' }
             ];
         }
 
@@ -41,7 +41,7 @@ export class NexxoLSPServer {
                     range: { start: { line: i, character: line.indexOf("'prod'") }, end: { line: i, character: line.indexOf("'prod'") + 6 } },
                     severity: 2,
                     message: "Did you mean 'production'?",
-                    source: 'Nexxo LSP'
+                    source: 'Urja LSP'
                 });
             }
 
@@ -50,7 +50,7 @@ export class NexxoLSPServer {
                     range: { start: { line: i, character: 0 }, end: { line: i, character: line.length } },
                     severity: 3,
                     message: "Performance: Prefer default import or lodash-es for better tree-shaking.",
-                    source: 'Nexxo Perf'
+                    source: 'Urja Perf'
                 });
             }
         });

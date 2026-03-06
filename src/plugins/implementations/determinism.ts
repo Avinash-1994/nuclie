@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-determinism
+ * @urja/plugin-determinism
  * Build determinism checker
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createDeterminismPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-determinism',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-determinism',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-determinism] Starting performance optimization...');
+            console.log('[@urja/plugin-determinism] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createDeterminismPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-determinism] Performance optimization complete');
+            console.log('[@urja/plugin-determinism] Performance optimization complete');
         }
     };
 }

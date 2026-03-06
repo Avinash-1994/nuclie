@@ -1,5 +1,5 @@
 
-# Nexxo Benchmark Matrix Dockerfile
+# Urja Benchmark Matrix Dockerfile
 # Production-ready environment for multi-tool performance auditing
 
 FROM node:20-slim
@@ -26,10 +26,10 @@ RUN npm install -g \
     @angular/cli \
     turbo
 
-# Copy Nexxo build artifacts (Assumes they are already built in dist/)
-COPY dist /benchmark/nexxo/dist
-COPY package.json /benchmark/nexxo/package.json
-COPY node_modules /benchmark/nexxo/node_modules
+# Copy Urja build artifacts (Assumes they are already built in dist/)
+COPY dist /benchmark/urja/dist
+COPY package.json /benchmark/urja/package.json
+COPY node_modules /benchmark/urja/node_modules
 
 # Environment variables for performance tuning
 ENV NODE_ENV=production

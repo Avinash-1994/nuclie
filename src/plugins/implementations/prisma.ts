@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-prisma
+ * @urja/plugin-prisma
  * Prisma integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrismaPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-prisma',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-prisma',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Prisma integration

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-icon
+ * @urja/plugin-icon
  * Icon component generation
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createIconPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-icon',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-icon',
+        originalPlugin: 'urja-native',
         
         async load(id: string) {
             // Asset loading for icon

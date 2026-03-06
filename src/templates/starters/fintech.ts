@@ -20,17 +20,17 @@ export const fintechTemplate: TemplateConfig = {
   devDependencies: {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@nexxo/plugin-react": "^1.0.0",
-    "@nexxo/plugin-upi-payment": "^1.0.0",
-    "@nexxo/plugin-qr-code": "^1.0.0",
-    "@nexxo/plugin-security": "^1.0.0"
+    "@urja/plugin-react": "^1.0.0",
+    "@urja/plugin-upi-payment": "^1.0.0",
+    "@urja/plugin-qr-code": "^1.0.0",
+    "@urja/plugin-security": "^1.0.0"
   },
   files: {
-    'nexxo.config.ts': `    
-import { defineConfig } from 'nexxo';
-import react from '@nexxo/plugin-react';
-import upi from '@nexxo/plugin-upi-payment';
-import qr from '@nexxo/plugin-qr-code';
+    'urja.config.ts': `    
+import { defineConfig } from 'urja';
+import react from '@urja/plugin-react';
+import upi from '@urja/plugin-upi-payment';
+import qr from '@urja/plugin-qr-code';
 
 export default defineConfig({
     plugins: [react(), upi(), qr()],
@@ -73,7 +73,7 @@ export default function App() {
     <div className="container">
       <header className="header">
         <ShieldCheck size={40} className="icon secure" />
-        <h1>Nexxo Pay</h1>
+        <h1>Urja Pay</h1>
       </header>
       
       <div className="card">
@@ -202,7 +202,7 @@ button {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nexxo Pay</title>
+    <title>Urja Pay</title>
   </head>
   <body>
     <div id="root"></div>

@@ -1,9 +1,9 @@
 
 import vm from 'vm';
-import { NexxoPlugin, PluginHookName, PluginManifest } from './types.js';
+import { UrjaPlugin, PluginHookName, PluginManifest } from './types.js';
 import { canonicalHash } from '../engine/hash.js';
 
-export class JSPluginSandbox implements NexxoPlugin {
+export class JSPluginSandbox implements UrjaPlugin {
     manifest: PluginManifest;
     id: string;
     private context: vm.Context;

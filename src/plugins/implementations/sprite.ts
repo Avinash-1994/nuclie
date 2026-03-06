@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-sprite
+ * @urja/plugin-sprite
  * SVG sprite generation
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createSpritePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-sprite',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-sprite',
+        originalPlugin: 'urja-native',
         
         async load(id: string) {
             // Asset loading for sprite

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-critical-css
+ * @urja/plugin-critical-css
  * Critical CSS extraction
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCriticalCssPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-critical-css',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-critical-css',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for critical-css

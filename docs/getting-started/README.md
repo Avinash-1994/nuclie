@@ -1,6 +1,6 @@
-# Getting Started with Nexxo
+# Getting Started with Urja
 
-Welcome to Nexxo! This guide will help you get up and running in minutes.
+Welcome to Urja! This guide will help you get up and running in minutes.
 
 ## Quick Start
 
@@ -8,23 +8,23 @@ Welcome to Nexxo! This guide will help you get up and running in minutes.
 
 ```bash
 # Using npm
-npm install -g nexxo
+npm install -g urja
 
 # Using yarn
-yarn global add nexxo
+yarn global add urja
 
 # Using pnpm
-pnpm add -g nexxo
+pnpm add -g urja
 ```
 
 ### Create a New Project
 
 ```bash
 # Create a new project from template
-npx create-nexxo my-app
+npx create-urja my-app
 
 # Choose from available templates
-npx create-nexxo my-app --template react-spa
+npx create-urja my-app --template react-spa
 ```
 
 ### Available Templates
@@ -57,7 +57,7 @@ npm install
 ### 3. Start development server
 
 ```bash
-nexxo dev
+urja dev
 ```
 
 Your app will be running at `http://localhost:3000` with Hot Module Replacement enabled!
@@ -65,7 +65,7 @@ Your app will be running at `http://localhost:3000` with Hot Module Replacement 
 ### 4. Build for production
 
 ```bash
-nexxo build
+urja build
 ```
 
 Your optimized build will be in the `dist/` folder.
@@ -79,14 +79,14 @@ my-app/
 │   ├── App.tsx          # Main component
 │   └── ...
 ├── public/              # Static assets
-├── nexxo.config.js      # Nexxo configuration
+├── urja.config.js      # Urja configuration
 ├── package.json
 └── tsconfig.json
 ```
 
 ## Configuration
 
-Create a `nexxo.config.js` in your project root:
+Create a `urja.config.js` in your project root:
 
 ```javascript
 module.exports = {
@@ -122,7 +122,7 @@ module.exports = {
 
 ## Need Help?
 
-- 📖 [Documentation](https://nexxo.dev/docs)
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/nexxo/discussions)
-- 🐛 [Report Issues](https://github.com/Avinash-1994/nexxo/issues)
-- 🌟 [Star on GitHub](https://github.com/Avinash-1994/nexxo)
+- 📖 [Documentation](https://urja.dev/docs)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/urja/discussions)
+- 🐛 [Report Issues](https://github.com/Avinash-1994/urja/issues)
+- 🌟 [Star on GitHub](https://github.com/Avinash-1994/urja)

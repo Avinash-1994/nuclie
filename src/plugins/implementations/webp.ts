@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-webp
+ * @urja/plugin-webp
  * WebP image conversion
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createWebpPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-webp',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-webp',
+        originalPlugin: 'urja-native',
         
         async load(id: string) {
             // Asset loading for webp

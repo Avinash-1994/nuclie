@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-prefetch
+ * @urja/plugin-prefetch
  * Route prefetching
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrefetchPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-prefetch',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-prefetch',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-prefetch] Starting performance optimization...');
+            console.log('[@urja/plugin-prefetch] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPrefetchPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-prefetch] Performance optimization complete');
+            console.log('[@urja/plugin-prefetch] Performance optimization complete');
         }
     };
 }

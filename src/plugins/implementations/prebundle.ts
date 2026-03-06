@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-prebundle
+ * @urja/plugin-prebundle
  * Dependency pre-bundling
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrebundlePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-prebundle',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-prebundle',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-prebundle] Starting performance optimization...');
+            console.log('[@urja/plugin-prebundle] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPrebundlePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-prebundle] Performance optimization complete');
+            console.log('[@urja/plugin-prebundle] Performance optimization complete');
         }
     };
 }

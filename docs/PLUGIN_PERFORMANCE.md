@@ -77,7 +77,7 @@ The hook cache is built on-demand:
 To measure actual performance:
 
 ```typescript
-import { PluginManager } from 'nexxo/plugins';
+import { PluginManager } from 'urja/plugins';
 
 const manager = new PluginManager();
 

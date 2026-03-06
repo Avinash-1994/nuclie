@@ -163,7 +163,7 @@ export class Transformer {
     }
 
     static removeEsbuildWrappers(code: string): string {
-        // High-performance boilerplate removal for Nexxo minified
+        // High-performance boilerplate removal for Urja minified
         let clean = code;
 
         // Pattern 1: ESM exports wrapper (Minified)

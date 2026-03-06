@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Multi-Target Build Pipeline
+ * Urja Multi-Target Build Pipeline
  * Handles SPA, SSR, SSG, Edge, and Lib modes
  * Day 28: Multi-Target Pipeline & Production Lock
  */
@@ -22,7 +22,7 @@ export class BuildPipeline {
      * Main Build Entry
      */
     async build() {
-        console.log(`🚀 Starting Nexxo Multi-Target Build...`);
+        console.log(`🚀 Starting Urja Multi-Target Build...`);
         console.log(`Targets: ${this.options.target.join(', ')}`);
 
         for (const target of this.options.target) {

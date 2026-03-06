@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-svelte
+ * @urja/plugin-svelte
  * Svelte component support
  * Ported from: vite-plugin-svelte
  */
@@ -8,7 +8,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSveltePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-svelte',
+        name: '@urja/plugin-svelte',
         originalPlugin: 'vite-plugin-svelte',
         
         async transform(code: string, id: string) {

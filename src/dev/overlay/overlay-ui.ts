@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Error Overlay UI
+ * Urja Error Overlay UI
  * Implementation: Web Component with Shadow DOM
  * Day 15: Reliable Error Overlay Lock
  */
@@ -84,7 +84,7 @@ const STYLE = `
 }
 `;
 
-export class NexxoErrorOverlay extends HTMLElement {
+export class UrjaErrorOverlay extends HTMLElement {
     root: ShadowRoot;
 
     constructor() {
@@ -146,6 +146,6 @@ export class NexxoErrorOverlay extends HTMLElement {
     }
 }
 
-if (!customElements.get('nexxo-error-overlay')) {
-    customElements.define('nexxo-error-overlay', NexxoErrorOverlay);
+if (!customElements.get('urja-error-overlay')) {
+    customElements.define('urja-error-overlay', UrjaErrorOverlay);
 }

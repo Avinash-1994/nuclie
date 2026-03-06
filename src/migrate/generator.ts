@@ -1,8 +1,8 @@
 /**
  * Migration Generator (Day 44)
  * 
- * Generates Nexxo project configuration from a MigrationPlan.
- * Creates nexxo.config.ts, updates package.json, and generates migration report.
+ * Generates Urja project configuration from a MigrationPlan.
+ * Creates urja.config.ts, updates package.json, and generates migration report.
  */
 
 import fs from 'fs';
@@ -36,11 +36,11 @@ export class MigrationGenerator {
             this.backupExistingFiles();
         }
 
-        // Generate nexxo.config.ts
-        const configContent = this.generateNexxoConfig();
-        files.push('nexxo.config.ts');
+        // Generate urja.config.ts
+        const configContent = this.generateUrjaConfig();
+        files.push('urja.config.ts');
         if (!this.options.dryRun) {
-            fs.writeFileSync(path.join(this.targetDir, 'nexxo.config.ts'), configContent);
+            fs.writeFileSync(path.join(this.targetDir, 'urja.config.ts'), configContent);
         }
 
         // Update package.json
@@ -65,7 +65,7 @@ export class MigrationGenerator {
     }
 
     private backupExistingFiles(): void {
-        const backupDir = path.join(this.targetDir, '.nexxo-migration-backup');
+        const backupDir = path.join(this.targetDir, '.urja-migration-backup');
         if (!fs.existsSync(backupDir)) {
             fs.mkdirSync(backupDir, { recursive: true });
         }
@@ -89,7 +89,7 @@ export class MigrationGenerator {
         }
     }
 
-    private generateNexxoConfig(): string {
+    private generateUrjaConfig(): string {
         const { frameworks, cssSetup, projectStructure } = this.plan;
         const primaryFramework = frameworks[0] || 'react';
 
@@ -135,7 +135,7 @@ export class MigrationGenerator {
         };
 
         // Generate TypeScript config file
-        return `import { defineConfig } from 'nexxo';
+        return `import { defineConfig } from 'urja';
 
 export default defineConfig(${JSON.stringify(config, null, 2)});
 `;
@@ -143,11 +143,11 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
 
     private generatePackageJsonUpdates(): any {
         const scripts: Record<string, string> = {
-            'dev': 'nexxo dev',
-            'build': 'nexxo build',
-            'preview': 'nexxo preview',
-            'test': 'nexxo test',
-            'audit': 'nexxo audit'
+            'dev': 'urja dev',
+            'build': 'urja build',
+            'preview': 'urja preview',
+            'test': 'urja test',
+            'audit': 'urja audit'
         };
 
         // Mark old scripts as deprecated
@@ -163,14 +163,14 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
                 deprecatedScripts['build:webpack'] = 'webpack # DEPRECATED: Use npm run build';
                 break;
             case 'angular-cli':
-                deprecatedScripts['ng'] = 'ng # DEPRECATED: Use nexxo commands';
+                deprecatedScripts['ng'] = 'ng # DEPRECATED: Use urja commands';
                 break;
         }
 
         return {
             scripts: { ...scripts, ...deprecatedScripts },
             devDependencies: {
-                'nexxo': '^2.0.0'
+                'urja': '^2.0.0'
             }
         };
     }
@@ -185,7 +185,7 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
             ...updates.scripts
         };
 
-        // Add Nexxo to devDependencies
+        // Add Urja to devDependencies
         pkg.devDependencies = {
             ...pkg.devDependencies,
             ...updates.devDependencies
@@ -197,7 +197,7 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
     private generateMigrationReport(): string {
         const { toolchainType, frameworks, riskLevel, autoMigrate, manualSteps, cssSetup } = this.plan;
 
-        let report = `# Nexxo Migration Report\n\n`;
+        let report = `# Urja Migration Report\n\n`;
         report += `**Generated**: ${new Date().toISOString()}\n\n`;
         report += `## Source Project\n\n`;
         report += `- **Toolchain**: ${toolchainType}\n`;
@@ -225,11 +225,11 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
         report += `\n`;
 
         report += `## Next Steps\n\n`;
-        report += `1. Review the generated \`nexxo.config.ts\`\n`;
+        report += `1. Review the generated \`urja.config.ts\`\n`;
         report += `2. Install dependencies: \`npm install\`\n`;
         report += `3. Start dev server: \`npm run dev\`\n`;
         report += `4. Test your application thoroughly\n`;
-        report += `5. Update CI/CD pipelines to use Nexxo commands\n\n`;
+        report += `5. Update CI/CD pipelines to use Urja commands\n\n`;
 
         report += `## Known Limitations\n\n`;
         if (riskLevel === 'HIGH') {
@@ -244,12 +244,12 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
         }
 
         report += `## Support\n\n`;
-        report += `- Documentation: https://nexxo.dev/docs/migration\n`;
-        report += `- Issues: https://github.com/nexxo/nexxo/issues\n`;
-        report += `- Discord: https://discord.gg/nexxo\n\n`;
+        report += `- Documentation: https://urja.dev/docs/migration\n`;
+        report += `- Issues: https://github.com/urja/urja/issues\n`;
+        report += `- Discord: https://discord.gg/urja\n\n`;
 
         report += `---\n\n`;
-        report += `*This report was generated by Nexxo Migration Tool v2.0*\n`;
+        report += `*This report was generated by Urja Migration Tool v2.0*\n`;
 
         return report;
     }

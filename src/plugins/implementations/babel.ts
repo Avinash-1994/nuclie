@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-babel
+ * @urja/plugin-babel
  * Babel transpilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createBabelPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-babel',
+        name: '@urja/plugin-babel',
         originalPlugin: 'babel-loader',
         
         async transform(code: string, id: string) {

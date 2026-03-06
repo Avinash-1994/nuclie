@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-imagemin
+ * @urja/plugin-imagemin
  * Image optimization
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createImageminPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-imagemin',
+        name: '@urja/plugin-imagemin',
         originalPlugin: 'vite-plugin-imagemin',
         
         async load(id: string) {

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-tree-shake
+ * @urja/plugin-tree-shake
  * Advanced tree-shaking
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTreeShakePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-tree-shake',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-tree-shake',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-tree-shake] Starting performance optimization...');
+            console.log('[@urja/plugin-tree-shake] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createTreeShakePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-tree-shake] Performance optimization complete');
+            console.log('[@urja/plugin-tree-shake] Performance optimization complete');
         }
     };
 }

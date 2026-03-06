@@ -1,19 +1,19 @@
 
-import { NexxoPlugin } from '../core/plugins/types.js';
+import { UrjaPlugin } from '../core/plugins/types.js';
 import path from 'path';
 import fs from 'fs/promises';
 
-export function createJsonPlugin(): NexxoPlugin {
+export function createJsonPlugin(): UrjaPlugin {
     return {
         manifest: {
-            name: 'nexxo:json',
+            name: 'urja:json',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['load'],
             permissions: { fs: 'read' }
         },
-        id: 'nexxo:json',
+        id: 'urja:json',
         async runHook(hook, input, context) {
             if (hook === 'load') {
                 if (input.path.endsWith('.json')) {

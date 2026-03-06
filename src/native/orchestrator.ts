@@ -3,7 +3,7 @@
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const nativeModule = require('../../nexxo_native.node');
+const nativeModule = require('../../urja_native.node');
 
 const {
     BuildOrchestrator: NativeBuildOrchestrator,
@@ -15,7 +15,7 @@ import type {
     BuildOrchestrator as NativeBuildOrchestratorType,
     BuildEvent,
     OrchestratorStats
-} from '../../nexxo_native.node';
+} from '../../urja_native.node';
 
 export { BuildEvent, OrchestratorStats };
 

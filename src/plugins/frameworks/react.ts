@@ -1,5 +1,5 @@
 /**
- * @nexxo/react - Production-Grade React Plugin
+ * @urja/react - Production-Grade React Plugin
  * 
  * Features:
  * - Graph-derived HMR (no heuristics)
@@ -41,7 +41,7 @@ export interface ReactPluginOptions {
     };
 }
 
-export function nexxoReact(options: ReactPluginOptions = {}): Plugin {
+export function urjaReact(options: ReactPluginOptions = {}): Plugin {
     const {
         fastRefresh = true,
         development = process.env.NODE_ENV !== 'production',
@@ -54,7 +54,7 @@ export function nexxoReact(options: ReactPluginOptions = {}): Plugin {
     const cssImports = new Map<string, Set<string>>();
 
     return {
-        name: 'nexxo-react',
+        name: 'urja-react',
 
         async buildStart() {
             // Clear dependency maps on rebuild
@@ -180,7 +180,7 @@ async function transformJSX(code: string, options: any): Promise<string> {
         const result = await esbuild.transform(code, options);
         return result.code;
     } catch (error) {
-        console.warn('[nexxo-react] esbuild transform failed, returning original code:', error);
+        console.warn('[urja-react] esbuild transform failed, returning original code:', error);
         return code;
     }
 }
@@ -200,6 +200,6 @@ function generateSourceMap(originalCode: string, transformedCode: string, id: st
 // Export helper for use in config
 export function reactPreset(options: ReactPluginOptions = {}): Plugin[] {
     return [
-        nexxoReact(options)
+        urjaReact(options)
     ];
 }

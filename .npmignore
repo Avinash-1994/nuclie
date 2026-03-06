@@ -1,7 +1,7 @@
 # ============================================================
-# Nexxo .npmignore — Excludes dev/test files from npm package
+# Urja .npmignore — Excludes dev/test files from npm package
 # NOTE: package.json "files" whitelist takes precedence over
-# patterns here. nexxo_native.node is included via "files".
+# patterns here. urja_native.node is included via "files".
 # ============================================================
 
 # Source & tests — not needed by consumers
@@ -20,7 +20,7 @@ cloud-backend/
 ci-templates/
 docker-benchmarks/
 docker/
-eslint-plugin-nexxo-governance/
+eslint-plugin-urja-governance/
 examples/
 framework-tests/
 frameworks/
@@ -43,8 +43,8 @@ playwright.config.ts
 # Database & cache files
 *.db
 *.db.json
-.nexxo_cache/
-.nexxo-marketplace.db
+.urja_cache/
+.urja-marketplace.db
 
 # Build logs & scripts
 *.log

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-html
+ * @urja/plugin-html
  * HTML generation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createHtmlPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-html',
+        name: '@urja/plugin-html',
         originalPlugin: 'html-webpack-plugin',
         
         async transform(code: string, id: string) {

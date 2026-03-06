@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-msw
+ * @urja/plugin-msw
  * Mock Service Worker integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMswPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-msw',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-msw',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Testing: Mock Service Worker integration

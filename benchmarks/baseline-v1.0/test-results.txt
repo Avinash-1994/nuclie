@@ -1,5 +1,5 @@
 
-> nexxo@1.0.0-freeze test
+> urja@1.0.0-freeze test
 > cross-env NODE_OPTIONS=--experimental-vm-modules jest
 
 ts-jest[config] (WARN) 

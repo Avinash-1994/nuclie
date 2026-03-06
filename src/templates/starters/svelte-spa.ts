@@ -19,11 +19,11 @@ export const svelteSpaTemplate: TemplateConfig = {
         "svelte-check": "^3.5.0",
         "tslib": "^2.6.2",
         "typescript": "^5.2.2",
-        "@nexxo/plugin-svelte": "^1.0.0"
+        "@urja/plugin-svelte": "^1.0.0"
     },
     files: {
-        'nexxo.config.ts': `
-import { defineConfig } from 'nexxo';
+        'urja.config.ts': `
+import { defineConfig } from 'urja';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
@@ -47,11 +47,11 @@ export default app
 <script lang="ts">
   import Counter from './lib/Counter.svelte'
 
-  let nexxoLogo = '/nexxo.svg'
+  let urjaLogo = '/urja.svg'
 </script>
 
 <main>
-  <h1>Nexxo + Svelte</h1>
+  <h1>Urja + Svelte</h1>
 
   <div class="card">
     <Counter />
@@ -62,7 +62,7 @@ export default app
   </p>
 
   <p class="read-the-docs">
-    Click on the Nexxo and Svelte logos to learn more
+    Click on the Urja and Svelte logos to learn more
   </p>
 </main>
 

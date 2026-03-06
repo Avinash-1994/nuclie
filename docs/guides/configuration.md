@@ -1,15 +1,15 @@
 # Configuration Guide
 
-Complete reference for configuring Nexxo.
+Complete reference for configuring Urja.
 
 ## Configuration File
 
-Nexxo supports multiple configuration formats:
+Urja supports multiple configuration formats:
 
-- `nexxo.config.js` (recommended)
-- `nexxo.config.ts`
-- `nexxo.config.mjs`
-- `nexxo.config.cjs`
+- `urja.config.js` (recommended)
+- `urja.config.ts`
+- `urja.config.mjs`
+- `urja.config.cjs`
 
 ## Basic Configuration
 
@@ -165,7 +165,7 @@ module.exports = {
     },
     
     // Or import external plugins
-    require('@nexxo/plugin-react-refresh'),
+    require('@urja/plugin-react-refresh'),
   ],
 };
 ```
@@ -208,7 +208,7 @@ module.exports = {
   },
   
   // Environment variable prefix
-  envPrefix: ['VITE_', 'NEXXO_'],
+  envPrefix: ['VITE_', 'URJA_'],
 };
 ```
 
@@ -354,7 +354,7 @@ module.exports = {
 ## Environment-Specific Configuration
 
 ```javascript
-// nexxo.config.js
+// urja.config.js
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {

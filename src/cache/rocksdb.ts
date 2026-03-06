@@ -15,7 +15,7 @@ export class RocksDBCache {
     dir: string;
 
     constructor(base: string) {
-        this.dir = path.resolve(base, '.nexxo_rocksdb');
+        this.dir = path.resolve(base, '.urja_rocksdb');
         // LevelDB stores data in a directory
         this.db = new Level(this.dir, { valueEncoding: 'json' });
     }
@@ -39,7 +39,7 @@ export class RocksDBCache {
             }
         }
         // Configs
-        try { const cfg = await fs.readFile('nexxo.config.ts'); hash.update(cfg); } catch (e) { }
+        try { const cfg = await fs.readFile('urja.config.ts'); hash.update(cfg); } catch (e) { }
         try { const pkg = await fs.readFile('package.json'); hash.update(pkg); } catch (e) { }
 
         // Env

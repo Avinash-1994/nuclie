@@ -1,4 +1,4 @@
-# Nexxo Build Tool - Architecture
+# Urja Build Tool - Architecture
 
 ## Goals
 - **Performance First**: Sub-second HMR and rapid cold builds even at 10k+ module scale.
@@ -9,7 +9,7 @@
 ## High-level modules
 
 ### 1. Hybrid Orchestrator (TypeScript)
-- **CLI & Config**: Loads environment, parses `nexxo.config.js`, and manages the build/dev lifecycle.
+- **CLI & Config**: Loads environment, parses `urja.config.js`, and manages the build/dev lifecycle.
 - **Pipeline Controller**: coordinates the flow between resolver, graph, and bundler.
 
 ### 2. Native Core (Rust Extensions)
@@ -63,9 +63,9 @@
 - Wire basic plugin hooks
 
 ## Stable Build Determinism
-Nexxo ensures 100% deterministic builds by calculating a **Global Fingerprint** before every execution.
+Urja ensures 100% deterministic builds by calculating a **Global Fingerprint** before every execution.
 
-- **Storage**: Highly efficient SQLite database (`.nexxo_cache/build.db`).
+- **Storage**: Highly efficient SQLite database (`.urja_cache/build.db`).
 - **Fingerprint Scope**:
   - Full source file content hashes (Native XXH3).
   - Merged configuration hash.

@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-css
+ * @urja/plugin-css
  * CSS module resolution
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCssPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-css',
+        name: '@urja/plugin-css',
         originalPlugin: 'css-loader',
         
         async transform(code: string, id: string) {

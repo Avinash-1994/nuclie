@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-avif
+ * @urja/plugin-avif
  * AVIF image support
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createAvifPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-avif',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-avif',
+        originalPlugin: 'urja-native',
         
         async load(id: string) {
             // Asset loading for avif

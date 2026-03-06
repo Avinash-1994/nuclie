@@ -23,13 +23,13 @@ export const reactSsrTemplate: TemplateConfig = {
         "@types/react-dom": "^18.2.0",
         "@types/express": "^4.17.17",
         "@types/compression": "^1.7.3",
-        "@nexxo/plugin-react": "^1.0.0",
+        "@urja/plugin-react": "^1.0.0",
         "cross-env": "^7.0.3"
     },
     files: {
-        'nexxo.config.ts': `
-import { defineConfig } from 'nexxo';
-import react from '@nexxo/plugin-react';
+        'urja.config.ts': `
+import { defineConfig } from 'urja';
+import react from '@urja/plugin-react';
 
 export default defineConfig({
     plugins: [react()],
@@ -55,16 +55,16 @@ const templateHtml = isProduction
 // Create http server
 const app = express()
 
-// Add Nexxo or sirv
-let nexxo
+// Add Urja or sirv
+let urja
 if (!isProduction) {
-  const { createServer } = await import('nexxo')
-  nexxo = await createServer({
+  const { createServer } = await import('urja')
+  urja = await createServer({
     server: { middlewareMode: true },
     appType: 'custom',
     base
   })
-  app.use(nexxo.middlewares)
+  app.use(urja.middlewares)
 } else {
   const compression = (await import('compression')).default
   const sirv = (await import('sirv')).default
@@ -82,8 +82,8 @@ app.use('*', async (req, res) => {
     if (!isProduction) {
       // Always read fresh template in dev
       template = await fs.readFile('./index.html', 'utf-8')
-      template = await nexxo.transformIndexHtml(url, template)
-      render = (await nexxo.ssrLoadModule('/src/entry-server.tsx')).render
+      template = await urja.transformIndexHtml(url, template)
+      render = (await urja.ssrLoadModule('/src/entry-server.tsx')).render
     } else {
       template = templateHtml
       render = (await import('./dist/server/entry-server.js')).render
@@ -95,7 +95,7 @@ app.use('*', async (req, res) => {
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
   } catch (e) {
-    !isProduction && nexxo.ssrFixStacktrace(e)
+    !isProduction && urja.ssrFixStacktrace(e)
     console.log(e.stack)
     res.status(500).end(e.stack)
   }
@@ -142,7 +142,7 @@ function App() {
 
   return (
     <>
-      <h1>Nexxo SSR + React</h1>
+      <h1>Urja SSR + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -152,7 +152,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Nexxo logo to learn more
+        Click on the Urja logo to learn more
       </p>
     </>
   )

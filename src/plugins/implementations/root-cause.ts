@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-root-cause
+ * @urja/plugin-root-cause
  * Error root cause analysis
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRootCausePlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-root-cause',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-root-cause',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Error root cause analysis

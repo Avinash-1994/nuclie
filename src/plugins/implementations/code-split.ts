@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-code-split
+ * @urja/plugin-code-split
  * Smart code splitting
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCodeSplitPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-code-split',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-code-split',
+        originalPlugin: 'urja-native',
         
         async buildStart() {
-            console.log('[@nexxo/plugin-code-split] Starting performance optimization...');
+            console.log('[@urja/plugin-code-split] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createCodeSplitPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-code-split] Performance optimization complete');
+            console.log('[@urja/plugin-code-split] Performance optimization complete');
         }
     };
 }

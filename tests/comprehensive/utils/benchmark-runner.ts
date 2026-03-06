@@ -18,7 +18,7 @@ export interface BenchmarkConfig {
     timeout?: number;
 }
 
-export type BuildTool = 'nexxo' | 'vite' | 'webpack' | 'rspack' | 'esbuild' | 'turbopack' | 'parcel';
+export type BuildTool = 'urja' | 'vite' | 'webpack' | 'rspack' | 'esbuild' | 'turbopack' | 'parcel';
 
 export interface BenchmarkResult {
     tool: BuildTool;
@@ -336,7 +336,7 @@ export class BenchmarkRunner {
      */
     private isServerReady(tool: BuildTool, output: string): boolean {
         const patterns: Record<BuildTool, RegExp[]> = {
-            nexxo: [/ready in/i, /server running/i, /http:\/\/localhost/i],
+            urja: [/ready in/i, /server running/i, /http:\/\/localhost/i],
             vite: [/ready in/i, /local:.*http/i],
             webpack: [/compiled successfully/i, /webpack.*compiled/i],
             rspack: [/compiled successfully/i, /rspack.*compiled/i],
@@ -369,7 +369,7 @@ export class BenchmarkRunner {
         const cacheDirs = [
             'node_modules/.vite',
             'node_modules/.cache',
-            '.nexxo_cache',
+            '.urja_cache',
             'dist',
             'build',
             '.next',
@@ -396,7 +396,7 @@ export class BenchmarkRunner {
      */
     private getDistPath(appPath: string, tool: BuildTool): string {
         const distPaths: Record<BuildTool, string> = {
-            nexxo: 'dist',
+            urja: 'dist',
             vite: 'dist',
             webpack: 'dist',
             rspack: 'dist',

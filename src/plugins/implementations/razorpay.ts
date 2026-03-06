@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-razorpay
+ * @urja/plugin-razorpay
  * Razorpay integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRazorpayPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-razorpay',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-razorpay',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Fintech integration: Razorpay integration
@@ -16,7 +16,7 @@ export function createRazorpayPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-razorpay] Fintech integration ready');
+            console.log('[@urja/plugin-razorpay] Fintech integration ready');
             // Initialize payment gateway, generate QR codes, etc.
         }
     };

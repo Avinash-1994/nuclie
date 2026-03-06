@@ -1,4 +1,4 @@
-# Nexxo Plugin Contract — Binding Internal Specification
+# Urja Plugin Contract — Binding Internal Specification
 
 **Status**: 🔒 Binding Contract (Phase H2.2)  
 **Version**: 1.0.0  
@@ -81,7 +81,7 @@ load(id: string): LoadResult | null {
 
 **Allowed**:
 ```typescript
-const plugin: NexxoPlugin = {
+const plugin: UrjaPlugin = {
   name: 'my-plugin',
   version: '1.0.0',
   enforce: 'pre' | 'post', // Optional ordering
@@ -277,7 +277,7 @@ transform(code) {
 
 // ✅ GOOD
 transform(code) {
-  return { code: code + `\n// Built with Nexxo` };
+  return { code: code + `\n// Built with Urja` };
 }
 ```
 
@@ -371,12 +371,12 @@ Before submitting a plugin for "official" status:
 
 ## 🧠 Governance Rule
 
-**"If extending Nexxo is easier than understanding it, the extension surface is wrong."**
+**"If extending Urja is easier than understanding it, the extension surface is wrong."**
 
 This contract exists to make **correctness the easiest path**.
 
 ---
 
-**Signed**: Nexxo Core Team  
+**Signed**: Urja Core Team  
 **Binding**: All plugins (official, community, experimental)  
 **Effective**: Phase H2.2 Complete

@@ -13,9 +13,9 @@ interface RollupPlugin {
 }
 
 /**
- * Adapter to use Rollup plugins within Nexxo
+ * Adapter to use Rollup plugins within Urja
  * @param plugin The Rollup plugin instance
- * @returns A Nexxo-compatible plugin
+ * @returns A Urja-compatible plugin
  */
 export function rollupAdapter(plugin: RollupPlugin): Plugin {
     return {

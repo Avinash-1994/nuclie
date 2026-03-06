@@ -1,19 +1,19 @@
 import path from 'path';
 import fs from 'fs/promises';
-import { NexxoPlugin } from '../core/plugins/types.js';
+import { UrjaPlugin } from '../core/plugins/types.js';
 import { fastHash } from '../native/index.js';
 
-export function createAssetPlugin(outDir: string = 'build_output'): NexxoPlugin {
+export function createAssetPlugin(outDir: string = 'build_output'): UrjaPlugin {
     return {
         manifest: {
-            name: 'nexxo:asset',
+            name: 'urja:asset',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['resolveId', 'load'],
             permissions: { fs: 'read' }
         },
-        id: 'nexxo:asset',
+        id: 'urja:asset',
         async runHook(hook, input, context) {
             const ASSET_REGEX = /\.(png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|otf)$/;
 

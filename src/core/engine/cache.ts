@@ -27,7 +27,7 @@ export class PersistentBuildCache implements BuildCache {
     private cacheDir: string;
 
     constructor(rootDir: string) {
-        this.cacheDir = path.join(rootDir, '.nexxo_cache');
+        this.cacheDir = path.join(rootDir, '.urja_cache');
     }
 
     private async getDb() {

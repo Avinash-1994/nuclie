@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-css-framework
+ * @urja/plugin-css-framework
  * CSS framework detection
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCssFrameworkPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-css-framework',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-css-framework',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for css-framework

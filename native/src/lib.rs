@@ -1,4 +1,4 @@
-// High-performance native modules for Nexxo
+// High-performance native modules for Urja
 // Focus: Speed and minimal bundle size
 
 mod graph;

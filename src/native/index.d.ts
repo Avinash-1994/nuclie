@@ -1,5 +1,5 @@
 /**
- * Nexxo v2.0 Native Module Definitions
+ * Urja v2.0 Native Module Definitions
  */
 
 export interface CacheStats {

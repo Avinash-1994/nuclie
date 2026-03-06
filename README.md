@@ -1,15 +1,15 @@
-# ⚡ Nexxo — Modern Build Tool
+# ⚡ Urja — Modern Build Tool
 
-[![npm version](https://img.shields.io/npm/v/nexxo.svg)](https://www.npmjs.com/package/nexxo)
-[![CI](https://github.com/Avinash-1994/Nexxo/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Nexxo/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/urja.svg)](https://www.npmjs.com/package/urja)
+[![CI](https://github.com/Avinash-1994/Urja/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Urja/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-109%2F109-brightgreen)](#test-status)
 [![Node >=20](https://img.shields.io/badge/node-%3E%3D20-blue)](https://nodejs.org)
-[![Website](https://img.shields.io/badge/website-live-brightgreen)](https://avinash-1994.github.io/Nexxo/)
+[![Website](https://img.shields.io/badge/website-live-brightgreen)](https://avinash-1994.github.io/Urja/)
 
-Nexxo is a build tool with built-in HMR, source maps, tree shaking, module federation, and support for 10+ JavaScript frameworks. It ships a native Rust core (SWC + LightningCSS) for fast transforms.
+Urja is a build tool with built-in HMR, source maps, tree shaking, module federation, and support for 10+ JavaScript frameworks. It ships a native Rust core (SWC + LightningCSS) for fast transforms.
 
-**[📖 Documentation Website →](https://avinash-1994.github.io/Nexxo/)**
+**[📖 Documentation Website →](https://avinash-1994.github.io/Urja/)**
 
 ---
 
@@ -31,17 +31,17 @@ Nexxo is a build tool with built-in HMR, source maps, tree shaking, module feder
 
 ```bash
 # Install globally
-npm install -g nexxo
+npm install -g urja
 
 # Scaffold a new project
-nexxo bootstrap --name my-app --template react-ts
+urja bootstrap --name my-app --template react-ts
 
 # Start dev server
 cd my-app
-nexxo dev
+urja dev
 
 # Production build
-nexxo build
+urja build
 ```
 
 ---
@@ -49,7 +49,7 @@ nexxo build
 ## 📦 Installation
 
 ```bash
-npm install -g nexxo
+npm install -g urja
 ```
 
 **Requirements:** Node.js ≥ 20
@@ -63,11 +63,11 @@ Every framework gets an identical config shape — only the `entry` file changes
 ### ⚛️ React
 
 ```bash
-nexxo bootstrap --name my-app --template react-ts
+urja bootstrap --name my-app --template react-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   outDir: './dist',
@@ -95,11 +95,11 @@ module.exports = {
 ### 🟩 Vue 3
 
 ```bash
-nexxo bootstrap --name my-app --template vue-ts
+urja bootstrap --name my-app --template vue-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -121,11 +121,11 @@ module.exports = {
 ### 🧡 Svelte 5
 
 ```bash
-nexxo bootstrap --name my-app --template svelte-ts
+urja bootstrap --name my-app --template svelte-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -151,11 +151,11 @@ module.exports = {
 ### 🔵 SolidJS
 
 ```bash
-nexxo bootstrap --name my-app --template solid-ts
+urja bootstrap --name my-app --template solid-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/index.tsx'],
   outDir: './dist',
@@ -177,11 +177,11 @@ module.exports = {
 ### 🟣 Preact
 
 ```bash
-nexxo bootstrap --name my-app --template preact-ts
+urja bootstrap --name my-app --template preact-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/index.tsx'],
   outDir: './dist',
@@ -211,11 +211,11 @@ module.exports = {
 ### 🔶 Lit (Web Components)
 
 ```bash
-nexxo bootstrap --name my-app --template lit-ts
+urja bootstrap --name my-app --template lit-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -238,11 +238,11 @@ module.exports = {
 ### 🏔️ Alpine.js
 
 ```bash
-nexxo bootstrap --name my-app --template alpine-js
+urja bootstrap --name my-app --template alpine-js
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.js'],
   outDir: './dist',
@@ -263,13 +263,13 @@ module.exports = {
 ### ⚡ Vanilla JS / TypeScript
 
 ```bash
-nexxo bootstrap --name my-app --template vanilla-js
+urja bootstrap --name my-app --template vanilla-js
 # or
-nexxo bootstrap --name my-app --template vanilla-ts
+urja bootstrap --name my-app --template vanilla-ts
 ```
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -291,7 +291,7 @@ module.exports = {
 ## ⚙️ Full Config Reference
 
 ```js
-// nexxo.config.js — all options
+// urja.config.js — all options
 module.exports = {
   // Entry points (relative to project root)
   entry: ['./src/main.tsx'],
@@ -380,7 +380,7 @@ import CartWidget from 'cart/CartWidget';
 ## 🔌 Plugin System
 
 ```js
-// nexxo.config.js
+// urja.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   plugins: [
@@ -408,16 +408,16 @@ module.exports = {
 ## 🛠️ CLI Commands
 
 ```bash
-nexxo dev                                          # Start dev server with HMR
-nexxo build                                        # Production build
-nexxo bootstrap --name <n> --template <t>          # Scaffold new project
-nexxo init                                         # Generate nexxo.config.js
-nexxo ssr                                          # SSR server
-nexxo inspect                                      # Inspect dependency graph
-nexxo analyze                                      # Analyze bundle size
-nexxo audit                                        # Accessibility, performance & SEO
-nexxo verify                                       # Config health check
-nexxo doctor                                       # Diagnose common issues
+urja dev                                          # Start dev server with HMR
+urja build                                        # Production build
+urja bootstrap --name <n> --template <t>          # Scaffold new project
+urja init                                         # Generate urja.config.js
+urja ssr                                          # SSR server
+urja inspect                                      # Inspect dependency graph
+urja analyze                                      # Analyze bundle size
+urja audit                                        # Accessibility, performance & SEO
+urja verify                                       # Config health check
+urja doctor                                       # Diagnose common issues
 ```
 
 ---
@@ -426,20 +426,20 @@ nexxo doctor                                       # Diagnose common issues
 
 ```bash
 # TypeScript
-nexxo bootstrap --name my-app --template react-ts
-nexxo bootstrap --name my-app --template vue-ts
-nexxo bootstrap --name my-app --template svelte-ts
-nexxo bootstrap --name my-app --template solid-ts
-nexxo bootstrap --name my-app --template preact-ts
-nexxo bootstrap --name my-app --template lit-ts
-nexxo bootstrap --name my-app --template vanilla-ts
+urja bootstrap --name my-app --template react-ts
+urja bootstrap --name my-app --template vue-ts
+urja bootstrap --name my-app --template svelte-ts
+urja bootstrap --name my-app --template solid-ts
+urja bootstrap --name my-app --template preact-ts
+urja bootstrap --name my-app --template lit-ts
+urja bootstrap --name my-app --template vanilla-ts
 
 # JavaScript
-nexxo bootstrap --name my-app --template react-js
-nexxo bootstrap --name my-app --template vue-js
-nexxo bootstrap --name my-app --template svelte-js
-nexxo bootstrap --name my-app --template alpine-js
-nexxo bootstrap --name my-app --template vanilla-js
+urja bootstrap --name my-app --template react-js
+urja bootstrap --name my-app --template vue-js
+urja bootstrap --name my-app --template svelte-js
+urja bootstrap --name my-app --template alpine-js
+urja bootstrap --name my-app --template vanilla-js
 ```
 
 ---
@@ -487,12 +487,12 @@ module.exports = {
 
 Full documentation and framework guides are available on our website:
 
-**[https://avinash-1994.github.io/Nexxo/](https://avinash-1994.github.io/Nexxo/)**
+**[https://avinash-1994.github.io/Urja/](https://avinash-1994.github.io/Urja/)**
 
-- [Getting Started](https://avinash-1994.github.io/Nexxo/#/docs/getting-started)
-- [Framework Guides](https://avinash-1994.github.io/Nexxo/#/guides/react)
-- [Module Federation](https://avinash-1994.github.io/Nexxo/#/mfe/overview)
-- [Plugin Development](https://avinash-1994.github.io/Nexxo/#/plugins)
+- [Getting Started](https://avinash-1994.github.io/Urja/#/docs/getting-started)
+- [Framework Guides](https://avinash-1994.github.io/Urja/#/guides/react)
+- [Module Federation](https://avinash-1994.github.io/Urja/#/mfe/overview)
+- [Plugin Development](https://avinash-1994.github.io/Urja/#/plugins)
 - [Changelog](./CHANGELOG.md)
 
 ---
@@ -511,6 +511,6 @@ MIT © [Avinash-1994](https://github.com/Avinash-1994)
 
 ## 📞 Support
 
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Nexxo/discussions)
-- 🐛 [Issues](https://github.com/Avinash-1994/Nexxo/issues)
-- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Nexxo)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Urja/discussions)
+- 🐛 [Issues](https://github.com/Avinash-1994/Urja/issues)
+- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Urja)

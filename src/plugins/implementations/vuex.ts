@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-vuex
+ * @urja/plugin-vuex
  * Vuex integration
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVuexPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-vuex',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-vuex',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // vuex transformation

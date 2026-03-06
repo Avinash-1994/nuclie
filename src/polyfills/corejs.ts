@@ -1,6 +1,6 @@
 
 /**
- * Nexxo Legacy Polyfill Injector
+ * Urja Legacy Polyfill Injector
  * Day 25: Legacy Polyfills & Windows Lock
  */
 

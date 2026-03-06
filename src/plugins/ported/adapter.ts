@@ -2,7 +2,7 @@
  * Plugin Compatibility Layer (Day 45)
  * 
  * Provides compatibility adapters for ported Vite/Webpack plugins
- * to work seamlessly in Nexxo's WASM-sandboxed environment.
+ * to work seamlessly in Urja's WASM-sandboxed environment.
  */
 
 export interface PluginAdapter {
@@ -18,7 +18,7 @@ export interface PluginAdapter {
 
 /**
  * Vite Plugin Adapter
- * Converts Vite plugin API to Nexxo plugin API
+ * Converts Vite plugin API to Urja plugin API
  */
 export class VitePluginAdapter implements PluginAdapter {
     name: string;
@@ -59,7 +59,7 @@ export class VitePluginAdapter implements PluginAdapter {
 
 /**
  * Webpack Loader Adapter
- * Converts Webpack loader API to Nexxo plugin API
+ * Converts Webpack loader API to Urja plugin API
  */
 export class WebpackLoaderAdapter implements PluginAdapter {
     name: string;
@@ -119,11 +119,11 @@ export class PluginRegistry {
 export const pluginRegistry = new PluginRegistry();
 
 /**
- * React Plugin Adapter (Vite → Nexxo)
+ * React Plugin Adapter (Vite → Urja)
  */
 export function createReactAdapter(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-react',
+        name: '@urja/plugin-react',
         originalPlugin: '@vitejs/plugin-react',
         async transform(code: string, id: string) {
             // React Fast Refresh transformation
@@ -143,11 +143,11 @@ ${code}
 }
 
 /**
- * Vue Plugin Adapter (Vite → Nexxo)
+ * Vue Plugin Adapter (Vite → Urja)
  */
 export function createVueAdapter(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-vue',
+        name: '@urja/plugin-vue',
         originalPlugin: '@vitejs/plugin-vue',
         async transform(code: string, id: string) {
             // Vue SFC transformation
@@ -170,16 +170,16 @@ export default {
 }
 
 /**
- * Sass Loader Adapter (Webpack → Nexxo)
+ * Sass Loader Adapter (Webpack → Urja)
  */
 export function createSassAdapter(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-sass',
+        name: '@urja/plugin-sass',
         originalPlugin: 'sass-loader',
         async transform(code: string, id: string) {
             if (id.endsWith('.scss') || id.endsWith('.sass')) {
                 // In production, would use 'sass' package
-                // For now, pass through (Nexxo has built-in Sass support)
+                // For now, pass through (Urja has built-in Sass support)
                 return { code };
             }
             return { code };
@@ -188,15 +188,15 @@ export function createSassAdapter(): PluginAdapter {
 }
 
 /**
- * TypeScript Loader Adapter (Webpack → Nexxo)
+ * TypeScript Loader Adapter (Webpack → Urja)
  */
 export function createTypeScriptAdapter(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-typescript',
+        name: '@urja/plugin-typescript',
         originalPlugin: 'ts-loader',
         async transform(code: string, id: string) {
             if (id.endsWith('.ts') || id.endsWith('.tsx')) {
-                // Nexxo has built-in TypeScript support via universal-transformer
+                // Urja has built-in TypeScript support via universal-transformer
                 return { code };
             }
             return { code };
@@ -209,7 +209,7 @@ export function createTypeScriptAdapter(): PluginAdapter {
  */
 export function createImageOptimizer(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-imagemin',
+        name: '@urja/plugin-imagemin',
         originalPlugin: 'vite-plugin-imagemin',
         async transform(code: string, id: string) {
             if (/\.(png|jpg|jpeg|gif|webp|avif)$/.test(id)) {
@@ -227,7 +227,7 @@ export function createImageOptimizer(): PluginAdapter {
  */
 export function createPWAAdapter(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-pwa',
+        name: '@urja/plugin-pwa',
         originalPlugin: 'vite-plugin-pwa',
         async buildEnd() {
             // Generate service worker and manifest
@@ -241,7 +241,7 @@ export function createPWAAdapter(): PluginAdapter {
  */
 export function createCompressionAdapter(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-compression',
+        name: '@urja/plugin-compression',
         originalPlugin: 'vite-plugin-compression',
         async buildEnd() {
             // Generate gzip/brotli compressed assets

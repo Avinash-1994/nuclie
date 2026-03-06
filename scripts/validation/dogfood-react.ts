@@ -19,7 +19,7 @@ async function run() {
     }
 
     // 2. Run Build
-    console.log('🏗️ Running nexxo build...');
+    console.log('🏗️ Running urja build...');
     execSync(`node ${cliPath} build`, { cwd: rootDir, stdio: 'inherit' });
 
     // 3. Verify Artifacts

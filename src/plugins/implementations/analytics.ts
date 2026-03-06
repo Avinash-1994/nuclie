@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-analytics
+ * @urja/plugin-analytics
  * Build analytics
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createAnalyticsPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-analytics',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-analytics',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Utility: Build analytics

@@ -41,7 +41,7 @@ export class CacheManager {
         try {
             const { getLazyCacheDatabase, initCacheInBackground } = await import('./cache/lazy-init.js');
             // Background init
-            initCacheInBackground(path.join(this.root, '.nexxo_cache'));
+            initCacheInBackground(path.join(this.root, '.urja_cache'));
 
             // The first 'get' or 'set' will await the database if it's not ready
         } catch (error: any) {
@@ -53,7 +53,7 @@ export class CacheManager {
         if (!this.enabled) return null;
         try {
             const { getLazyCacheDatabase } = await import('./cache/lazy-init.js');
-            return await getLazyCacheDatabase(path.join(this.root, '.nexxo_cache'));
+            return await getLazyCacheDatabase(path.join(this.root, '.urja_cache'));
         } catch (e) {
             return null;
         }

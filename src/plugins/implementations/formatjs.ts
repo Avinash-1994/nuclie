@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-formatjs
+ * @urja/plugin-formatjs
  * FormatJS (react-intl) integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createFormatjsPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-formatjs',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-formatjs',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // i18n: FormatJS (react-intl) integration
@@ -16,7 +16,7 @@ export function createFormatjsPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nexxo/plugin-formatjs] i18n setup complete');
+            console.log('[@urja/plugin-formatjs] i18n setup complete');
         }
     };
 }

@@ -7,14 +7,14 @@ import { TemplateConfig } from '../manager.js';
 
 export const monorepoTemplate: TemplateConfig = {
     id: 'monorepo',
-    name: 'Monorepo (PNPM via Nexxo)',
+    name: 'Monorepo (PNPM via Urja)',
     description: 'High-performance monorepo with apps and shared packages',
     framework: 'react',
     type: 'monorepo',
     dependencies: {},
     devDependencies: {
         "typescript": "^5.0.0",
-        "@nexxo/plugin-workspace": "^1.0.0"
+        "@urja/plugin-workspace": "^1.0.0"
     },
     files: {
         'pnpm-workspace.yaml': `packages:
@@ -26,19 +26,19 @@ export const monorepoTemplate: TemplateConfig = {
   "name": "{{PROJECT_NAME}}",
   "private": true,
   "scripts": {
-    "build": "nexxo build --filter=...",
-    "dev": "nexxo dev --parallel",
-    "test": "nexxo test",
-    "lint": "nexxo lint"
+    "build": "urja build --filter=...",
+    "dev": "urja dev --parallel",
+    "test": "urja test",
+    "lint": "urja lint"
   },
   "devDependencies": {
-    "nexxo": "latest",
+    "urja": "latest",
     "typescript": "^5.0.0"
   }
 }
 `,
-        'nexxo.config.ts': `
-import { defineConfig } from 'nexxo';
+        'urja.config.ts': `
+import { defineConfig } from 'urja';
 
 export default defineConfig({
     workspace: {
@@ -92,16 +92,16 @@ export const Button = ({ children }: { children: React.ReactNode }) => {
     "@{{PROJECT_NAME}}/ui": "workspace:*"
   },
   "devDependencies": {
-    "@nexxo/plugin-react": "^1.0.0",
+    "@urja/plugin-react": "^1.0.0",
     "typescript": "^5.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0"
   }
 }
 `,
-        'apps/web/nexxo.config.ts': `
-import { defineConfig } from 'nexxo';
-import react from '@nexxo/plugin-react';
+        'apps/web/urja.config.ts': `
+import { defineConfig } from 'urja';
+import react from '@urja/plugin-react';
 
 export default defineConfig({
     plugins: [react()]
@@ -115,7 +115,7 @@ import { Button } from '@{{PROJECT_NAME}}/ui';
 export default function App() {
   return (
     <div>
-      <h1>Nexxo Monorepo</h1>
+      <h1>Urja Monorepo</h1>
       <Button>Shared UI Button</Button>
     </div>
   );

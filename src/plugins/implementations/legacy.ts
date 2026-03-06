@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-legacy
+ * @urja/plugin-legacy
  * Legacy browser support
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLegacyPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-legacy',
+        name: '@urja/plugin-legacy',
         originalPlugin: '@vitejs/plugin-legacy',
         
         async transform(code: string, id: string) {

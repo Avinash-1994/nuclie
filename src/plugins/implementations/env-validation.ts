@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-env-validation
+ * @urja/plugin-env-validation
  * Environment variable validation
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createEnvValidationPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-env-validation',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-env-validation',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // Security check: Environment variable validation
@@ -29,7 +29,7 @@ export function createEnvValidationPlugin(): PluginAdapter {
             }
             
             if (issues.length > 0) {
-                console.warn(`[@nexxo/plugin-env-validation] Security issues found:`, issues);
+                console.warn(`[@urja/plugin-env-validation] Security issues found:`, issues);
             }
         }
     };

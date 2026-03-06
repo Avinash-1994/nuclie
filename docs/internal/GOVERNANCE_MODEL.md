@@ -1,4 +1,4 @@
-# Nexxo Governance Model — Operational Truth
+# Urja Governance Model — Operational Truth
 
 **Status**: 🔒 Active (Phase H2.3)  
 **Version**: 1.0.0  
@@ -34,10 +34,10 @@ Every plugin has a category that determines:
 - ✅ Performance benchmarked
 
 **Examples**:
-- `nexxo:js-transform` (Universal transformer)
-- `nexxo:assets` (Hashed asset pipeline)
-- `nexxo:postcss` (CSS processing)
-- `nexxo:federation` (Module federation)
+- `urja:js-transform` (Universal transformer)
+- `urja:assets` (Hashed asset pipeline)
+- `urja:postcss` (CSS processing)
+- `urja:federation` (Module federation)
 
 **Guarantees**:
 - No breaking changes in minor versions
@@ -61,9 +61,9 @@ Every plugin has a category that determines:
 - ⚠️ Not in official docs (linked only)
 
 **Examples**:
-- `nexxo-plugin-graphql` (Community)
-- `nexxo-plugin-wasm` (Community)
-- `nexxo-plugin-mdx` (Community)
+- `urja-plugin-graphql` (Community)
+- `urja-plugin-wasm` (Community)
+- `urja-plugin-mdx` (Community)
 
 **Guarantees**:
 - **NONE**
@@ -87,9 +87,9 @@ Every plugin has a category that determines:
 - 🧪 Not recommended for production
 
 **Examples**:
-- `nexxo:ai-optimizer` (Experimental)
-- `nexxo:edge-runtime` (Experimental)
-- `nexxo:ssr-streaming` (Experimental)
+- `urja:ai-optimizer` (Experimental)
+- `urja:edge-runtime` (Experimental)
+- `urja:ssr-streaming` (Experimental)
 
 **Guarantees**:
 - **NONE**
@@ -105,19 +105,19 @@ Every plugin has a category that determines:
 
 | Plugin Name | Category | Owner | Risk Level | Snapshot Tested | Docs |
 |-------------|----------|-------|------------|-----------------|------|
-| `nexxo:js-transform` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:assets` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:postcss` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:federation` | Official | Core Team | Medium | ✅ | ✅ |
-| `nexxo:react-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:vue-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:svelte-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:solid-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nexxo:angular-preset` | Official | Core Team | Medium | ✅ | ✅ |
-| `nexxo:ai-optimizer` | Experimental | Core Team | High | ❌ | ⚠️ |
-| `nexxo:edge-runtime` | Experimental | Core Team | High | ❌ | ⚠️ |
-| `nexxo-plugin-graphql` | Community | @community | Unknown | ❌ | ❌ |
-| `nexxo-plugin-wasm` | Community | @community | Unknown | ❌ | ❌ |
+| `urja:js-transform` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:assets` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:postcss` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:federation` | Official | Core Team | Medium | ✅ | ✅ |
+| `urja:react-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:vue-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:svelte-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:solid-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `urja:angular-preset` | Official | Core Team | Medium | ✅ | ✅ |
+| `urja:ai-optimizer` | Experimental | Core Team | High | ❌ | ⚠️ |
+| `urja:edge-runtime` | Experimental | Core Team | High | ❌ | ⚠️ |
+| `urja-plugin-graphql` | Community | @community | Unknown | ❌ | ❌ |
+| `urja-plugin-wasm` | Community | @community | Unknown | ❌ | ❌ |
 
 ---
 
@@ -265,5 +265,5 @@ No exceptions.
 
 ---
 
-**Signed**: Nexxo Core Team  
+**Signed**: Urja Core Team  
 **Effective**: Phase H2.3 Complete

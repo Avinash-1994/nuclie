@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-pinia
+ * @urja/plugin-pinia
  * Pinia (Vue) integration
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPiniaPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-pinia',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-pinia',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // pinia transformation

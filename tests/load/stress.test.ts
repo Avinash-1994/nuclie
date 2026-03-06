@@ -1,5 +1,5 @@
 /**
- * Load and Stress Tests for Nexxo Build System
+ * Load and Stress Tests for Urja Build System
  * 
  * Tests system behavior under heavy load, concurrent operations,
  * and resource pressure scenarios.
@@ -15,7 +15,7 @@ describe('Load Testing: Concurrent Builds', () => {
     let simpleProjectPath: string;
 
     beforeAll(() => {
-        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nexxo-load-test-'));
+        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'urja-load-test-'));
 
         // Create a simple test project
         simpleProjectPath = path.join(tempDir, 'simple-app');
@@ -176,7 +176,7 @@ describe('Stress Testing: Large Projects', () => {
     let largeProjectPath: string;
 
     beforeAll(() => {
-        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nexxo-large-test-'));
+        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'urja-large-test-'));
         largeProjectPath = path.join(tempDir, 'large-app');
         fs.mkdirSync(largeProjectPath, { recursive: true });
         fs.mkdirSync(path.join(largeProjectPath, 'src'), { recursive: true });

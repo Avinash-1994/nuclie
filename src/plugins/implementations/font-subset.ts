@@ -1,5 +1,5 @@
 /**
- * @nexxo/plugin-font-subset
+ * @urja/plugin-font-subset
  * Font subsetting
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createFontSubsetPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-font-subset',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-font-subset',
+        originalPlugin: 'urja-native',
         
         async load(id: string) {
             // Asset loading for font-subset

@@ -1,8 +1,8 @@
-# 🎨 Nexxo Templates - Visual Guide
+# 🎨 Urja Templates - Visual Guide
 
 ## How Templates Work
 
-When you run `npx create-nexxo my-app --template react-spa`, Nexxo:
+When you run `npx create-urja my-app --template react-spa`, Urja:
 
 1. Creates a new directory `my-app/`
 2. Generates all files from the template
@@ -19,7 +19,7 @@ my-app/                    # Your new project
 │   ├── App.css           # Component styles
 │   └── index.css         # Global styles
 ├── index.html            # HTML entry
-├── nexxo.config.ts       # Nexxo configuration
+├── urja.config.ts       # Urja configuration
 ├── package.json          # Dependencies
 ├── tsconfig.json         # TypeScript config
 └── README.md             # Project README
@@ -40,7 +40,7 @@ my-react-app/
 │   ├── App.css
 │   └── index.css         # Dark theme
 ├── index.html
-├── nexxo.config.ts       # React plugin configured
+├── urja.config.ts       # React plugin configured
 └── package.json          # React 18+
 ```
 
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Nexxo + React</h1>
+      <h1>Urja + React</h1>
       <button onClick={() => setCount(count + 1)}>
         count is {count}
       </button>
@@ -83,7 +83,7 @@ my-vue-app/
 │   │   └── HelloWorld.vue
 │   └── style.css
 ├── index.html
-├── nexxo.config.ts       # Vue plugin
+├── urja.config.ts       # Vue plugin
 └── package.json          # Vue 3+
 ```
 
@@ -98,7 +98,7 @@ const count = ref(0)
 
 <template>
   <div id="app">
-    <h1>Nexxo + Vue</h1>
+    <h1>Urja + Vue</h1>
     <button @click="count++">Count: {{ count }}</button>
     <HelloWorld msg="Welcome to Vue 3" />
   </div>
@@ -126,7 +126,7 @@ my-svelte-app/
 │   │   └── Counter.svelte
 │   └── app.css
 ├── index.html
-├── nexxo.config.ts       # Svelte plugin
+├── urja.config.ts       # Svelte plugin
 └── package.json          # Svelte 4+
 ```
 
@@ -134,14 +134,14 @@ my-svelte-app/
 ```svelte
 <script lang="ts">
   import Counter from './lib/Counter.svelte'
-  let name = 'Nexxo'
+  let name = 'Urja'
 </script>
 
 <main>
   <h1>Hello {name}!</h1>
   <Counter />
   <p>
-    Visit <a href="https://nexxo.dev">nexxo.dev</a> to learn more
+    Visit <a href="https://urja.dev">urja.dev</a> to learn more
   </p>
 </main>
 
@@ -167,7 +167,7 @@ my-nextjs-app/
 │       ├── page.tsx      # Home page
 │       ├── layout.tsx    # Root layout
 │       └── globals.css   # Tailwind CSS
-├── nexxo.config.js       # SSR enabled
+├── urja.config.js       # SSR enabled
 ├── tailwind.config.js    # Tailwind setup
 └── package.json          # React 19+
 ```
@@ -178,7 +178,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-24">
       <h1 className="text-4xl font-bold">
-        Welcome to Nexxo + Next.js
+        Welcome to Urja + Next.js
       </h1>
       <p className="mt-4">
         Start building your app with App Router
@@ -205,10 +205,10 @@ my-monorepo/
 ├── packages/
 │   ├── web/              # Frontend app
 │   │   ├── src/
-│   │   └── nexxo.config.js
+│   │   └── urja.config.js
 │   ├── api/              # Backend API
 │   │   ├── src/
-│   │   └── nexxo.config.js
+│   │   └── urja.config.js
 │   └── shared/           # Shared utilities
 │       └── src/
 ├── package.json          # Workspace root
@@ -232,7 +232,7 @@ my-edge-app/
 ├── src/
 │   ├── index.ts          # Edge handler
 │   └── middleware.ts     # Edge middleware
-├── nexxo.config.js       # target: 'edge'
+├── urja.config.js       # target: 'edge'
 └── package.json          # Minimal deps
 ```
 
@@ -279,7 +279,7 @@ my-fintech-app/
 │   │   ├── security.ts   # Encryption helpers
 │   │   └── validation.ts # Input validation
 │   └── styles/
-├── nexxo.config.js       # Security headers
+├── urja.config.js       # Security headers
 └── package.json          # Enterprise deps
 ```
 
@@ -300,13 +300,13 @@ my-fintech-app/
 
 ```bash
 # Interactive selection
-npx create-nexxo my-app
+npx create-urja my-app
 
 # Specific template
-npx create-nexxo my-app --template react-spa
+npx create-urja my-app --template react-spa
 
 # With package manager
-npx create-nexxo my-app --template vue-spa --pm pnpm
+npx create-urja my-app --template vue-spa --pm pnpm
 ```
 
 ### After Creation
@@ -320,12 +320,12 @@ npm install
 # Start development server
 npm run dev
 # or
-nexxo dev
+urja dev
 
 # Build for production
 npm run build
 # or
-nexxo build
+urja build
 ```
 
 ---
@@ -337,7 +337,7 @@ nexxo build
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│         Nexxo + React                   │
+│         Urja + React                   │
 │                                         │
 │    ┌─────────────────────┐              │
 │    │  count is 0         │              │
@@ -346,7 +346,7 @@ nexxo build
 │    Edit src/App.tsx and save to        │
 │    test HMR                             │
 │                                         │
-│    Click on the Nexxo logo to learn    │
+│    Click on the Urja logo to learn    │
 │    more                                 │
 │                                         │
 └─────────────────────────────────────────┘
@@ -355,9 +355,9 @@ nexxo build
 ### Development Server Output
 
 ```bash
-$ nexxo dev
+$ urja dev
 
-  ⚡ Nexxo v1.0.0
+  ⚡ Urja v1.0.0
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://192.168.1.100:3000/
@@ -372,9 +372,9 @@ $ nexxo dev
 ### Build Output
 
 ```bash
-$ nexxo build
+$ urja build
 
-  ⚡ Nexxo v1.0.0
+  ⚡ Urja v1.0.0
 
   Building for production...
 
@@ -400,7 +400,7 @@ my-app/
 ├── src/
 │   └── index.ts          # 1 file
 ├── index.html
-├── nexxo.config.js
+├── urja.config.js
 └── package.json
 ```
 
@@ -413,7 +413,7 @@ my-app/
 │   ├── App.css
 │   └── index.css
 ├── index.html
-├── nexxo.config.ts
+├── urja.config.ts
 ├── tsconfig.json
 └── package.json
 ```
@@ -428,7 +428,7 @@ my-app/
 ├── docs/
 ├── scripts/
 ├── .github/
-├── nexxo.config.js
+├── urja.config.js
 ├── package.json
 └── pnpm-workspace.yaml
 ```
@@ -487,12 +487,12 @@ export const templates = [
 After creating your project:
 
 1. **Explore the code** - Check out the generated files
-2. **Start dev server** - `nexxo dev`
+2. **Start dev server** - `urja dev`
 3. **Make changes** - Edit files and see HMR in action
 4. **Add features** - Install packages, add routes
-5. **Build** - `nexxo build` for production
+5. **Build** - `urja build` for production
 6. **Deploy** - Upload `dist/` to your hosting
 
 ---
 
-**Need help?** Check out the [documentation](../README.md) or [create an issue](https://github.com/Avinash-1994/nexxo/issues)!
+**Need help?** Check out the [documentation](../README.md) or [create an issue](https://github.com/Avinash-1994/urja/issues)!

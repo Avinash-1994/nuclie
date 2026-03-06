@@ -1,7 +1,7 @@
 {
-    "name": "nexxo-native",
+    "name": "urja-native",
     "version": "0.1.0",
     "napi": {
-        "binaryName": "nexxo_native"
+        "binaryName": "urja_native"
     }
 }

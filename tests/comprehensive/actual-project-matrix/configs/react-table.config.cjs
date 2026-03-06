@@ -15,7 +15,7 @@ module.exports = {
     hmr: true,
   },
   federation: {
-    name: 'nexxo_remote',
+    name: 'urja_remote',
     filename: 'remoteEntry.js',
     exposes: {
       './App': './src/index.tsx'

@@ -1,15 +1,15 @@
 /**
- * @nexxo/plugin-mobx
+ * @urja/plugin-mobx
  * MobX integration
- * Nexxo-native
+ * Urja-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMobxPlugin(): PluginAdapter {
     return {
-        name: '@nexxo/plugin-mobx',
-        originalPlugin: 'nexxo-native',
+        name: '@urja/plugin-mobx',
+        originalPlugin: 'urja-native',
         
         async transform(code: string, id: string) {
             // mobx transformation
