@@ -1,0 +1,11 @@
+{
+    "entry": [
+        "src/main.tsx"
+    ],
+    "preset": "spa",
+    "mode": "production",
+    "build": {
+        "sourcemap": "external",
+        "minify": true
+    }
+}
