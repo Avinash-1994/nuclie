@@ -1539,31 +1539,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "650eef8c711430f1a879fdd01d4745a7deea475becfb90269c06775983bbf086"
 
 [[package]]
-name = "nexxo_native"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "chrono",
- "lazy_static",
- "lightningcss",
- "napi",
- "napi-build",
- "napi-derive",
- "rayon",
- "regex",
- "rocksdb",
- "serde",
- "serde_json",
- "swc_common",
- "swc_core",
- "swc_ecma_transforms_base",
- "tokio",
- "wasmtime",
- "xxhash-rust",
-]
-
-[[package]]
 name = "nohash-hasher"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3049,6 +3024,31 @@ name = "unicode-xid"
 version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853"
+
+[[package]]
+name = "urja_native"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "chrono",
+ "lazy_static",
+ "lightningcss",
+ "napi",
+ "napi-build",
+ "napi-derive",
+ "rayon",
+ "regex",
+ "rocksdb",
+ "serde",
+ "serde_json",
+ "swc_common",
+ "swc_core",
+ "swc_ecma_transforms_base",
+ "tokio",
+ "wasmtime",
+ "xxhash-rust",
+]
 
 [[package]]
 name = "url"
