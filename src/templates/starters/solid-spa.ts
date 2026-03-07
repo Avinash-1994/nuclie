@@ -17,11 +17,11 @@ export const solidSpaTemplate: TemplateConfig = {
     devDependencies: {
         "vite-plugin-solid": "^2.7.2",
         "typescript": "^5.2.2",
-        "@urja/plugin-solid": "^1.0.0"
+        "@nuclie/plugin-solid": "^1.0.0"
     },
     files: {
-        'urja.config.ts': `
-import { defineConfig } from 'urja';
+        'nuclie.config.ts': `
+import { defineConfig } from 'nuclie';
 import solid from 'vite-plugin-solid';
 
 export default defineConfig({
@@ -63,7 +63,7 @@ const App: Component = () => {
       <header class={styles.header}>
         <img src={logo} class={styles.logo} alt="logo" />
         <p>
-          Urja + SolidJS
+          Nuclie + SolidJS
         </p>
         <button class={styles.button} onClick={() => setCount((c) => c + 1)}>
             Count: {count()}

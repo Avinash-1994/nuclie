@@ -1,7 +1,7 @@
 /**
  * Migration CLI Command (Day 44)
  * 
- * CLI interface for urja migrate command
+ * CLI interface for nuclie migrate command
  */
 
 import { MigrationAnalyzer } from './analyzer.js';
@@ -40,7 +40,7 @@ export async function migrateCommand(projectPath: string, options: MigrateComman
     if (options.dryRun) {
         console.log('🔍 DRY RUN MODE - No files will be modified\n');
     } else {
-        console.log('⚙️  Generating Urja configuration...\n');
+        console.log('⚙️  Generating Nuclie configuration...\n');
     }
 
     const generator = new MigrationGenerator(plan, resolvedPath, {

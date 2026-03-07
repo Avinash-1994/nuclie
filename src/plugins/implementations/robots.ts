@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-robots
+ * @nuclie/plugin-robots
  * Robots.txt generation
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRobotsPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-robots',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-robots',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Robots.txt generation

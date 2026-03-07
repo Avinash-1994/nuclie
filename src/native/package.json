@@ -1,8 +1,8 @@
 {
-    "name": "urja-native",
+    "name": "nuclie-native",
     "version": "0.1.0",
     "type": "module",
     "napi": {
-        "binaryName": "urja_native"
+        "binaryName": "nuclie_native"
     }
 }

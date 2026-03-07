@@ -1,22 +1,22 @@
 
-import { UrjaPlugin, PluginHookName, PluginExecutionRecord, PluginValidation } from './types.js';
+import { NucliePlugin, PluginHookName, PluginExecutionRecord, PluginValidation } from './types.js';
 import { canonicalHash } from '../engine/hash.js';
 import { explainReporter } from '../engine/events.js';
 
 /**
  * Plugin Manager
  * 
- * PUBLIC: Responsible for registering and executing plugins in the Urja pipeline.
+ * PUBLIC: Responsible for registering and executing plugins in the Nuclie pipeline.
  * Use this to extend engine functionality via the official plugin contract.
  * 
  * @public
  */
 export class PluginManager {
     /** @internal */
-    private plugins: Map<string, UrjaPlugin> = new Map();
+    private plugins: Map<string, NucliePlugin> = new Map();
 
     /** @public */
-    async register(plugin: UrjaPlugin | any) {
+    async register(plugin: NucliePlugin | any) {
         let activePlugin = plugin;
 
         // Auto-adapt ported plugins (missing manifest)
@@ -37,7 +37,7 @@ export class PluginManager {
                     }
                     return null;
                 }
-            } as UrjaPlugin;
+            } as NucliePlugin;
         }
 
         const { name, version } = activePlugin.manifest;
@@ -58,7 +58,7 @@ export class PluginManager {
     /** @internal */
     private metrics: Map<string, { time: number, calls: number }> = new Map();
     /** @internal */
-    private hookCache: Map<string, UrjaPlugin[]> = new Map();
+    private hookCache: Map<string, NucliePlugin[]> = new Map();
 
     /** @internal - Used by the engine to execute hooks. */
     async runHook(hookName: PluginHookName, input: any, context?: any): Promise<any> {

@@ -1,4 +1,4 @@
-# Urja Plugins Guide
+# Nuclie Plugins Guide
 
 > **100+ production-ready plugins** with WASM sandboxing and WebCrypto signing.
 
@@ -8,29 +8,29 @@
 
 ```bash
 # Search for plugins
-urja plugin search react
+nuclie plugin search react
 
 # Install a plugin
-urja plugin install @urja/plugin-react
+nuclie plugin install @nuclie/plugin-react
 
 # List installed plugins
-urja plugin list
+nuclie plugin list
 
 # Verify plugin signatures
-urja plugin verify @urja/plugin-react
+nuclie plugin verify @nuclie/plugin-react
 ```
 
 ---
 
 ## Using Plugins
 
-### In `urja.config.ts`
+### In `nuclie.config.ts`
 
 ```typescript
-import { defineConfig } from 'urja';
-import react from '@urja/plugin-react';
-import tailwind from '@urja/plugin-tailwind';
-import pwa from '@urja/plugin-pwa';
+import { defineConfig } from 'nuclie';
+import react from '@nuclie/plugin-react';
+import tailwind from '@nuclie/plugin-tailwind';
+import pwa from '@nuclie/plugin-pwa';
 
 export default defineConfig({
   preset: 'spa',
@@ -66,90 +66,90 @@ export default defineConfig({
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-react` | React Fast Refresh + JSX | `urja plugin install @urja/plugin-react` |
-| `@urja/plugin-vue` | Vue 3 SFC support | `urja plugin install @urja/plugin-vue` |
-| `@urja/plugin-svelte` | Svelte compiler | `urja plugin install @urja/plugin-svelte` |
-| `@urja/plugin-solid` | Solid.js JSX | `urja plugin install @urja/plugin-solid` |
-| `@urja/plugin-angular` | Angular AOT compiler | `urja plugin install @urja/plugin-angular` |
-| `@urja/plugin-preact` | Preact with Fast Refresh | `urja plugin install @urja/plugin-preact` |
+| `@nuclie/plugin-react` | React Fast Refresh + JSX | `nuclie plugin install @nuclie/plugin-react` |
+| `@nuclie/plugin-vue` | Vue 3 SFC support | `nuclie plugin install @nuclie/plugin-vue` |
+| `@nuclie/plugin-svelte` | Svelte compiler | `nuclie plugin install @nuclie/plugin-svelte` |
+| `@nuclie/plugin-solid` | Solid.js JSX | `nuclie plugin install @nuclie/plugin-solid` |
+| `@nuclie/plugin-angular` | Angular AOT compiler | `nuclie plugin install @nuclie/plugin-angular` |
+| `@nuclie/plugin-preact` | Preact with Fast Refresh | `nuclie plugin install @nuclie/plugin-preact` |
 
 ### CSS & Styling
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-tailwind` | Tailwind CSS v3+ | `urja plugin install @urja/plugin-tailwind` |
-| `@urja/plugin-sass` | Sass/SCSS compiler | `urja plugin install @urja/plugin-sass` |
-| `@urja/plugin-less` | Less compiler | `urja plugin install @urja/plugin-less` |
-| `@urja/plugin-postcss` | PostCSS processor | `urja plugin install @urja/plugin-postcss` |
-| `@urja/plugin-styled-components` | CSS-in-JS support | `urja plugin install @urja/plugin-styled-components` |
-| `@urja/plugin-emotion` | Emotion CSS-in-JS | `urja plugin install @urja/plugin-emotion` |
+| `@nuclie/plugin-tailwind` | Tailwind CSS v3+ | `nuclie plugin install @nuclie/plugin-tailwind` |
+| `@nuclie/plugin-sass` | Sass/SCSS compiler | `nuclie plugin install @nuclie/plugin-sass` |
+| `@nuclie/plugin-less` | Less compiler | `nuclie plugin install @nuclie/plugin-less` |
+| `@nuclie/plugin-postcss` | PostCSS processor | `nuclie plugin install @nuclie/plugin-postcss` |
+| `@nuclie/plugin-styled-components` | CSS-in-JS support | `nuclie plugin install @nuclie/plugin-styled-components` |
+| `@nuclie/plugin-emotion` | Emotion CSS-in-JS | `nuclie plugin install @nuclie/plugin-emotion` |
 
 ### Assets & Media
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-svgr` | SVG to React components | `urja plugin install @urja/plugin-svgr` |
-| `@urja/plugin-image-optimizer` | Image compression | `urja plugin install @urja/plugin-image-optimizer` |
-| `@urja/plugin-webp` | WebP conversion | `urja plugin install @urja/plugin-webp` |
-| `@urja/plugin-fonts` | Font optimization | `urja plugin install @urja/plugin-fonts` |
+| `@nuclie/plugin-svgr` | SVG to React components | `nuclie plugin install @nuclie/plugin-svgr` |
+| `@nuclie/plugin-image-optimizer` | Image compression | `nuclie plugin install @nuclie/plugin-image-optimizer` |
+| `@nuclie/plugin-webp` | WebP conversion | `nuclie plugin install @nuclie/plugin-webp` |
+| `@nuclie/plugin-fonts` | Font optimization | `nuclie plugin install @nuclie/plugin-fonts` |
 
 ### Performance
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-compression` | Gzip/Brotli compression | `urja plugin install @urja/plugin-compression` |
-| `@urja/plugin-preload` | Resource preloading | `urja plugin install @urja/plugin-preload` |
-| `@urja/plugin-lazy-load` | Code splitting helpers | `urja plugin install @urja/plugin-lazy-load` |
-| `@urja/plugin-bundle-analyzer` | Bundle size analysis | `urja plugin install @urja/plugin-bundle-analyzer` |
+| `@nuclie/plugin-compression` | Gzip/Brotli compression | `nuclie plugin install @nuclie/plugin-compression` |
+| `@nuclie/plugin-preload` | Resource preloading | `nuclie plugin install @nuclie/plugin-preload` |
+| `@nuclie/plugin-lazy-load` | Code splitting helpers | `nuclie plugin install @nuclie/plugin-lazy-load` |
+| `@nuclie/plugin-bundle-analyzer` | Bundle size analysis | `nuclie plugin install @nuclie/plugin-bundle-analyzer` |
 
 ### Security
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-csp` | Content Security Policy | `urja plugin install @urja/plugin-csp` |
-| `@urja/plugin-sri` | Subresource Integrity | `urja plugin install @urja/plugin-sri` |
-| `@urja/plugin-security-headers` | HTTP security headers | `urja plugin install @urja/plugin-security-headers` |
+| `@nuclie/plugin-csp` | Content Security Policy | `nuclie plugin install @nuclie/plugin-csp` |
+| `@nuclie/plugin-sri` | Subresource Integrity | `nuclie plugin install @nuclie/plugin-sri` |
+| `@nuclie/plugin-security-headers` | HTTP security headers | `nuclie plugin install @nuclie/plugin-security-headers` |
 
 ### Testing
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-vitest` | Vitest integration | `urja plugin install @urja/plugin-vitest` |
-| `@urja/plugin-jest` | Jest integration | `urja plugin install @urja/plugin-jest` |
-| `@urja/plugin-playwright` | E2E testing | `urja plugin install @urja/plugin-playwright` |
+| `@nuclie/plugin-vitest` | Vitest integration | `nuclie plugin install @nuclie/plugin-vitest` |
+| `@nuclie/plugin-jest` | Jest integration | `nuclie plugin install @nuclie/plugin-jest` |
+| `@nuclie/plugin-playwright` | E2E testing | `nuclie plugin install @nuclie/plugin-playwright` |
 
 ### i18n
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-i18next` | i18next integration | `urja plugin install @urja/plugin-i18next` |
-| `@urja/plugin-react-intl` | React Intl | `urja plugin install @urja/plugin-react-intl` |
-| `@urja/plugin-vue-i18n` | Vue I18n | `urja plugin install @urja/plugin-vue-i18n` |
+| `@nuclie/plugin-i18next` | i18next integration | `nuclie plugin install @nuclie/plugin-i18next` |
+| `@nuclie/plugin-react-intl` | React Intl | `nuclie plugin install @nuclie/plugin-react-intl` |
+| `@nuclie/plugin-vue-i18n` | Vue I18n | `nuclie plugin install @nuclie/plugin-vue-i18n` |
 
 ### State Management
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-redux` | Redux DevTools | `urja plugin install @urja/plugin-redux` |
-| `@urja/plugin-zustand` | Zustand integration | `urja plugin install @urja/plugin-zustand` |
-| `@urja/plugin-jotai` | Jotai atoms | `urja plugin install @urja/plugin-jotai` |
+| `@nuclie/plugin-redux` | Redux DevTools | `nuclie plugin install @nuclie/plugin-redux` |
+| `@nuclie/plugin-zustand` | Zustand integration | `nuclie plugin install @nuclie/plugin-zustand` |
+| `@nuclie/plugin-jotai` | Jotai atoms | `nuclie plugin install @nuclie/plugin-jotai` |
 
 ### Deployment
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-vercel` | Vercel deployment | `urja plugin install @urja/plugin-vercel` |
-| `@urja/plugin-netlify` | Netlify deployment | `urja plugin install @urja/plugin-netlify` |
-| `@urja/plugin-cloudflare` | Cloudflare Workers | `urja plugin install @urja/plugin-cloudflare` |
-| `@urja/plugin-docker` | Docker containerization | `urja plugin install @urja/plugin-docker` |
+| `@nuclie/plugin-vercel` | Vercel deployment | `nuclie plugin install @nuclie/plugin-vercel` |
+| `@nuclie/plugin-netlify` | Netlify deployment | `nuclie plugin install @nuclie/plugin-netlify` |
+| `@nuclie/plugin-cloudflare` | Cloudflare Workers | `nuclie plugin install @nuclie/plugin-cloudflare` |
+| `@nuclie/plugin-docker` | Docker containerization | `nuclie plugin install @nuclie/plugin-docker` |
 
 ### Analytics
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@urja/plugin-google-analytics` | GA4 integration | `urja plugin install @urja/plugin-google-analytics` |
-| `@urja/plugin-plausible` | Plausible Analytics | `urja plugin install @urja/plugin-plausible` |
-| `@urja/plugin-sentry` | Error tracking | `urja plugin install @urja/plugin-sentry` |
+| `@nuclie/plugin-google-analytics` | GA4 integration | `nuclie plugin install @nuclie/plugin-google-analytics` |
+| `@nuclie/plugin-plausible` | Plausible Analytics | `nuclie plugin install @nuclie/plugin-plausible` |
+| `@nuclie/plugin-sentry` | Error tracking | `nuclie plugin install @nuclie/plugin-sentry` |
 
 ---
 
@@ -179,11 +179,11 @@ Every plugin is **cryptographically signed**:
 
 ```bash
 # Verify plugin signature
-urja plugin verify @urja/plugin-react
+nuclie plugin verify @nuclie/plugin-react
 
 # Output:
 ✅ Signature valid
-✅ Publisher: Urja Team
+✅ Publisher: Nuclie Team
 ✅ Published: 2026-01-15
 ✅ SHA-256: a3f2...
 ```
@@ -192,9 +192,9 @@ urja plugin verify @urja/plugin-react
 
 ```json
 {
-  "name": "@urja/plugin-react",
+  "name": "@nuclie/plugin-react",
   "version": "2.0.0",
-  "author": "Urja Team",
+  "author": "Nuclie Team",
   "signature": "...",
   "permissions": [
     "transform:jsx",
@@ -213,9 +213,9 @@ urja plugin verify @urja/plugin-react
 
 ```typescript
 // my-plugin.ts
-import { UrjaPlugin } from 'urja';
+import { NucliePlugin } from 'nuclie';
 
-export default function myPlugin(options = {}): UrjaPlugin {
+export default function myPlugin(options = {}): NucliePlugin {
   return {
     name: 'my-plugin',
     version: '1.0.0',
@@ -246,7 +246,7 @@ export default function myPlugin(options = {}): UrjaPlugin {
 ### Plugin Hooks
 
 ```typescript
-export interface UrjaPlugin {
+export interface NucliePlugin {
   name: string;
   version: string;
   
@@ -272,12 +272,12 @@ export interface UrjaPlugin {
 ### Example: Custom Markdown Plugin
 
 ```typescript
-import { UrjaPlugin } from 'urja';
+import { NucliePlugin } from 'nuclie';
 import { marked } from 'marked';
 
-export default function markdownPlugin(): UrjaPlugin {
+export default function markdownPlugin(): NucliePlugin {
   return {
-    name: 'urja-plugin-markdown',
+    name: 'nuclie-plugin-markdown',
     version: '1.0.0',
     
     transform(code, id) {
@@ -296,7 +296,7 @@ export default function markdownPlugin(): UrjaPlugin {
 
 **Usage**:
 ```typescript
-// urja.config.ts
+// nuclie.config.ts
 import markdown from './my-plugin';
 
 export default defineConfig({
@@ -320,8 +320,8 @@ function App() {
 ### Vite Plugin Adapter
 
 ```typescript
-import { defineConfig } from 'urja';
-import { vitePluginAdapter } from '@urja/plugin-compat';
+import { defineConfig } from 'nuclie';
+import { vitePluginAdapter } from '@nuclie/plugin-compat';
 import viteReactSvgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -337,7 +337,7 @@ export default defineConfig({
 ### Webpack Loader Adapter
 
 ```typescript
-import { webpackLoaderAdapter } from '@urja/plugin-compat';
+import { webpackLoaderAdapter } from '@nuclie/plugin-compat';
 
 export default defineConfig({
   plugins: [
@@ -360,26 +360,26 @@ export default defineConfig({
 
 ```bash
 # List all plugins
-urja plugin list --all
+nuclie plugin list --all
 
 # Search by category
-urja plugin search --category framework
+nuclie plugin search --category framework
 
 # Filter by verified
-urja plugin search --verified
+nuclie plugin search --verified
 ```
 
 ### Plugin Ratings
 
 ```bash
 # View plugin details
-urja plugin info @urja/plugin-react
+nuclie plugin info @nuclie/plugin-react
 
 # Output:
-📦 @urja/plugin-react v2.0.0
+📦 @nuclie/plugin-react v2.0.0
 ⭐ 4.8/5.0 (1,234 reviews)
 📥 50,000 downloads/week
-✅ Verified by Urja Team
+✅ Verified by Nuclie Team
 🔒 WASM sandboxed
 📝 React Fast Refresh + JSX transform
 ```
@@ -409,11 +409,11 @@ export default defineConfig({
 **Solution**:
 ```bash
 # Re-install plugin
-npm uninstall @urja/plugin-name
-urja plugin install @urja/plugin-name
+npm uninstall @nuclie/plugin-name
+nuclie plugin install @nuclie/plugin-name
 
 # Or skip verification (not recommended)
-urja plugin install @urja/plugin-name --skip-verify
+nuclie plugin install @nuclie/plugin-name --skip-verify
 ```
 
 ### Plugin Conflicts
@@ -438,7 +438,7 @@ export default defineConfig({
 
 ✅ **Good**:
 ```typescript
-import react from '@urja/plugin-react';
+import react from '@nuclie/plugin-react';
 ```
 
 ⚠️ **Avoid** (unless necessary):
@@ -450,7 +450,7 @@ import react from 'some-unofficial-plugin';
 
 ```bash
 # Always verify before using
-urja plugin verify @urja/plugin-name
+nuclie plugin verify @nuclie/plugin-name
 ```
 
 ### 3. Minimal Plugin Configuration
@@ -475,7 +475,7 @@ plugins: [
 
 ```bash
 # Profile plugin impact
-urja build --profile
+nuclie build --profile
 
 # Output shows plugin timings
 ```
@@ -491,20 +491,20 @@ urja build --profile
 npm run build
 
 # 2. Sign plugin
-urja plugin sign ./dist
+nuclie plugin sign ./dist
 
 # 3. Publish to marketplace
-urja plugin publish
+nuclie plugin publish
 
 # 4. Verify published
-urja plugin verify @your-org/your-plugin
+nuclie plugin verify @your-org/your-plugin
 ```
 
 ### Plugin Testing
 
 ```typescript
 // plugin.test.ts
-import { describe, it, expect } from '@urja/test';
+import { describe, it, expect } from '@nuclie/test';
 import myPlugin from './plugin';
 
 describe('My Plugin', () => {

@@ -26,7 +26,7 @@ export async function initBuild(
     explainReporter.report('init', 'initialize', 'Starting build initialization');
 
     const engine: EngineInfo = {
-        name: "Urja",
+        name: "Nuclie",
         version: "0.1.3", // Should normally come from package.json
         buildTime: new Date().toISOString()
     };
@@ -121,7 +121,7 @@ export async function computeInputFingerprint(ctx: BuildContext): Promise<InputF
     // Let's fingerprint the Entry Files themselves if they exist.
 
     // 3. Hash Source Files (High-Parallelism Scan)
-    const excludes = new Set(['node_modules', '.git', 'dist', 'build_output', 'coverage', '.DS_Store', '.urja_cache']);
+    const excludes = new Set(['node_modules', '.git', 'dist', 'build_output', 'coverage', '.DS_Store', '.nuclie_cache']);
     if (ctx.config.outputDir) excludes.add(path.basename(ctx.config.outputDir));
 
     const sourceFiles: { path: string, contentHash: string }[] = [];

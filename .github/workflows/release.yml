@@ -73,8 +73,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            urja-*.tgz
-            urja_native.node
+            nuclie-*.tgz
+            nuclie_native.node
           generate_release_notes: true
           draft: false
           prerelease: false

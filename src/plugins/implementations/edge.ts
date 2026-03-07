@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-edge
+ * @nuclie/plugin-edge
  * Edge runtime adapter
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createEdgePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-edge',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-edge',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // edge transformation

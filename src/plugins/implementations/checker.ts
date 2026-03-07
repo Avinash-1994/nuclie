@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-checker
+ * @nuclie/plugin-checker
  * TypeScript/ESLint checker
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCheckerPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-checker',
+        name: '@nuclie/plugin-checker',
         originalPlugin: 'vite-plugin-checker',
         
         async transform(code: string, id: string) {

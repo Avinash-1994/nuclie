@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-url
+ * @nuclie/plugin-url
  * URL/data URI assets
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createUrlPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-url',
+        name: '@nuclie/plugin-url',
         originalPlugin: 'url-loader',
         
         async load(id: string) {

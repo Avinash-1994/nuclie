@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-babel
+ * @nuclie/plugin-babel
  * Babel transpilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createBabelPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-babel',
+        name: '@nuclie/plugin-babel',
         originalPlugin: 'babel-loader',
         
         async transform(code: string, id: string) {

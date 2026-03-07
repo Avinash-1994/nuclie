@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-postcss
+ * @nuclie/plugin-postcss
  * PostCSS processing
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPostcssPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-postcss',
+        name: '@nuclie/plugin-postcss',
         originalPlugin: 'postcss-loader',
         
         async transform(code: string, id: string) {

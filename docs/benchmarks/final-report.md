@@ -2,23 +2,23 @@
 
 **Date:** 2026-01-21  
 **Environment:** Linux, Node v20.19.5  
-**Test Apps:** Small (React Hello World), Medium (Urja Docs Site)
+**Test Apps:** Small (React Hello World), Medium (Nuclie Docs Site)
 
 ## 📊 Complete Results
 
 ### Small App Benchmarks
 
-| Metric | Urja | Vite | Webpack | Rspack | esbuild | Winner |
+| Metric | Nuclie | Vite | Webpack | Rspack | esbuild | Winner |
 |--------|-------|------|---------|--------|---------|--------|
-| **Cold Start** | **118ms 🥇** | 257ms 🥈 | N/A* | N/A* | N/A* | **Urja** (54% faster than Vite) |
+| **Cold Start** | **118ms 🥇** | 257ms 🥈 | N/A* | N/A* | N/A* | **Nuclie** (54% faster than Vite) |
 | **Build Time** | 655ms 🥉 | 719ms | 1793ms | **385ms 🥈** | **141ms 🥇** | esbuild |
-| **Bundle Size** | **9 KB 🥇** | 139 KB 🥉 | 137 KB 🥈 | 506 KB | 140 KB | **Urja** (93% smaller!) |
+| **Bundle Size** | **9 KB 🥇** | 139 KB 🥉 | 137 KB 🥈 | 506 KB | 140 KB | **Nuclie** (93% smaller!) |
 
 *N/A = Tool doesn't provide dev server in minimal setup
 
-### Medium App Benchmarks (Urja Only)
+### Medium App Benchmarks (Nuclie Only)
 
-| Metric | Urja | Notes |
+| Metric | Nuclie | Notes |
 |--------|-------|-------|
 | **Cold Start** | **120ms 🥇** | Consistently fast |
 | **Build Time** | **1920ms 🥇** | ~50 components |
@@ -26,7 +26,7 @@
 
 ## 🎯 Key Findings
 
-### Urja Strengths
+### Nuclie Strengths
 1. **🚀 Fastest Cold Start** - 118ms beats all competitors
    - 54% faster than Vite (257ms)
    - Consistent performance (118-120ms range)
@@ -47,42 +47,42 @@
 - ✅ **54% faster cold start** (118ms vs 257ms)
 - ✅ **93% smaller bundles** (9 KB vs 139 KB)
 - ✅ **9% faster builds** (655ms vs 719ms)
-- **Verdict:** Urja wins across all metrics
+- **Verdict:** Nuclie wins across all metrics
 
 **vs Rspack:**
 - ✅ **Faster cold start** (N/A for Rspack dev server)
 - ⚠️ **Slower builds** (655ms vs 385ms)
 - ✅ **98% smaller bundles** (9 KB vs 506 KB)
-- **Verdict:** Urja better for dev experience, Rspack faster builds
+- **Verdict:** Nuclie better for dev experience, Rspack faster builds
 
 **vs esbuild:**
 - ✅ **Faster cold start** (N/A for esbuild dev server)
 - ⚠️ **Slower builds** (655ms vs 141ms)
 - ✅ **94% smaller bundles** (9 KB vs 140 KB)
-- **Verdict:** Urja provides full bundler features, esbuild is transpiler-only
+- **Verdict:** Nuclie provides full bundler features, esbuild is transpiler-only
 
 **vs Webpack:**
 - ✅ **Faster cold start** (N/A for Webpack dev server)
 - ✅ **63% faster builds** (655ms vs 1793ms)
 - ✅ **93% smaller bundles** (9 KB vs 137 KB)
-- **Verdict:** Urja dominates legacy tooling
+- **Verdict:** Nuclie dominates legacy tooling
 
 ## 🏆 Overall Rankings
 
 ### Cold Start (Dev Server)
-1. **Urja** - 118ms 🥇
+1. **Nuclie** - 118ms 🥇
 2. Vite - 257ms 🥈
 3. Others - N/A
 
 ### Build Speed (Small App)
 1. esbuild - 141ms 🥇
 2. Rspack - 385ms 🥈
-3. **Urja** - 655ms 🥉
+3. **Nuclie** - 655ms 🥉
 4. Vite - 719ms
 5. Webpack - 1793ms
 
 ### Bundle Size (Small App)
-1. **Urja** - 9 KB 🥇
+1. **Nuclie** - 9 KB 🥇
 2. Webpack - 137 KB 🥈
 3. Vite - 139 KB 🥉
 4. esbuild - 140 KB
@@ -90,7 +90,7 @@
 
 ## 💡 Conclusions
 
-### Urja's Competitive Position
+### Nuclie's Competitive Position
 
 **Best For:**
 - ✅ Development speed (fastest cold start)
@@ -111,7 +111,7 @@
 
 ### Honest Assessment
 
-Urja delivers on its promise of being a **fast, modern build tool** with:
+Nuclie delivers on its promise of being a **fast, modern build tool** with:
 - Industry-leading cold start times
 - Exceptional bundle size optimization
 - Competitive build performance

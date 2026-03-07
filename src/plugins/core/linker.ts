@@ -1,5 +1,5 @@
 
-import { UrjaPlugin } from '../../core/plugins/types.js';
+import { NucliePlugin } from '../../core/plugins/types.js';
 import { canonicalHash } from '../../core/engine/hash.js';
 import { GraphNode } from '../../resolve/graph.js';
 
@@ -7,19 +7,19 @@ import { GraphNode } from '../../resolve/graph.js';
  * Internal Linker Plugin
  * 
  * Rewrites import/require specifiers using the DependencyGraph's specifierMap.
- * This runs after all other transformations to ensure final code uses Urja module IDs.
+ * This runs after all other transformations to ensure final code uses Nuclie module IDs.
  */
-export function createLinkerPlugin(): UrjaPlugin {
+export function createLinkerPlugin(): NucliePlugin {
     return {
         manifest: {
-            name: 'urja:linker',
+            name: 'nuclie:linker',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['transformModule'],
             permissions: { fs: 'none' }
         },
-        id: canonicalHash('urja:linker'),
+        id: canonicalHash('nuclie:linker'),
         async runHook(hook, input, context) {
             if (hook !== 'transformModule') return input;
 

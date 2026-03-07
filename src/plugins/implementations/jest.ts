@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-jest
+ * @nuclie/plugin-jest
  * Jest testing framework
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createJestPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-jest',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-jest',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Testing: Jest testing framework

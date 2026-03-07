@@ -113,7 +113,7 @@ async function main() {
         try {
           // Set environment variables for logger
           if (args.quiet) {
-            process.env.URJA_QUIET = 'true';
+            process.env.NUCLIE_QUIET = 'true';
           }
           if (args.verbose) {
             process.env.DEBUG = '*';
@@ -138,7 +138,7 @@ async function main() {
           printAuditReport(report);
           */
           if (!args.quiet) {
-            console.log('\n💡  Tip: Run `npx urja audit --url http://localhost:' + (cfg.port || 5173) + '` to generate an audit report.');
+            console.log('\n💡  Tip: Run `npx nuclie audit --url http://localhost:' + (cfg.port || 5173) + '` to generate an audit report.');
           }
         } catch (e: any) {
           log.error(e.message);
@@ -181,7 +181,7 @@ async function main() {
             printProfileReport(result);
           }
 
-          console.log('\n💡  Tip: Run `npx urja audit` to generate a full audit report.');
+          console.log('\n💡  Tip: Run `npx nuclie audit` to generate a full audit report.');
 
           await telemetry.stop(true);
         } catch (e: any) {
@@ -481,7 +481,7 @@ async function main() {
     )
     .command(
       'test',
-      'Run tests using Urja Custom Runner',
+      'Run tests using Nuclie Custom Runner',
       (yargs: any) => {
         return yargs
           .option('watch', {

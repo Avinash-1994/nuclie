@@ -1,5 +1,5 @@
 /**
- * Urja v2.0 Native Module Definitions
+ * Nuclie v2.0 Native Module Definitions
  */
 
 export interface CacheStats {

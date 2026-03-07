@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-icon
+ * @nuclie/plugin-icon
  * Icon component generation
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createIconPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-icon',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-icon',
+        originalPlugin: 'nuclie-native',
         
         async load(id: string) {
             // Asset loading for icon

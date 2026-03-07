@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-rss
+ * @nuclie/plugin-rss
  * RSS feed generation
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRssPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-rss',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-rss',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: RSS feed generation

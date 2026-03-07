@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-hmr-classify
+ * @nuclie/plugin-hmr-classify
  * HMR classification
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createHmrClassifyPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-hmr-classify',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-hmr-classify',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-hmr-classify] Starting performance optimization...');
+            console.log('[@nuclie/plugin-hmr-classify] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createHmrClassifyPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-hmr-classify] Performance optimization complete');
+            console.log('[@nuclie/plugin-hmr-classify] Performance optimization complete');
         }
     };
 }

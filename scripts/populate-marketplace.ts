@@ -1,7 +1,7 @@
 
 /**
  * populate-marketplace.ts
- * Mass publishes 20 Core Plugins to local Urja Registry
+ * Mass publishes 20 Core Plugins to local Nuclie Registry
  * Day 12: Curated Plugin Suite Lock
  */
 
@@ -10,26 +10,26 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const PLUGINS = [
-    { name: '@urja/plugin-react', desc: 'Secure React Fast Refresh & JSX' },
-    { name: '@urja/plugin-vue', desc: 'Vue 3 SFC Compiler (Sandboxed)' },
-    { name: '@urja/plugin-svelte', desc: 'Svelte 5 Compiler & HMR' },
-    { name: '@urja/plugin-solid', desc: 'SolidJS Fine-grained Reactivity' },
-    { name: '@urja/plugin-lit', desc: 'Web Components & Lit Support' },
-    { name: '@urja/plugin-angular', desc: 'Angular Ivy Compat' },
-    { name: '@urja/plugin-postcss', desc: 'PostCSS 8 Adapter' },
-    { name: '@urja/plugin-tailwindcss', desc: 'Tailwind JIT Engine' },
-    { name: '@urja/plugin-sass', desc: 'Dart Sass (WASM)' },
-    { name: '@urja/plugin-less', desc: 'Less CSS Support' },
-    { name: '@urja/plugin-mdx', desc: 'Markdown to JSX' },
-    { name: '@urja/plugin-optimize-css', desc: 'CSS Minification' },
-    { name: '@urja/plugin-terser', desc: 'JS Minification (Terser)' },
-    { name: '@urja/plugin-visualizer', desc: 'Bundle Analysis UI' },
-    { name: '@urja/plugin-audit', desc: 'Lighthouse & Performance Audit' },
-    { name: '@urja/plugin-pwa', desc: 'PWA Manifest & Service Workers' },
-    { name: '@urja/plugin-legacy', desc: 'Polyfills for older browsers' },
-    { name: '@urja/plugin-compression', desc: 'Gzip/Brotli Compression' },
-    { name: '@urja/plugin-inspector', desc: 'DevTools & Debugging Overlay' },
-    { name: '@urja/plugin-wasm', desc: 'Native WASM Modules Support' }
+    { name: '@nuclie/plugin-react', desc: 'Secure React Fast Refresh & JSX' },
+    { name: '@nuclie/plugin-vue', desc: 'Vue 3 SFC Compiler (Sandboxed)' },
+    { name: '@nuclie/plugin-svelte', desc: 'Svelte 5 Compiler & HMR' },
+    { name: '@nuclie/plugin-solid', desc: 'SolidJS Fine-grained Reactivity' },
+    { name: '@nuclie/plugin-lit', desc: 'Web Components & Lit Support' },
+    { name: '@nuclie/plugin-angular', desc: 'Angular Ivy Compat' },
+    { name: '@nuclie/plugin-postcss', desc: 'PostCSS 8 Adapter' },
+    { name: '@nuclie/plugin-tailwindcss', desc: 'Tailwind JIT Engine' },
+    { name: '@nuclie/plugin-sass', desc: 'Dart Sass (WASM)' },
+    { name: '@nuclie/plugin-less', desc: 'Less CSS Support' },
+    { name: '@nuclie/plugin-mdx', desc: 'Markdown to JSX' },
+    { name: '@nuclie/plugin-optimize-css', desc: 'CSS Minification' },
+    { name: '@nuclie/plugin-terser', desc: 'JS Minification (Terser)' },
+    { name: '@nuclie/plugin-visualizer', desc: 'Bundle Analysis UI' },
+    { name: '@nuclie/plugin-audit', desc: 'Lighthouse & Performance Audit' },
+    { name: '@nuclie/plugin-pwa', desc: 'PWA Manifest & Service Workers' },
+    { name: '@nuclie/plugin-legacy', desc: 'Polyfills for older browsers' },
+    { name: '@nuclie/plugin-compression', desc: 'Gzip/Brotli Compression' },
+    { name: '@nuclie/plugin-inspector', desc: 'DevTools & Debugging Overlay' },
+    { name: '@nuclie/plugin-wasm', desc: 'Native WASM Modules Support' }
 ];
 
 const TEMP_DIR = path.resolve('.temp_plugins');
@@ -54,7 +54,7 @@ async function run() {
         const meta = {
             name: p.name,
             version: '1.0.0',
-            author: 'Urja Core Team',
+            author: 'Nuclie Core Team',
             description: p.desc,
             permissions: { network: false, fs: false } // Zero-trust default
         };

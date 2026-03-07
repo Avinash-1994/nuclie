@@ -1,6 +1,6 @@
 
 /**
- * Urja Environment API
+ * Nuclie Environment API
  * Unified Runtime for Browser, Node, and Edge
  * Day 26: Environment API Lock
  */
@@ -11,8 +11,8 @@ export interface EnvConfig {
     base: string;
 }
 
-export class UrjaEnv {
-    private static instance: UrjaEnv;
+export class NuclieEnv {
+    private static instance: NuclieEnv;
     public config: EnvConfig;
     private listeners: Function[] = [];
 
@@ -20,18 +20,18 @@ export class UrjaEnv {
         this.config = config;
     }
 
-    static init(config: EnvConfig): UrjaEnv {
-        if (!UrjaEnv.instance) {
-            UrjaEnv.instance = new UrjaEnv(config);
+    static init(config: EnvConfig): NuclieEnv {
+        if (!NuclieEnv.instance) {
+            NuclieEnv.instance = new NuclieEnv(config);
         }
-        return UrjaEnv.instance;
+        return NuclieEnv.instance;
     }
 
-    static get(): UrjaEnv {
-        if (!UrjaEnv.instance) {
-            throw new Error('UrjaEnv not initialized');
+    static get(): NuclieEnv {
+        if (!NuclieEnv.instance) {
+            throw new Error('NuclieEnv not initialized');
         }
-        return UrjaEnv.instance;
+        return NuclieEnv.instance;
     }
 
     /**

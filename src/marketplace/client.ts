@@ -1,6 +1,6 @@
 
 /**
- * Urja Marketplace CLI Client
+ * Nuclie Marketplace CLI Client
  * Implementation: tRPC Direct Caller (Simulates HTTP Client for Local MVP)
  * Day 10: Marketplace MVP Lock
  */

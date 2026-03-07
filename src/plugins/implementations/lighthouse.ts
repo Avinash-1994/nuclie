@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-lighthouse
+ * @nuclie/plugin-lighthouse
  * Lighthouse CI integration
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLighthousePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-lighthouse',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-lighthouse',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-lighthouse] Starting performance optimization...');
+            console.log('[@nuclie/plugin-lighthouse] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createLighthousePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-lighthouse] Performance optimization complete');
+            console.log('[@nuclie/plugin-lighthouse] Performance optimization complete');
         }
     };
 }

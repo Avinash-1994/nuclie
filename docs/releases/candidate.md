@@ -1,9 +1,9 @@
-# 🚀 Urja Release Candidate Report
+# 🚀 Nuclie Release Candidate Report
 **Date:** 2026-01-22
 **Version:** 1.0.0-freeze
 
 ## 📋 Status Summary
-Urja is currently in a **STABLE** state and is **READY FOR RELEASE**.
+Nuclie is currently in a **STABLE** state and is **READY FOR RELEASE**.
 
 ### ✅ Verification Highlights
 1.  **Core Stability**: 100% Pass rate on `npm run test:all`.

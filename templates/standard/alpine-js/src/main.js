@@ -8,10 +8,10 @@ document.querySelector('#root').innerHTML = `
   <div class="app-container" x-data="{ count: 0 }">
     <header class="hero">
       <span class="badge">v1.0.0 Stable</span>
-      <h1>Urja</h1>
+      <h1>Nuclie</h1>
       <p class="subtitle">
         The high-performance build engine for modern web applications.<br />
-        Built with Alpine.js + Urja.
+        Built with Alpine.js + Nuclie.
       </p>
     </header>
 
@@ -33,7 +33,7 @@ document.querySelector('#root').innerHTML = `
     </div>
 
     <footer class="footer">
-      Powered by <a href="https://urja.dev" target="_blank" rel="noopener noreferrer">Urja Build Tool</a>
+      Powered by <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer">Nuclie Build Tool</a>
     </footer>
   </div>
 `;

@@ -1,4 +1,4 @@
-import { UrjaPlugin, PluginHookName } from '../core/plugins/types.js';
+import { NucliePlugin, PluginHookName } from '../core/plugins/types.js';
 
 // Generic interface for Rollup/Vite-style plugins to make them compatible
 export interface CommunityPlugin {
@@ -11,16 +11,16 @@ export interface CommunityPlugin {
 }
 
 /**
- * Adapter to run Community (Vite/Rollup) plugins within Urja
- * Converts middleware-based plugins to Urja's Command Pattern
+ * Adapter to run Community (Vite/Rollup) plugins within Nuclie
+ * Converts middleware-based plugins to Nuclie's Command Pattern
  */
-export function adaptPlugin(plugin: CommunityPlugin): UrjaPlugin {
+export function adaptPlugin(plugin: CommunityPlugin): NucliePlugin {
     const hooks: PluginHookName[] = [];
     if (plugin.resolveId) hooks.push('resolveId');
     if (plugin.load) hooks.push('load');
     if (plugin.transform) hooks.push('transformModule');
 
-    // Urja mandates strict versioning, so we mock it for community plugins
+    // Nuclie mandates strict versioning, so we mock it for community plugins
     return {
         manifest: {
             name: `adapter:${plugin.name}`,
@@ -43,7 +43,7 @@ export function adaptPlugin(plugin: CommunityPlugin): UrjaPlugin {
                     error: (msg: string) => console.error(`[${plugin.name}] ${msg}`)
                 };
                 try {
-                    // Adapt input: Urja passes object { source, importer }, Rollup expects (source, importer)
+                    // Adapt input: Nuclie passes object { source, importer }, Rollup expects (source, importer)
                     const source = input.source || input.id;
                     const importer = input.importer;
 

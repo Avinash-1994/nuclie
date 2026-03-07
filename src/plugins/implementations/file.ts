@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-file
+ * @nuclie/plugin-file
  * File asset handling
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createFilePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-file',
+        name: '@nuclie/plugin-file',
         originalPlugin: 'file-loader',
         
         async load(id: string) {

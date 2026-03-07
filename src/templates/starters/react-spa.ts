@@ -18,12 +18,12 @@ export const reactSpaTemplate: TemplateConfig = {
     devDependencies: {
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
-        "@urja/plugin-react": "^1.0.0"
+        "@nuclie/plugin-react": "^1.0.0"
     },
     files: {
-        'urja.config.ts': `
-import { defineConfig } from 'urja';
-import react from '@urja/plugin-react';
+        'nuclie.config.ts': `
+import { defineConfig } from 'nuclie';
+import react from '@nuclie/plugin-react';
 
 export default defineConfig({
     plugins: [react()],
@@ -55,7 +55,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Urja + React</h1>
+        <h1>Nuclie + React</h1>
         <div className="card">
           <button onClick={() => setCount((count) => count + 1)}>
             count is {count}
@@ -65,7 +65,7 @@ function App() {
           </p>
         </div>
         <p className="read-the-docs">
-          Click on the Urja logo to learn more
+          Click on the Nuclie logo to learn more
         </p>
       </header>
     </div>

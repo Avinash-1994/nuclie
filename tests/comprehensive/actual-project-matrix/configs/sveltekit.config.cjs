@@ -14,7 +14,7 @@ module.exports = {
     hmr: true,
   },
   federation: {
-    name: 'urja_remote',
+    name: 'nuclie_remote',
     filename: 'remoteEntry.js',
     exposes: {
       './App': './src/main.ts'

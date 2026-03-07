@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-razorpay
+ * @nuclie/plugin-razorpay
  * Razorpay integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRazorpayPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-razorpay',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-razorpay',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Fintech integration: Razorpay integration
@@ -16,7 +16,7 @@ export function createRazorpayPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-razorpay] Fintech integration ready');
+            console.log('[@nuclie/plugin-razorpay] Fintech integration ready');
             // Initialize payment gateway, generate QR codes, etc.
         }
     };

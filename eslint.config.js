@@ -1,6 +1,6 @@
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
-import urjaGovernance from 'eslint-plugin-urja-governance';
+import nuclieGovernance from 'eslint-plugin-nuclie-governance';
 import js from '@eslint/js';
 
 export default [
@@ -12,7 +12,7 @@ export default [
             'dist/**',
             '*.min.js',
             'coverage/**',
-            '.urja-cache/**'
+            '.nuclie-cache/**'
         ]
     },
     js.configs.recommended,
@@ -88,7 +88,7 @@ export default [
         },
         plugins: {
             '@typescript-eslint': tsPlugin,
-            'urja-governance': urjaGovernance,
+            'nuclie-governance': nuclieGovernance,
         },
         rules: {
             ...tsPlugin.configs.recommended.rules,
@@ -100,10 +100,10 @@ export default [
             'no-empty': 'off',
             'no-useless-escape': 'off',
             'no-case-declarations': 'off',
-            'urja-governance/no-internal-imports': 'error',
-            'urja-governance/require-experimental-flag': 'warn',
-            'urja-governance/no-graph-mutation': 'error',
-            'urja-governance/no-cache-access': 'error',
+            'nuclie-governance/no-internal-imports': 'error',
+            'nuclie-governance/require-experimental-flag': 'warn',
+            'nuclie-governance/no-graph-mutation': 'error',
+            'nuclie-governance/no-cache-access': 'error',
         },
     },
     {
@@ -127,16 +127,16 @@ export default [
             'src/marketplace/**/*.ts'
         ],
         rules: {
-            'urja-governance/no-internal-imports': 'off',
-            'urja-governance/no-graph-mutation': 'off',
-            'urja-governance/no-cache-access': 'off',
+            'nuclie-governance/no-internal-imports': 'off',
+            'nuclie-governance/no-graph-mutation': 'off',
+            'nuclie-governance/no-cache-access': 'off',
         }
     },
     {
         // Allow tests to be more permissive during stabilization
         files: ['tests/**/*.ts', 'examples/**/*.ts', 'benchmarks/**/*.ts', 'src/test/**/*.ts'],
         rules: {
-            'urja-governance/no-internal-imports': 'off',
+            'nuclie-governance/no-internal-imports': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-unused-vars': 'off'
         }

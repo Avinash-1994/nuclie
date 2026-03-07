@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-netlify
+ * @nuclie/plugin-netlify
  * Netlify deployment adapter
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createNetlifyPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-netlify',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-netlify',
+        originalPlugin: 'nuclie-native',
         
         async buildEnd() {
-            console.log('[@urja/plugin-netlify] Deployment adapter ready');
+            console.log('[@nuclie/plugin-netlify] Deployment adapter ready');
             // Generate deployment config
         }
     };

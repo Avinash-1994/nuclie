@@ -1,8 +1,8 @@
 /**
  * Migration Generator (Day 44)
  * 
- * Generates Urja project configuration from a MigrationPlan.
- * Creates urja.config.ts, updates package.json, and generates migration report.
+ * Generates Nuclie project configuration from a MigrationPlan.
+ * Creates nuclie.config.ts, updates package.json, and generates migration report.
  */
 
 import fs from 'fs';
@@ -36,11 +36,11 @@ export class MigrationGenerator {
             this.backupExistingFiles();
         }
 
-        // Generate urja.config.ts
-        const configContent = this.generateUrjaConfig();
-        files.push('urja.config.ts');
+        // Generate nuclie.config.ts
+        const configContent = this.generateNuclieConfig();
+        files.push('nuclie.config.ts');
         if (!this.options.dryRun) {
-            fs.writeFileSync(path.join(this.targetDir, 'urja.config.ts'), configContent);
+            fs.writeFileSync(path.join(this.targetDir, 'nuclie.config.ts'), configContent);
         }
 
         // Update package.json
@@ -65,7 +65,7 @@ export class MigrationGenerator {
     }
 
     private backupExistingFiles(): void {
-        const backupDir = path.join(this.targetDir, '.urja-migration-backup');
+        const backupDir = path.join(this.targetDir, '.nuclie-migration-backup');
         if (!fs.existsSync(backupDir)) {
             fs.mkdirSync(backupDir, { recursive: true });
         }
@@ -89,7 +89,7 @@ export class MigrationGenerator {
         }
     }
 
-    private generateUrjaConfig(): string {
+    private generateNuclieConfig(): string {
         const { frameworks, cssSetup, projectStructure } = this.plan;
         const primaryFramework = frameworks[0] || 'react';
 
@@ -135,7 +135,7 @@ export class MigrationGenerator {
         };
 
         // Generate TypeScript config file
-        return `import { defineConfig } from 'urja';
+        return `import { defineConfig } from 'nuclie';
 
 export default defineConfig(${JSON.stringify(config, null, 2)});
 `;
@@ -143,11 +143,11 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
 
     private generatePackageJsonUpdates(): any {
         const scripts: Record<string, string> = {
-            'dev': 'urja dev',
-            'build': 'urja build',
-            'preview': 'urja preview',
-            'test': 'urja test',
-            'audit': 'urja audit'
+            'dev': 'nuclie dev',
+            'build': 'nuclie build',
+            'preview': 'nuclie preview',
+            'test': 'nuclie test',
+            'audit': 'nuclie audit'
         };
 
         // Mark old scripts as deprecated
@@ -163,14 +163,14 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
                 deprecatedScripts['build:webpack'] = 'webpack # DEPRECATED: Use npm run build';
                 break;
             case 'angular-cli':
-                deprecatedScripts['ng'] = 'ng # DEPRECATED: Use urja commands';
+                deprecatedScripts['ng'] = 'ng # DEPRECATED: Use nuclie commands';
                 break;
         }
 
         return {
             scripts: { ...scripts, ...deprecatedScripts },
             devDependencies: {
-                'urja': '^2.0.0'
+                'nuclie': '^2.0.0'
             }
         };
     }
@@ -185,7 +185,7 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
             ...updates.scripts
         };
 
-        // Add Urja to devDependencies
+        // Add Nuclie to devDependencies
         pkg.devDependencies = {
             ...pkg.devDependencies,
             ...updates.devDependencies
@@ -197,7 +197,7 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
     private generateMigrationReport(): string {
         const { toolchainType, frameworks, riskLevel, autoMigrate, manualSteps, cssSetup } = this.plan;
 
-        let report = `# Urja Migration Report\n\n`;
+        let report = `# Nuclie Migration Report\n\n`;
         report += `**Generated**: ${new Date().toISOString()}\n\n`;
         report += `## Source Project\n\n`;
         report += `- **Toolchain**: ${toolchainType}\n`;
@@ -225,11 +225,11 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
         report += `\n`;
 
         report += `## Next Steps\n\n`;
-        report += `1. Review the generated \`urja.config.ts\`\n`;
+        report += `1. Review the generated \`nuclie.config.ts\`\n`;
         report += `2. Install dependencies: \`npm install\`\n`;
         report += `3. Start dev server: \`npm run dev\`\n`;
         report += `4. Test your application thoroughly\n`;
-        report += `5. Update CI/CD pipelines to use Urja commands\n\n`;
+        report += `5. Update CI/CD pipelines to use Nuclie commands\n\n`;
 
         report += `## Known Limitations\n\n`;
         if (riskLevel === 'HIGH') {
@@ -244,12 +244,12 @@ export default defineConfig(${JSON.stringify(config, null, 2)});
         }
 
         report += `## Support\n\n`;
-        report += `- Documentation: https://urja.dev/docs/migration\n`;
-        report += `- Issues: https://github.com/urja/urja/issues\n`;
-        report += `- Discord: https://discord.gg/urja\n\n`;
+        report += `- Documentation: https://nuclie.dev/docs/migration\n`;
+        report += `- Issues: https://github.com/nuclie/nuclie/issues\n`;
+        report += `- Discord: https://discord.gg/nuclie\n\n`;
 
         report += `---\n\n`;
-        report += `*This report was generated by Urja Migration Tool v2.0*\n`;
+        report += `*This report was generated by Nuclie Migration Tool v2.0*\n`;
 
         return report;
     }

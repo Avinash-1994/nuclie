@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-copy
+ * @nuclie/plugin-copy
  * Static file copying
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCopyPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-copy',
+        name: '@nuclie/plugin-copy',
         originalPlugin: 'copy-webpack-plugin',
         
         async transform(code: string, id: string) {

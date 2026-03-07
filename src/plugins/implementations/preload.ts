@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-preload
+ * @nuclie/plugin-preload
  * Resource preloading
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPreloadPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-preload',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-preload',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-preload] Starting performance optimization...');
+            console.log('[@nuclie/plugin-preload] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPreloadPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-preload] Performance optimization complete');
+            console.log('[@nuclie/plugin-preload] Performance optimization complete');
         }
     };
 }

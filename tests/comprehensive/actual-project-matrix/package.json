@@ -1,7 +1,7 @@
 {
-    "name": "urja-real-project-matrix",
+    "name": "nuclie-real-project-matrix",
     "version": "1.0.0",
-    "description": "Test Urja against 8 real production open-source projects",
+    "description": "Test Nuclie against 8 real production open-source projects",
     "main": "dist/runner.js",
     "scripts": {
         "build": "tsc",
@@ -13,11 +13,11 @@
         "test:report": "node dist/runner.js --report"
     },
     "keywords": [
-        "urja",
+        "nuclie",
         "benchmark",
         "testing",
         "matrix"
     ],
-    "author": "Urja Team",
+    "author": "Nuclie Team",
     "license": "MIT"
 }

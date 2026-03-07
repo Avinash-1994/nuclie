@@ -1,4 +1,4 @@
-// High-performance native modules for Urja
+// High-performance native modules for Nuclie
 // Focus: Speed and minimal bundle size
 
 mod graph;

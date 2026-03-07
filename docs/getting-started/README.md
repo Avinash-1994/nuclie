@@ -1,6 +1,6 @@
-# Getting Started with Urja
+# Getting Started with Nuclie
 
-Welcome to Urja! This guide will help you get up and running in minutes.
+Welcome to Nuclie! This guide will help you get up and running in minutes.
 
 ## Quick Start
 
@@ -8,23 +8,23 @@ Welcome to Urja! This guide will help you get up and running in minutes.
 
 ```bash
 # Using npm
-npm install -g urja
+npm install -g nuclie
 
 # Using yarn
-yarn global add urja
+yarn global add nuclie
 
 # Using pnpm
-pnpm add -g urja
+pnpm add -g nuclie
 ```
 
 ### Create a New Project
 
 ```bash
 # Create a new project from template
-npx create-urja my-app
+npx create-nuclie my-app
 
 # Choose from available templates
-npx create-urja my-app --template react-spa
+npx create-nuclie my-app --template react-spa
 ```
 
 ### Available Templates
@@ -57,7 +57,7 @@ npm install
 ### 3. Start development server
 
 ```bash
-urja dev
+nuclie dev
 ```
 
 Your app will be running at `http://localhost:3000` with Hot Module Replacement enabled!
@@ -65,7 +65,7 @@ Your app will be running at `http://localhost:3000` with Hot Module Replacement 
 ### 4. Build for production
 
 ```bash
-urja build
+nuclie build
 ```
 
 Your optimized build will be in the `dist/` folder.
@@ -79,14 +79,14 @@ my-app/
 │   ├── App.tsx          # Main component
 │   └── ...
 ├── public/              # Static assets
-├── urja.config.js      # Urja configuration
+├── nuclie.config.js      # Nuclie configuration
 ├── package.json
 └── tsconfig.json
 ```
 
 ## Configuration
 
-Create a `urja.config.js` in your project root:
+Create a `nuclie.config.js` in your project root:
 
 ```javascript
 module.exports = {
@@ -122,7 +122,7 @@ module.exports = {
 
 ## Need Help?
 
-- 📖 [Documentation](https://urja.dev/docs)
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/urja/discussions)
-- 🐛 [Report Issues](https://github.com/Avinash-1994/urja/issues)
-- 🌟 [Star on GitHub](https://github.com/Avinash-1994/urja)
+- 📖 [Documentation](https://nuclie.dev/docs)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/nuclie/discussions)
+- 🐛 [Report Issues](https://github.com/Avinash-1994/nuclie/issues)
+- 🌟 [Star on GitHub](https://github.com/Avinash-1994/nuclie)

@@ -17,12 +17,12 @@ export const vueSpaTemplate: TemplateConfig = {
     devDependencies: {
         "@vitejs/plugin-vue": "^4.2.3",
         "vue-tsc": "^1.8.8",
-        "@urja/plugin-vue": "^1.0.0"
+        "@nuclie/plugin-vue": "^1.0.0"
     },
     files: {
-        'urja.config.ts': `
-import { defineConfig } from 'urja';
-import vue from '@urja/plugin-vue';
+        'nuclie.config.ts': `
+import { defineConfig } from 'nuclie';
+import vue from '@nuclie/plugin-vue';
 
 export default defineConfig({
     plugins: [vue()],
@@ -46,9 +46,9 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <div>
-    <h1>Urja + Vue</h1>
+    <h1>Nuclie + Vue</h1>
   </div>
-  <HelloWorld msg="Urja + Vue" />
+  <HelloWorld msg="Nuclie + Vue" />
 </template>
 
 <style scoped>

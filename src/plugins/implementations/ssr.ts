@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-ssr
+ * @nuclie/plugin-ssr
  * Universal SSR support
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSsrPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-ssr',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-ssr',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // ssr transformation

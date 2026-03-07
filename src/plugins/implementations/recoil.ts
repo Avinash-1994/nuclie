@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-recoil
+ * @nuclie/plugin-recoil
  * Recoil state management
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRecoilPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-recoil',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-recoil',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // recoil transformation

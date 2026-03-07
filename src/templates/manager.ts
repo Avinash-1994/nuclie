@@ -1,7 +1,7 @@
 /**
  * Template Manager (Day 46)
  * 
- * Manages production-ready starter templates for Urja.
+ * Manages production-ready starter templates for Nuclie.
  * Handles scaffolding, variable replacement, and initial setup.
  */
 
@@ -95,17 +95,17 @@ export class TemplateManager {
             private: true,
             type: 'module',
             scripts: {
-                "dev": "urja dev",
-                "build": "urja build",
-                "preview": "urja preview",
-                "test": "urja test",
+                "dev": "nuclie dev",
+                "build": "nuclie build",
+                "preview": "nuclie preview",
+                "test": "nuclie test",
                 "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
                 "check": "tsc --noEmit"
             },
             dependencies: template.dependencies,
             devDependencies: {
                 ...template.devDependencies,
-                "urja": "^2.0.0",
+                "nuclie": "^2.0.0",
                 "typescript": "^5.0.0",
                 "@types/node": "^20.0.0"
             }
@@ -159,7 +159,7 @@ export class TemplateManager {
                 "moduleResolution": "bundler",
                 "allowSyntheticDefaultImports": true
             },
-            "include": ["urja.config.ts"]
+            "include": ["nuclie.config.ts"]
         };
 
         fs.writeFileSync(
@@ -170,7 +170,7 @@ export class TemplateManager {
         // Create README.md
         const readme = `# ${projectName}
 
-Created with Urja - The High-Performance Build System.
+Created with Nuclie - The High-Performance Build System.
 
 ## Getting Started
 
@@ -191,14 +191,14 @@ npm run dev
         // Create .gitignore
         const gitignore = `node_modules
 dist
-.urja
+.nuclie
 .env
 .DS_Store
 coverage
 `;
         fs.writeFileSync(path.join(targetDir, '.gitignore'), gitignore);
 
-        console.log(`✅ ${template.name} created successfully! by Urja`);
+        console.log(`✅ ${template.name} created successfully! by Nuclie`);
     }
 }
 

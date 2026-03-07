@@ -5,7 +5,7 @@
 <div class="app-container">
   <header class="hero">
     <span class="badge">v1.0.0 Stable</span>
-    <h1>Urja</h1>
+    <h1>Nuclie</h1>
     <p class="subtitle">
       The high-performance build engine for modern web applications.<br />
       Engineered for speed. Built for stability.
@@ -28,7 +28,7 @@
   </main>
 
   <div class="code-area">
-    <span style="color: #6366F1">$</span> urja build --optimize
+    <span style="color: #6366F1">$</span> nuclie build --optimize
     <br />
     <span style="color: #94A3B8; opacity: 0.6">// Generating optimized production bundle...</span>
     <br />
@@ -36,6 +36,6 @@
   </div>
 
   <footer class="footer">
-    Powered by <a href="https://urja.dev" target="_blank" rel="noopener noreferrer">Urja Build Tool</a>
+    Powered by <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer">Nuclie Build Tool</a>
   </footer>
 </div>

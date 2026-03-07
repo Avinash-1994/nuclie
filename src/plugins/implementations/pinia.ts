@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-pinia
+ * @nuclie/plugin-pinia
  * Pinia (Vue) integration
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPiniaPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-pinia',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-pinia',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // pinia transformation

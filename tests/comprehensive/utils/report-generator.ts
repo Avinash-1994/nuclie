@@ -85,7 +85,7 @@ export class ReportGenerator {
         const comparisons: ComparisonData[] = [];
         for (const [metric, toolData] of metrics) {
             const tools: Record<string, number | null> = {};
-            let winner: BuildTool = 'urja';
+            let winner: BuildTool = 'nuclie';
             let bestValue = Infinity;
 
             // Determine if lower is better (most metrics)
@@ -126,23 +126,23 @@ export class ReportGenerator {
         // Performance gaps
         const perfGaps: GapAnalysis['gaps'] = [];
         for (const comp of comparisons) {
-            const urjaValue = comp.tools.urja;
-            if (urjaValue === null) continue;
+            const nuclieValue = comp.tools.nuclie;
+            if (nuclieValue === null) continue;
 
             const winnerValue = comp.tools[comp.winner];
-            if (winnerValue === null || comp.winner === 'urja') continue;
+            if (winnerValue === null || comp.winner === 'nuclie') continue;
 
-            const diff = ((urjaValue - winnerValue) / winnerValue) * 100;
+            const diff = ((nuclieValue - winnerValue) / winnerValue) * 100;
 
             if (diff > 50) {
                 perfGaps.push({
-                    issue: `${comp.metric}: Urja is ${diff.toFixed(0)}% slower than ${comp.winner}`,
+                    issue: `${comp.metric}: Nuclie is ${diff.toFixed(0)}% slower than ${comp.winner}`,
                     severity: diff > 100 ? 'critical' : 'high',
                     recommendation: `Optimize ${comp.metric} to match ${comp.winner}'s performance`,
                 });
             } else if (diff > 20) {
                 perfGaps.push({
-                    issue: `${comp.metric}: Urja is ${diff.toFixed(0)}% slower than ${comp.winner}`,
+                    issue: `${comp.metric}: Nuclie is ${diff.toFixed(0)}% slower than ${comp.winner}`,
                     severity: 'medium',
                     recommendation: `Consider optimizing ${comp.metric}`,
                 });
@@ -195,14 +195,14 @@ export class ReportGenerator {
     ): string {
         const timestamp = new Date().toISOString();
 
-        let md = `# 🧪 Urja Comprehensive Test Report\n\n`;
+        let md = `# 🧪 Nuclie Comprehensive Test Report\n\n`;
         md += `**Generated:** ${timestamp}\n`;
         md += `**Environment:** ${process.platform}, Node ${process.version}\n\n`;
         md += `---\n\n`;
 
         // Executive Summary
         md += `## 📊 Executive Summary\n\n`;
-        const wins = comparisons.filter(c => c.winner === 'urja').length;
+        const wins = comparisons.filter(c => c.winner === 'nuclie').length;
         const total = comparisons.length;
         md += `- **Winning Metrics:** ${wins}/${total} (${((wins / total) * 100).toFixed(0)}%)\n`;
         md += `- **Critical Gaps:** ${gapAnalysis.reduce((sum, a) => sum + a.gaps.filter(g => g.severity === 'critical').length, 0)}\n`;
@@ -210,13 +210,13 @@ export class ReportGenerator {
 
         // Performance Comparison Table
         md += `## 🏆 Performance Comparison\n\n`;
-        md += `| Metric | Urja | Vite | Webpack | Rspack | esbuild | Turbopack | Parcel | Winner |\n`;
+        md += `| Metric | Nuclie | Vite | Webpack | Rspack | esbuild | Turbopack | Parcel | Winner |\n`;
         md += `|--------|-------|------|---------|--------|---------|-----------|--------|--------|\n`;
 
         for (const comp of comparisons) {
             const row = [
                 comp.metric,
-                this.formatValue(comp.tools.urja, comp.unit, comp.winner === 'urja'),
+                this.formatValue(comp.tools.nuclie, comp.unit, comp.winner === 'nuclie'),
                 this.formatValue(comp.tools.vite, comp.unit, comp.winner === 'vite'),
                 this.formatValue(comp.tools.webpack, comp.unit, comp.winner === 'webpack'),
                 this.formatValue(comp.tools.rspack, comp.unit, comp.winner === 'rspack'),
@@ -231,34 +231,34 @@ export class ReportGenerator {
 
         // Where We're Winning
         md += `## ✅ Where We're Winning\n\n`;
-        const winningMetrics = comparisons.filter(c => c.winner === 'urja');
+        const winningMetrics = comparisons.filter(c => c.winner === 'nuclie');
         if (winningMetrics.length > 0) {
             for (const metric of winningMetrics) {
                 const secondBest = this.getSecondBest(metric);
-                const improvement = secondBest ? this.calculateImprovement(metric.tools.urja!, secondBest.value) : 0;
-                md += `- **${metric.metric}**: ${metric.tools.urja}${metric.unit}`;
+                const improvement = secondBest ? this.calculateImprovement(metric.tools.nuclie!, secondBest.value) : 0;
+                md += `- **${metric.metric}**: ${metric.tools.nuclie}${metric.unit}`;
                 if (secondBest) {
                     md += ` (${improvement.toFixed(0)}% better than ${secondBest.tool})`;
                 }
                 md += `\n`;
             }
         } else {
-            md += `*No metrics where Urja is currently winning*\n`;
+            md += `*No metrics where Nuclie is currently winning*\n`;
         }
         md += `\n`;
 
         // Where We're Lagging
         md += `## ⚠️  Where We're Lagging\n\n`;
-        const laggingMetrics = comparisons.filter(c => c.winner !== 'urja' && c.tools.urja !== null);
+        const laggingMetrics = comparisons.filter(c => c.winner !== 'nuclie' && c.tools.nuclie !== null);
         if (laggingMetrics.length > 0) {
             for (const metric of laggingMetrics) {
                 const winnerValue = metric.tools[metric.winner]!;
-                const urjaValue = metric.tools.urja!;
-                const gap = this.calculateGap(urjaValue, winnerValue);
-                md += `- **${metric.metric}**: ${urjaValue}${metric.unit} vs ${metric.winner} ${winnerValue}${metric.unit} (${gap.toFixed(0)}% slower)\n`;
+                const nuclieValue = metric.tools.nuclie!;
+                const gap = this.calculateGap(nuclieValue, winnerValue);
+                md += `- **${metric.metric}**: ${nuclieValue}${metric.unit} vs ${metric.winner} ${winnerValue}${metric.unit} (${gap.toFixed(0)}% slower)\n`;
             }
         } else {
-            md += `*Urja is winning or competitive in all tested metrics!*\n`;
+            md += `*Nuclie is winning or competitive in all tested metrics!*\n`;
         }
         md += `\n`;
 
@@ -301,7 +301,7 @@ export class ReportGenerator {
         recommendations: string[]
     ): string {
         const timestamp = new Date().toISOString();
-        const wins = comparisons.filter(c => c.winner === 'urja').length;
+        const wins = comparisons.filter(c => c.winner === 'nuclie').length;
         const total = comparisons.length;
 
         return `<!DOCTYPE html>
@@ -309,7 +309,7 @@ export class ReportGenerator {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Urja Comprehensive Test Report</title>
+  <title>Nuclie Comprehensive Test Report</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -413,7 +413,7 @@ export class ReportGenerator {
 <body>
   <div class="container">
     <header>
-      <h1>🧪 Urja Comprehensive Test Report</h1>
+      <h1>🧪 Nuclie Comprehensive Test Report</h1>
       <p class="subtitle">Generated: ${timestamp}</p>
       <p class="subtitle">Environment: ${process.platform}, Node ${process.version}</p>
     </header>
@@ -444,7 +444,7 @@ export class ReportGenerator {
           <thead>
             <tr>
               <th>Metric</th>
-              <th>Urja</th>
+              <th>Nuclie</th>
               <th>Vite</th>
               <th>Webpack</th>
               <th>Rspack</th>
@@ -458,7 +458,7 @@ export class ReportGenerator {
             ${comparisons.map(comp => `
               <tr>
                 <td><strong>${comp.metric}</strong></td>
-                <td class="${comp.winner === 'urja' ? 'winner' : ''}">${this.formatValue(comp.tools.urja, comp.unit, comp.winner === 'urja')}</td>
+                <td class="${comp.winner === 'nuclie' ? 'winner' : ''}">${this.formatValue(comp.tools.nuclie, comp.unit, comp.winner === 'nuclie')}</td>
                 <td class="${comp.winner === 'vite' ? 'winner' : ''}">${this.formatValue(comp.tools.vite, comp.unit, comp.winner === 'vite')}</td>
                 <td class="${comp.winner === 'webpack' ? 'winner' : ''}">${this.formatValue(comp.tools.webpack, comp.unit, comp.winner === 'webpack')}</td>
                 <td class="${comp.winner === 'rspack' ? 'winner' : ''}">${this.formatValue(comp.tools.rspack, comp.unit, comp.winner === 'rspack')}</td>
@@ -505,7 +505,7 @@ export class ReportGenerator {
      * Helper methods
      */
     private getAllTools(): BuildTool[] {
-        return ['urja', 'vite', 'webpack', 'rspack', 'esbuild', 'turbopack', 'parcel'];
+        return ['nuclie', 'vite', 'webpack', 'rspack', 'esbuild', 'turbopack', 'parcel'];
     }
 
     private getUnitForMetric(metric: string): string {
@@ -525,18 +525,18 @@ export class ReportGenerator {
 
     private getSecondBest(comp: ComparisonData): { tool: BuildTool; value: number } | null {
         const values = Object.entries(comp.tools)
-            .filter(([tool, value]) => tool !== 'urja' && value !== null)
+            .filter(([tool, value]) => tool !== 'nuclie' && value !== null)
             .map(([tool, value]) => ({ tool: tool as BuildTool, value: value as number }))
             .sort((a, b) => a.value - b.value);
 
         return values[0] || null;
     }
 
-    private calculateImprovement(urjaValue: number, otherValue: number): number {
-        return ((otherValue - urjaValue) / otherValue) * 100;
+    private calculateImprovement(nuclieValue: number, otherValue: number): number {
+        return ((otherValue - nuclieValue) / otherValue) * 100;
     }
 
-    private calculateGap(urjaValue: number, winnerValue: number): number {
-        return ((urjaValue - winnerValue) / winnerValue) * 100;
+    private calculateGap(nuclieValue: number, winnerValue: number): number {
+        return ((nuclieValue - winnerValue) / winnerValue) * 100;
     }
 }

@@ -1,17 +1,17 @@
 /**
- * Plugin Authoring Guide for Urja v1
+ * Plugin Authoring Guide for Nuclie v1
  * 
  * follow strict strict rules to ensure stability and compatibility.
  */
 
 /*
-# Urja Plugin API Reference
+# Nuclie Plugin API Reference
 
-Urja plugins are compatible with Rollup plugins, with additional governance for stability.
+Nuclie plugins are compatible with Rollup plugins, with additional governance for stability.
 
 ## Required Properties
 
-- `name` (string): Unique ID (e.g. `urja-plugin-my-feature`)
+- `name` (string): Unique ID (e.g. `nuclie-plugin-my-feature`)
 - `stability` (string): 'experimental' | 'stable' | 'deprecated'
 
 ## Hooks
@@ -26,11 +26,11 @@ All standard Rollup hooks are supported:
 ## Example
 
 ```typescript
-import { Plugin } from 'urja';
+import { Plugin } from 'nuclie';
 
 export function myPlugin(): Plugin {
   return {
-    name: 'urja-plugin-example',
+    name: 'nuclie-plugin-example',
     stability: 'stable',
     async transform(code, id) {
       if (id.endsWith('.foo')) {

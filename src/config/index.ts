@@ -130,58 +130,58 @@ export type BuildConfig = {
 };
 
 export async function loadConfig(cwd: string): Promise<BuildConfig> {
-  const urjaTsPath = path.join(cwd, 'urja.config.ts');
-  const urjaJsPath = path.join(cwd, 'urja.config.js');
-  const urjaCjsPath = path.join(cwd, 'urja.config.cjs');
-  const urjaJsonPath = path.join(cwd, 'urja.config.json');
-  const urjaYamlPath = path.join(cwd, 'urja.config.yaml');
-  const urjaYmlPath = path.join(cwd, 'urja.config.yml');
-  const legacyJsonPath = path.join(cwd, 'urja.build.json');
-  const legacyTsPath = path.join(cwd, 'urja.build.ts');
-  const legacyYamlPath = path.join(cwd, 'urja.build.yaml');
-  const legacyYmlPath = path.join(cwd, 'urja.build.yml');
+  const nuclieTsPath = path.join(cwd, 'nuclie.config.ts');
+  const nuclieJsPath = path.join(cwd, 'nuclie.config.js');
+  const nuclieCjsPath = path.join(cwd, 'nuclie.config.cjs');
+  const nuclieJsonPath = path.join(cwd, 'nuclie.config.json');
+  const nuclieYamlPath = path.join(cwd, 'nuclie.config.yaml');
+  const nuclieYmlPath = path.join(cwd, 'nuclie.config.yml');
+  const legacyJsonPath = path.join(cwd, 'nuclie.build.json');
+  const legacyTsPath = path.join(cwd, 'nuclie.build.ts');
+  const legacyYamlPath = path.join(cwd, 'nuclie.build.yaml');
+  const legacyYmlPath = path.join(cwd, 'nuclie.build.yml');
 
   let rawConfig: any;
   let loadedConfigPath = 'default';
 
   try {
-    if (await fs.access(urjaTsPath).then(() => true).catch(() => false)) {
-      rawConfig = await loadModuleConfig(urjaTsPath, cwd);
-      loadedConfigPath = 'urja.config.ts';
-    } else if (await fs.access(urjaCjsPath).then(() => true).catch(() => false)) {
-      rawConfig = require(urjaCjsPath);
-      loadedConfigPath = 'urja.config.cjs';
-    } else if (await fs.access(urjaJsPath).then(() => true).catch(() => false)) {
-      const mod = await import('file://' + urjaJsPath);
+    if (await fs.access(nuclieTsPath).then(() => true).catch(() => false)) {
+      rawConfig = await loadModuleConfig(nuclieTsPath, cwd);
+      loadedConfigPath = 'nuclie.config.ts';
+    } else if (await fs.access(nuclieCjsPath).then(() => true).catch(() => false)) {
+      rawConfig = require(nuclieCjsPath);
+      loadedConfigPath = 'nuclie.config.cjs';
+    } else if (await fs.access(nuclieJsPath).then(() => true).catch(() => false)) {
+      const mod = await import('file://' + nuclieJsPath);
       rawConfig = mod.default || mod;
-      loadedConfigPath = 'urja.config.js';
-    } else if (await fs.access(urjaJsonPath).then(() => true).catch(() => false)) {
-      const raw = await fs.readFile(urjaJsonPath, 'utf-8');
+      loadedConfigPath = 'nuclie.config.js';
+    } else if (await fs.access(nuclieJsonPath).then(() => true).catch(() => false)) {
+      const raw = await fs.readFile(nuclieJsonPath, 'utf-8');
       rawConfig = JSON.parse(raw);
-      loadedConfigPath = 'urja.config.json';
-    } else if (await fs.access(urjaYamlPath).then(() => true).catch(() => false)) {
-      const raw = await fs.readFile(urjaYamlPath, 'utf-8');
+      loadedConfigPath = 'nuclie.config.json';
+    } else if (await fs.access(nuclieYamlPath).then(() => true).catch(() => false)) {
+      const raw = await fs.readFile(nuclieYamlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'urja.config.yaml';
-    } else if (await fs.access(urjaYmlPath).then(() => true).catch(() => false)) {
-      const raw = await fs.readFile(urjaYmlPath, 'utf-8');
+      loadedConfigPath = 'nuclie.config.yaml';
+    } else if (await fs.access(nuclieYmlPath).then(() => true).catch(() => false)) {
+      const raw = await fs.readFile(nuclieYmlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'urja.config.yml';
+      loadedConfigPath = 'nuclie.config.yml';
     } else if (await fs.access(legacyTsPath).then(() => true).catch(() => false)) {
       rawConfig = await loadModuleConfig(legacyTsPath, cwd);
-      loadedConfigPath = 'urja.build.ts';
+      loadedConfigPath = 'nuclie.build.ts';
     } else if (await fs.access(legacyJsonPath).then(() => true).catch(() => false)) {
       const raw = await fs.readFile(legacyJsonPath, 'utf-8');
       rawConfig = JSON.parse(raw);
-      loadedConfigPath = 'urja.build.json';
+      loadedConfigPath = 'nuclie.build.json';
     } else if (await fs.access(legacyYamlPath).then(() => true).catch(() => false)) {
       const raw = await fs.readFile(legacyYamlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'urja.build.yaml';
+      loadedConfigPath = 'nuclie.build.yaml';
     } else if (await fs.access(legacyYmlPath).then(() => true).catch(() => false)) {
       const raw = await fs.readFile(legacyYmlPath, 'utf-8');
       rawConfig = yaml.load(raw);
-      loadedConfigPath = 'urja.build.yml';
+      loadedConfigPath = 'nuclie.build.yml';
     } else {
       // Return default config if file not found, with auto-detection
       log.info('No config file found, using defaults...');
@@ -250,7 +250,7 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
 async function loadModuleConfig(tsPath: string, cwd: string): Promise<any> {
   log.info(`Loading config from ${path.basename(tsPath)}...`);
   const { build } = await import('esbuild');
-  const outfile = path.join(cwd, `urja.config.temp.${Date.now()}.mjs`);
+  const outfile = path.join(cwd, `nuclie.config.temp.${Date.now()}.mjs`);
 
   try {
     await build({
@@ -276,7 +276,7 @@ async function loadModuleConfig(tsPath: string, cwd: string): Promise<any> {
 }
 
 export async function saveConfig(cwd: string, config: any): Promise<void> {
-  const jsonPath = path.join(cwd, 'urja.build.json');
+  const jsonPath = path.join(cwd, 'nuclie.build.json');
   await fs.writeFile(jsonPath, JSON.stringify(config, null, 2), 'utf-8');
   log.info(`Configuration saved to ${jsonPath}`);
 }

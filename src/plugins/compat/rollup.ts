@@ -13,9 +13,9 @@ interface RollupPlugin {
 }
 
 /**
- * Adapter to use Rollup plugins within Urja
+ * Adapter to use Rollup plugins within Nuclie
  * @param plugin The Rollup plugin instance
- * @returns A Urja-compatible plugin
+ * @returns A Nuclie-compatible plugin
  */
 export function rollupAdapter(plugin: RollupPlugin): Plugin {
     return {

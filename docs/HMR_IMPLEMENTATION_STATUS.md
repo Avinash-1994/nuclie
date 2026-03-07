@@ -1,4 +1,4 @@
-# Urja Framework HMR Implementation Status
+# Nuclie Framework HMR Implementation Status
 
 **Date**: 2026-01-06  
 **Status**: ✅ All frameworks have HMR support
@@ -19,7 +19,7 @@ All framework plugins include Hot Module Replacement (HMR) support that is:
 
 ### 🟢 Tier 1: Production-Ready
 
-#### React (`urjaReact`)
+#### React (`nuclieReact`)
 **HMR Status**: ✅ **Fast Refresh Enabled**
 
 **Features**:
@@ -39,7 +39,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-urjaReact({
+nuclieReact({
   fastRefresh: true,  // Enable Fast Refresh
   development: true,  // Enable HMR
   sourceMaps: true
@@ -48,7 +48,7 @@ urjaReact({
 
 ---
 
-#### Vue (`urjaVue`)
+#### Vue (`nuclieVue`)
 **HMR Status**: ✅ **Vue HMR Runtime Enabled**
 
 **Features**:
@@ -67,7 +67,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-urjaVue({
+nuclieVue({
   hmr: true,         // Enable HMR
   development: true,
   sourceMaps: true
@@ -78,7 +78,7 @@ urjaVue({
 
 ### 🟡 Tier 2: Stable
 
-#### Svelte (`urjaSvelte`)
+#### Svelte (`nuclieSvelte`)
 **HMR Status**: ✅ **Svelte HMR Enabled**
 
 **Features**:
@@ -101,7 +101,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-urjaSvelte({
+nuclieSvelte({
   hmr: true,         // Enable HMR
   development: true,
   compilerOptions: { dev: true }
@@ -110,7 +110,7 @@ urjaSvelte({
 
 ---
 
-#### Solid (`urjaSolid`)
+#### Solid (`nuclieSolid`)
 **HMR Status**: ✅ **Solid HMR Enabled**
 
 **Features**:
@@ -133,7 +133,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-urjaSolid({
+nuclieSolid({
   hmr: true,         // Enable HMR
   development: true,
   sourceMaps: true
@@ -142,7 +142,7 @@ urjaSolid({
 
 ---
 
-#### Lit (`urjaLit`)
+#### Lit (`nuclieLit`)
 **HMR Status**: ✅ **Lit HMR Enabled**
 
 **Features**:
@@ -168,7 +168,7 @@ if (import.meta.hot) {
 
 **Configuration**:
 ```typescript
-urjaLit({
+nuclieLit({
   hmr: true,         // Enable HMR
   development: true,
   typescript: { experimentalDecorators: true }
@@ -186,7 +186,7 @@ All plugins **automatically disable HMR** in production:
 const development = process.env.NODE_ENV !== 'production';
 
 // Or explicit configuration
-urjaReact({ development: false, fastRefresh: false })
+nuclieReact({ development: false, fastRefresh: false })
 ```
 
 **Production builds**:
@@ -204,11 +204,11 @@ urjaReact({ development: false, fastRefresh: false })
 All plugins follow this pattern:
 
 ```typescript
-export function urjaFramework(options = {}) {
+export function nuclieFramework(options = {}) {
   const { hmr = true, development = true } = options;
   
   return {
-    name: 'urja-framework',
+    name: 'nuclie-framework',
     
     async transform(code, id) {
       // 1. Transform framework code
@@ -331,4 +331,4 @@ No plugin wrapper needed ✅
 ✅ **Zero global state**  
 ✅ **Automatic production optimization**  
 
-Urja's HMR implementation is **complete and verified**.
+Nuclie's HMR implementation is **complete and verified**.

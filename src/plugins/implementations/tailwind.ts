@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-tailwind
+ * @nuclie/plugin-tailwind
  * Tailwind CSS integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTailwindPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-tailwind',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-tailwind',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for tailwind

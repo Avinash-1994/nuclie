@@ -6,8 +6,8 @@
 import { PluginManager, Plugin } from '../src/plugins/index.js';
 import { rollupAdapter } from '../src/plugins/compat/rollup.js';
 import { webpackLoaderAdapter } from '../src/plugins/compat/webpack.js';
-import { urjaCopy, urjaHtml } from '../src/plugins/compat/tier-b.js';
-import { urjaReact, urjaVue, urjaSvelte } from '../src/plugins/compat/tier-c.js';
+import { nuclieCopy, nuclieHtml } from '../src/plugins/compat/tier-b.js';
+import { nuclieReact, nuclieVue, nuclieSvelte } from '../src/plugins/compat/tier-c.js';
 import fs from 'fs';
 import path from 'path';
 import { strict as assert } from 'assert';
@@ -138,12 +138,12 @@ async function testRollupAdapterBasic() {
         transform: (code: string) => code + '// rollup'
     };
 
-    const urjaPlugin = rollupAdapter(rollupPlugin);
+    const nucliePlugin = rollupAdapter(rollupPlugin);
 
-    assert.strictEqual(urjaPlugin.name, 'test-rollup-plugin');
-    assert.ok(urjaPlugin.transform);
+    assert.strictEqual(nucliePlugin.name, 'test-rollup-plugin');
+    assert.ok(nucliePlugin.transform);
 
-    const result = await urjaPlugin.transform!('code', 'test.js');
+    const result = await nucliePlugin.transform!('code', 'test.js');
     assert.strictEqual(result, 'code// rollup');
 
     console.log('✅ Rollup adapter converts plugins correctly');
@@ -159,15 +159,15 @@ async function testRollupAdapterHooks() {
         renderChunk: (code: string) => code.replace(/\s+/g, ' ')
     };
 
-    const urjaPlugin = rollupAdapter(rollupPlugin);
+    const nucliePlugin = rollupAdapter(rollupPlugin);
 
-    const resolveResult = await urjaPlugin.resolveId!('virtual');
+    const resolveResult = await nucliePlugin.resolveId!('virtual');
     assert.strictEqual(resolveResult, '/virtual/path.js');
 
-    const loadResult = await urjaPlugin.load!('test.virtual');
+    const loadResult = await nucliePlugin.load!('test.virtual');
     assert.strictEqual(loadResult, 'export default "virtual"');
 
-    const renderResult = await urjaPlugin.renderChunk!('const  x  =  1;', {});
+    const renderResult = await nucliePlugin.renderChunk!('const  x  =  1;', {});
     assert.strictEqual(renderResult, 'const x = 1;');
 
     console.log('✅ All Rollup hooks mapped correctly');
@@ -178,10 +178,10 @@ async function testRollupAdapterIntegration() {
 
     const manager = new PluginManager();
 
-    // Native Urja plugin
+    // Native Nuclie plugin
     manager.register({
-        name: 'urja-plugin',
-        transform: async (code) => code + ' [urja]'
+        name: 'nuclie-plugin',
+        transform: async (code) => code + ' [nuclie]'
     });
 
     // Adapted Rollup plugin
@@ -192,9 +192,9 @@ async function testRollupAdapterIntegration() {
     manager.register(rollupAdapter(rollupPlugin));
 
     const result = await manager.transform('start', 'test.js');
-    assert.strictEqual(result, 'start [urja] [rollup]');
+    assert.strictEqual(result, 'start [nuclie] [rollup]');
 
-    console.log('✅ Rollup plugins integrate seamlessly with Urja plugins');
+    console.log('✅ Rollup plugins integrate seamlessly with Nuclie plugins');
 }
 
 async function testPerformanceBenchmark() {
@@ -286,8 +286,8 @@ async function testWebpackLoaderAdapter() {
     console.log('✅ Webpack loader adapter works correctly');
 }
 
-async function testUrjaCopy() {
-    console.log('\n[Test 12] Tier B: urjaCopy');
+async function testNuclieCopy() {
+    console.log('\n[Test 12] Tier B: nuclieCopy');
 
     const testDir = path.resolve(process.cwd(), 'temp_test_copy');
     const srcFile = path.join(testDir, 'src/file.txt');
@@ -298,7 +298,7 @@ async function testUrjaCopy() {
     await fs.promises.mkdir(path.dirname(srcFile), { recursive: true });
     await fs.promises.writeFile(srcFile, 'hello');
 
-    const plugin = urjaCopy({
+    const plugin = nuclieCopy({
         targets: [{ src: srcFile, dest: destFile }]
     });
 
@@ -309,15 +309,15 @@ async function testUrjaCopy() {
 
     // Cleanup
     await fs.promises.rm(testDir, { recursive: true, force: true });
-    console.log('✅ urjaCopy copies files correctly');
+    console.log('✅ nuclieCopy copies files correctly');
 }
 
-async function testUrjaHtml() {
-    console.log('\n[Test 13] Tier B: urjaHtml');
+async function testNuclieHtml() {
+    console.log('\n[Test 13] Tier B: nuclieHtml');
 
     const testDest = path.resolve(process.cwd(), 'dist', 'test-index.html');
 
-    const plugin = urjaHtml({
+    const plugin = nuclieHtml({
         title: 'Test App',
         filename: 'test-index.html'
     });
@@ -329,21 +329,21 @@ async function testUrjaHtml() {
 
     // Cleanup
     await fs.promises.unlink(testDest);
-    console.log('✅ urjaHtml generates HTML correctly');
+    console.log('✅ nuclieHtml generates HTML correctly');
 }
 
 async function testTierC() {
     console.log('\n[Test 14] Tier C: Wrappers (React/Vue/Svelte)');
 
     // Just verify they return valid plugin objects
-    const react = urjaReact();
-    assert.strictEqual(react.name, 'urja-react');
+    const react = nuclieReact();
+    assert.strictEqual(react.name, 'nuclie-react');
 
-    const vue = urjaVue();
-    assert.strictEqual(vue.name, 'urja-vue');
+    const vue = nuclieVue();
+    assert.strictEqual(vue.name, 'nuclie-vue');
 
-    const svelte = urjaSvelte();
-    assert.strictEqual(svelte.name, 'urja-svelte');
+    const svelte = nuclieSvelte();
+    assert.strictEqual(svelte.name, 'nuclie-svelte');
 
     console.log('✅ Tier C wrappers instantiated correctly');
 }
@@ -367,9 +367,9 @@ async function runAllTests() {
         await testPerformanceBenchmark();
         await testReturnValueHandling();
         await testWebpackLoaderAdapter();
-        await testUrjaCopy();
-        // await testUrjaHtml(); // Skipped to avoid polling dist folder conflicts in parallel tests, but implemented.
-        try { await testUrjaHtml(); } catch (e) { console.warn('HTML test warning (non-critical):', e); }
+        await testNuclieCopy();
+        // await testNuclieHtml(); // Skipped to avoid polling dist folder conflicts in parallel tests, but implemented.
+        try { await testNuclieHtml(); } catch (e) { console.warn('HTML test warning (non-critical):', e); }
         await testTierC();
 
         console.log('\n' + '='.repeat(60));

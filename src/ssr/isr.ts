@@ -1,6 +1,6 @@
 
 /**
- * Urja ISR Logic (Data Stale-While-Revalidate)
+ * Nuclie ISR Logic (Data Stale-While-Revalidate)
  * Day 23: Framework-Agnostic SSR Lock
  */
 

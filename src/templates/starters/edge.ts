@@ -14,12 +14,12 @@ export const edgeTemplate: TemplateConfig = {
     dependencies: {},
     devDependencies: {
         "typescript": "^5.0.0",
-        "@urja/plugin-edge": "^1.0.0"
+        "@nuclie/plugin-edge": "^1.0.0"
     },
     files: {
-        'urja.config.ts': `
-import { defineConfig } from 'urja';
-import edge from '@urja/plugin-edge';
+        'nuclie.config.ts': `
+import { defineConfig } from 'nuclie';
+import edge from '@nuclie/plugin-edge';
 
 export default defineConfig({
     plugins: [edge()],
@@ -36,7 +36,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/hello') {
-        return new Response('Hello from Urja Edge!', {
+        return new Response('Hello from Nuclie Edge!', {
             headers: { 'content-type': 'text/plain' }
         });
     }
@@ -44,9 +44,9 @@ export default {
     return new Response(\`
       <!DOCTYPE html>
       <html>
-        <head><title>Urja Edge</title></head>
+        <head><title>Nuclie Edge</title></head>
         <body>
-          <h1>⚡ Urja Edge Runtime</h1>
+          <h1>⚡ Nuclie Edge Runtime</h1>
           <p>Request URL: \${request.url}</p>
           <p>Region: \${request.cf?.colo || 'Local'}</p>
         </body>
@@ -72,7 +72,7 @@ export default {
 }
 `,
         'README.md': `
-# Urja Edge Function
+# Nuclie Edge Function
 
 This is a universal Edge Function starter compatible with:
 - Cloudflare Workers

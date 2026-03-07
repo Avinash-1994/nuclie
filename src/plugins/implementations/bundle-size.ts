@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-bundle-size
+ * @nuclie/plugin-bundle-size
  * Bundle size tracking
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createBundleSizePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-bundle-size',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-bundle-size',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-bundle-size] Starting performance optimization...');
+            console.log('[@nuclie/plugin-bundle-size] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createBundleSizePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-bundle-size] Performance optimization complete');
+            console.log('[@nuclie/plugin-bundle-size] Performance optimization complete');
         }
     };
 }

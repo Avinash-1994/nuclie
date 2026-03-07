@@ -1,4 +1,4 @@
-// RocksDB-based persistent cache for Urja v2.0
+// RocksDB-based persistent cache for Nuclie v2.0
 // Day 2: Module 1 - Speed Mastery
 //
 // This module provides enterprise-grade persistent caching with:

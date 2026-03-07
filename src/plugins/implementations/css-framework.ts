@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-css-framework
+ * @nuclie/plugin-css-framework
  * CSS framework detection
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCssFrameworkPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-css-framework',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-css-framework',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for css-framework

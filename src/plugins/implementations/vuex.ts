@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-vuex
+ * @nuclie/plugin-vuex
  * Vuex integration
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVuexPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-vuex',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-vuex',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // vuex transformation

@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-lazy-load
+ * @nuclie/plugin-lazy-load
  * Component lazy loading
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLazyLoadPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-lazy-load',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-lazy-load',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-lazy-load] Starting performance optimization...');
+            console.log('[@nuclie/plugin-lazy-load] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createLazyLoadPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-lazy-load] Performance optimization complete');
+            console.log('[@nuclie/plugin-lazy-load] Performance optimization complete');
         }
     };
 }

@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-plausible
+ * @nuclie/plugin-plausible
  * Plausible Analytics integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPlausiblePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-plausible',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-plausible',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Analytics: Plausible Analytics integration
@@ -16,7 +16,7 @@ export function createPlausiblePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-plausible] Analytics integration ready');
+            console.log('[@nuclie/plugin-plausible] Analytics integration ready');
         }
     };
 }

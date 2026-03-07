@@ -1,4 +1,4 @@
-# Urja Governance Model — Operational Truth
+# Nuclie Governance Model — Operational Truth
 
 **Status**: 🔒 Active (Phase H2.3)  
 **Version**: 1.0.0  
@@ -34,10 +34,10 @@ Every plugin has a category that determines:
 - ✅ Performance benchmarked
 
 **Examples**:
-- `urja:js-transform` (Universal transformer)
-- `urja:assets` (Hashed asset pipeline)
-- `urja:postcss` (CSS processing)
-- `urja:federation` (Module federation)
+- `nuclie:js-transform` (Universal transformer)
+- `nuclie:assets` (Hashed asset pipeline)
+- `nuclie:postcss` (CSS processing)
+- `nuclie:federation` (Module federation)
 
 **Guarantees**:
 - No breaking changes in minor versions
@@ -61,9 +61,9 @@ Every plugin has a category that determines:
 - ⚠️ Not in official docs (linked only)
 
 **Examples**:
-- `urja-plugin-graphql` (Community)
-- `urja-plugin-wasm` (Community)
-- `urja-plugin-mdx` (Community)
+- `nuclie-plugin-graphql` (Community)
+- `nuclie-plugin-wasm` (Community)
+- `nuclie-plugin-mdx` (Community)
 
 **Guarantees**:
 - **NONE**
@@ -87,9 +87,9 @@ Every plugin has a category that determines:
 - 🧪 Not recommended for production
 
 **Examples**:
-- `urja:ai-optimizer` (Experimental)
-- `urja:edge-runtime` (Experimental)
-- `urja:ssr-streaming` (Experimental)
+- `nuclie:ai-optimizer` (Experimental)
+- `nuclie:edge-runtime` (Experimental)
+- `nuclie:ssr-streaming` (Experimental)
 
 **Guarantees**:
 - **NONE**
@@ -105,19 +105,19 @@ Every plugin has a category that determines:
 
 | Plugin Name | Category | Owner | Risk Level | Snapshot Tested | Docs |
 |-------------|----------|-------|------------|-----------------|------|
-| `urja:js-transform` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:assets` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:postcss` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:federation` | Official | Core Team | Medium | ✅ | ✅ |
-| `urja:react-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:vue-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:svelte-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:solid-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `urja:angular-preset` | Official | Core Team | Medium | ✅ | ✅ |
-| `urja:ai-optimizer` | Experimental | Core Team | High | ❌ | ⚠️ |
-| `urja:edge-runtime` | Experimental | Core Team | High | ❌ | ⚠️ |
-| `urja-plugin-graphql` | Community | @community | Unknown | ❌ | ❌ |
-| `urja-plugin-wasm` | Community | @community | Unknown | ❌ | ❌ |
+| `nuclie:js-transform` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:assets` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:postcss` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:federation` | Official | Core Team | Medium | ✅ | ✅ |
+| `nuclie:react-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:vue-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:svelte-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:solid-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `nuclie:angular-preset` | Official | Core Team | Medium | ✅ | ✅ |
+| `nuclie:ai-optimizer` | Experimental | Core Team | High | ❌ | ⚠️ |
+| `nuclie:edge-runtime` | Experimental | Core Team | High | ❌ | ⚠️ |
+| `nuclie-plugin-graphql` | Community | @community | Unknown | ❌ | ❌ |
+| `nuclie-plugin-wasm` | Community | @community | Unknown | ❌ | ❌ |
 
 ---
 
@@ -265,5 +265,5 @@ No exceptions.
 
 ---
 
-**Signed**: Urja Core Team  
+**Signed**: Nuclie Core Team  
 **Effective**: Phase H2.3 Complete

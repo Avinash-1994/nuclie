@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-typescript
+ * @nuclie/plugin-typescript
  * TypeScript compilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTypescriptPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-typescript',
+        name: '@nuclie/plugin-typescript',
         originalPlugin: 'ts-loader',
         
         async transform(code: string, id: string) {

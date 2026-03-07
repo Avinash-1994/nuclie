@@ -1,5 +1,5 @@
 {
-  "name": "urja",
+  "name": "nuclie",
   "version": "1.0.0",
   "description": "⚡ Fast build tool with HMR, source maps, tree shaking, and module federation",
   "type": "module",
@@ -14,14 +14,14 @@
   },
   "sideEffects": false,
   "bin": {
-    "urja": "./dist/cli.js",
-    "create-urja": "./dist/create-urja.js"
+    "nuclie": "./dist/cli.js",
+    "create-nuclie": "./dist/create-nuclie.js"
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE",
-    "urja_native.node"
+    "nuclie_native.node"
   ],
   "scripts": {
     "build": "npm run build:native && tsc -p tsconfig.build.json && node ./scripts/postbuild.js",
@@ -79,12 +79,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Avinash-1994/urja.git"
+    "url": "git+https://github.com/Avinash-1994/nuclie.git"
   },
   "bugs": {
-    "url": "https://github.com/Avinash-1994/urja/issues"
+    "url": "https://github.com/Avinash-1994/nuclie/issues"
   },
-  "homepage": "https://github.com/Avinash-1994/urja#readme",
+  "homepage": "https://github.com/Avinash-1994/nuclie#readme",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -150,7 +150,7 @@
     "autocannon": "^8.0.0",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
-    "eslint-plugin-urja-governance": "file:eslint-plugin-urja-governance",
+    "eslint-plugin-nuclie-governance": "file:eslint-plugin-nuclie-governance",
     "fast-check": "^4.5.3",
     "jest": "^30.2.0",
     "jsdom": "^27.2.0",

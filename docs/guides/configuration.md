@@ -1,15 +1,15 @@
 # Configuration Guide
 
-Complete reference for configuring Urja.
+Complete reference for configuring Nuclie.
 
 ## Configuration File
 
-Urja supports multiple configuration formats:
+Nuclie supports multiple configuration formats:
 
-- `urja.config.js` (recommended)
-- `urja.config.ts`
-- `urja.config.mjs`
-- `urja.config.cjs`
+- `nuclie.config.js` (recommended)
+- `nuclie.config.ts`
+- `nuclie.config.mjs`
+- `nuclie.config.cjs`
 
 ## Basic Configuration
 
@@ -165,7 +165,7 @@ module.exports = {
     },
     
     // Or import external plugins
-    require('@urja/plugin-react-refresh'),
+    require('@nuclie/plugin-react-refresh'),
   ],
 };
 ```
@@ -208,7 +208,7 @@ module.exports = {
   },
   
   // Environment variable prefix
-  envPrefix: ['VITE_', 'URJA_'],
+  envPrefix: ['VITE_', 'NUCLIE_'],
 };
 ```
 
@@ -354,7 +354,7 @@ module.exports = {
 ## Environment-Specific Configuration
 
 ```javascript
-// urja.config.js
+// nuclie.config.js
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {

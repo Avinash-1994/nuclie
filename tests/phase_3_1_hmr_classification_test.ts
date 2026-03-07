@@ -12,7 +12,7 @@ async function testConfigFileDetection() {
     const classifier = new HMRClassifier();
 
     const configChange: FileChange = {
-        path: 'urja.config.ts',
+        path: 'nuclie.config.ts',
         type: 'updated'
     };
 
@@ -175,7 +175,7 @@ async function testBatchWithFullReload() {
 
     const changes: FileChange[] = [
         { path: 'src/styles/App.css', type: 'updated' },
-        { path: 'urja.config.ts', type: 'updated' }, // Config file!
+        { path: 'nuclie.config.ts', type: 'updated' }, // Config file!
         { path: 'src/components/Button.tsx', type: 'updated' }
     ];
 

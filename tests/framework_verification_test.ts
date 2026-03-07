@@ -105,7 +105,7 @@ const FRAMEWORK_TESTS: FrameworkTest[] = [
                     template: '<h1>{{title}}</h1>'
                 })
                 export class AppComponent {
-                    title = 'urja-angular';
+                    title = 'nuclie-angular';
                 }
             `,
             'src/main.ts': `

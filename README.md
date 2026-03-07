@@ -1,15 +1,15 @@
-# ⚡ Urja — Modern Build Tool
+# ⚡ Nuclie — Modern Build Tool
 
-[![npm version](https://img.shields.io/npm/v/urja.svg)](https://www.npmjs.com/package/urja)
-[![CI](https://github.com/Avinash-1994/Urja/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Urja/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/nuclie.svg)](https://www.npmjs.com/package/nuclie)
+[![CI](https://github.com/Avinash-1994/Nuclie/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Nuclie/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-109%2F109-brightgreen)](#test-status)
 [![Node >=20](https://img.shields.io/badge/node-%3E%3D20-blue)](https://nodejs.org)
-[![Website](https://img.shields.io/badge/website-live-brightgreen)](https://avinash-1994.github.io/Urja/)
+[![Website](https://img.shields.io/badge/website-live-brightgreen)](https://avinash-1994.github.io/Nuclie/)
 
-Urja is a build tool with built-in HMR, source maps, tree shaking, module federation, and support for 10+ JavaScript frameworks. It ships a native Rust core (SWC + LightningCSS) for fast transforms.
+Nuclie is a build tool with built-in HMR, source maps, tree shaking, module federation, and support for 10+ JavaScript frameworks. It ships a native Rust core (SWC + LightningCSS) for fast transforms.
 
-**[📖 Documentation Website →](https://avinash-1994.github.io/Urja/)**
+**[📖 Documentation Website →](https://avinash-1994.github.io/Nuclie/)**
 
 ---
 
@@ -31,17 +31,17 @@ Urja is a build tool with built-in HMR, source maps, tree shaking, module federa
 
 ```bash
 # Install globally
-npm install -g urja
+npm install -g nuclie
 
 # Scaffold a new project
-urja bootstrap --name my-app --template react-ts
+nuclie bootstrap --name my-app --template react-ts
 
 # Start dev server
 cd my-app
-urja dev
+nuclie dev
 
 # Production build
-urja build
+nuclie build
 ```
 
 ---
@@ -49,7 +49,7 @@ urja build
 ## 📦 Installation
 
 ```bash
-npm install -g urja
+npm install -g nuclie
 ```
 
 **Requirements:** Node.js ≥ 20
@@ -63,11 +63,11 @@ Every framework gets an identical config shape — only the `entry` file changes
 ### ⚛️ React
 
 ```bash
-urja bootstrap --name my-app --template react-ts
+nuclie bootstrap --name my-app --template react-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   outDir: './dist',
@@ -95,11 +95,11 @@ module.exports = {
 ### 🟩 Vue 3
 
 ```bash
-urja bootstrap --name my-app --template vue-ts
+nuclie bootstrap --name my-app --template vue-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -121,11 +121,11 @@ module.exports = {
 ### 🧡 Svelte 5
 
 ```bash
-urja bootstrap --name my-app --template svelte-ts
+nuclie bootstrap --name my-app --template svelte-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -151,11 +151,11 @@ module.exports = {
 ### 🔵 SolidJS
 
 ```bash
-urja bootstrap --name my-app --template solid-ts
+nuclie bootstrap --name my-app --template solid-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/index.tsx'],
   outDir: './dist',
@@ -177,11 +177,11 @@ module.exports = {
 ### 🟣 Preact
 
 ```bash
-urja bootstrap --name my-app --template preact-ts
+nuclie bootstrap --name my-app --template preact-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/index.tsx'],
   outDir: './dist',
@@ -211,11 +211,11 @@ module.exports = {
 ### 🔶 Lit (Web Components)
 
 ```bash
-urja bootstrap --name my-app --template lit-ts
+nuclie bootstrap --name my-app --template lit-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -238,11 +238,11 @@ module.exports = {
 ### 🏔️ Alpine.js
 
 ```bash
-urja bootstrap --name my-app --template alpine-js
+nuclie bootstrap --name my-app --template alpine-js
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.js'],
   outDir: './dist',
@@ -263,13 +263,13 @@ module.exports = {
 ### ⚡ Vanilla JS / TypeScript
 
 ```bash
-urja bootstrap --name my-app --template vanilla-js
+nuclie bootstrap --name my-app --template vanilla-js
 # or
-urja bootstrap --name my-app --template vanilla-ts
+nuclie bootstrap --name my-app --template vanilla-ts
 ```
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -291,7 +291,7 @@ module.exports = {
 ## ⚙️ Full Config Reference
 
 ```js
-// urja.config.js — all options
+// nuclie.config.js — all options
 module.exports = {
   // Entry points (relative to project root)
   entry: ['./src/main.tsx'],
@@ -380,7 +380,7 @@ import CartWidget from 'cart/CartWidget';
 ## 🔌 Plugin System
 
 ```js
-// urja.config.js
+// nuclie.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   plugins: [
@@ -408,16 +408,16 @@ module.exports = {
 ## 🛠️ CLI Commands
 
 ```bash
-urja dev                                          # Start dev server with HMR
-urja build                                        # Production build
-urja bootstrap --name <n> --template <t>          # Scaffold new project
-urja init                                         # Generate urja.config.js
-urja ssr                                          # SSR server
-urja inspect                                      # Inspect dependency graph
-urja analyze                                      # Analyze bundle size
-urja audit                                        # Accessibility, performance & SEO
-urja verify                                       # Config health check
-urja doctor                                       # Diagnose common issues
+nuclie dev                                          # Start dev server with HMR
+nuclie build                                        # Production build
+nuclie bootstrap --name <n> --template <t>          # Scaffold new project
+nuclie init                                         # Generate nuclie.config.js
+nuclie ssr                                          # SSR server
+nuclie inspect                                      # Inspect dependency graph
+nuclie analyze                                      # Analyze bundle size
+nuclie audit                                        # Accessibility, performance & SEO
+nuclie verify                                       # Config health check
+nuclie doctor                                       # Diagnose common issues
 ```
 
 ---
@@ -426,20 +426,20 @@ urja doctor                                       # Diagnose common issues
 
 ```bash
 # TypeScript
-urja bootstrap --name my-app --template react-ts
-urja bootstrap --name my-app --template vue-ts
-urja bootstrap --name my-app --template svelte-ts
-urja bootstrap --name my-app --template solid-ts
-urja bootstrap --name my-app --template preact-ts
-urja bootstrap --name my-app --template lit-ts
-urja bootstrap --name my-app --template vanilla-ts
+nuclie bootstrap --name my-app --template react-ts
+nuclie bootstrap --name my-app --template vue-ts
+nuclie bootstrap --name my-app --template svelte-ts
+nuclie bootstrap --name my-app --template solid-ts
+nuclie bootstrap --name my-app --template preact-ts
+nuclie bootstrap --name my-app --template lit-ts
+nuclie bootstrap --name my-app --template vanilla-ts
 
 # JavaScript
-urja bootstrap --name my-app --template react-js
-urja bootstrap --name my-app --template vue-js
-urja bootstrap --name my-app --template svelte-js
-urja bootstrap --name my-app --template alpine-js
-urja bootstrap --name my-app --template vanilla-js
+nuclie bootstrap --name my-app --template react-js
+nuclie bootstrap --name my-app --template vue-js
+nuclie bootstrap --name my-app --template svelte-js
+nuclie bootstrap --name my-app --template alpine-js
+nuclie bootstrap --name my-app --template vanilla-js
 ```
 
 ---
@@ -487,12 +487,12 @@ module.exports = {
 
 Full documentation and framework guides are available on our website:
 
-**[https://avinash-1994.github.io/Urja/](https://avinash-1994.github.io/Urja/)**
+**[https://avinash-1994.github.io/Nuclie/](https://avinash-1994.github.io/Nuclie/)**
 
-- [Getting Started](https://avinash-1994.github.io/Urja/#/docs/getting-started)
-- [Framework Guides](https://avinash-1994.github.io/Urja/#/guides/react)
-- [Module Federation](https://avinash-1994.github.io/Urja/#/mfe/overview)
-- [Plugin Development](https://avinash-1994.github.io/Urja/#/plugins)
+- [Getting Started](https://avinash-1994.github.io/Nuclie/#/docs/getting-started)
+- [Framework Guides](https://avinash-1994.github.io/Nuclie/#/guides/react)
+- [Module Federation](https://avinash-1994.github.io/Nuclie/#/mfe/overview)
+- [Plugin Development](https://avinash-1994.github.io/Nuclie/#/plugins)
 - [Changelog](./CHANGELOG.md)
 
 ---
@@ -511,6 +511,6 @@ MIT © [Avinash-1994](https://github.com/Avinash-1994)
 
 ## 📞 Support
 
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Urja/discussions)
-- 🐛 [Issues](https://github.com/Avinash-1994/Urja/issues)
-- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Urja)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Nuclie/discussions)
+- 🐛 [Issues](https://github.com/Avinash-1994/Nuclie/issues)
+- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Nuclie)

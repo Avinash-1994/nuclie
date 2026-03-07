@@ -1,19 +1,19 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { UrjaPlugin } from '../core/plugins/types.js';
+import { NucliePlugin } from '../core/plugins/types.js';
 
-export function createHtmlPlugin(rootDir: string, outDir: string): UrjaPlugin {
+export function createHtmlPlugin(rootDir: string, outDir: string): NucliePlugin {
     return {
         manifest: {
-            name: 'urja:html',
+            name: 'nuclie:html',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['buildEnd'],
             permissions: { fs: 'read' }
         },
-        id: 'urja:html',
+        id: 'nuclie:html',
         async runHook(hook, data) {
             if (hook !== 'buildEnd') return data;
 
@@ -29,7 +29,7 @@ export function createHtmlPlugin(rootDir: string, outDir: string): UrjaPlugin {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urja Build</title>
+    <title>Nuclie Build</title>
     ${links}
 </head>
 <body>

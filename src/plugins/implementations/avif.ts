@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-avif
+ * @nuclie/plugin-avif
  * AVIF image support
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createAvifPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-avif',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-avif',
+        originalPlugin: 'nuclie-native',
         
         async load(id: string) {
             // Asset loading for avif

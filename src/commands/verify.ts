@@ -1,11 +1,11 @@
 /**
- * Urja Verify CLI - Trust Anchor
+ * Nuclie Verify CLI - Trust Anchor
  * 
  * Comprehensive project verification with multiple modes:
- * - urja verify (basic)
- * - urja verify --ci (CI/CD mode)
- * - urja verify --strict (strict validation)
- * - urja verify --explain (detailed explanations)
+ * - nuclie verify (basic)
+ * - nuclie verify --ci (CI/CD mode)
+ * - nuclie verify --strict (strict validation)
+ * - nuclie verify --explain (detailed explanations)
  */
 
 import fs from 'fs';
@@ -47,7 +47,7 @@ export interface CheckResult {
 export async function verify(options: VerifyOptions = {}): Promise<VerifyResult> {
     const checks: CheckResult[] = [];
 
-    console.log(kleur.bold().cyan('\n⚡ Urja Verify - Project Health Check\n'));
+    console.log(kleur.bold().cyan('\n⚡ Nuclie Verify - Project Health Check\n'));
 
     // Run all checks
     checks.push(...await checkConfig(options));
@@ -83,7 +83,7 @@ async function checkConfig(options: VerifyOptions): Promise<CheckResult[]> {
     console.log(kleur.bold('📋 Config Validation'));
 
     // Check if config file exists
-    const configFiles = ['urja.config.ts', 'urja.config.js', 'urja.config.json'];
+    const configFiles = ['nuclie.config.ts', 'nuclie.config.js', 'nuclie.config.json'];
     const configFile = configFiles.find(f => fs.existsSync(path.join(cwd, f)));
 
     if (!configFile) {
@@ -91,9 +91,9 @@ async function checkConfig(options: VerifyOptions): Promise<CheckResult[]> {
             name: 'Config File Exists',
             category: 'config',
             status: 'fail',
-            message: 'No urja.config file found',
-            explanation: options.explain ? 'Urja requires a configuration file to define build behavior' : undefined,
-            fix: 'Run: urja init to create a config file'
+            message: 'No nuclie.config file found',
+            explanation: options.explain ? 'Nuclie requires a configuration file to define build behavior' : undefined,
+            fix: 'Run: nuclie init to create a config file'
         });
         return checks;
     }
@@ -132,7 +132,7 @@ async function checkConfig(options: VerifyOptions): Promise<CheckResult[]> {
                 status: options.strict ? 'fail' : 'warn',
                 message: 'No plugins configured',
                 explanation: options.explain ? 'Plugins enable framework-specific transformations and features' : undefined,
-                fix: 'Add plugins to urja.config'
+                fix: 'Add plugins to nuclie.config'
             });
         }
 
@@ -354,7 +354,7 @@ async function checkCache(options: VerifyOptions): Promise<CheckResult[]> {
 
     console.log(kleur.bold('\n💾 Cache Integrity'));
 
-    const cacheDir = path.join(process.cwd(), '.urja_cache');
+    const cacheDir = path.join(process.cwd(), '.nuclie_cache');
 
     if (!fs.existsSync(cacheDir)) {
         checks.push({
@@ -466,7 +466,7 @@ async function checkPermissions(options: VerifyOptions): Promise<CheckResult[]> 
 
     // Check write permissions
     try {
-        const testFile = path.join(cwd, '.urja_verify_test');
+        const testFile = path.join(cwd, '.nuclie_verify_test');
         fs.writeFileSync(testFile, 'test');
         fs.unlinkSync(testFile);
 

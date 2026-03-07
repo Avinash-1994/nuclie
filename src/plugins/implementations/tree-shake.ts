@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-tree-shake
+ * @nuclie/plugin-tree-shake
  * Advanced tree-shaking
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTreeShakePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-tree-shake',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-tree-shake',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-tree-shake] Starting performance optimization...');
+            console.log('[@nuclie/plugin-tree-shake] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createTreeShakePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-tree-shake] Performance optimization complete');
+            console.log('[@nuclie/plugin-tree-shake] Performance optimization complete');
         }
     };
 }

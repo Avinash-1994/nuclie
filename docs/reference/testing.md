@@ -1,4 +1,4 @@
-# 🧪 Urja Testing - Quick Reference Guide
+# 🧪 Nuclie Testing - Quick Reference Guide
 
 ## 🚀 Quick Start
 
@@ -148,7 +148,7 @@ npm run test:snapshot -- --updateSnapshot
 
 ### Enable Debug Logging
 ```bash
-DEBUG=urja:* npm test
+DEBUG=nuclie:* npm test
 ```
 
 ### Run Single Test

@@ -1,10 +1,10 @@
 {
-    "name": "urja-vscode",
+    "name": "nuclie-vscode",
     "type": "module",
-    "displayName": "Urja v2.0 Elite DX",
-    "description": "Language Server and Developer Tools for Urja",
+    "displayName": "Nuclie v2.0 Elite DX",
+    "description": "Language Server and Developer Tools for Nuclie",
     "version": "2.0.0",
-    "publisher": "urja-core",
+    "publisher": "nuclie-core",
     "engines": {
         "vscode": "^1.80.0"
     },
@@ -16,33 +16,33 @@
     "activationEvents": [
         "onLanguage:typescript",
         "onLanguage:javascript",
-        "workspaceContains:urja.config.ts"
+        "workspaceContains:nuclie.config.ts"
     ],
     "main": "./client/out/extension.js",
     "contributes": {
         "commands": [
             {
-                "command": "urja.build",
-                "title": "Urja: Build Project"
+                "command": "nuclie.build",
+                "title": "Nuclie: Build Project"
             },
             {
-                "command": "urja.dev",
-                "title": "Urja: Start Dev Server"
+                "command": "nuclie.dev",
+                "title": "Nuclie: Start Dev Server"
             },
             {
-                "command": "urja.audit",
-                "title": "Urja: Run System Audit"
+                "command": "nuclie.audit",
+                "title": "Nuclie: Run System Audit"
             },
             {
-                "command": "urja.visualize",
-                "title": "Urja: Open Bundle Visualizer"
+                "command": "nuclie.visualize",
+                "title": "Nuclie: Open Bundle Visualizer"
             }
         ],
         "configuration": {
             "type": "object",
-            "title": "Urja Configuration",
+            "title": "Nuclie Configuration",
             "properties": {
-                "urja.trace.server": {
+                "nuclie.trace.server": {
                     "scope": "window",
                     "type": "string",
                     "enum": [

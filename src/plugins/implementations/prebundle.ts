@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-prebundle
+ * @nuclie/plugin-prebundle
  * Dependency pre-bundling
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrebundlePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-prebundle',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-prebundle',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-prebundle] Starting performance optimization...');
+            console.log('[@nuclie/plugin-prebundle] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPrebundlePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-prebundle] Performance optimization complete');
+            console.log('[@nuclie/plugin-prebundle] Performance optimization complete');
         }
     };
 }

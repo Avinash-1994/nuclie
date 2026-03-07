@@ -16,8 +16,8 @@ async function setupProject() {
     await fs.mkdir(path.join(testRoot, 'src'), { recursive: true });
     await fs.mkdir(path.join(testRoot, 'public'), { recursive: true });
 
-    // Create urja.config.js
-    await fs.writeFile(path.join(testRoot, 'urja.config.js'), `
+    // Create nuclie.config.js
+    await fs.writeFile(path.join(testRoot, 'nuclie.config.js'), `
     export default {
       root: process.cwd(),
       entry: ["src/main.js"],

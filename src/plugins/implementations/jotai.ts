@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-jotai
+ * @nuclie/plugin-jotai
  * Jotai state management
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createJotaiPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-jotai',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-jotai',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // jotai transformation

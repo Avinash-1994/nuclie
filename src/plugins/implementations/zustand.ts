@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-zustand
+ * @nuclie/plugin-zustand
  * Zustand state management
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createZustandPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-zustand',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-zustand',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // zustand transformation

@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-webp
+ * @nuclie/plugin-webp
  * WebP image conversion
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createWebpPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-webp',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-webp',
+        originalPlugin: 'nuclie-native',
         
         async load(id: string) {
             // Asset loading for webp

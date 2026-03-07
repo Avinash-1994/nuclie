@@ -4,19 +4,19 @@
  * Validates Day 26 Unified HMR & Config
  */
 
-import { UrjaEnv } from '../src/env/api.js';
+import { NuclieEnv } from '../src/env/api.js';
 
 async function runEnvTest() {
     console.log('🧪 Testing Environment API...');
 
     // 1. Initialize
-    const env = UrjaEnv.init({
+    const env = NuclieEnv.init({
         mode: 'development',
         ssr: true,
         base: '/'
     });
 
-    if (UrjaEnv.get().config.mode !== 'development') {
+    if (NuclieEnv.get().config.mode !== 'development') {
         throw new Error('Config mismatch');
     }
     console.log('  ✅ Env Initialization Verified');

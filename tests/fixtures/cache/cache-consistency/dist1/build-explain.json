@@ -8,43 +8,43 @@
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:json@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:json@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:asset@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:asset@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:js-transform@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:js-transform@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:postcss@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:postcss@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:linker@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:linker@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:html@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:html@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: urja:static@1.0.0 (js)",
+    "reason": "Loaded plugin: nuclie:static@1.0.0 (js)",
     "timestamp": 1772774053665
   },
   {
@@ -103,25 +103,25 @@
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed urja:asset:load (1772774052338.50ms)",
+    "reason": "Executed nuclie:asset:load (1772774052338.50ms)",
     "timestamp": 1772774053666
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed urja:json:load (1772774052338.48ms)",
+    "reason": "Executed nuclie:json:load (1772774052338.48ms)",
     "timestamp": 1772774053666
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed urja:asset:load (1772774052338.55ms)",
+    "reason": "Executed nuclie:asset:load (1772774052338.55ms)",
     "timestamp": 1772774053676
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed urja:json:load (1772774052338.51ms)",
+    "reason": "Executed nuclie:json:load (1772774052338.51ms)",
     "timestamp": 1772774053676
   },
   {
