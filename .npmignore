@@ -1,69 +1,36 @@
-# ============================================================
-# Nuclie .npmignore — Excludes dev/test files from npm package
-# NOTE: package.json "files" whitelist takes precedence over
-# patterns here. nuclie_native.node is included via "files".
-# ============================================================
+# Ignore tests and irrelevant sources inside dist/
+dist/test/
+dist/tests/
+dist/**/*.test.js
+dist/**/*.test.d.ts
+dist/**/*.spec.js
+dist/**/*.spec.d.ts
+dist/benchmarks/
+dist/test-production-app/
 
-# Source & tests — not needed by consumers
-src/
+# General ignores
+node_modules/
 tests/
 benchmarks/
-extensions/
-native/
-templates/
-scripts/
-docs/
 .github/
-.agent/
-.governance/
-cloud-backend/
-ci-templates/
-docker-benchmarks/
-docker/
-eslint-plugin-nuclie-governance/
+docs/
 examples/
-framework-tests/
-frameworks/
-marketplace/
-build_output/
-test_output_prod/
-test-production-app/
-config/
-extensions/
-
-# Dev config
+urja-web-app/
+nuclie-web-app/
+src/
+scripts/
+Cargo.toml
+Cargo.lock
+target/
+.gitignore
+.prettierrc
+tsconfig.json
+tsconfig.*.json
 jest.config.js
-tsconfig*.json
-eslint.config.js
-playwright.config.ts
-.eslintrc*
-.prettierrc*
-*.tsbuildinfo
+.eslintrc.js
 
-# Database & cache files
-*.db
-*.db.json
-.nuclie_cache/
-.nuclie-marketplace.db
-
-# Build logs & scripts
-*.log
-build-output.log
-fix-ci-tests.ps1
-fix-error-tests.ps1
-
-# Packaged archives
-*.tgz
-
-# Documentation & status reports (not needed by consumers)
-BRUTAL_HONEST_ASSESSMENT.md
-FINAL_*.md
-CI_*.md
-PRODUCTION_*.md
-CLEANUP_*.md
-TESTING_*.md
-BUILD_*.md
-MINIFICATION_*.md
-GOVERNANCE.md
-CONTRIBUTING.md
-CHANGELOG.md
+# Double-check that root native node is excluded (since it's copied to dist/)
+nuclie_native.node
+nuclie_native.*.node
+dist/nuclie_native.node
+dist/**/*.node
