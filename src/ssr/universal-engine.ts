@@ -1,6 +1,6 @@
 
 /**
- * Urja Universal SSR Runtime
+ * Nuclie Universal SSR Runtime
  * Framework-Agnostic, Environment-Agnostic Dispatcher
  * Day 22: Universal SSR Runtime Lock
  */

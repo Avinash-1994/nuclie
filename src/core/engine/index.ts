@@ -15,7 +15,7 @@ import { canonicalHash } from './hash.js';
 /**
  * Core Build Engine
  * 
- * PUBLIC: The main orchestrator for the Urja build pipeline.
+ * PUBLIC: The main orchestrator for the Nuclie build pipeline.
  * Use this class to run builds programmatically.
  * 
  * @public

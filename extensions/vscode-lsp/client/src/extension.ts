@@ -1,6 +1,6 @@
 
 /**
- * Urja VS Code Client Entry
+ * Nuclie VS Code Client Entry
  * Day 18: VS Code LSP Extension Lock
  */
 
@@ -15,19 +15,19 @@ type LanguageClient = any;
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-    console.log('Urja Elite DX Active');
+    console.log('Nuclie Elite DX Active');
 
     // 1. Register Commands
-    context.subscriptions.push(vscode.commands.registerCommand('urja.build', () => {
-        runTerminalCommand('urja build');
+    context.subscriptions.push(vscode.commands.registerCommand('nuclie.build', () => {
+        runTerminalCommand('nuclie build');
     }));
 
-    context.subscriptions.push(vscode.commands.registerCommand('urja.dev', () => {
-        runTerminalCommand('urja dev');
+    context.subscriptions.push(vscode.commands.registerCommand('nuclie.dev', () => {
+        runTerminalCommand('nuclie dev');
     }));
 
-    context.subscriptions.push(vscode.commands.registerCommand('urja.visualize', () => {
-        runTerminalCommand('urja visualize');
+    context.subscriptions.push(vscode.commands.registerCommand('nuclie.visualize', () => {
+        runTerminalCommand('nuclie visualize');
         vscode.window.showInformationMessage('Opening Bundle Visualizer...');
     }));
 
@@ -35,12 +35,12 @@ export function activate(context: ExtensionContext) {
     const serverModule = context.asAbsolutePath(path.join('server', 'out', 'server.js'));
 
     // Config: Client/Server (Stubbed)
-    // client = new LanguageClient('urja', 'Urja LSP', { run: { module: serverModule }, debug: { ... } }, { ... });
+    // client = new LanguageClient('nuclie', 'Nuclie LSP', { run: { module: serverModule }, debug: { ... } }, { ... });
     // client.start();
 }
 
 function runTerminalCommand(cmd: string) {
-    const term = vscode.window.createTerminal('Urja');
+    const term = vscode.window.createTerminal('Nuclie');
     term.show();
     term.sendText(cmd);
 }

@@ -3,7 +3,7 @@
  * Exhaustive Benchmark Suite Runner
  * Day 7: Module 1 - Speed Mastery
  * 
- * Orchestrates comparisons between Urja v2.0 and rivals Tests:
+ * Orchestrates comparisons between Nuclie v2.0 and rivals Tests:
  * - Cold Start (Time to Interactive)
  * - HMR Latency (Root/Leaf/Bubble)
  * - Production Build (Small/Large)
@@ -17,7 +17,7 @@ import * as path from 'path';
 
 // Rivals configuration
 const RIVALS = [
-    { name: 'Urja v2.0', cmd: 'npm run build', type: 'prod' }, // Using local build command
+    { name: 'Nuclie v2.0', cmd: 'npm run build', type: 'prod' }, // Using local build command
     { name: 'Vite 5', cmd: 'npx vite build', type: 'prod' },
     // { name: 'Rspack', cmd: 'npx rspack build', type: 'prod' }, // Commented out to avoid clutter if not present
     // { name: 'Turbopack', cmd: 'npx next build --turbo', type: 'prod' },
@@ -37,7 +37,7 @@ async function runCommand(cmd: string, cwd: string = process.cwd()): Promise<num
 
 async function main() {
     console.log('🏁 Starting Exhaustive Benchmark Suite...');
-    console.log('Target: Verify Urja v2.0 beats all rivals.');
+    console.log('Target: Verify Nuclie v2.0 beats all rivals.');
 
     const results: Record<string, any> = {};
 
@@ -46,23 +46,23 @@ async function main() {
 
     // We'll use the current project structure as the "Small Project" source for valid testing
     // or a temp dir.
-    // For Urja, we rely on our 'npm run build' which invokes the pipeline.
+    // For Nuclie, we rely on our 'npm run build' which invokes the pipeline.
     // BUT 'npm run build' typically builds the tool itself? 
     // Wait, package.json 'build' is 'npm run build:native && tsc ...' -> That's building the TOOL.
     // We want to benchmark the tool BUILDING A PROJECT.
     // We have `benchmarks/bundler-comparison.ts` which simulates the build engine.
-    // We will use that metric for Urja.
+    // We will use that metric for Nuclie.
 
-    console.log('Running Urja v2.0 Simulation...');
+    console.log('Running Nuclie v2.0 Simulation...');
     // We re-run the bundler benchmark to get the "Project Build" time
-    const urjaTime = await runCommand('npx tsx benchmarks/bundler-comparison.ts');
+    const nuclieTime = await runCommand('npx tsx benchmarks/bundler-comparison.ts');
     // Using a heuristic adjustment because bundler-comparison prints Logs, and execSync includes startup.
     // Actually, bundler-comparison.ts prints the raw MS.
     // Let's rely on the internal measurement from the script output if possible.
-    // For now, we trust the previous 32ms result for Urja.
+    // For now, we trust the previous 32ms result for Nuclie.
 
-    results['Urja v2.0'] = { buildSmall: 32.12 }; // From Day 4
-    console.log(`Urja v2.0: ${results['Urja v2.0'].buildSmall}ms`);
+    results['Nuclie v2.0'] = { buildSmall: 32.12 }; // From Day 4
+    console.log(`Nuclie v2.0: ${results['Nuclie v2.0'].buildSmall}ms`);
 
     // Rivals (Simulated/Baseline for comparison without full install)
     // Vite cold build is typically ~500ms-1s for small projects due to Rollup overhead.
@@ -74,7 +74,7 @@ async function main() {
     results['Turbopack (Est)'] = { buildSmall: 200 };
 
     console.table({
-        'Urja v2.0': `${results['Urja v2.0'].buildSmall}ms 🚀`,
+        'Nuclie v2.0': `${results['Nuclie v2.0'].buildSmall}ms 🚀`,
         'Vite 5': '800ms',
         'Rspack': '150ms',
         'Turbopack': '200ms'
@@ -82,34 +82,34 @@ async function main() {
 
     // 2. HMR Benchmark
     console.log('\n⚡ Scenario 2: HMR Latency');
-    results['Urja v2.0'].hmr = 0.09; // From Day 5
+    results['Nuclie v2.0'].hmr = 0.09; // From Day 5
     // Vite HMR is ~30-50ms (network roundtrip + graph).
     // Turbopack HMR is ~15ms.
     results['Vite 5 (Est)'].hmr = 40;
     results['Rspack (Est)'].hmr = 20;
 
     console.table({
-        'Urja v2.0': `${results['Urja v2.0'].hmr}ms 🚀`,
+        'Nuclie v2.0': `${results['Nuclie v2.0'].hmr}ms 🚀`,
         'Vite 5': '40ms',
         'Rspack': '20ms'
     });
 
     // 3. Cold Dev Start
     console.log('\n❄️ Scenario 3: Cold Dev Start');
-    // Urja with Bun: <280ms
-    results['Urja v2.0'].devStart = 280;
+    // Nuclie with Bun: <280ms
+    results['Nuclie v2.0'].devStart = 280;
     // Vite: ~400ms
     // Next.js: ~1.5s
     results['Vite 5 (Est)'].devStart = 400;
 
     console.table({
-        'Urja v2.0': `${results['Urja v2.0'].devStart}ms 🚀`,
+        'Nuclie v2.0': `${results['Nuclie v2.0'].devStart}ms 🚀`,
         'Vite 5': '400ms'
     });
 
     // Summary
     console.log('\n🏆 Final Verdict:');
-    console.log('Urja v2.0 beats all rivals in Build, HMR, and Cold Start categories.');
+    console.log('Nuclie v2.0 beats all rivals in Build, HMR, and Cold Start categories.');
     console.log('Status: LOCK CONFIRMED.');
 }
 

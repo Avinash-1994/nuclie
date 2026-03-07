@@ -1,6 +1,6 @@
 
 /**
- * Urja Marketplace tRPC Server
+ * Nuclie Marketplace tRPC Server
  * Implementation: tRPC Router for Publish/Search/Install
  * Day 10: Marketplace MVP Lock
  */

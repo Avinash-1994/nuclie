@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-pwa
+ * @nuclie/plugin-pwa
  * Progressive Web App support
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPwaPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-pwa',
+        name: '@nuclie/plugin-pwa',
         originalPlugin: 'vite-plugin-pwa',
         
         async transform(code: string, id: string) {

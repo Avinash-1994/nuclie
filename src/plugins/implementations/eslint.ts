@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-eslint
+ * @nuclie/plugin-eslint
  * ESLint integration
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createEslintPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-eslint',
+        name: '@nuclie/plugin-eslint',
         originalPlugin: 'vite-plugin-eslint',
         
         async transform(code: string, id: string) {

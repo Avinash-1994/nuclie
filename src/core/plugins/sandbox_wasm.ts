@@ -1,8 +1,8 @@
 
-import { UrjaPlugin, PluginHookName, PluginManifest } from './types.js';
+import { NucliePlugin, PluginHookName, PluginManifest } from './types.js';
 import { canonicalHash } from '../engine/hash.js';
 
-export class WASMPluginSandbox implements UrjaPlugin {
+export class WASMPluginSandbox implements NucliePlugin {
     manifest: PluginManifest;
     id: string;
     private instance: WebAssembly.Instance;

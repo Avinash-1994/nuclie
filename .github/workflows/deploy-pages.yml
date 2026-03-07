@@ -34,23 +34,23 @@ jobs:
       - name: 📦 Install Root Dependencies
         run: npm ci
 
-      - name: 🔨 Build Urja (creates dist/cli.js)
+      - name: 🔨 Build Nuclie (creates dist/cli.js)
         run: npm run build
 
       - name: 📦 Install Web App Dependencies
         run: npm ci
-        working-directory: urja-web-app
+        working-directory: nuclie-web-app
 
       - name: 🔨 Build Website
         run: npm run build
-        working-directory: urja-web-app
+        working-directory: nuclie-web-app
         env:
           NODE_ENV: production
 
       - name: 📤 Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: urja-web-app/dist
+          path: nuclie-web-app/dist
 
   deploy:
     name: 🚀 Deploy to GitHub Pages

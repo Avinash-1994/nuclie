@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-html
+ * @nuclie/plugin-html
  * HTML generation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createHtmlPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-html',
+        name: '@nuclie/plugin-html',
         originalPlugin: 'html-webpack-plugin',
         
         async transform(code: string, id: string) {

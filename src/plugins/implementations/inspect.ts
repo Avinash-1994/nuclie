@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-inspect
+ * @nuclie/plugin-inspect
  * Plugin inspection tool
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createInspectPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-inspect',
+        name: '@nuclie/plugin-inspect',
         originalPlugin: 'vite-plugin-inspect',
         
         async transform(code: string, id: string) {

@@ -20,17 +20,17 @@ export const fintechTemplate: TemplateConfig = {
   devDependencies: {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@urja/plugin-react": "^1.0.0",
-    "@urja/plugin-upi-payment": "^1.0.0",
-    "@urja/plugin-qr-code": "^1.0.0",
-    "@urja/plugin-security": "^1.0.0"
+    "@nuclie/plugin-react": "^1.0.0",
+    "@nuclie/plugin-upi-payment": "^1.0.0",
+    "@nuclie/plugin-qr-code": "^1.0.0",
+    "@nuclie/plugin-security": "^1.0.0"
   },
   files: {
-    'urja.config.ts': `    
-import { defineConfig } from 'urja';
-import react from '@urja/plugin-react';
-import upi from '@urja/plugin-upi-payment';
-import qr from '@urja/plugin-qr-code';
+    'nuclie.config.ts': `    
+import { defineConfig } from 'nuclie';
+import react from '@nuclie/plugin-react';
+import upi from '@nuclie/plugin-upi-payment';
+import qr from '@nuclie/plugin-qr-code';
 
 export default defineConfig({
     plugins: [react(), upi(), qr()],
@@ -73,7 +73,7 @@ export default function App() {
     <div className="container">
       <header className="header">
         <ShieldCheck size={40} className="icon secure" />
-        <h1>Urja Pay</h1>
+        <h1>Nuclie Pay</h1>
       </header>
       
       <div className="card">
@@ -202,7 +202,7 @@ button {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Urja Pay</title>
+    <title>Nuclie Pay</title>
   </head>
   <body>
     <div id="root"></div>

@@ -9,21 +9,21 @@ let nativeBinding = null;
 
 // Try all known locations for the compiled .node binary
 const candidates = [
-    path.join(__dirname, 'urja_native.win32-x64-msvc.node'),
-    path.join(__dirname, 'urja_native.win32-x64-gnu.node'),
-    path.join(__dirname, 'urja_native.linux-x64-gnu.node'),
-    path.join(__dirname, 'urja_native.linux-x64-musl.node'),
-    path.join(__dirname, 'urja_native.darwin-universal.node'),
-    path.join(__dirname, 'urja_native.darwin-arm64.node'),
-    path.join(__dirname, 'urja_native.darwin-x64.node'),
-    path.join(__dirname, 'urja_native.node'),
-    path.join(__dirname, '..', 'urja_native.node'),
-    path.join(__dirname, '..', 'dist', 'urja_native.node'),
-    path.join(process.cwd(), 'native', 'urja_native.win32-x64-msvc.node'),
-    path.join(process.cwd(), 'native', 'urja_native.linux-x64-gnu.node'),
-    path.join(process.cwd(), 'native', 'urja_native.darwin-universal.node'),
-    path.join(process.cwd(), 'urja_native.node'),
-    path.join(process.cwd(), 'dist', 'urja_native.node'),
+    path.join(__dirname, 'nuclie_native.win32-x64-msvc.node'),
+    path.join(__dirname, 'nuclie_native.win32-x64-gnu.node'),
+    path.join(__dirname, 'nuclie_native.linux-x64-gnu.node'),
+    path.join(__dirname, 'nuclie_native.linux-x64-musl.node'),
+    path.join(__dirname, 'nuclie_native.darwin-universal.node'),
+    path.join(__dirname, 'nuclie_native.darwin-arm64.node'),
+    path.join(__dirname, 'nuclie_native.darwin-x64.node'),
+    path.join(__dirname, 'nuclie_native.node'),
+    path.join(__dirname, '..', 'nuclie_native.node'),
+    path.join(__dirname, '..', 'dist', 'nuclie_native.node'),
+    path.join(process.cwd(), 'native', 'nuclie_native.win32-x64-msvc.node'),
+    path.join(process.cwd(), 'native', 'nuclie_native.linux-x64-gnu.node'),
+    path.join(process.cwd(), 'native', 'nuclie_native.darwin-universal.node'),
+    path.join(process.cwd(), 'nuclie_native.node'),
+    path.join(process.cwd(), 'dist', 'nuclie_native.node'),
 ];
 
 for (const candidate of candidates) {
@@ -86,9 +86,9 @@ const binding = nativeBinding || stub;
 
 if (!nativeBinding) {
     // Only warn once, not on every import
-    if (!global.__urja_native_warned) {
-        global.__urja_native_warned = true;
-        process.stderr.write('[urja] Native binding not found — using JS fallback stubs. Build/run `npm run build:native` to compile.\n');
+    if (!global.__nuclie_native_warned) {
+        global.__nuclie_native_warned = true;
+        process.stderr.write('[nuclie] Native binding not found — using JS fallback stubs. Build/run `npm run build:native` to compile.\n');
     }
 }
 

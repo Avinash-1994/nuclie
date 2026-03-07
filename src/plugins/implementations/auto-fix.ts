@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-auto-fix
+ * @nuclie/plugin-auto-fix
  * Automatic error fixing
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createAutoFixPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-auto-fix',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-auto-fix',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Automatic error fixing

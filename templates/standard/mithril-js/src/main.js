@@ -5,11 +5,11 @@ const App = {
     view: () => m(".app-container", [
         m("header.hero", [
             m("span.badge", "v1.0.0 Stable"),
-            m("h1", "Urja"),
+            m("h1", "Nuclie"),
             m("p.subtitle", [
                 "The high-performance build engine for modern web applications.",
                 m("br"),
-                "Built with Mithril + Urja."
+                "Built with Mithril + Nuclie."
             ])
         ]),
         m("main.features", [
@@ -28,7 +28,7 @@ const App = {
         ]),
         m(".code-area", [
             m("span", { style: { color: '#6366F1' } }, "$ "),
-            "urja build --optimize",
+            "nuclie build --optimize",
             m("br"),
             m("span", { style: { color: '#94A3B8', opacity: 0.6 } }, "// Generating optimized production bundle..."),
             m("br"),
@@ -36,7 +36,7 @@ const App = {
         ]),
         m("footer.footer", [
             "Powered by ",
-            m("a", { href: "https://urja.dev", target: "_blank" }, "Urja Build Tool")
+            m("a", { href: "https://nuclie.dev", target: "_blank" }, "Nuclie Build Tool")
         ])
     ])
 };

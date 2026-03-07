@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-react-query
+ * @nuclie/plugin-react-query
  * React Query integration
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReactQueryPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-react-query',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-react-query',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // react transformation

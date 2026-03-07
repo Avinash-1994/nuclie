@@ -1,4 +1,4 @@
-# 🧪 Urja Testing Strategy - Current & Recommended
+# 🧪 Nuclie Testing Strategy - Current & Recommended
 
 ## 📊 Current Testing Coverage (41 Tests)
 

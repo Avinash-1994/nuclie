@@ -38,7 +38,7 @@
 
 ### 3. Benchmark Baselines (NOT REAL)
 **Current**: Webpack/Rspack/Turbopack/Angular use "baseline" estimates  
-**Actual**: Only Vite and Urja are real measurements  
+**Actual**: Only Vite and Nuclie are real measurements  
 **Target**: Real benchmarks for ALL 7 tools
 
 **Root Cause**:
@@ -112,7 +112,7 @@
 ### 10. Documentation Live Examples
 **Current**: Code examples only  
 **Missing**: Interactive playground, live demos  
-**Target**: benchmarks.urja.dev with live comparisons
+**Target**: benchmarks.nuclie.dev with live comparisons
 
 ---
 
@@ -129,7 +129,7 @@
 
 ## 📊 Module 7 vs Competitors - Honest Comparison
 
-| Metric | Urja | Vite | Turbopack | Rspack | esbuild | Status |
+| Metric | Nuclie | Vite | Turbopack | Rspack | esbuild | Status |
 |--------|-------|------|-----------|--------|---------|--------|
 | Cold Start | 608ms | 425ms | ~400ms | ~300ms | 200ms | ❌ LOSE |
 | HMR | 15ms | 30ms | ~30ms | ~50ms | ~40ms | ✅ WIN |
@@ -157,7 +157,7 @@ To claim "#1 build tool" status, we MUST:
 6. ✅ Built-in linter (Rome/SWC level)
 7. ✅ Memory <50MB peak (verified)
 8. ✅ 99% migration success rate
-9. ✅ Live benchmark site (benchmarks.urja.dev)
+9. ✅ Live benchmark site (benchmarks.nuclie.dev)
 10. ✅ Zero regressions from Modules 1-7
 
 **Target**: Win 5/6 metrics vs all competitors
@@ -202,7 +202,7 @@ To claim "#1 build tool" status, we MUST:
 
 ## 🎯 Module 8 Commitment
 
-**Promise**: By Day 57, Urja will be the **undisputed #1 build tool** with:
+**Promise**: By Day 57, Nuclie will be the **undisputed #1 build tool** with:
 - Fastest cold start (<200ms)
 - Smallest bundles (Vite -20%)
 - Best DX (built-in linter, doctor)

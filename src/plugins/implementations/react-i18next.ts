@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-react-i18next
+ * @nuclie/plugin-react-i18next
  * React i18next integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReactI18nextPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-react-i18next',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-react-i18next',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // i18n: React i18next integration
@@ -16,7 +16,7 @@ export function createReactI18nextPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-react-i18next] i18n setup complete');
+            console.log('[@nuclie/plugin-react-i18next] i18n setup complete');
         }
     };
 }

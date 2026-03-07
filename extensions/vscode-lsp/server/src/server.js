@@ -1,11 +1,11 @@
 /**
- * Urja Language Server Logic (JavaScript version for CI compatibility)
+ * Nuclie Language Server Logic (JavaScript version for CI compatibility)
  * Day 18: VS Code LSP Extension Lock
  */
 
-export class UrjaLSPServer {
+export class NuclieLSPServer {
     constructor() {
-        console.log('Urja LSP Initialized');
+        console.log('Nuclie LSP Initialized');
     }
 
     /**
@@ -18,10 +18,10 @@ export class UrjaLSPServer {
         // 1. Plugins Completion
         if (line.includes('plugins:') || (line.trim().startsWith('[') && lines[position.line - 1]?.includes('plugins:'))) {
             return [
-                { label: '@urja/plugin-react', kind: 9, detail: 'React 19 Adapter' },
-                { label: '@urja/plugin-vue', kind: 9, detail: 'Vue 3 Adapter' },
-                { label: '@urja/plugin-tailwindcss', kind: 9, detail: 'Tailwind JIT' },
-                { label: '@urja/plugin-visualizer', kind: 9, detail: 'Bundle Analysis' }
+                { label: '@nuclie/plugin-react', kind: 9, detail: 'React 19 Adapter' },
+                { label: '@nuclie/plugin-vue', kind: 9, detail: 'Vue 3 Adapter' },
+                { label: '@nuclie/plugin-tailwindcss', kind: 9, detail: 'Tailwind JIT' },
+                { label: '@nuclie/plugin-visualizer', kind: 9, detail: 'Bundle Analysis' }
             ];
         }
 
@@ -50,7 +50,7 @@ export class UrjaLSPServer {
                     range: { start: { line: i, character: line.indexOf("'prod'") }, end: { line: i, character: line.indexOf("'prod'") + 6 } },
                     severity: 2, // Warning
                     message: "Did you mean 'production'?",
-                    source: 'Urja LSP'
+                    source: 'Nuclie LSP'
                 });
             }
 
@@ -60,7 +60,7 @@ export class UrjaLSPServer {
                     range: { start: { line: i, character: 0 }, end: { line: i, character: line.length } },
                     severity: 3, // Info
                     message: "Performance: Prefer default import or lodash-es for better tree-shaking.",
-                    source: 'Urja Perf'
+                    source: 'Nuclie Perf'
                 });
             }
         });

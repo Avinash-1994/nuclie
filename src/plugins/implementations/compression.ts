@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-compression
+ * @nuclie/plugin-compression
  * Asset compression
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCompressionPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-compression',
+        name: '@nuclie/plugin-compression',
         originalPlugin: 'compression-webpack-plugin',
         
         async buildStart() {
-            console.log('[@urja/plugin-compression] Starting performance optimization...');
+            console.log('[@nuclie/plugin-compression] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createCompressionPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-compression] Performance optimization complete');
+            console.log('[@nuclie/plugin-compression] Performance optimization complete');
         }
     };
 }

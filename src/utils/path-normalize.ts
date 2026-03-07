@@ -1,6 +1,6 @@
 
 /**
- * Urja Path Normalization Utility
+ * Nuclie Path Normalization Utility
  * Ensures consistent behavior across Windows (win32) and Unix (posix)
  * Day 25: Legacy Polyfills & Windows Lock
  */

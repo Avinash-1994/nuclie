@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-mobx
+ * @nuclie/plugin-mobx
  * MobX integration
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMobxPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-mobx',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-mobx',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // mobx transformation

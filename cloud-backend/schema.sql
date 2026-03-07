@@ -1,4 +1,4 @@
--- Urja Cloud API - Production Database Schema
+-- Nuclie Cloud API - Production Database Schema
 -- PostgreSQL 15+
 
 -- Enable UUID extension

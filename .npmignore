@@ -1,7 +1,7 @@
 # ============================================================
-# Urja .npmignore — Excludes dev/test files from npm package
+# Nuclie .npmignore — Excludes dev/test files from npm package
 # NOTE: package.json "files" whitelist takes precedence over
-# patterns here. urja_native.node is included via "files".
+# patterns here. nuclie_native.node is included via "files".
 # ============================================================
 
 # Source & tests — not needed by consumers
@@ -20,7 +20,7 @@ cloud-backend/
 ci-templates/
 docker-benchmarks/
 docker/
-eslint-plugin-urja-governance/
+eslint-plugin-nuclie-governance/
 examples/
 framework-tests/
 frameworks/
@@ -43,8 +43,8 @@ playwright.config.ts
 # Database & cache files
 *.db
 *.db.json
-.urja_cache/
-.urja-marketplace.db
+.nuclie_cache/
+.nuclie-marketplace.db
 
 # Build logs & scripts
 *.log

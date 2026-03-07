@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-zustand-devtools
+ * @nuclie/plugin-zustand-devtools
  * Zustand DevTools integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createZustandDevtoolsPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-zustand-devtools',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-zustand-devtools',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // State management: Zustand DevTools integration
@@ -16,7 +16,7 @@ export function createZustandDevtoolsPlugin(): PluginAdapter {
         },
 
         async buildStart() {
-            console.log('[@urja/plugin-zustand-devtools] State management initialized');
+            console.log('[@nuclie/plugin-zustand-devtools] State management initialized');
         }
     };
 }

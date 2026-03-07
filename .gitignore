@@ -15,13 +15,13 @@ native/target/
 native/Cargo.lock
 native/*.node
 native/native.d.ts
-native/urja_native*.node
+native/nuclie_native*.node
 native/nextgen_native*.node
-native/urja_native*.node
+native/nuclie_native*.node
 *.node
 
 # Test artifacts
-.test_create_urja/
+.test_create_nuclie/
 test-project-*/
 my-react-app/
 test_output*/
@@ -33,7 +33,7 @@ marketplace.db
 marketplace.db-journal
 
 # Build artifacts
-urja_native.node
+nuclie_native.node
 *.wasm
 
 # IDE
@@ -64,7 +64,7 @@ benchmark_temp/
 *.csr
 *.priv
 **/certs/**
-**/.urja/certs/**
+**/.nuclie/certs/**
 .env
 .env.local
 .env.*.local
@@ -73,9 +73,9 @@ secrets/
 *.private
 
 # Cache and local data
-.urja_cache/
-.urja/telemetry/
-**/.urja_cache/**
-**/.urja/telemetry/**
+.nuclie_cache/
+.nuclie/telemetry/
+**/.nuclie_cache/**
+**/.nuclie/telemetry/**
 *.db
 *.db-journal

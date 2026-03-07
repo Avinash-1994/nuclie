@@ -1,6 +1,6 @@
 
 /**
- * Urja v2.0 Zero-Trust Signing System
+ * Nuclie v2.0 Zero-Trust Signing System
  * Implementation: ECDSA P-256 via WebCrypto (Node.js)
  * Day 9: WebCrypto Signing System Lock
  */

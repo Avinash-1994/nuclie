@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-legacy
+ * @nuclie/plugin-legacy
  * Legacy browser support
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLegacyPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-legacy',
+        name: '@nuclie/plugin-legacy',
         originalPlugin: '@vitejs/plugin-legacy',
         
         async transform(code: string, id: string) {

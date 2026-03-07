@@ -1,6 +1,6 @@
 
 /**
- * Urja SSR Adapters
+ * Nuclie SSR Adapters
  * Connects Universal Engine to React 19 / Vue 3
  * Day 23: Framework-Agnostic SSR Lock
  */
@@ -50,7 +50,7 @@ export class ReactAdapter {
             return {
                 stream, // Node Readable
                 statusCode: 200,
-                head: '<meta name="generator" content="Urja React">'
+                head: '<meta name="generator" content="Nuclie React">'
             };
         };
     }

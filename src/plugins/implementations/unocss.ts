@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-unocss
+ * @nuclie/plugin-unocss
  * UnoCSS integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createUnocssPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-unocss',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-unocss',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for unocss

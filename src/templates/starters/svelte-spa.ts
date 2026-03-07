@@ -19,11 +19,11 @@ export const svelteSpaTemplate: TemplateConfig = {
         "svelte-check": "^3.5.0",
         "tslib": "^2.6.2",
         "typescript": "^5.2.2",
-        "@urja/plugin-svelte": "^1.0.0"
+        "@nuclie/plugin-svelte": "^1.0.0"
     },
     files: {
-        'urja.config.ts': `
-import { defineConfig } from 'urja';
+        'nuclie.config.ts': `
+import { defineConfig } from 'nuclie';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
@@ -47,11 +47,11 @@ export default app
 <script lang="ts">
   import Counter from './lib/Counter.svelte'
 
-  let urjaLogo = '/urja.svg'
+  let nuclieLogo = '/nuclie.svg'
 </script>
 
 <main>
-  <h1>Urja + Svelte</h1>
+  <h1>Nuclie + Svelte</h1>
 
   <div class="card">
     <Counter />
@@ -62,7 +62,7 @@ export default app
   </p>
 
   <p class="read-the-docs">
-    Click on the Urja and Svelte logos to learn more
+    Click on the Nuclie and Svelte logos to learn more
   </p>
 </main>
 

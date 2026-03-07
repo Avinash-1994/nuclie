@@ -1,13 +1,13 @@
 
 /**
- * Urja Marketplace Database
+ * Nuclie Marketplace Database
  * Implementation: SQLite (via better-sqlite3) for Local Registry
  */
 
 import Database from 'better-sqlite3';
 import path from 'path';
 
-const DB_PATH = path.resolve('.urja-marketplace.db');
+const DB_PATH = path.resolve('.nuclie-marketplace.db');
 
 export interface PluginRecord {
     name: string;

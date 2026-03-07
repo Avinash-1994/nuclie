@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-audit
+ * @nuclie/plugin-audit
  * Real-time security auditing
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createAuditPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-audit',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-audit',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Security check: Real-time security auditing
@@ -29,7 +29,7 @@ export function createAuditPlugin(): PluginAdapter {
             }
             
             if (issues.length > 0) {
-                console.warn(`[@urja/plugin-audit] Security issues found:`, issues);
+                console.warn(`[@nuclie/plugin-audit] Security issues found:`, issues);
             }
         }
     };

@@ -1,10 +1,10 @@
 
 import path from 'path';
 import { createRequire } from 'module';
-import { UrjaPlugin } from '../../core/plugins/types.js';
+import { NucliePlugin } from '../../core/plugins/types.js';
 import { log } from '../../utils/logger.js';
 
-export function createPostCssPlugin(rootDir: string): UrjaPlugin {
+export function createPostCssPlugin(rootDir: string): NucliePlugin {
     let processor: any = null;
     let initialized = false;
 
@@ -54,14 +54,14 @@ export function createPostCssPlugin(rootDir: string): UrjaPlugin {
 
     return {
         manifest: {
-            name: 'urja:postcss',
+            name: 'nuclie:postcss',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['transformModule'],
             permissions: { fs: 'read' }
         },
-        id: 'urja:postcss',
+        id: 'nuclie:postcss',
         async runHook(hook, input, context) {
             if (hook !== 'transformModule' || !input.path.endsWith('.css')) {
                 return input;

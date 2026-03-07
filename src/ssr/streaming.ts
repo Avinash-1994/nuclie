@@ -3,7 +3,7 @@ import { Readable } from 'stream';
 import type { SSRContext, RenderResult } from './universal-engine.js';
 
 /**
- * Urja Streaming Engine
+ * Nuclie Streaming Engine
  * Implements React 18+ Streaming SSR with Progressive Hydration
  * Day 54: SSR Power Locked
  */
@@ -18,7 +18,7 @@ export interface StreamingOptions {
     namespace?: string;
 }
 
-export class UrjaStreamingEngine {
+export class NuclieStreamingEngine {
 
     /**
      * Create a Shell-First Stream
@@ -43,7 +43,7 @@ export class UrjaStreamingEngine {
 
                     // Inject hydration script before piping
                     if (ctx.manifest) {
-                        passThrough.write(UrjaStreamingEngine.getHydrationScript(ctx.manifest));
+                        passThrough.write(NuclieStreamingEngine.getHydrationScript(ctx.manifest));
                     }
 
                     // Wrap the passThrough to detect errors and finish
@@ -110,6 +110,6 @@ export class UrjaStreamingEngine {
      * This allows the client to know which chunks are coming
      */
     static getHydrationScript(manifest: any): string {
-        return `<script>window.__URJA_HYDRATION__ = ${JSON.stringify(manifest)};</script>`;
+        return `<script>window.__NUCLIE_HYDRATION__ = ${JSON.stringify(manifest)};</script>`;
     }
 }

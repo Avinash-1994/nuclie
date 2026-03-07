@@ -1,7 +1,7 @@
 // tests/runner_verification_test.ts
-// This file tests the custom @urja/test runner itself
+// This file tests the custom @nuclie/test runner itself
 
-describe('Urja Test Runner', () => {
+describe('Nuclie Test Runner', () => {
     it('should support describe/it blocks', () => {
         expect(true).toBe(true);
     });

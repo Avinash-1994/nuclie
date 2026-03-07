@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-imagemin
+ * @nuclie/plugin-imagemin
  * Image optimization
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createImageminPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-imagemin',
+        name: '@nuclie/plugin-imagemin',
         originalPlugin: 'vite-plugin-imagemin',
         
         async load(id: string) {

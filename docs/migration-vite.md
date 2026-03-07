@@ -1,11 +1,11 @@
-# Migrating from Vite to Urja
+# Migrating from Vite to Nuclie
 
-Urja is designed to be a drop-in 10x faster replacement for Vite.
+Nuclie is designed to be a drop-in 10x faster replacement for Vite.
 
 ## 1. Quick Switch
 Run the auto-migration command:
 ```bash
-npx urja migrate
+npx nuclie migrate
 ```
 
 ## 2. Manual Migration
@@ -14,32 +14,32 @@ npx urja migrate
 Change your content in `package.json`:
 ```json
 "scripts": {
-  "dev": "urja dev",
-  "build": "urja build"
+  "dev": "nuclie dev",
+  "build": "nuclie build"
 }
 ```
 
 ### Reuse Vite Plugins
-Urja supports Vite plugins natively via the compatibility adapter.
+Nuclie supports Vite plugins natively via the compatibility adapter.
 
 ```ts
-// urja.config.ts
-import { defineConfig } from 'urja';
-import { viteToUrja } from 'urja';
+// nuclie.config.ts
+import { defineConfig } from 'nuclie';
+import { viteToNuclie } from 'nuclie';
 import someVitePlugin from 'vite-plugin-cool';
 
 export default defineConfig({
   plugins: [
-    viteToUrja(someVitePlugin())
+    viteToNuclie(someVitePlugin())
   ]
 });
 ```
 
 ## 3. Environment Variables
-Urja respects `.env` files exactly like Vite. Use `import.meta.env` as usual.
+Nuclie respects `.env` files exactly like Vite. Use `import.meta.env` as usual.
 
 ## 4. Key Differences
-| Feature | Vite | Urja |
+| Feature | Vite | Nuclie |
 |---------|------|-------|
 | Startup | ~400ms | < 50ms |
 | Build | esbuild/Rollup | Native Rust |

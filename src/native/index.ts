@@ -10,10 +10,10 @@ const __dirname = path.dirname(__filename);
 let native: any;
 try {
     const candidates = [
-        path.resolve(__dirname, '../../urja_native.node'),
-        path.resolve(__dirname, '../urja_native.node'),
-        path.resolve(__dirname, './urja_native.node'),
-        path.resolve(process.cwd(), 'urja_native.node')
+        path.resolve(__dirname, '../../nuclie_native.node'),
+        path.resolve(__dirname, '../nuclie_native.node'),
+        path.resolve(__dirname, './nuclie_native.node'),
+        path.resolve(process.cwd(), 'nuclie_native.node')
     ];
 
     let found = '';

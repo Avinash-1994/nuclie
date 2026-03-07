@@ -95,7 +95,7 @@ async function runTest() {
         },
         rootDir: '/test',
         target: 'browser',
-        engine: { name: 'urja', version: '1.0.0' },
+        engine: { name: 'nuclie', version: '1.0.0' },
         graph: mockGraph
     };
 

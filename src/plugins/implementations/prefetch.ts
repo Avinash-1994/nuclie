@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-prefetch
+ * @nuclie/plugin-prefetch
  * Route prefetching
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrefetchPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-prefetch',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-prefetch',
+        originalPlugin: 'nuclie-native',
         
         async buildStart() {
-            console.log('[@urja/plugin-prefetch] Starting performance optimization...');
+            console.log('[@nuclie/plugin-prefetch] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPrefetchPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@urja/plugin-prefetch] Performance optimization complete');
+            console.log('[@nuclie/plugin-prefetch] Performance optimization complete');
         }
     };
 }

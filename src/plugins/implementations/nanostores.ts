@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-nanostores
+ * @nuclie/plugin-nanostores
  * Nano Stores integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createNanostoresPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-nanostores',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-nanostores',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // State management: Nano Stores integration
@@ -16,7 +16,7 @@ export function createNanostoresPlugin(): PluginAdapter {
         },
 
         async buildStart() {
-            console.log('[@urja/plugin-nanostores] State management initialized');
+            console.log('[@nuclie/plugin-nanostores] State management initialized');
         }
     };
 }

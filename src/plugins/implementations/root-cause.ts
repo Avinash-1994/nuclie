@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-root-cause
+ * @nuclie/plugin-root-cause
  * Error root cause analysis
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRootCausePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-root-cause',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-root-cause',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Error root cause analysis

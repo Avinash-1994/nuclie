@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-repro
+ * @nuclie/plugin-repro
  * Reproduction case generator
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReproPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-repro',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-repro',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Reproduction case generator

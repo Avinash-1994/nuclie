@@ -1,6 +1,6 @@
 
 /**
- * Urja Error Overlay Client
+ * Nuclie Error Overlay Client
  * Injected into the browser to capture Runtime & Build errors.
  * Day 15: Reliable Error Overlay Lock
  */
@@ -12,7 +12,7 @@ let overlayInstance: HTMLElement | null = null;
 
 function getOverlay() {
     if (!overlayInstance || !overlayInstance.isConnected) {
-        overlayInstance = document.createElement('urja-error-overlay');
+        overlayInstance = document.createElement('nuclie-error-overlay');
         document.body.appendChild(overlayInstance);
     }
     return overlayInstance as any;
@@ -37,7 +37,7 @@ function handleRejection(event: PromiseRejectionEvent) {
 }
 
 // Global API for HMR Client
-(window as any).__URJA_OVERLAY__ = {
+(window as any).__NUCLIE_OVERLAY__ = {
     reportBuildError(err: any) {
         const overlay = getOverlay();
         overlay.showError(err);
@@ -53,7 +53,7 @@ function handleRejection(event: PromiseRejectionEvent) {
 export function activateOverlay() {
     window.addEventListener('error', handleRuntimeError);
     window.addEventListener('unhandledrejection', handleRejection);
-    console.log('[Urja] Error Overlay Active');
+    console.log('[Nuclie] Error Overlay Active');
 }
 
 // Auto-activate if running in browser

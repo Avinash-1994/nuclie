@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-playwright
+ * @nuclie/plugin-playwright
  * Playwright E2E
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPlaywrightPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-playwright',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-playwright',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Playwright E2E

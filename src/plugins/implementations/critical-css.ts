@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-critical-css
+ * @nuclie/plugin-critical-css
  * Critical CSS extraction
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createCriticalCssPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-critical-css',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-critical-css',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for critical-css

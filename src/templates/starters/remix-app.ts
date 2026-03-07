@@ -26,17 +26,17 @@ export default function App() {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Urja Remix App' },
-    { name: 'description', content: 'Welcome to Remix with Urja!' },
+    { title: 'Nuclie Remix App' },
+    { name: 'description', content: 'Welcome to Remix with Nuclie!' },
   ];
 };
 
 export default function Index() {
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold">Welcome to Remix + Urja</h1>
+      <h1 className="text-4xl font-bold">Welcome to Remix + Nuclie</h1>
       <p className="mt-4">
-        This is a Remix-style application built with Urja.
+        This is a Remix-style application built with Nuclie.
       </p>
     </div>
   );
@@ -49,7 +49,7 @@ export default function Index() {
     </div>
   );
 }`,
-        'urja.config.js': `module.exports = {
+        'nuclie.config.js': `module.exports = {
   entry: ['./src/root.tsx'],
   outDir: './dist',
   framework: 'react',
@@ -71,13 +71,13 @@ export default function Index() {
   },
 };`,
         'package.json': `{
-  "name": "urja-remix-app",
+  "name": "nuclie-remix-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "urja dev",
-    "build": "urja build",
-    "start": "urja ssr"
+    "dev": "nuclie dev",
+    "build": "nuclie build",
+    "start": "nuclie ssr"
   },
   "dependencies": {
     "@remix-run/react": "^2.0.0",

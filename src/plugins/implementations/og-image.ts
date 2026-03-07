@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-og-image
+ * @nuclie/plugin-og-image
  * Open Graph image generation
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createOgImagePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-og-image',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-og-image',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Open Graph image generation

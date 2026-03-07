@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-font-subset
+ * @nuclie/plugin-font-subset
  * Font subsetting
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createFontSubsetPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-font-subset',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-font-subset',
+        originalPlugin: 'nuclie-native',
         
         async load(id: string) {
             // Asset loading for font-subset

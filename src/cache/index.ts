@@ -14,7 +14,7 @@ export class DiskCache {
   dir: string;
 
   constructor(base: string) {
-    this.dir = path.resolve(base, '.urja_cache');
+    this.dir = path.resolve(base, '.nuclie_cache');
   }
 
   async ensure() {
@@ -34,7 +34,7 @@ export class DiskCache {
     }
     // include config file if present
     try {
-      const cfg = await fs.readFile('urja.config.json');
+      const cfg = await fs.readFile('nuclie.config.json');
       hash.update(cfg);
     } catch (e) {
       // ignore

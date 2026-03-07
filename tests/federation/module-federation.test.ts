@@ -56,9 +56,9 @@ createRoot(document.getElementById('root')!).render(
 );`
                 );
 
-                // Urja config with federation
+                // Nuclie config with federation
                 fs.writeFileSync(
-                    path.join(hostPath, 'urja.config.json'),
+                    path.join(hostPath, 'nuclie.config.json'),
                     JSON.stringify({
                         entry: ['src/main.tsx'],
                         preset: 'spa',
@@ -145,7 +145,7 @@ createRoot(document.getElementById('root')!).render(<App />);`
                 );
 
                 fs.writeFileSync(
-                    path.join(consumerPath, 'urja.config.json'),
+                    path.join(consumerPath, 'nuclie.config.json'),
                     JSON.stringify({
                         entry: ['src/main.tsx'],
                         preset: 'spa',
@@ -199,7 +199,7 @@ createRoot(document.getElementById('root')!).render(
                 );
 
                 fs.writeFileSync(
-                    path.join(sharedPath, 'urja.config.json'),
+                    path.join(sharedPath, 'nuclie.config.json'),
                     JSON.stringify({
                         entry: ['src/main.tsx'],
                         preset: 'spa',
@@ -256,7 +256,7 @@ createRoot(document.getElementById('root')!).render(
 
                 // Config with conflicting version requirements
                 fs.writeFileSync(
-                    path.join(conflictPath, 'urja.config.json'),
+                    path.join(conflictPath, 'nuclie.config.json'),
                     JSON.stringify({
                         entry: ['src/main.ts'],
                         preset: 'spa',

@@ -65,13 +65,13 @@ describe('Security Shield & Anomaly Detection (Day 41)', () => {
 
         expect(response.status()).toBe(403);
         const text = await response.text();
-        expect(text).toContain('Blocked by Urja Security Shield');
+        expect(text).toContain('Blocked by Nuclie Security Shield');
         await page.close();
     });
 
     it('should expose the Security Dashboard with recorded events', async () => {
         const page = await browser.newPage();
-        const response = await page.goto(`${SERVER_URL}/__urja/security`);
+        const response = await page.goto(`${SERVER_URL}/__nuclie/security`);
 
         expect(response.status()).toBe(200);
         const json = await response.json();

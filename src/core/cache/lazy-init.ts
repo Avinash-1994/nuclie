@@ -41,7 +41,7 @@ export class LazyCacheInitializer {
      */
     private setupPersistentStorage() {
         // Task Day 51: Persistent cache for Docker/Edge
-        const tmpCache = '/tmp/urja-cache';
+        const tmpCache = '/tmp/nuclie-cache';
         if (process.env.DOCKER_CONTAINER && !fs.existsSync(this.cacheDir)) {
             try {
                 if (!fs.existsSync(tmpCache)) fs.mkdirSync(tmpCache, { recursive: true });
@@ -160,7 +160,7 @@ let globalLazyCache: LazyCacheInitializer | null = null;
 
 export function getLazyCache(cacheDir?: string): LazyCacheInitializer {
     if (!globalLazyCache) {
-        const dir = cacheDir || path.join(process.cwd(), '.urja_cache');
+        const dir = cacheDir || path.join(process.cwd(), '.nuclie_cache');
         globalLazyCache = new LazyCacheInitializer({
             cacheDir: dir,
             preload: true,

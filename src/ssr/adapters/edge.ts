@@ -2,7 +2,7 @@
 import { UniversalSSREngine, SSRAdapter } from '../universal-engine.js';
 
 /**
- * Urja Vercel Edge / Cloudflare Workers Adapter
+ * Nuclie Vercel Edge / Cloudflare Workers Adapter
  * Day 54: SSR Power Locked
  */
 

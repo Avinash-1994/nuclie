@@ -1,20 +1,20 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { UrjaPlugin } from '../core/plugins/types.js';
+import { NucliePlugin } from '../core/plugins/types.js';
 import { log } from '../utils/logger.js';
 
-export function createStaticPlugin(rootDir: string, outDir: string): UrjaPlugin {
+export function createStaticPlugin(rootDir: string, outDir: string): NucliePlugin {
     return {
         manifest: {
-            name: 'urja:static',
+            name: 'nuclie:static',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['buildEnd'],
             permissions: { fs: 'read' }
         },
-        id: 'urja:static',
+        id: 'nuclie:static',
         async runHook(hook, data) {
             if (hook !== 'buildEnd') return data;
 

@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-sprite
+ * @nuclie/plugin-sprite
  * SVG sprite generation
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createSpritePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-sprite',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-sprite',
+        originalPlugin: 'nuclie-native',
         
         async load(id: string) {
             // Asset loading for sprite

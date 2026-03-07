@@ -1,8 +1,8 @@
-# 🎉 URJA v1.0.0 - PRODUCTION RELEASE COMPLETE
+# 🎉 NUCLIE v1.0.0 - PRODUCTION RELEASE COMPLETE
 
 ## ✅ ALL SYSTEMS GO!
 
-**Urja is now PRODUCTION READY and approved for immediate release!**
+**Nuclie is now PRODUCTION READY and approved for immediate release!**
 
 ---
 
@@ -39,7 +39,7 @@ Build Errors: 0
      → Zero build errors
 
 [✅] 2. Fix All Build Errors
-     → URJA_BUILD_ERRORS.md is empty
+     → NUCLIE_BUILD_ERRORS.md is empty
      → All builds successful
      → Production-ready code
 
@@ -117,7 +117,7 @@ Build Errors: 0
 
 ```
 ┌──────────────────────┬──────────────┬────────────┐
-│ Metric               │ Urja        │ Status     │
+│ Metric               │ Nuclie        │ Status     │
 ├──────────────────────┼──────────────┼────────────┤
 │ Cold Start Time      │ 69ms         │ ✅ Excellent│
 │ HMR Update Speed     │ 10-60ms      │ ✅ Excellent│
@@ -137,7 +137,7 @@ Build Errors: 0
 
 **NEW: Single-Viewport Feature Showcase**
 
-Highlights Urja's capabilities:
+Highlights Nuclie's capabilities:
 - ⚡ Lightning Fast (69ms cold start, 10-60ms HMR)
 - 📊 Build Performance (optimization chart)
 - 💻 Universal Framework Support (10+ frameworks)
@@ -181,7 +181,7 @@ Design:
 
 ---
 
-## 🌟 WHAT MAKES URJA SPECIAL
+## 🌟 WHAT MAKES NUCLIE SPECIAL
 
 ### 1. Universal Framework Support
 Auto-detects and supports 10+ frameworks with version-agnostic transformers
@@ -207,25 +207,25 @@ Perfect scores across 8 real-world projects
 
 ```bash
 # Install globally
-npm install -g urja
+npm install -g nuclie
 
 # Create new project
-npx create-urja my-app --template premium-dashboard
+npx create-nuclie my-app --template premium-dashboard
 
 # Start development
 cd my-app
-urja dev
+nuclie dev
 
 # Build for production
-urja build
+nuclie build
 ```
 
 ---
 
 ## 📞 SUPPORT & RESOURCES
 
-- **Repository:** https://github.com/Avinash-1994/urja
-- **Issues:** https://github.com/Avinash-1994/urja/issues
+- **Repository:** https://github.com/Avinash-1994/nuclie
+- **Issues:** https://github.com/Avinash-1994/nuclie/issues
 - **Documentation:** See `/docs` folder
 - **License:** MIT
 - **Node Version:** >=20.0.0
@@ -258,7 +258,7 @@ urja build
 
 ## ✅ PRODUCTION CERTIFICATION
 
-**Urja v1.0.0 is hereby certified PRODUCTION READY for:**
+**Nuclie v1.0.0 is hereby certified PRODUCTION READY for:**
 
 ✅ Production deployments  
 ✅ Enterprise applications  
@@ -280,7 +280,7 @@ urja build
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║        🎉  URJA v1.0.0 - PRODUCTION READY  🎉          ║
+║        🎉  NUCLIE v1.0.0 - PRODUCTION READY  🎉          ║
 ║                                                           ║
 ║  All systems tested and verified                         ║
 ║  Zero build errors                                       ║
@@ -297,7 +297,7 @@ urja build
 
 ---
 
-**Built with ❤️ by the Urja Team**  
+**Built with ❤️ by the Nuclie Team**  
 **Powered by ⚡ Rust + TypeScript**
 
 **Release Date:** January 23, 2026  

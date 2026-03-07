@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-prisma
+ * @nuclie/plugin-prisma
  * Prisma integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrismaPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-prisma',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-prisma',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Prisma integration

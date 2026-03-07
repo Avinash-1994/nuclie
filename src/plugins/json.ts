@@ -1,19 +1,19 @@
 
-import { UrjaPlugin } from '../core/plugins/types.js';
+import { NucliePlugin } from '../core/plugins/types.js';
 import path from 'path';
 import fs from 'fs/promises';
 
-export function createJsonPlugin(): UrjaPlugin {
+export function createJsonPlugin(): NucliePlugin {
     return {
         manifest: {
-            name: 'urja:json',
+            name: 'nuclie:json',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['load'],
             permissions: { fs: 'read' }
         },
-        id: 'urja:json',
+        id: 'nuclie:json',
         async runHook(hook, input, context) {
             if (hook === 'load') {
                 if (input.path.endsWith('.json')) {

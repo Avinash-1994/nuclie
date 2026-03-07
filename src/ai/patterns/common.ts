@@ -176,13 +176,13 @@ export const CommonPatterns: ErrorPattern[] = [
         }
     },
     {
-        id: 'urja-config-error',
-        name: 'Urja Config Validation Error',
+        id: 'nuclie-config-error',
+        name: 'Nuclie Config Validation Error',
         regex: /Invalid config file/i,
         generator: () => {
             return {
                 type: 'MANUAL_INSTRUCTION',
-                description: 'Fix urja.config configuration - check for type mismatches or missing fields.',
+                description: 'Fix nuclie.config configuration - check for type mismatches or missing fields.',
                 confidence: 0.95
             };
         }

@@ -1,8 +1,8 @@
-# 🎨 Urja Templates - Visual Guide
+# 🎨 Nuclie Templates - Visual Guide
 
 ## How Templates Work
 
-When you run `npx create-urja my-app --template react-spa`, Urja:
+When you run `npx create-nuclie my-app --template react-spa`, Nuclie:
 
 1. Creates a new directory `my-app/`
 2. Generates all files from the template
@@ -19,7 +19,7 @@ my-app/                    # Your new project
 │   ├── App.css           # Component styles
 │   └── index.css         # Global styles
 ├── index.html            # HTML entry
-├── urja.config.ts       # Urja configuration
+├── nuclie.config.ts       # Nuclie configuration
 ├── package.json          # Dependencies
 ├── tsconfig.json         # TypeScript config
 └── README.md             # Project README
@@ -40,7 +40,7 @@ my-react-app/
 │   ├── App.css
 │   └── index.css         # Dark theme
 ├── index.html
-├── urja.config.ts       # React plugin configured
+├── nuclie.config.ts       # React plugin configured
 └── package.json          # React 18+
 ```
 
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Urja + React</h1>
+      <h1>Nuclie + React</h1>
       <button onClick={() => setCount(count + 1)}>
         count is {count}
       </button>
@@ -83,7 +83,7 @@ my-vue-app/
 │   │   └── HelloWorld.vue
 │   └── style.css
 ├── index.html
-├── urja.config.ts       # Vue plugin
+├── nuclie.config.ts       # Vue plugin
 └── package.json          # Vue 3+
 ```
 
@@ -98,7 +98,7 @@ const count = ref(0)
 
 <template>
   <div id="app">
-    <h1>Urja + Vue</h1>
+    <h1>Nuclie + Vue</h1>
     <button @click="count++">Count: {{ count }}</button>
     <HelloWorld msg="Welcome to Vue 3" />
   </div>
@@ -126,7 +126,7 @@ my-svelte-app/
 │   │   └── Counter.svelte
 │   └── app.css
 ├── index.html
-├── urja.config.ts       # Svelte plugin
+├── nuclie.config.ts       # Svelte plugin
 └── package.json          # Svelte 4+
 ```
 
@@ -134,14 +134,14 @@ my-svelte-app/
 ```svelte
 <script lang="ts">
   import Counter from './lib/Counter.svelte'
-  let name = 'Urja'
+  let name = 'Nuclie'
 </script>
 
 <main>
   <h1>Hello {name}!</h1>
   <Counter />
   <p>
-    Visit <a href="https://urja.dev">urja.dev</a> to learn more
+    Visit <a href="https://nuclie.dev">nuclie.dev</a> to learn more
   </p>
 </main>
 
@@ -167,7 +167,7 @@ my-nextjs-app/
 │       ├── page.tsx      # Home page
 │       ├── layout.tsx    # Root layout
 │       └── globals.css   # Tailwind CSS
-├── urja.config.js       # SSR enabled
+├── nuclie.config.js       # SSR enabled
 ├── tailwind.config.js    # Tailwind setup
 └── package.json          # React 19+
 ```
@@ -178,7 +178,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-24">
       <h1 className="text-4xl font-bold">
-        Welcome to Urja + Next.js
+        Welcome to Nuclie + Next.js
       </h1>
       <p className="mt-4">
         Start building your app with App Router
@@ -205,10 +205,10 @@ my-monorepo/
 ├── packages/
 │   ├── web/              # Frontend app
 │   │   ├── src/
-│   │   └── urja.config.js
+│   │   └── nuclie.config.js
 │   ├── api/              # Backend API
 │   │   ├── src/
-│   │   └── urja.config.js
+│   │   └── nuclie.config.js
 │   └── shared/           # Shared utilities
 │       └── src/
 ├── package.json          # Workspace root
@@ -232,7 +232,7 @@ my-edge-app/
 ├── src/
 │   ├── index.ts          # Edge handler
 │   └── middleware.ts     # Edge middleware
-├── urja.config.js       # target: 'edge'
+├── nuclie.config.js       # target: 'edge'
 └── package.json          # Minimal deps
 ```
 
@@ -279,7 +279,7 @@ my-fintech-app/
 │   │   ├── security.ts   # Encryption helpers
 │   │   └── validation.ts # Input validation
 │   └── styles/
-├── urja.config.js       # Security headers
+├── nuclie.config.js       # Security headers
 └── package.json          # Enterprise deps
 ```
 
@@ -300,13 +300,13 @@ my-fintech-app/
 
 ```bash
 # Interactive selection
-npx create-urja my-app
+npx create-nuclie my-app
 
 # Specific template
-npx create-urja my-app --template react-spa
+npx create-nuclie my-app --template react-spa
 
 # With package manager
-npx create-urja my-app --template vue-spa --pm pnpm
+npx create-nuclie my-app --template vue-spa --pm pnpm
 ```
 
 ### After Creation
@@ -320,12 +320,12 @@ npm install
 # Start development server
 npm run dev
 # or
-urja dev
+nuclie dev
 
 # Build for production
 npm run build
 # or
-urja build
+nuclie build
 ```
 
 ---
@@ -337,7 +337,7 @@ urja build
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│         Urja + React                   │
+│         Nuclie + React                   │
 │                                         │
 │    ┌─────────────────────┐              │
 │    │  count is 0         │              │
@@ -346,7 +346,7 @@ urja build
 │    Edit src/App.tsx and save to        │
 │    test HMR                             │
 │                                         │
-│    Click on the Urja logo to learn    │
+│    Click on the Nuclie logo to learn    │
 │    more                                 │
 │                                         │
 └─────────────────────────────────────────┘
@@ -355,9 +355,9 @@ urja build
 ### Development Server Output
 
 ```bash
-$ urja dev
+$ nuclie dev
 
-  ⚡ Urja v1.0.0
+  ⚡ Nuclie v1.0.0
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://192.168.1.100:3000/
@@ -372,9 +372,9 @@ $ urja dev
 ### Build Output
 
 ```bash
-$ urja build
+$ nuclie build
 
-  ⚡ Urja v1.0.0
+  ⚡ Nuclie v1.0.0
 
   Building for production...
 
@@ -400,7 +400,7 @@ my-app/
 ├── src/
 │   └── index.ts          # 1 file
 ├── index.html
-├── urja.config.js
+├── nuclie.config.js
 └── package.json
 ```
 
@@ -413,7 +413,7 @@ my-app/
 │   ├── App.css
 │   └── index.css
 ├── index.html
-├── urja.config.ts
+├── nuclie.config.ts
 ├── tsconfig.json
 └── package.json
 ```
@@ -428,7 +428,7 @@ my-app/
 ├── docs/
 ├── scripts/
 ├── .github/
-├── urja.config.js
+├── nuclie.config.js
 ├── package.json
 └── pnpm-workspace.yaml
 ```
@@ -487,12 +487,12 @@ export const templates = [
 After creating your project:
 
 1. **Explore the code** - Check out the generated files
-2. **Start dev server** - `urja dev`
+2. **Start dev server** - `nuclie dev`
 3. **Make changes** - Edit files and see HMR in action
 4. **Add features** - Install packages, add routes
-5. **Build** - `urja build` for production
+5. **Build** - `nuclie build` for production
 6. **Deploy** - Upload `dist/` to your hosting
 
 ---
 
-**Need help?** Check out the [documentation](../README.md) or [create an issue](https://github.com/Avinash-1994/urja/issues)!
+**Need help?** Check out the [documentation](../README.md) or [create an issue](https://github.com/Avinash-1994/nuclie/issues)!

@@ -1,6 +1,6 @@
 
 /**
- * Urja Error Overlay UI
+ * Nuclie Error Overlay UI
  * Implementation: Web Component with Shadow DOM
  * Day 15: Reliable Error Overlay Lock
  */
@@ -84,7 +84,7 @@ const STYLE = `
 }
 `;
 
-export class UrjaErrorOverlay extends HTMLElement {
+export class NuclieErrorOverlay extends HTMLElement {
     root: ShadowRoot;
 
     constructor() {
@@ -146,6 +146,6 @@ export class UrjaErrorOverlay extends HTMLElement {
     }
 }
 
-if (!customElements.get('urja-error-overlay')) {
-    customElements.define('urja-error-overlay', UrjaErrorOverlay);
+if (!customElements.get('nuclie-error-overlay')) {
+    customElements.define('nuclie-error-overlay', NuclieErrorOverlay);
 }

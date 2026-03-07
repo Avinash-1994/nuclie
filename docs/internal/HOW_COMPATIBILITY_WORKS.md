@@ -8,7 +8,7 @@
 
 ## 🎯 Purpose
 
-This guide explains **HOW** framework compatibility adapters work in Urja.
+This guide explains **HOW** framework compatibility adapters work in Nuclie.
 
 Written for core engineers who need to understand or modify framework integrations.
 
@@ -24,7 +24,7 @@ Vue SFC → [Vue Compiler] → JavaScript + CSS
 Svelte → [Svelte Compiler] → JavaScript + CSS
 ```
 
-**Key Insight**: Each framework has a **compiler** that Urja wraps.
+**Key Insight**: Each framework has a **compiler** that Nuclie wraps.
 
 ---
 
@@ -58,7 +58,7 @@ function detectFramework(config: BuildConfig): Framework {
 
 ```typescript
 // src/presets/index.ts
-export function getFrameworkPreset(framework: Framework): UrjaPlugin[] {
+export function getFrameworkPreset(framework: Framework): NucliePlugin[] {
   switch (framework) {
     case 'react':
       return reactPreset();
@@ -74,7 +74,7 @@ export function getFrameworkPreset(framework: Framework): UrjaPlugin[] {
 
 **Presets are just plugin arrays**:
 ```typescript
-function reactPreset(): UrjaPlugin[] {
+function reactPreset(): NucliePlugin[] {
   return [
     jsTransformPlugin({ jsx: 'automatic' }),
     reactRefreshPlugin(),
@@ -87,7 +87,7 @@ function reactPreset(): UrjaPlugin[] {
 ### 3. **Transform Pipeline**
 
 ```
-Source File → [Framework Compiler] → JavaScript → [Urja Pipeline] → Bundle
+Source File → [Framework Compiler] → JavaScript → [Nuclie Pipeline] → Bundle
 ```
 
 **Example: React**
@@ -227,7 +227,7 @@ transform(code: string, id: string) {
 **How it works**:
 ```typescript
 // Angular uses JIT compilation at runtime
-// Urja only compiles TypeScript → JavaScript
+// Nuclie only compiles TypeScript → JavaScript
 transform(code: string, id: string) {
   if (!id.endsWith('.ts')) return null;
   
@@ -364,7 +364,7 @@ if (isReactComponent(code)) {
 
 2. **Implement Transform Hook**
    ```typescript
-   export function myFrameworkPlugin(): UrjaPlugin {
+   export function myFrameworkPlugin(): NucliePlugin {
      return {
        name: 'my-framework',
        transform(code, id) {
@@ -384,7 +384,7 @@ if (isReactComponent(code)) {
 3. **Add to Presets**
    ```typescript
    // src/presets/index.ts
-   export function myFrameworkPreset(): UrjaPlugin[] {
+   export function myFrameworkPreset(): NucliePlugin[] {
      return [
        myFrameworkPlugin(),
        jsTransformPlugin(),

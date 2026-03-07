@@ -3,11 +3,11 @@ import fs from 'fs/promises';
 import path from 'path';
 
 /**
- * URJA TIER B PLUGINS (IO / ASSETS)
+ * NUCLIE TIER B PLUGINS (IO / ASSETS)
  * 
  * Includes:
- * - urjaCopy (copy-webpack-plugin)
- * - urjaHtml (html-webpack-plugin)
+ * - nuclieCopy (copy-webpack-plugin)
+ * - nuclieHtml (html-webpack-plugin)
  */
 
 export interface CopyTarget {
@@ -21,12 +21,12 @@ export interface CopyOptions {
 }
 
 /**
- * Copy Plugin (urja-copy)
+ * Copy Plugin (nuclie-copy)
  * Copies files or directories from src to dest at build end.
  */
-export function urjaCopy(options: CopyOptions): Plugin {
+export function nuclieCopy(options: CopyOptions): Plugin {
     return {
-        name: 'urja-copy',
+        name: 'nuclie-copy',
         async buildEnd() {
             if (!options.targets || options.targets.length === 0) return;
 
@@ -39,10 +39,10 @@ export function urjaCopy(options: CopyOptions): Plugin {
                     await fs.cp(srcPath, destPath, { recursive: true, force: true });
 
                     if (options.verbose) {
-                        console.log(`[urja-copy] Copied ${target.src} -> ${target.dest}`);
+                        console.log(`[nuclie-copy] Copied ${target.src} -> ${target.dest}`);
                     }
                 } catch (e: any) {
-                    console.warn(`[urja-copy] Failed to copy ${target.src}: ${e.message}`);
+                    console.warn(`[nuclie-copy] Failed to copy ${target.src}: ${e.message}`);
                 }
             }
         }
@@ -58,17 +58,17 @@ export interface HtmlOptions {
 }
 
 /**
- * HTML Plugin (urja-html)
+ * HTML Plugin (nuclie-html)
  * Generates an index.html file in the output directory.
  * Advanced: Supports variable interpolation (e.g., %PUBLIC_URL%, %TITLE%)
  */
-export function urjaHtml(options: HtmlOptions = {}): Plugin {
+export function nuclieHtml(options: HtmlOptions = {}): Plugin {
     return {
-        name: 'urja-html',
+        name: 'nuclie-html',
         stability: 'stable',
         async buildEnd() {
             const filename = options.filename || 'index.html';
-            const title = options.title || 'Urja App';
+            const title = options.title || 'Nuclie App';
             const destPath = path.resolve(process.cwd(), 'dist', filename);
 
             let content = '';
@@ -78,7 +78,7 @@ export function urjaHtml(options: HtmlOptions = {}): Plugin {
                     const templatePath = path.resolve(process.cwd(), options.template);
                     content = await fs.readFile(templatePath, 'utf-8');
                 } catch (e) {
-                    console.warn(`[urja-html] Template not found: ${options.template}`);
+                    console.warn(`[nuclie-html] Template not found: ${options.template}`);
                     content = getDefaultHtml(title);
                 }
             } else {
@@ -101,7 +101,7 @@ export function urjaHtml(options: HtmlOptions = {}): Plugin {
                 await fs.mkdir(path.dirname(destPath), { recursive: true });
                 await fs.writeFile(destPath, content);
             } catch (e: any) {
-                console.error(`[urja-html] Failed to generate HTML: ${e.message}`);
+                console.error(`[nuclie-html] Failed to generate HTML: ${e.message}`);
             }
         }
     };

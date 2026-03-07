@@ -1,5 +1,5 @@
 
-import { UrjaPlugin } from '../core/plugins/types.js';
+import { NucliePlugin } from '../core/plugins/types.js';
 import { canonicalHash } from '../core/engine/hash.js';
 import crypto from 'crypto';
 import path from 'path';
@@ -17,10 +17,10 @@ export interface FederationConfig {
     healthCheck?: string;
 }
 
-export function createFederationPlugin(config: FederationConfig): UrjaPlugin {
+export function createFederationPlugin(config: FederationConfig): NucliePlugin {
     return {
         manifest: {
-            name: 'urja:federation',
+            name: 'nuclie:federation',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',

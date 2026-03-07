@@ -1,7 +1,7 @@
 /**
  * Plugin Registry and Loader (Production-Ready)
  * 
- * Centralized registry for all 101 Urja plugins with:
+ * Centralized registry for all 101 Nuclie plugins with:
  * - Lazy loading
  * - WASM sandbox integration
  * - Signature verification
@@ -76,7 +76,7 @@ export class ProductionPluginRegistry {
     }
 
     private async loadImplementation(pluginName: string): Promise<PluginAdapter> {
-        const fileName = pluginName.replace('@urja/plugin-', '') + '.ts';
+        const fileName = pluginName.replace('@nuclie/plugin-', '') + '.ts';
         const filePath = path.join(this.implementationsDir, fileName);
 
         if (!fs.existsSync(filePath)) {
@@ -85,7 +85,7 @@ export class ProductionPluginRegistry {
 
         // Dynamic import
         const module = await import(filePath);
-        const createPlugin = module.default || module[`create${this.capitalize(pluginName.replace('@urja/plugin-', ''))}Plugin`];
+        const createPlugin = module.default || module[`create${this.capitalize(pluginName.replace('@nuclie/plugin-', ''))}Plugin`];
 
         if (typeof createPlugin !== 'function') {
             throw new Error(`Plugin ${pluginName} does not export a factory function`);
@@ -175,11 +175,11 @@ export async function loadPlugins(names: string[]): Promise<PluginAdapter[]> {
  */
 export async function getRecommendedPlugins(framework: string): Promise<PluginAdapter[]> {
     const recommendations: Record<string, string[]> = {
-        'react': ['@urja/plugin-react', '@urja/plugin-react-query', '@urja/plugin-typescript'],
-        'vue': ['@urja/plugin-vue', '@urja/plugin-pinia', '@urja/plugin-typescript'],
-        'svelte': ['@urja/plugin-svelte', '@urja/plugin-typescript'],
-        'angular': ['@urja/plugin-typescript', '@urja/plugin-sass'],
-        'solid': ['@urja/plugin-solid', '@urja/plugin-typescript']
+        'react': ['@nuclie/plugin-react', '@nuclie/plugin-react-query', '@nuclie/plugin-typescript'],
+        'vue': ['@nuclie/plugin-vue', '@nuclie/plugin-pinia', '@nuclie/plugin-typescript'],
+        'svelte': ['@nuclie/plugin-svelte', '@nuclie/plugin-typescript'],
+        'angular': ['@nuclie/plugin-typescript', '@nuclie/plugin-sass'],
+        'solid': ['@nuclie/plugin-solid', '@nuclie/plugin-typescript']
     };
 
     const names = recommendations[framework] || [];

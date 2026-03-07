@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-markdown
+ * @nuclie/plugin-markdown
  * Markdown processing
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMarkdownPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-markdown',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-markdown',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Utility: Markdown processing

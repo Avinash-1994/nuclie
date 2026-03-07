@@ -1,7 +1,7 @@
-# 🎯 Urja Web App Update Requirements
+# 🎯 Nuclie Web App Update Requirements
 
 ## Current Status
-The urja-web-app exists at `/home/avinash/Desktop/framework_practis/build/urja-web-app` but needs updating with **accurate production data** from our v1.0 release.
+The nuclie-web-app exists at `/home/avinash/Desktop/framework_practis/build/nuclie-web-app` but needs updating with **accurate production data** from our v1.0 release.
 
 ---
 
@@ -61,20 +61,20 @@ The urja-web-app exists at `/home/avinash/Desktop/framework_practis/build/urja-w
 
 ### CLI Commands (ACTUAL)
 ```bash
-urja dev        # Start development server
-urja build      # Build for production
-urja analyze    # Analyze bundle
-urja ssr        # Start SSR server
-urja init       # Initialize config
-urja bootstrap  # Create from template
-urja css        # CSS utilities
-urja optimize   # Optimize config
-urja inspect    # Inspect dependency graph
-urja report     # Generate build report
-urja audit      # Run audits (A11y, Perf, SEO)
-urja verify     # Verify project health
-urja test       # Run tests
-urja doctor     # Health diagnostics
+nuclie dev        # Start development server
+nuclie build      # Build for production
+nuclie analyze    # Analyze bundle
+nuclie ssr        # Start SSR server
+nuclie init       # Initialize config
+nuclie bootstrap  # Create from template
+nuclie css        # CSS utilities
+nuclie optimize   # Optimize config
+nuclie inspect    # Inspect dependency graph
+nuclie report     # Generate build report
+nuclie audit      # Run audits (A11y, Perf, SEO)
+nuclie verify     # Verify project health
+nuclie test       # Run tests
+nuclie doctor     # Health diagnostics
 ```
 
 ---
@@ -116,17 +116,17 @@ urja doctor     # Health diagnostics
 **Update CLI Example (line 125):**
 ```tsx
 // OLD
-<CodeBlock code="$ npx urja build --preset react" />
+<CodeBlock code="$ npx nuclie build --preset react" />
 
 // NEW
 <CodeBlock code={`# Create new project
-npx create-urja my-app --template premium-dashboard
+npx create-nuclie my-app --template premium-dashboard
 
 # Start development
-cd my-app && urja dev
+cd my-app && nuclie dev
 
 # Build for production
-urja build`} />
+nuclie build`} />
 ```
 
 **Update Framework Status (line 147-169):**
@@ -164,17 +164,17 @@ urja build`} />
 ```tsx
 {
   coldStart: {
-    urja: 69,
+    nuclie: 69,
     vite: 100,
     webpack: 2000
   },
   hmr: {
-    urja: '10-60',
+    nuclie: '10-60',
     vite: '<100',
     webpack: '~500'
   },
   bundleSize: {
-    urja: 6.9,
+    nuclie: 6.9,
     vite: 7.2,
     webpack: 8.5
   }
@@ -186,10 +186,10 @@ urja build`} />
 **Update Getting Started:**
 ```bash
 # Install
-npm install -g urja
+npm install -g nuclie
 
 # Create project
-npx create-urja my-app
+npx create-nuclie my-app
 
 # Choose template
 - premium-dashboard (Feature showcase)
@@ -199,10 +199,10 @@ npx create-urja my-app
 - And 9 more...
 
 # Start dev server
-urja dev
+nuclie dev
 
 # Build
-urja build
+nuclie build
 ```
 
 ### 5. Templates Page (`src/pages/TemplateStarters.tsx`)

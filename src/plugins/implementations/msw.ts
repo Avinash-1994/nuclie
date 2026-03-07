@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-msw
+ * @nuclie/plugin-msw
  * Mock Service Worker integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMswPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-msw',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-msw',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // Testing: Mock Service Worker integration

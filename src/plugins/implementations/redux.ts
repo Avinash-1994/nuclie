@@ -1,15 +1,15 @@
 /**
- * @urja/plugin-redux
+ * @nuclie/plugin-redux
  * Redux integration
- * Urja-native
+ * Nuclie-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReduxPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-redux',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-redux',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // redux transformation

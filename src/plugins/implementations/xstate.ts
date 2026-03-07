@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-xstate
+ * @nuclie/plugin-xstate
  * XState state machines
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createXstatePlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-xstate',
-        originalPlugin: 'urja-native',
+        name: '@nuclie/plugin-xstate',
+        originalPlugin: 'nuclie-native',
         
         async transform(code: string, id: string) {
             // State management: XState state machines
@@ -16,7 +16,7 @@ export function createXstatePlugin(): PluginAdapter {
         },
 
         async buildStart() {
-            console.log('[@urja/plugin-xstate] State management initialized');
+            console.log('[@nuclie/plugin-xstate] State management initialized');
         }
     };
 }

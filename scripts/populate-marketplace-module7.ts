@@ -3,7 +3,7 @@
  * 
  * Expands the plugin marketplace from 20 to 100+ plugins by:
  * 1. Porting popular Vite/Webpack plugins
- * 2. Creating Urja-native plugins
+ * 2. Creating Nuclie-native plugins
  * 3. Categorizing and publishing to marketplace
  */
 
@@ -17,7 +17,7 @@ interface PluginManifest {
     category: 'framework' | 'css' | 'assets' | 'perf' | 'security' | 'fintech' | 'utility' | 'i18n' | 'testing' | 'state' | 'deployment' | 'analytics';
     description: string;
     author: string;
-    source: 'vite-port' | 'webpack-port' | 'urja-native';
+    source: 'vite-port' | 'webpack-port' | 'nuclie-native';
     originalPlugin?: string;
     verified: boolean;
 }
@@ -67,126 +67,126 @@ const WEBPACK_PLUGINS = [
     { name: 'workbox-webpack-plugin', category: 'utility', desc: 'Service worker generation' },
 ];
 
-// Urja-native plugins
-const URJA_NATIVE_PLUGINS = [
-    { name: '@urja/plugin-audit', category: 'security', desc: 'Real-time security auditing' },
-    { name: '@urja/plugin-determinism', category: 'perf', desc: 'Build determinism checker' },
-    { name: '@urja/plugin-federation', category: 'utility', desc: 'Module federation' },
-    { name: '@urja/plugin-ssr', category: 'framework', desc: 'Universal SSR support' },
-    { name: '@urja/plugin-edge', category: 'framework', desc: 'Edge runtime adapter' },
-    { name: '@urja/plugin-wasm-sandbox', category: 'security', desc: 'WASM plugin sandbox' },
-    { name: '@urja/plugin-crypto-sign', category: 'security', desc: 'Plugin signature verification' },
-    { name: '@urja/plugin-observability', category: 'utility', desc: 'Build observability' },
-    { name: '@urja/plugin-root-cause', category: 'utility', desc: 'Error root cause analysis' },
-    { name: '@urja/plugin-auto-fix', category: 'utility', desc: 'Automatic error fixing' },
-    { name: '@urja/plugin-repro', category: 'utility', desc: 'Reproduction case generator' },
-    { name: '@urja/plugin-visualizer', category: 'utility', desc: 'WebGPU dependency visualizer' },
-    { name: '@urja/plugin-hmr-classify', category: 'perf', desc: 'HMR classification' },
-    { name: '@urja/plugin-prebundle', category: 'perf', desc: 'Dependency pre-bundling' },
-    { name: '@urja/plugin-css-framework', category: 'css', desc: 'CSS framework detection' },
-    { name: '@urja/plugin-tailwind', category: 'css', desc: 'Tailwind CSS integration' },
-    { name: '@urja/plugin-unocss', category: 'css', desc: 'UnoCSS integration' },
-    { name: '@urja/plugin-critical-css', category: 'css', desc: 'Critical CSS extraction' },
-    { name: '@urja/plugin-upi-payment', category: 'fintech', desc: 'UPI payment integration (India)' },
-    { name: '@urja/plugin-qr-code', category: 'fintech', desc: 'QR code generation' },
-    { name: '@urja/plugin-razorpay', category: 'fintech', desc: 'Razorpay integration' },
-    { name: '@urja/plugin-stripe', category: 'fintech', desc: 'Stripe integration' },
-    { name: '@urja/plugin-analytics', category: 'utility', desc: 'Build analytics' },
-    { name: '@urja/plugin-lighthouse', category: 'perf', desc: 'Lighthouse CI integration' },
-    { name: '@urja/plugin-sentry', category: 'utility', desc: 'Sentry error tracking' },
+// Nuclie-native plugins
+const NUCLIE_NATIVE_PLUGINS = [
+    { name: '@nuclie/plugin-audit', category: 'security', desc: 'Real-time security auditing' },
+    { name: '@nuclie/plugin-determinism', category: 'perf', desc: 'Build determinism checker' },
+    { name: '@nuclie/plugin-federation', category: 'utility', desc: 'Module federation' },
+    { name: '@nuclie/plugin-ssr', category: 'framework', desc: 'Universal SSR support' },
+    { name: '@nuclie/plugin-edge', category: 'framework', desc: 'Edge runtime adapter' },
+    { name: '@nuclie/plugin-wasm-sandbox', category: 'security', desc: 'WASM plugin sandbox' },
+    { name: '@nuclie/plugin-crypto-sign', category: 'security', desc: 'Plugin signature verification' },
+    { name: '@nuclie/plugin-observability', category: 'utility', desc: 'Build observability' },
+    { name: '@nuclie/plugin-root-cause', category: 'utility', desc: 'Error root cause analysis' },
+    { name: '@nuclie/plugin-auto-fix', category: 'utility', desc: 'Automatic error fixing' },
+    { name: '@nuclie/plugin-repro', category: 'utility', desc: 'Reproduction case generator' },
+    { name: '@nuclie/plugin-visualizer', category: 'utility', desc: 'WebGPU dependency visualizer' },
+    { name: '@nuclie/plugin-hmr-classify', category: 'perf', desc: 'HMR classification' },
+    { name: '@nuclie/plugin-prebundle', category: 'perf', desc: 'Dependency pre-bundling' },
+    { name: '@nuclie/plugin-css-framework', category: 'css', desc: 'CSS framework detection' },
+    { name: '@nuclie/plugin-tailwind', category: 'css', desc: 'Tailwind CSS integration' },
+    { name: '@nuclie/plugin-unocss', category: 'css', desc: 'UnoCSS integration' },
+    { name: '@nuclie/plugin-critical-css', category: 'css', desc: 'Critical CSS extraction' },
+    { name: '@nuclie/plugin-upi-payment', category: 'fintech', desc: 'UPI payment integration (India)' },
+    { name: '@nuclie/plugin-qr-code', category: 'fintech', desc: 'QR code generation' },
+    { name: '@nuclie/plugin-razorpay', category: 'fintech', desc: 'Razorpay integration' },
+    { name: '@nuclie/plugin-stripe', category: 'fintech', desc: 'Stripe integration' },
+    { name: '@nuclie/plugin-analytics', category: 'utility', desc: 'Build analytics' },
+    { name: '@nuclie/plugin-lighthouse', category: 'perf', desc: 'Lighthouse CI integration' },
+    { name: '@nuclie/plugin-sentry', category: 'utility', desc: 'Sentry error tracking' },
 ];
 
 // Additional utility plugins to reach 100+
 const ADDITIONAL_PLUGINS = [
-    { name: '@urja/plugin-env-validation', category: 'security', desc: 'Environment variable validation' },
-    { name: '@urja/plugin-bundle-size', category: 'perf', desc: 'Bundle size tracking' },
-    { name: '@urja/plugin-tree-shake', category: 'perf', desc: 'Advanced tree-shaking' },
-    { name: '@urja/plugin-code-split', category: 'perf', desc: 'Smart code splitting' },
-    { name: '@urja/plugin-lazy-load', category: 'perf', desc: 'Component lazy loading' },
-    { name: '@urja/plugin-preload', category: 'perf', desc: 'Resource preloading' },
-    { name: '@urja/plugin-prefetch', category: 'perf', desc: 'Route prefetching' },
-    { name: '@urja/plugin-webp', category: 'assets', desc: 'WebP image conversion' },
-    { name: '@urja/plugin-avif', category: 'assets', desc: 'AVIF image support' },
-    { name: '@urja/plugin-sprite', category: 'assets', desc: 'SVG sprite generation' },
-    { name: '@urja/plugin-icon', category: 'assets', desc: 'Icon component generation' },
-    { name: '@urja/plugin-font-subset', category: 'assets', desc: 'Font subsetting' },
-    { name: '@urja/plugin-i18n', category: 'utility', desc: 'Internationalization' },
-    { name: '@urja/plugin-sitemap', category: 'utility', desc: 'Sitemap generation' },
-    { name: '@urja/plugin-robots', category: 'utility', desc: 'Robots.txt generation' },
-    { name: '@urja/plugin-manifest', category: 'utility', desc: 'Web manifest generation' },
-    { name: '@urja/plugin-meta-tags', category: 'utility', desc: 'SEO meta tags' },
-    { name: '@urja/plugin-og-image', category: 'utility', desc: 'Open Graph image generation' },
-    { name: '@urja/plugin-rss', category: 'utility', desc: 'RSS feed generation' },
-    { name: '@urja/plugin-markdown', category: 'utility', desc: 'Markdown processing' },
-    { name: '@urja/plugin-mdx', category: 'utility', desc: 'MDX support' },
-    { name: '@urja/plugin-graphql', category: 'utility', desc: 'GraphQL integration' },
-    { name: '@urja/plugin-apollo', category: 'utility', desc: 'Apollo Client integration' },
-    { name: '@urja/plugin-relay', category: 'utility', desc: 'Relay integration' },
-    { name: '@urja/plugin-prisma', category: 'utility', desc: 'Prisma integration' },
-    { name: '@urja/plugin-trpc', category: 'utility', desc: 'tRPC integration' },
-    { name: '@urja/plugin-zod', category: 'utility', desc: 'Zod validation' },
-    { name: '@urja/plugin-react-query', category: 'framework', desc: 'React Query integration' },
-    { name: '@urja/plugin-zustand', category: 'framework', desc: 'Zustand state management' },
-    { name: '@urja/plugin-jotai', category: 'framework', desc: 'Jotai state management' },
-    { name: '@urja/plugin-recoil', category: 'framework', desc: 'Recoil state management' },
-    { name: '@urja/plugin-redux', category: 'framework', desc: 'Redux integration' },
-    { name: '@urja/plugin-mobx', category: 'framework', desc: 'MobX integration' },
-    { name: '@urja/plugin-pinia', category: 'framework', desc: 'Pinia (Vue) integration' },
-    { name: '@urja/plugin-vuex', category: 'framework', desc: 'Vuex integration' },
-    { name: '@urja/plugin-testing-library', category: 'utility', desc: 'Testing Library integration' },
-    { name: '@urja/plugin-vitest', category: 'utility', desc: 'Vitest integration' },
-    { name: '@urja/plugin-playwright', category: 'utility', desc: 'Playwright E2E' },
-    { name: '@urja/plugin-cypress', category: 'utility', desc: 'Cypress integration' },
-    { name: '@urja/plugin-storybook', category: 'utility', desc: 'Storybook integration' },
-    { name: '@urja/plugin-chromatic', category: 'utility', desc: 'Chromatic visual testing' },
+    { name: '@nuclie/plugin-env-validation', category: 'security', desc: 'Environment variable validation' },
+    { name: '@nuclie/plugin-bundle-size', category: 'perf', desc: 'Bundle size tracking' },
+    { name: '@nuclie/plugin-tree-shake', category: 'perf', desc: 'Advanced tree-shaking' },
+    { name: '@nuclie/plugin-code-split', category: 'perf', desc: 'Smart code splitting' },
+    { name: '@nuclie/plugin-lazy-load', category: 'perf', desc: 'Component lazy loading' },
+    { name: '@nuclie/plugin-preload', category: 'perf', desc: 'Resource preloading' },
+    { name: '@nuclie/plugin-prefetch', category: 'perf', desc: 'Route prefetching' },
+    { name: '@nuclie/plugin-webp', category: 'assets', desc: 'WebP image conversion' },
+    { name: '@nuclie/plugin-avif', category: 'assets', desc: 'AVIF image support' },
+    { name: '@nuclie/plugin-sprite', category: 'assets', desc: 'SVG sprite generation' },
+    { name: '@nuclie/plugin-icon', category: 'assets', desc: 'Icon component generation' },
+    { name: '@nuclie/plugin-font-subset', category: 'assets', desc: 'Font subsetting' },
+    { name: '@nuclie/plugin-i18n', category: 'utility', desc: 'Internationalization' },
+    { name: '@nuclie/plugin-sitemap', category: 'utility', desc: 'Sitemap generation' },
+    { name: '@nuclie/plugin-robots', category: 'utility', desc: 'Robots.txt generation' },
+    { name: '@nuclie/plugin-manifest', category: 'utility', desc: 'Web manifest generation' },
+    { name: '@nuclie/plugin-meta-tags', category: 'utility', desc: 'SEO meta tags' },
+    { name: '@nuclie/plugin-og-image', category: 'utility', desc: 'Open Graph image generation' },
+    { name: '@nuclie/plugin-rss', category: 'utility', desc: 'RSS feed generation' },
+    { name: '@nuclie/plugin-markdown', category: 'utility', desc: 'Markdown processing' },
+    { name: '@nuclie/plugin-mdx', category: 'utility', desc: 'MDX support' },
+    { name: '@nuclie/plugin-graphql', category: 'utility', desc: 'GraphQL integration' },
+    { name: '@nuclie/plugin-apollo', category: 'utility', desc: 'Apollo Client integration' },
+    { name: '@nuclie/plugin-relay', category: 'utility', desc: 'Relay integration' },
+    { name: '@nuclie/plugin-prisma', category: 'utility', desc: 'Prisma integration' },
+    { name: '@nuclie/plugin-trpc', category: 'utility', desc: 'tRPC integration' },
+    { name: '@nuclie/plugin-zod', category: 'utility', desc: 'Zod validation' },
+    { name: '@nuclie/plugin-react-query', category: 'framework', desc: 'React Query integration' },
+    { name: '@nuclie/plugin-zustand', category: 'framework', desc: 'Zustand state management' },
+    { name: '@nuclie/plugin-jotai', category: 'framework', desc: 'Jotai state management' },
+    { name: '@nuclie/plugin-recoil', category: 'framework', desc: 'Recoil state management' },
+    { name: '@nuclie/plugin-redux', category: 'framework', desc: 'Redux integration' },
+    { name: '@nuclie/plugin-mobx', category: 'framework', desc: 'MobX integration' },
+    { name: '@nuclie/plugin-pinia', category: 'framework', desc: 'Pinia (Vue) integration' },
+    { name: '@nuclie/plugin-vuex', category: 'framework', desc: 'Vuex integration' },
+    { name: '@nuclie/plugin-testing-library', category: 'utility', desc: 'Testing Library integration' },
+    { name: '@nuclie/plugin-vitest', category: 'utility', desc: 'Vitest integration' },
+    { name: '@nuclie/plugin-playwright', category: 'utility', desc: 'Playwright E2E' },
+    { name: '@nuclie/plugin-cypress', category: 'utility', desc: 'Cypress integration' },
+    { name: '@nuclie/plugin-storybook', category: 'utility', desc: 'Storybook integration' },
+    { name: '@nuclie/plugin-chromatic', category: 'utility', desc: 'Chromatic visual testing' },
 ];
 
 // New Categories (Day 45 Enhancement)
 const I18N_PLUGINS = [
-    { name: '@urja/plugin-react-i18next', category: 'i18n', desc: 'React i18next integration' },
-    { name: '@urja/plugin-vue-i18n-next', category: 'i18n', desc: 'Vue I18n integration' },
-    { name: '@urja/plugin-formatjs', category: 'i18n', desc: 'FormatJS (react-intl) integration' },
+    { name: '@nuclie/plugin-react-i18next', category: 'i18n', desc: 'React i18next integration' },
+    { name: '@nuclie/plugin-vue-i18n-next', category: 'i18n', desc: 'Vue I18n integration' },
+    { name: '@nuclie/plugin-formatjs', category: 'i18n', desc: 'FormatJS (react-intl) integration' },
 ];
 
 const TESTING_PLUGINS = [
-    { name: '@urja/plugin-jest', category: 'testing', desc: 'Jest testing framework' },
-    { name: '@urja/plugin-testing-library-react', category: 'testing', desc: 'React Testing Library' },
-    { name: '@urja/plugin-msw', category: 'testing', desc: 'Mock Service Worker integration' },
+    { name: '@nuclie/plugin-jest', category: 'testing', desc: 'Jest testing framework' },
+    { name: '@nuclie/plugin-testing-library-react', category: 'testing', desc: 'React Testing Library' },
+    { name: '@nuclie/plugin-msw', category: 'testing', desc: 'Mock Service Worker integration' },
 ];
 
 const STATE_PLUGINS = [
-    { name: '@urja/plugin-zustand-devtools', category: 'state', desc: 'Zustand DevTools integration' },
-    { name: '@urja/plugin-tanstack-query', category: 'state', desc: 'TanStack Query (React Query)' },
-    { name: '@urja/plugin-xstate', category: 'state', desc: 'XState state machines' },
-    { name: '@urja/plugin-nanostores', category: 'state', desc: 'Nano Stores integration' },
+    { name: '@nuclie/plugin-zustand-devtools', category: 'state', desc: 'Zustand DevTools integration' },
+    { name: '@nuclie/plugin-tanstack-query', category: 'state', desc: 'TanStack Query (React Query)' },
+    { name: '@nuclie/plugin-xstate', category: 'state', desc: 'XState state machines' },
+    { name: '@nuclie/plugin-nanostores', category: 'state', desc: 'Nano Stores integration' },
 ];
 
 const DEPLOYMENT_PLUGINS = [
-    { name: '@urja/plugin-vercel', category: 'deployment', desc: 'Vercel deployment adapter' },
-    { name: '@urja/plugin-netlify', category: 'deployment', desc: 'Netlify deployment adapter' },
-    { name: '@urja/plugin-cloudflare', category: 'deployment', desc: 'Cloudflare Pages adapter' },
+    { name: '@nuclie/plugin-vercel', category: 'deployment', desc: 'Vercel deployment adapter' },
+    { name: '@nuclie/plugin-netlify', category: 'deployment', desc: 'Netlify deployment adapter' },
+    { name: '@nuclie/plugin-cloudflare', category: 'deployment', desc: 'Cloudflare Pages adapter' },
 ];
 
 const ANALYTICS_PLUGINS = [
-    { name: '@urja/plugin-plausible', category: 'analytics', desc: 'Plausible Analytics integration' },
-    { name: '@urja/plugin-posthog', category: 'analytics', desc: 'PostHog analytics integration' },
+    { name: '@nuclie/plugin-plausible', category: 'analytics', desc: 'Plausible Analytics integration' },
+    { name: '@nuclie/plugin-posthog', category: 'analytics', desc: 'PostHog analytics integration' },
 ];
 
 export class PluginMarketplaceExpander {
     private plugins: PluginManifest[] = [];
 
     async expand(): Promise<void> {
-        console.log('🚀 Expanding Urja Plugin Marketplace to 100+...\n');
+        console.log('🚀 Expanding Nuclie Plugin Marketplace to 100+...\n');
 
         // Port Vite plugins
         console.log('📦 Porting Vite plugins...');
         for (const plugin of VITE_PLUGINS) {
             await this.addPluginWithManifest({
-                name: plugin.name.replace('vite-plugin-', '@urja/plugin-').replace('@vitejs/plugin-', '@urja/plugin-'),
+                name: plugin.name.replace('vite-plugin-', '@nuclie/plugin-').replace('@vitejs/plugin-', '@nuclie/plugin-'),
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
+                author: 'Nuclie Team',
                 source: 'vite-port',
                 originalPlugin: plugin.name,
                 verified: true
@@ -205,11 +205,11 @@ export class PluginMarketplaceExpander {
             if (baseName === 'ts') baseName = 'typescript';
 
             await this.addPluginWithManifest({
-                name: `@urja/plugin-${baseName}`,
+                name: `@nuclie/plugin-${baseName}`,
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
+                author: 'Nuclie Team',
                 source: 'webpack-port',
                 originalPlugin: plugin.name,
                 verified: true
@@ -217,20 +217,20 @@ export class PluginMarketplaceExpander {
         }
         console.log(`✅ Ported ${WEBPACK_PLUGINS.length} Webpack plugins\n`);
 
-        // Add Urja-native plugins
-        console.log('🔧 Adding Urja-native plugins...');
-        for (const plugin of URJA_NATIVE_PLUGINS) {
+        // Add Nuclie-native plugins
+        console.log('🔧 Adding Nuclie-native plugins...');
+        for (const plugin of NUCLIE_NATIVE_PLUGINS) {
             await this.addPluginWithManifest({
                 name: plugin.name,
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
-        console.log(`✅ Added ${URJA_NATIVE_PLUGINS.length} Urja-native plugins\n`);
+        console.log(`✅ Added ${NUCLIE_NATIVE_PLUGINS.length} Nuclie-native plugins\n`);
 
         // Add additional plugins
         console.log('➕ Adding additional utility plugins...');
@@ -240,8 +240,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
@@ -255,8 +255,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
@@ -270,8 +270,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
@@ -285,8 +285,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
@@ -300,8 +300,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
@@ -315,8 +315,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Urja Team',
-                source: 'urja-native',
+                author: 'Nuclie Team',
+                source: 'nuclie-native',
                 verified: true
             });
         }
@@ -340,7 +340,7 @@ export class PluginMarketplaceExpander {
             wasmCompatible: true,
             sandboxed: true,
             permissions: this.determinePermissions(manifest),
-            entryPoint: `dist/${manifest.name.replace('@urja/', '')}.js`,
+            entryPoint: `dist/${manifest.name.replace('@nuclie/', '')}.js`,
             manifestVersion: '2.0'
         };
 
@@ -356,7 +356,7 @@ export class PluginMarketplaceExpander {
         });
 
         const hash = crypto.createHash('sha256').update(data).digest('hex');
-        return `urja-sig-${hash.substring(0, 16)}`;
+        return `nuclie-sig-${hash.substring(0, 16)}`;
     }
 
     private determinePermissions(manifest: PluginManifest): string[] {

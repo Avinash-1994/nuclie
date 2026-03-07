@@ -1,6 +1,6 @@
 
 /**
- * Urja Dependency Graph Visualizer Engine
+ * Nuclie Dependency Graph Visualizer Engine
  * Logic Layer for WebGPU Visualizer
  * Day 16: WebGPU Visualizer v2 Lock
  */

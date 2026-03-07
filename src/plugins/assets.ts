@@ -1,19 +1,19 @@
 import path from 'path';
 import fs from 'fs/promises';
-import { UrjaPlugin } from '../core/plugins/types.js';
+import { NucliePlugin } from '../core/plugins/types.js';
 import { fastHash } from '../native/index.js';
 
-export function createAssetPlugin(outDir: string = 'build_output'): UrjaPlugin {
+export function createAssetPlugin(outDir: string = 'build_output'): NucliePlugin {
     return {
         manifest: {
-            name: 'urja:asset',
+            name: 'nuclie:asset',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['resolveId', 'load'],
             permissions: { fs: 'read' }
         },
-        id: 'urja:asset',
+        id: 'nuclie:asset',
         async runHook(hook, input, context) {
             const ASSET_REGEX = /\.(png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|otf)$/;
 

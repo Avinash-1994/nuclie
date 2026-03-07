@@ -1,5 +1,5 @@
 /**
- * @urja/plugin-sass
+ * @nuclie/plugin-sass
  * Sass/SCSS compilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSassPlugin(): PluginAdapter {
     return {
-        name: '@urja/plugin-sass',
+        name: '@nuclie/plugin-sass',
         originalPlugin: 'sass-loader',
         
         async transform(code: string, id: string) {
