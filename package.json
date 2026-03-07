@@ -1,6 +1,6 @@
 {
   "name": "urja",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "⚡ Fast build tool with HMR, source maps, tree shaking, and module federation",
   "type": "module",
   "main": "./dist/index.js",
