@@ -23,3 +23,10 @@ lazy_static = "1.5.0"
 # Day 8: WASM Runtime
 wasmtime = "16.0"
 anyhow = "1.0"
+
+[profile.release]
+opt-level = "z"     # Optimize for size
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Maximize size reduction
+panic = "abort"     # Remove panic unwinding overhead
+strip = true        # Strip symbols from binary

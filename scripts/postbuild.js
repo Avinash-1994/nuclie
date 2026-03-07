@@ -36,7 +36,6 @@ async function copyAll(patternDir, filterExt, outDir) {
 (async () => {
   await ensureDir(distDir);
 
-  await copyIfExists(join(rootDir, 'nuclie_native.node'), join(distDir, 'nuclie_native.node'));
   await copyAll(join(rootDir, 'src', 'plugins'), '.mjs', join(distDir, 'plugins'));
   await copyAll(join(rootDir, 'src', 'runtime'), '.js', join(distDir, 'runtime'));
 
