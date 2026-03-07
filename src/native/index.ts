@@ -27,8 +27,8 @@ try {
     if (found) {
         native = _require(found);
     } else {
-        // Use fallback instead of throwing
-        native = null;
+        // Throw to trigger fallback
+        throw new Error("Native plugin missing");
     }
 } catch (e) {
     // Fallback Mock with proper hashing

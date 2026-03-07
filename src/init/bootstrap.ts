@@ -21,19 +21,21 @@ export async function bootstrapProject(cwd: string, template: string = 'react') 
       "build": "nuclie build",
       "preview": "nuclie dev --port 4173"
     },
-    dependencies: template === 'react' ? {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0"
+    dependencies: (template === 'react' || template === 'react-ts') ? {
+      "react": "^19.2.3",
+      "react-dom": "^19.2.3"
     } : {},
     devDependencies: {
       "nuclie": "latest",
-      "typescript": "^5.0.0"
+      "typescript": "^5.0.0",
+      "@types/react": "^19.0.0",
+      "@types/react-dom": "^19.0.0"
     }
   };
   await fs.writeFile(path.join(cwd, 'package.json'), JSON.stringify(pkg, null, 2));
 
   // 3. Create initial source files
-  if (template === 'react') {
+  if (template === 'react' || template === 'react-ts') {
     await fs.writeFile(path.join(cwd, 'src/main.tsx'), `
 import React from 'react';
 import ReactDOM from 'react-dom/client';
