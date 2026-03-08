@@ -1,0 +1,9 @@
+{
+  "entry": [
+    "src/main.ts"
+  ],
+  "mode": "development",
+  "preset": "spa",
+  "platform": "browser",
+  "adapter": "vue"
+}

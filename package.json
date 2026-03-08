@@ -23,7 +23,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run build:native && tsc -p tsconfig.build.json && node ./scripts/postbuild.js",
+    "build": "rimraf dist && npm run build:native && tsc -p tsconfig.build.json && node ./scripts/postbuild.js",
     "build:native": "node ./scripts/build_native.js",
     "dev": "bun src/cli.ts dev",
     "dev:bun": "bun src/cli.ts dev",

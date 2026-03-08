@@ -81,16 +81,23 @@ export class DependencyPreBundler {
             return undefined;
         };
 
+        // Framework-specific aliases: use the right build variant
+        const DEP_ALIASES: Record<string, string> = {
+            'vue': 'vue/dist/vue.esm-bundler.js',  // Includes template compiler for SFC
+        };
+
         try {
             // Resolve all entry points
             const entryPoints: Record<string, string> = {};
             for (const dep of deps) {
+                // Apply alias override if present
+                const aliasedDep = DEP_ALIASES[dep] || dep;
                 let resolvedPath: string | undefined;
 
                 // Priority: Try to find package.json and use 'module' field (ESM)
                 try {
                     // Find package root
-                    const pkgName = dep.startsWith('@') ? dep.split('/').slice(0, 2).join('/') : dep.split('/')[0];
+                    const pkgName = aliasedDep.startsWith('@') ? aliasedDep.split('/').slice(0, 2).join('/') : aliasedDep.split('/')[0];
 
                     let pkgDir;
                     try {
@@ -167,10 +174,21 @@ export class DependencyPreBundler {
                     log.warn(`[PreBundler] ESM resolution error for ${dep}: ${e.message}`);
                 }
 
+                // Try direct alias path (e.g. vue/dist/vue.esm-bundler.js)
+                if (!resolvedPath && aliasedDep !== dep) {
+                    try {
+                        const cand = require.resolve(aliasedDep, { paths: [root] });
+                        if (await fileExists(cand)) {
+                            resolvedPath = cand;
+                            log.debug(`[PreBundler] Aliased ${dep} → ${aliasedDep}: ${resolvedPath}`);
+                        }
+                    } catch { }
+                }
+
                 // Fallback to require.resolve (Standard Node Resolution)
                 if (!resolvedPath) {
                     try {
-                        const cand = require.resolve(dep, { paths: [root] });
+                        const cand = require.resolve(aliasedDep !== dep ? aliasedDep : dep, { paths: [root] });
                         if (await fileExists(cand)) {
                             resolvedPath = cand;
                         }

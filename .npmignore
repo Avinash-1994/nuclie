@@ -29,8 +29,11 @@ tsconfig.*.json
 jest.config.js
 .eslintrc.js
 
-# Double-check that root native node is excluded (since it's copied to dist/)
-nuclie_native.node
-nuclie_native.*.node
+# Exclude massive platform-specific Rust binaries from the main package (keeps size < 2MB).
+# Users without the binary will gracefully fall back to the JS stub implemented in index.js.
 dist/nuclie_native.node
 dist/**/*.node
+dist/nexxo_native.node
+nexxo_native.node
+**/*.node
+*.node

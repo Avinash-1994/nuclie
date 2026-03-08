@@ -310,6 +310,8 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         'svelte/animate',
         'svelte/easing',
         'svelte/internal',
+        'svelte/internal/client',
+        'svelte/internal/flags/legacy',
         'svelte/internal/disclose-version',
         'svelte/motion',
         'svelte/store',
@@ -1261,7 +1263,7 @@ ${raw}
           // Serve a JS fallback that throws in console and triggers overlay
           res.writeHead(200, { 'Content-Type': 'application/javascript' });
           res.end(`
-            console.error("[Nuclie Build Error] ${e.message.replace(/"/g, '\\"')}");
+            console.error("[Nuclie Build Error]", ${JSON.stringify(e.message)});
             const error = ${JSON.stringify(errorData)};
             if (window.__NUCLIE_ERROR_OVERLAY__) {
               window.__NUCLIE_ERROR_OVERLAY__.show(error);

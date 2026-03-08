@@ -10,6 +10,7 @@ import type { Framework } from '../core/framework-detector.js';
 import { getFrameworkPreset } from '../presets/frameworks.js';
 import { log } from '../utils/logger.js';
 import { createRequire } from 'module';
+import { fileURLToPath, pathToFileURL } from 'url';
 import * as esbuild from 'esbuild';
 import { canonicalHash } from '../core/engine/hash.js';
 const _require = createRequire(import.meta.url);
@@ -267,8 +268,11 @@ if (import.meta.hot) {
         try {
             let compiler: any;
             try {
-                const compilerPath = _require.resolve('@vue/compiler-sfc', { paths: [this.root, process.cwd()] });
-                compiler = await import(compilerPath);
+                // Try: user project first, then nuclie's own node_modules (nuclie ships @vue/compiler-sfc as a dep)
+                const searchPaths = [this.root, process.cwd(), fileURLToPath(new URL('../..', import.meta.url))];
+                const compilerPath = _require.resolve('@vue/compiler-sfc', { paths: searchPaths });
+                const compilerUrl = pathToFileURL(compilerPath).href;
+                compiler = await import(compilerUrl);
             } catch {
                 log.warn('No Vue 3 compiler found, using fallback with HMR');
                 // Fallback: Return raw code with HMR wrapper
@@ -370,7 +374,7 @@ if (import.meta.hot) {
                 ` : ''}
 
                 ${descriptor.styles.some((s: any) => s.scoped) ? `_sfc_main.__scopeId = "${scopeId}";` : ''}
-                _sfc_main.__file = "${filePath}";
+                _sfc_main.__file = "${filePath.replace(/\\/g, '/')}";
                 
                 export default _sfc_main;
             `;
@@ -416,7 +420,8 @@ if (import.meta.hot) {
             let svelte: any;
             try {
                 const compilerPath = _require.resolve('svelte/compiler', { paths: [this.root, process.cwd()] });
-                const mod = await import(compilerPath);
+                const compilerUrl = pathToFileURL(compilerPath).href;
+                const mod = await import(compilerUrl);
                 svelte = typeof mod.compile === 'function' ? mod : (mod.default || mod);
             } catch {
                 const mod = await import('svelte/compiler');
