@@ -124,7 +124,7 @@ jobs:
         run: npm run build
 
       - name: 🎭 Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: 🎭 Visual Regression Tests
         run: npm run test:visual
