@@ -1,15 +1,18 @@
-import { component$ } from '@builder.io/qwik';
+import { h } from 'preact';
+import { useState } from 'preact/hooks';
 import './index.css';
 
-export const App = component$(() => {
+function App() {
+    const [count, setCount] = useState(0);
+
     return (
         <div class="app-container">
             <header class="hero">
                 <span class="badge">v1.0.0 Stable</span>
-                <h1>Nuclie</h1>
+                <h1>Nuclie <span style={{ color: '#7c3aed' }}>+ Preact</span></h1>
                 <p class="subtitle">
                     The high-performance build engine for modern web applications.<br />
-                    Built with Qwik + Nuclie.
+                    Engineered for speed. Built for stability.
                 </p>
             </header>
 
@@ -20,18 +23,22 @@ export const App = component$(() => {
                 </div>
                 <div class="feature-card">
                     <h3>Sub-100ms HMR</h3>
-                    <p>Instant feedback loop with state preservation.</p>
+                    <p>Instant feedback loop with state preservation across all major frameworks.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Resumable</h3>
-                    <p>Zero-hydration for instant interactivity on any device.</p>
+                <div class="feature-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <h3>Interactive Preact</h3>
+                    <p>
+                        <button class="interactive-btn" onClick={() => setCount(count + 1)} style={{ cursor: 'pointer', padding: '10px 20px', fontSize: '16px', borderRadius: '8px', border: 'none', background: '#7c3aed', color: 'white', marginTop: '10px', boxShadow: '0 4px 14px 0 rgba(124, 58, 237, 0.39)' }}>
+                            Count is: {count}
+                        </button>
+                    </p>
                 </div>
             </main>
 
             <div class="code-area">
                 <span style={{ color: '#6366F1' }}>$</span> nuclie build --optimize
                 <br />
-                <span style={{ color: '#94A3B8', opacity: 0.6 }}>// Optimizing for Qwik serializability...</span>
+                <span style={{ color: '#94A3B8', opacity: 0.6 }}>// Generating optimized production bundle...</span>
                 <br />
                 <span style={{ color: '#10B981' }}>✓ Build complete in 1.4s</span>
             </div>
@@ -41,4 +48,6 @@ export const App = component$(() => {
             </footer>
         </div>
     );
-});
+}
+
+export default App;

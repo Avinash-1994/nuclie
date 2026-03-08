@@ -28,7 +28,9 @@ Successfully completed the following tasks:
    - React-TS
    - Vue-TS
    - Svelte-TS
+   - SolidJS-TS (Fixed internal subpath module remapping for exports like solid-js/web)
+   - Preact-TS (Added adapter detection and unified pre-bundler normalization)
 
-Next Steps (Paused):
-- Debugging SolidJS internal module remapping (404 issues).
-- Validating remaining framework templates (Preact, Qwik, etc.)
+Next Steps:
+- Validating remaining framework templates (Qwik, Lit, Alpine, Mithril).
+- Finalize and cut stable release.

@@ -32,11 +32,14 @@ export class FrameworkPipeline {
         // Honor explicit configuration (Phase 2/3 Alignment)
         let framework = config.framework as Framework;
         if (!framework && config.adapter) {
-            if (config.adapter.includes('react')) framework = 'react';
-            else if (config.adapter.includes('vue')) framework = 'vue';
-            else if (config.adapter.includes('svelte')) framework = 'svelte';
-            else if (config.adapter.includes('angular')) framework = 'angular';
-            else if (config.adapter.includes('solid')) framework = 'solid';
+            if (config.adapter === 'react' || config.adapter === 'react-typescript' || config.adapter === 'react-adapter') framework = 'react';
+            else if (config.adapter === 'vue') framework = 'vue';
+            else if (config.adapter === 'svelte') framework = 'svelte';
+            else if (config.adapter === 'angular') framework = 'angular';
+            else if (config.adapter === 'solid') framework = 'solid';
+            else if (config.adapter === 'preact') framework = 'preact';
+            else if (config.adapter === 'qwik') framework = 'qwik';
+            else if (config.adapter === 'lit') framework = 'lit';
         }
 
         if (!framework) {
