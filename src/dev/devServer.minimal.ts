@@ -9,6 +9,10 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import { BuildConfig } from '../config/index.js';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const pkgVersion = require('../../package.json').version;
 
 let features: any = null;
 let isInitializing = false;
@@ -104,7 +108,7 @@ export async function startDevServer(cfg: BuildConfig) {
             console.log(`\n\x1b[32mStarting the development server...\x1b[0m\n`);
 
             // Futuristic Nuclie Branding (Engineering First)
-            console.log(`\x1b[36m   ⚡ NUCLIE \x1b[90mv2.0.2\x1b[0m`);
+            console.log(`\x1b[36m   ⚡ NUCLIE \x1b[90mv${pkgVersion}\x1b[0m`);
             console.log(`\x1b[90m   ─────────────────────────────────────\x1b[0m`);
 
             // Metrics Layout

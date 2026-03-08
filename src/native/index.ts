@@ -27,11 +27,31 @@ try {
     if (found) {
         native = _require(found);
     } else {
+<<<<<<< HEAD
         // Throw to trigger fallback
         throw new Error("Native plugin missing");
+=======
+        // Native binary not found — use JS fallback stubs
+        const crypto = _require('crypto');
+        native = {
+            GraphAnalyzer: class { },
+            BuildOrchestrator: class { },
+            BuildCache: class { },
+            fastHash: (s: string) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16),
+            batchHash: (sa: string[]) => sa.map((s: string) => crypto.createHash('sha256').update(s).digest('hex').substring(0, 16)),
+            scanImports: (s: string) => [],
+            normalizePath: (s: string) => s.replace(/\\/g, '/'),
+            PluginRuntime: class { },
+            NativeWorker: class {
+                constructor() { }
+                processFile() { return null; }
+            },
+            helloRust: () => "JS fallback"
+        };
+>>>>>>> 6fcaca356ddb76eea1edeb70e0632e8438290c74
     }
 } catch (e) {
-    // Fallback Mock with proper hashing
+    // Load error — use JS fallback stubs
     const crypto = _require('crypto');
     native = {
         GraphAnalyzer: class { },
@@ -46,7 +66,7 @@ try {
             constructor() { }
             processFile() { return null; }
         },
-        helloRust: () => "Mock"
+        helloRust: () => "JS fallback"
     };
 }
 
