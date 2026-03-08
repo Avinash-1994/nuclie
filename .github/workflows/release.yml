@@ -64,17 +64,17 @@ jobs:
       - name: 🔨 Build Project
         run: npm run build
 
-      - name: 📦 Verify Pack Contents
+      - name: 📦 Build Package Tarball
         run: |
-          npm pack --dry-run
-          echo "✅ Pack verification complete"
+          npm pack
+          echo "✅ Pack complete"
 
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             nuclie-*.tgz
-            nuclie_native.node
+            dist/nuclie_native.node
           generate_release_notes: true
           draft: false
           prerelease: false
