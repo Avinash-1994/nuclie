@@ -1,0 +1,9 @@
+{
+  "entry": [
+    "src/root.tsx"
+  ],
+  "mode": "development",
+  "preset": "spa",
+  "platform": "browser",
+  "adapter": "qwik"
+}

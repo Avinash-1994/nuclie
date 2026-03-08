@@ -1,0 +1,9 @@
+{
+  "entry": [
+    "src/index.jsx"
+  ],
+  "mode": "development",
+  "preset": "spa",
+  "platform": "browser",
+  "adapter": "solid"
+}

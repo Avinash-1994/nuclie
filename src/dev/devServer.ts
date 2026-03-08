@@ -92,13 +92,15 @@ async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Ma
 
         let replacement = `/node_modules/${specifier}`;
         if (preBundledDeps && preBundledDeps.has(specifier)) {
+          // Exact match: this full specifier (e.g. 'solid-js/web') was pre-bundled
           replacement = `${preBundledDeps.get(specifier)}?v=${Date.now()}`;
         } else if (preBundledDeps) {
-          // Subpath check
+          // Subpath check: specifier is 'solid-js/web' but only 'solid-js' is in preBundledDeps
           const parts = specifier.split('/');
           const pkgName = specifier.startsWith('@') ? parts.slice(0, 2).join('/') : parts[0];
           if (preBundledDeps.has(pkgName)) {
-            const safeName = specifier.replace(/\//g, '_');
+            // Use same normalization as preBundler: replace / and @ with _
+            const safeName = specifier.replace(/[/@]/g, '_');
             replacement = `/@nuclie-deps/${safeName}.js?v=${Date.now()}`;
           }
         }
@@ -221,8 +223,15 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   const { FrameworkPipeline } = await import('../core/pipeline/framework-pipeline.js');
   const pipeline = await FrameworkPipeline.auto(cfg);
   let primaryFramework = pipeline.getFramework();
-  if (cfg.adapter && cfg.adapter.includes('react')) {
-    primaryFramework = 'react';
+  // Honor explicit adapter config if pipeline auto-detection returned 'vanilla'
+  if (cfg.adapter) {
+    if (cfg.adapter === 'react' || cfg.adapter === 'react-typescript' || cfg.adapter === 'react-adapter') primaryFramework = 'react';
+    else if (primaryFramework === 'vanilla' && cfg.adapter === 'vue') primaryFramework = 'vue';
+    else if (primaryFramework === 'vanilla' && cfg.adapter === 'svelte') primaryFramework = 'svelte';
+    else if (primaryFramework === 'vanilla' && cfg.adapter === 'solid') primaryFramework = 'solid';
+    else if (primaryFramework === 'vanilla' && cfg.adapter === 'preact') primaryFramework = 'preact';
+    else if (primaryFramework === 'vanilla' && cfg.adapter === 'qwik') primaryFramework = 'qwik';
+    else if (primaryFramework === 'vanilla' && cfg.adapter === 'lit') primaryFramework = 'lit';
   }
 
   // @ts-ignore - Pipeline owns opinionated defaults
@@ -935,106 +944,181 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       return;
     }
 
-    // Serve from node_modules
+    // Serve from node_modules (with full subpath-exports resolution)
     if (url.startsWith('/node_modules/')) {
       const cleanUrl = url.split('?')[0];
-      let modulePath = path.join(cfg.root, cleanUrl);
+      // Strip leading /node_modules/ to get the specifier: e.g. "solid-js/web"
+      const specifier = cleanUrl.replace(/^\/node_modules\//, '');
 
       try {
-        // Handle potential directory or missing extension
-        let stats;
+        let resolvedModulePath: string | null = null;
+
+        // ── Step 1: Try to resolve via Node's require.resolve (handles exports field) ──
         try {
-          stats = await fs.stat(modulePath);
-        } catch (e) {
-          // Try appending .js
-          if (!modulePath.endsWith('.js')) {
-            modulePath += '.js';
-            stats = await fs.stat(modulePath);
-          } else {
-            throw e;
+          resolvedModulePath = require.resolve(specifier, { paths: [cfg.root] });
+        } catch {
+          // require.resolve can fail on pure-ESM packages with complex exports
+          // Fall through to manual resolution
+        }
+
+        // ── Step 2: Manual resolution via package.json exports field ──
+        if (!resolvedModulePath) {
+          const pkgName = specifier.startsWith('@')
+            ? specifier.split('/').slice(0, 2).join('/')
+            : specifier.split('/')[0];
+          const subpath = specifier === pkgName ? '.' : './' + specifier.substring(pkgName.length + 1);
+
+          const searchRoots = [cfg.root, process.cwd()];
+          for (const searchRoot of searchRoots) {
+            const pkgDir = path.join(searchRoot, 'node_modules', pkgName);
+            const pkgJsonPath = path.join(pkgDir, 'package.json');
+            try {
+              const pkgJsonRaw = await fs.readFile(pkgJsonPath, 'utf-8');
+              const pkgJson = JSON.parse(pkgJsonRaw);
+
+              const resolveCondition = (entry: any): string | undefined => {
+                if (typeof entry === 'string') return entry;
+                if (typeof entry === 'object' && entry !== null) {
+                  return resolveCondition(entry.browser) ||
+                    resolveCondition(entry.import) ||
+                    resolveCondition(entry.default) ||
+                    resolveCondition(entry.node) ||
+                    resolveCondition(entry.source) ||
+                    resolveCondition(entry.require);
+                }
+                return undefined;
+              };
+
+              if (pkgJson.exports) {
+                const exportEntry = pkgJson.exports[subpath];
+                if (exportEntry) {
+                  const rel = resolveCondition(exportEntry);
+                  if (rel) {
+                    const candidate = path.join(pkgDir, rel);
+                    try {
+                      await fs.access(candidate);
+                      resolvedModulePath = candidate;
+                      break;
+                    } catch { }
+                  }
+                }
+              }
+
+              // Fallback: module / main field (only for root package import)
+              if (!resolvedModulePath && subpath === '.') {
+                const fallbackEntry = pkgJson.module || pkgJson.main || 'index.js';
+                const candidate = path.join(pkgDir, fallbackEntry);
+                try {
+                  await fs.access(candidate);
+                  resolvedModulePath = candidate;
+                  break;
+                } catch { }
+              }
+            } catch { }
           }
         }
 
-        // If directory, resolve entry point
-        if (stats.isDirectory()) {
-          const pkgPath = path.join(modulePath, 'package.json');
+        // ── Step 3: Naive filesystem path (original behaviour) ──
+        if (!resolvedModulePath) {
+          let modulePath = path.join(cfg.root, cleanUrl);
           try {
-            const pkgContent = await fs.readFile(pkgPath, 'utf-8');
-            const pkg = JSON.parse(pkgContent);
-            // Prefer module (ESM) > main > index.js
-            let entry = pkg.module || pkg.main || 'index.js';
-            modulePath = path.join(modulePath, entry);
-          } catch (e) {
-            // No package.json, try index.js
-            modulePath = path.join(modulePath, 'index.js');
+            const stats = await fs.stat(modulePath);
+            if (stats.isDirectory()) {
+              const pkgPath = path.join(modulePath, 'package.json');
+              try {
+                const pkgContent = await fs.readFile(pkgPath, 'utf-8');
+                const pkg = JSON.parse(pkgContent);
+                modulePath = path.join(modulePath, pkg.module || pkg.main || 'index.js');
+              } catch {
+                modulePath = path.join(modulePath, 'index.js');
+              }
+            }
+            resolvedModulePath = modulePath;
+          } catch {
+            // Try adding .js
+            try {
+              const withJs = modulePath + '.js';
+              await fs.access(withJs);
+              resolvedModulePath = withJs;
+            } catch { }
           }
         }
 
-        const ext = path.extname(modulePath);
+        if (!resolvedModulePath) {
+          res.writeHead(404);
+          res.end(`Module not found: ${specifier}`);
+          return;
+        }
 
-        // Transform JS files from node_modules using esbuild
-        if (ext === '.js' || ext === '.mjs' || ext === '.cjs') {
+        const ext = path.extname(resolvedModulePath);
+
+        // ── Step 4: Bundle to ESM with esbuild ──
+        if (ext === '.js' || ext === '.mjs' || ext === '.cjs' || ext === '') {
           const { build } = await import('esbuild');
-
           try {
-            // Use esbuild to bundle/transform to ESM
+            // Determine which packages to bundle internally vs keep external.
+            // For solid-js subpaths (solid-js/web, solid-js/store, etc.) we bundle
+            // ALL solid-js internal sub-modules together to avoid cascading 404s.
+            const isSolidPkg = specifier.startsWith('solid-js');
+            const isPreactPkg = specifier.startsWith('preact');
+
             const result = await build({
-              entryPoints: [modulePath],
-              bundle: true, // Bundle dependencies of this module
+              entryPoints: [resolvedModulePath],
+              bundle: true,
               format: 'esm',
               platform: 'browser',
               write: false,
               define: {
                 'process.env.NODE_ENV': '"development"',
-                'global': 'window'
+                'global': 'globalThis'
               },
+              conditions: ['browser', 'import', 'default'],
               plugins: [{
                 name: 'node-modules-resolver',
                 setup(build) {
-                  // Mark other node_modules as external to avoid bundling EVERYTHING
-                  // We want to bundle internal deps of the package, but keep peer deps external
-                  // This is a simplified approach
-                  build.onResolve({ filter: /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/ }, args => {
-                    if (args.path !== modulePath && !args.path.startsWith('.')) {
-                      // Bundle scheduler to avoid dynamic require issues in react-dom
-                      if (args.path === 'scheduler') return null;
+                  build.onResolve({ filter: /^[^./]/ }, args => {
+                    const dep = args.path;
+                    if (dep.startsWith('.')) return null;
 
-                      // Bundle react if imported by react-dom or jsx-dev-runtime (to avoid dynamic require issues)
-                      if (args.path === 'react' && (modulePath.includes('react-dom') || modulePath.includes('jsx-dev-runtime'))) return null;
+                    // Inline solid-js internals when serving a solid-js subpath
+                    if (isSolidPkg && dep.startsWith('solid-js')) return null;
+                    // Inline preact internals when serving preact subpaths
+                    if (isPreactPkg && dep.startsWith('preact')) return null;
 
-                      // Bundle react-dom if imported by react-dom/client
-                      if (args.path === 'react-dom' && modulePath.includes('react-dom/client')) return null;
+                    // Standard: bundle scheduler with react-dom
+                    if (dep === 'scheduler') return null;
+                    if (dep === 'react' && (resolvedModulePath!.includes('react-dom') || resolvedModulePath!.includes('jsx-dev-runtime'))) return null;
+                    if (dep === 'react-dom' && resolvedModulePath!.includes('react-dom/client')) return null;
 
-                      return { path: `/node_modules/${args.path}`, external: true };
-                    }
-                    return null;
+                    return { path: `/node_modules/${dep}`, external: true };
                   });
                 }
               }]
             });
 
-            const code = result.outputFiles[0].text;
-            res.writeHead(200, { 'Content-Type': 'application/javascript' });
-            res.end(code);
+            res.writeHead(200, {
+              'Content-Type': 'application/javascript',
+              'Cache-Control': 'no-cache'
+            });
+            res.end(result.outputFiles[0].text);
             return;
-          } catch (e) {
-            log.error(`Failed to transform module: ${url}`, { category: 'server', error: e });
-            // Fallback to raw file if build fails
+          } catch (e: any) {
+            log.warn(`[DevServer] esbuild bundle failed for ${specifier}, serving raw: ${e.message}`);
+            // Fall-through to raw serve
           }
         }
 
-        let data = await fs.readFile(modulePath, 'utf-8');
-
-        const mime = ext === '.js' || ext === '.mjs' ? 'application/javascript' :
-          ext === '.css' ? 'text/css' : 'application/octet-stream';
+        // Raw serve for non-JS assets
+        const data = await fs.readFile(resolvedModulePath, 'utf-8');
+        const mime = ext === '.css' ? 'text/css' : 'application/javascript';
         res.writeHead(200, { 'Content-Type': mime });
         res.end(data);
         return;
       } catch (e: any) {
-        log.error(`[SERVER] Failed to serve module: ${url}`, e);
+        log.error(`[SERVER] Failed to serve node_module: ${specifier}`, e);
         if (!res.headersSent) {
           res.writeHead(404);
-          res.end('Module not found');
+          res.end(`Module not found: ${specifier}`);
         }
         return;
       }

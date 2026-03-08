@@ -607,7 +607,8 @@ if (import.meta.hot) {
             if (dispose) dispose();
             const NewComponent = newModule.default || newModule[component];
             if (NewComponent && container) {
-                import('solid-js/web').then(({ render }) => {
+                // Use server-relative path so the dev server resolves via exports field
+                import('/node_modules/solid-js/web').then(({ render }) => {
                     render(() => NewComponent({}), container);
                 });
             }

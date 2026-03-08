@@ -34,10 +34,15 @@ export class DependencyPreBundler {
         const metaPath = path.join(cacheDir, '_metadata.json');
 
         // Check if cache is valid
+        // Use both package.json hash AND a sorted dep list hash for strong cache invalidation
+        const depsHash = createHash('md5').update([...deps].sort().join(',')).digest('hex').slice(0, 8);
         let cachedMeta: any = {};
         try {
             cachedMeta = JSON.parse(await fs.readFile(metaPath, 'utf-8'));
-            if (cachedMeta.hash === hash && cachedMeta.deps?.length === deps.length) {
+            const cacheHit = cachedMeta.hash === hash &&
+                (cachedMeta.depsHash === depsHash || // New-style: exact dep hash
+                    (cachedMeta.deps && createHash('md5').update([...cachedMeta.deps].sort().join(',')).digest('hex').slice(0, 8) === depsHash)); // Legacy-style fallback
+            if (cacheHit) {
                 log.info('Using cached pre-bundled dependencies');
                 // Load from cache
                 for (const dep of deps) {
@@ -356,6 +361,7 @@ export class DependencyPreBundler {
             // Save metadata
             await fs.writeFile(metaPath, JSON.stringify({
                 hash,
+                depsHash,
                 deps: Array.from(bundledDeps.keys()),
                 depMap,
                 timestamp: Date.now()

@@ -27,10 +27,6 @@ try {
     if (found) {
         native = _require(found);
     } else {
-<<<<<<< HEAD
-        // Throw to trigger fallback
-        throw new Error("Native plugin missing");
-=======
         // Native binary not found — use JS fallback stubs
         const crypto = _require('crypto');
         native = {
@@ -48,7 +44,6 @@ try {
             },
             helloRust: () => "JS fallback"
         };
->>>>>>> 6fcaca356ddb76eea1edeb70e0632e8438290c74
     }
 } catch (e) {
     // Load error — use JS fallback stubs
