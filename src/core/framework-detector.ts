@@ -19,6 +19,8 @@ export type Framework =
     | 'next'
     | 'nuxt'
     | 'remix'
+    | 'alpine'
+    | 'mithril'
     | 'vanilla';
 
 export interface FrameworkInfo {
@@ -158,6 +160,24 @@ export class FrameworkDetector {
             frameworks.push({
                 name: 'lit',
                 version: deps['lit'],
+                detected: true,
+                confidence: 1.0
+            });
+        }
+
+        if (deps['alpinejs']) {
+            frameworks.push({
+                name: 'alpine',
+                version: deps['alpinejs'],
+                detected: true,
+                confidence: 1.0
+            });
+        }
+
+        if (deps['mithril']) {
+            frameworks.push({
+                name: 'mithril',
+                version: deps['mithril'],
                 detected: true,
                 confidence: 1.0
             });

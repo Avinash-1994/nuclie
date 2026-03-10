@@ -7,8 +7,21 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { TEMPLATES } from './templates.js';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { TEMPLATES } from '../utils/templates.js';
 import { red, green, blue, bold } from 'kleur/colors';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Read real nuclie version from its own package.json
+function getNuclieVersion(): string {
+    try {
+        const pkgPath = path.resolve(__dirname, '../../package.json');
+        const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+        return `^${pkg.version}`;
+    } catch { return 'latest'; }
+}
 
 async function main() {
     const args = process.argv.slice(2);
@@ -56,13 +69,15 @@ async function main() {
     // 1. Create Dir
     fs.mkdirSync(targetDir, { recursive: true });
 
-    // 2. Create Files
+    // 2. Create Files (replace version placeholder with real version)
+    const nuclieVersion = getNuclieVersion();
+    const versionLabel = nuclieVersion.replace('^', '');
     for (const file of template.files) {
         const filePath = path.join(targetDir, file.path);
         const dir = path.dirname(filePath);
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
-        fs.writeFileSync(filePath, file.content);
+        const content = file.content.replace(/\{\{NUCLIE_VERSION\}\}/g, versionLabel);
+        fs.writeFileSync(filePath, content);
     }
 
     // 3. Create package.json
@@ -78,7 +93,7 @@ async function main() {
         dependencies: template.dependencies,
         devDependencies: {
             ...template.devDependencies,
-            "nuclie": "latest"
+            "nuclie": nuclieVersion
         }
     };
     fs.writeFileSync(path.join(targetDir, 'package.json'), JSON.stringify(pkg, null, 2));

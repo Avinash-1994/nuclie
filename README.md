@@ -432,14 +432,21 @@ nuclie bootstrap --name my-app --template svelte-ts
 nuclie bootstrap --name my-app --template solid-ts
 nuclie bootstrap --name my-app --template preact-ts
 nuclie bootstrap --name my-app --template lit-ts
+nuclie bootstrap --name my-app --template mithril-ts
+nuclie bootstrap --name my-app --template alpine-ts
 nuclie bootstrap --name my-app --template vanilla-ts
 
 # JavaScript
-nuclie bootstrap --name my-app --template react-js
-nuclie bootstrap --name my-app --template vue-js
-nuclie bootstrap --name my-app --template svelte-js
-nuclie bootstrap --name my-app --template alpine-js
-nuclie bootstrap --name my-app --template vanilla-js
+nuclie bootstrap --name my-app --template react
+nuclie bootstrap --name my-app --template vue
+nuclie bootstrap --name my-app --template svelte
+nuclie bootstrap --name my-app --template solid
+nuclie bootstrap --name my-app --template preact
+nuclie bootstrap --name my-app --template lit
+nuclie bootstrap --name my-app --template qwik
+nuclie bootstrap --name my-app --template mithril
+nuclie bootstrap --name my-app --template alpine
+nuclie bootstrap --name my-app --template vanilla
 ```
 
 ---
@@ -454,9 +461,9 @@ nuclie bootstrap --name my-app --template vanilla-js
 | SolidJS    | ✅ Stable | ✅ Signal-aware | ✅ | |
 | Preact     | ✅ Stable | ✅ Fast Refresh | ✅ | React compat |
 | Lit        | ✅ Verified | ✅ Web Component | ✅ | |
-| Alpine.js  | ✅ Verified | ✅ Core Reload | ➖ | HTML-first |
+| Alpine.js  | ✅ Verified | ✅ Core Reload | ✅ | HTML-first |
 | Qwik       | 🔶 Experimental | ✅ | ✅ | |
-| Mithril.js | 🔵 Legacy | ✅ | ➖ | |
+| Mithril.js | ✅ Stable | ✅ | ✅ | |
 | Vanilla JS | ✅ Stable | ✅ | ✅ | |
 
 ---

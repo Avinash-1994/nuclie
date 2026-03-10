@@ -17,7 +17,7 @@ export const BuildConfigSchema = z.object({
   framework: z.string().optional(),
   entry: z.union([z.string(), z.array(z.string())])
     .transform((val) => (typeof val === 'string' ? [val] : val))
-    .default(['src/main.tsx']),
+    .optional(),
   mode: z.enum(['development', 'production', 'test']).default('development'),
   outDir: z.string().default('build_output'),
   port: z.number().default(5173),
@@ -186,29 +186,10 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
       // Return default config if file not found, with auto-detection
       log.info('No config file found, using defaults...');
 
-      // Auto-detect entry point
-      const entryCandidates = [
-        'src/main.tsx',
-        'src/main.ts',
-        'src/main.jsx',
-        'src/main.js',
-        'src/index.tsx',
-        'src/index.ts',
-        'src/index.jsx',
-        'src/index.js'
-      ];
-
-      let detectedEntry = ['src/main.tsx']; // Default fallback
-      for (const candidate of entryCandidates) {
-        if (await fs.access(path.join(cwd, candidate)).then(() => true).catch(() => false)) {
-          detectedEntry = [candidate];
-          break;
-        }
-      }
 
       return {
         root: cwd,
-        entry: detectedEntry,
+        entry: [], // will be auto-detected below
         mode: 'development',
         outDir: 'build_output',
         port: 5173,
@@ -233,6 +214,30 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
     const config = result.data as BuildConfig;
     // Ensure root is set
     const root = config.root || cwd;
+
+    // Auto-detect entry point if missing
+    if (!config.entry || config.entry.length === 0) {
+      const entryCandidates = [
+        'src/main.tsx',
+        'src/main.ts',
+        'src/main.jsx',
+        'src/main.js',
+        'src/index.tsx',
+        'src/index.ts',
+        'src/index.jsx',
+        'src/index.js',
+        'src/root.tsx',
+        'src/root.ts',
+      ];
+      let detectedEntry = ['src/main.tsx']; // Default fallback
+      for (const candidate of entryCandidates) {
+        if (await fs.access(path.join(root, candidate)).then(() => true).catch(() => false)) {
+          detectedEntry = [candidate];
+          break;
+        }
+      }
+      config.entry = detectedEntry;
+    }
 
     let finalConfig = { ...config };
     if (config.preset === 'spa') finalConfig = { ...finalConfig, ...(spaPreset.apply(finalConfig) as any) };

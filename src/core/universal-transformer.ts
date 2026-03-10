@@ -671,13 +671,18 @@ if (import.meta.hot) {
      * Qwik Transformer - Works with all Qwik versions
      */
     private async transformQwik(code: string, filePath: string, isDev: boolean): Promise<TransformResult> {
+        const ext = path.extname(filePath);
+        if (ext !== '.tsx' && ext !== '.ts' && ext !== '.jsx' && ext !== '.js') {
+            return this.transformVanilla(code, filePath, isDev);
+        }
         try {
             let qwik: any;
             try {
                 const compilerPath = _require.resolve('@builder.io/qwik/optimizer', { paths: [this.root, process.cwd()] });
-                const mod = await import(compilerPath);
+                const mod = await import(pathToFileURL(compilerPath).href);
                 qwik = typeof mod.createOptimizer === 'function' ? mod : (mod.default || mod);
-            } catch {
+            } catch (e: any) {
+                console.error("[Qwik Optimizer] Original import failed:", e);
                 const fallbackQwikOptimizer = '@builder.io/qwik/optimizer';
                 const mod = await import(fallbackQwikOptimizer);
                 qwik = typeof mod.createOptimizer === 'function' ? mod : (mod.default || mod);
@@ -687,9 +692,11 @@ if (import.meta.hot) {
             const result = await optimizer.transformModules({
                 input: [{ code, path: filePath }],
                 srcDir: path.join(this.root, 'src'),
-                entryStrategy: { type: 'single' },
+                rootDir: this.root,
+                entryStrategy: { type: 'inline' },
                 minify: isDev ? 'none' : 'simplify',
                 sourceMaps: isDev,
+                mode: isDev ? 'dev' : 'lib',
                 transpile: true,
             });
 
@@ -698,15 +705,33 @@ if (import.meta.hot) {
             const final = await transform(output.code, {
                 loader: 'tsx',
                 format: 'esm',
-                target: 'es2022',
+                target: 'es2020',
                 jsx: 'automatic',
                 jsxImportSource: '@builder.io/qwik'
             });
-
-            return { code: final.code, map: final.map ? JSON.stringify(final.map) : undefined };
-        } catch (error: any) {
-            log.error(`Qwik transform failed for ${filePath}: ${error.stack || error.message}`);
-            return this.transformVanilla(code, filePath, isDev);
+            const finalCode = final.code;
+            return { code: finalCode, map: final.map ? JSON.stringify(final.map) : undefined };
+        }
+        catch (error: any) {
+            // Fallback: use esbuild directly with Qwik JSX classic mode
+            log.warn(`Qwik optimizer failed, using esbuild fallback: ${error.message}`);
+            try {
+                const final = await esbuild.transform(code, {
+                    loader: (path.extname(filePath) === '.tsx' || path.extname(filePath) === '.jsx') ? 'tsx' : 'ts',
+                    format: 'esm',
+                    target: 'es2020',
+                    jsx: 'transform',
+                    jsxFactory: 'h',
+                    jsxFragment: 'Fragment',
+                    jsxImportSource: undefined,
+                });
+                // Inject h/Fragment imports from qwik
+                const imports = `import { h, Fragment } from '@builder.io/qwik';\n`;
+                return { code: imports + final.code };
+            } catch (fallbackErr: any) {
+                log.error(`Qwik fallback also failed for ${filePath}: ${fallbackErr.message}`);
+                return this.transformVanilla(code, filePath, isDev);
+            }
         }
     }
 

@@ -101,7 +101,15 @@ async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Ma
           if (preBundledDeps.has(pkgName)) {
             // Use same normalization as preBundler: replace / and @ with _
             const safeName = specifier.replace(/[/@]/g, '_');
-            replacement = `/@nuclie-deps/${safeName}.js?v=${Date.now()}`;
+
+            // Check if this is a subpath file that actually exists vs a JS module subpath
+            // If it has explicitly a .js extension, or is qwikloader, we should serve it from node_modules
+            // *unless* the prebundler bundled this exact subpath
+            if (specifier.endsWith('.js') && !preBundledDeps.has(specifier)) {
+              replacement = `/node_modules/${specifier}`;
+            } else {
+              replacement = `/@nuclie-deps/${safeName}.js?v=${Date.now()}`;
+            }
           }
         }
 
@@ -234,11 +242,19 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     else if (primaryFramework === 'vanilla' && cfg.adapter === 'lit') primaryFramework = 'lit';
   }
 
+  // Determine a human-readable display name for the active framework.
+  // Alpine and Mithril intentionally use vanilla pipeline — we still want to log them correctly.
+  let displayFramework: string = primaryFramework;
+  if (cfg.adapter === 'alpine' || cfg.adapter === 'alpine-ts') displayFramework = 'alpine';
+  else if (cfg.adapter === 'mithril' || cfg.adapter === 'mithril-ts') displayFramework = 'mithril';
+
   // @ts-ignore - Pipeline owns opinionated defaults
   pipeline.applyDefaults();
 
-  log.info(`--> Dev Server: Active ${primaryFramework} workflow`, { category: 'server' });
-  if (primaryFramework === 'vanilla') {
+  log.info(`--> Dev Server: Active ${displayFramework} workflow`, { category: 'server' });
+  // Only warn if truly no framework is known (not just vanilla-mode frameworks like alpine/mithril/vanilla)
+  const knownVanillaFrameworks = ['alpine', 'mithril', 'vanilla'];
+  if (primaryFramework === 'vanilla' && !knownVanillaFrameworks.includes(displayFramework)) {
     log.warn('--> Dev Server: No framework detected, HMR might be limited', { category: 'server' });
   }
 
@@ -306,6 +322,25 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       log.warn('Could not read package.json dependencies', { category: 'server' });
     }
 
+    // Helper: return Svelte deps based on installed version (v4 vs v5 have different internals)
+    const getSvelteDeps = (): string[] => {
+      const base = ['svelte', 'svelte/animate', 'svelte/easing', 'svelte/motion', 'svelte/store', 'svelte/transition'];
+      try {
+        const sveltePkgPath = require.resolve('svelte/package.json', { paths: [cfg.root] });
+        const sveltePkg = JSON.parse(require('fs').readFileSync(sveltePkgPath, 'utf8'));
+        const major = parseInt(sveltePkg.version?.split('.')[0] ?? '4', 10);
+        if (major >= 5) {
+          // Svelte 5: new internal structure
+          return [...base, 'svelte/internal/client', 'svelte/internal/flags/legacy', 'svelte/internal/disclose-version'];
+        } else {
+          // Svelte 4: old single internal module
+          return [...base, 'svelte/internal'];
+        }
+      } catch {
+        return [...base, 'svelte/internal']; // safe fallback to v4 style
+      }
+    };
+
     // 2. Framework Defaults
     const frameworkDeps: Record<string, string[]> = {
       react: ['react', 'react-dom', 'react-dom/client', 'react/jsx-dev-runtime', 'react/jsx-runtime', 'react-router-dom', '@remix-run/router', 'react-router'],
@@ -314,18 +349,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       preact: ['preact', 'preact/hooks', 'preact/jsx-runtime', 'preact/jsx-dev-runtime'],
       vue: ['vue'],
       nuxt: ['vue'],
-      svelte: [
-        'svelte',
-        'svelte/animate',
-        'svelte/easing',
-        'svelte/internal',
-        'svelte/internal/client',
-        'svelte/internal/flags/legacy',
-        'svelte/internal/disclose-version',
-        'svelte/motion',
-        'svelte/store',
-        'svelte/transition'
-      ],
+      svelte: getSvelteDeps(),
       solid: ['solid-js', 'solid-js/web', 'solid-js/store'],
       angular: [
         '@angular/core',
@@ -338,7 +362,11 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         'rxjs',
         'rxjs/operators',
         'zone.js'
-      ]
+      ],
+      qwik: ['@builder.io/qwik', '@builder.io/qwik/jsx-runtime', '@builder.io/qwik/jsx-dev-runtime'],
+      lit: ['lit', 'lit/html.js', 'lit/directives/class-map.js', 'lit/directives/style-map.js', 'lit/directives/repeat.js'],
+      alpine: ['alpinejs'],
+      mithril: ['mithril']
     };
 
     const defaultDeps = frameworkDeps[primaryFramework] || [];
@@ -821,9 +849,14 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         });
         res.end(content);
       } catch (error) {
-        log.error(`Failed to serve pre-bundled dep: ${depFile}`, { error });
-        res.writeHead(404);
-        res.end(`Pre-bundled dependency not found: ${depFile}`);
+        // Dep file doesn't exist (e.g. Svelte 5 internal requested on Svelte 4 project).
+        // Serve empty ESM module so the page loads gracefully instead of crashing with 404.
+        log.debug(`[NuclieDepS] Not found, serving empty module: ${depFile}`);
+        res.writeHead(200, {
+          'Content-Type': 'application/javascript',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        });
+        res.end(`// nuclie: empty stub for missing dep: ${depFile}\nexport default {};\n`);
       }
       return;
     }
@@ -836,6 +869,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
           path.join(cfg.root, 'node_modules/react-refresh/cjs/react-refresh-runtime.development.js'),
           path.join(cfg.root, '../node_modules/react-refresh/cjs/react-refresh-runtime.development.js'),
           path.join(process.cwd(), 'node_modules/react-refresh/cjs/react-refresh-runtime.development.js'),
+          path.join(__dirname, '../../node_modules/react-refresh/cjs/react-refresh-runtime.development.js')
         ];
 
         let runtime = null;

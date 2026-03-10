@@ -281,6 +281,42 @@ export const frameworkPresets: Record<Framework, FrameworkPreset> = {
         }
     },
 
+    alpine: {
+        name: 'alpine',
+        extensions: ['.js', '.ts', '.mjs', '.html'],
+        hmr: {
+            enabled: true
+        },
+        transform: {
+            esbuild: {
+                target: 'es2020'
+            }
+        },
+        build: {
+            splitting: true,
+            minify: true,
+            sourcemap: true
+        }
+    },
+
+    mithril: {
+        name: 'mithril',
+        extensions: ['.js', '.ts', '.jsx', '.tsx', '.mjs'],
+        hmr: {
+            enabled: true
+        },
+        transform: {
+            esbuild: {
+                target: 'es2020'
+            }
+        },
+        build: {
+            splitting: true,
+            minify: true,
+            sourcemap: true
+        }
+    },
+
     vanilla: {
         name: 'vanilla',
         extensions: ['.js', '.ts', '.mjs'],

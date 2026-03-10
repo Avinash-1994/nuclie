@@ -4,40 +4,53 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-<div className="app-container">
-      <header className="hero">
-        <span className="badge">v1.0.0 Stable</span>
-        <h1>Nuclie <span style={{color: '#61dafb'}}>+ React</span></h1>
-        <p className="subtitle">
-          The high-performance build engine for modern web applications.<br/>
-          Engineered for speed. Built for stability.
+    <>
+      <nav className="navbar">
+        <a href="/" className="navbar-brand">NUCLIE</a>
+        <div className="navbar-links">
+          <a href="#" className="nav-link">Features</a>
+          <a href="#" className="nav-link">Docs</a>
+          <button className="nav-btn">Get Started</button>
+        </div>
+      </nav>
+
+      <main className="hero-section">
+        <div className="badge">v1.0.0 Stable</div>
+        
+        <h1 className="hero-title">
+          The Nucleus for<br/>
+          Stunning Web Apps <span className="highlight">React</span>
+        </h1>
+        
+        <p className="hero-subtitle">
+          Experience the next generation of build speed with Nuclie. 
+          Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
-      </header>
-      <main className="features">
-        <div className="feature-card">
-          <h3>Native Core</h3>
-          <p>Rust-powered hashing and scanning for lightning-fast module resolution.</p>
+
+        <div className="action-buttons">
+          <button className="btn-primary" onClick={() => setCount(c => c + 1)}>
+            Interactions: {count}
+          </button>
+          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary">
+            Read Documentation
+          </a>
         </div>
-        <div className="feature-card">
-          <h3>Sub-100ms HMR</h3>
-          <p>Instant feedback loop with state preservation across all major frameworks.</p>
-        </div>
-        <div className="feature-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h3>Interactive React</h3>
-          <p><button className="interactive-btn" onClick={() => setCount(c => c + 1)}>Count is: {count}</button></p>
+
+        <div className="terminal-window">
+          <div className="terminal-header">
+            <div className="term-dot red"></div>
+            <div className="term-dot yellow"></div>
+            <div className="term-dot green"></div>
+          </div>
+          <div className="terminal-body">
+            <span className="term-comment">// Initializing the nucleus...</span><br/>
+            <span className="term-prompt">$</span><span className="term-cmd">npm install -g nuclie</span><br/>
+            <span className="term-prompt">$</span><span className="term-cmd">npm run dev</span><br/><br/>
+            <span className="term-success">✓ Core Ready in 3.15ms</span>
+          </div>
         </div>
       </main>
-      <div className="code-area">
-        <span style={{ color: '#6366F1' }}>$</span> nuclie build --optimize
-        <br />
-        <span style={{ color: '#94A3B8', opacity: 0.6 }}>// Generating optimized production bundle...</span>
-        <br />
-        <span style={{ color: '#10B981' }}>✓ Build complete in 1.4s</span>
-      </div>
-      <footer className="footer">
-        Powered by <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer">Nuclie Build Tool</a>
-      </footer>
-    </div>
+    </>
   );
 }
 

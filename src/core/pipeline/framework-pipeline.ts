@@ -40,6 +40,8 @@ export class FrameworkPipeline {
             else if (config.adapter === 'preact') framework = 'preact';
             else if (config.adapter === 'qwik') framework = 'qwik';
             else if (config.adapter === 'lit') framework = 'lit';
+            else if (config.adapter === 'alpine') framework = 'alpine';
+            else if (config.adapter === 'mithril' || config.adapter === 'mithril-ts') framework = 'mithril';
         }
 
         if (!framework) {

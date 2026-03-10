@@ -1,42 +1,64 @@
-import { component$, useSignal } from '@builder.io/qwik';
+import { component$, useSignal, render } from '@builder.io/qwik';
+import '@builder.io/qwik/qwikloader.js';
 import './index.css';
 
-export default component$(() => {
+const App = component$(() => {
   const count = useSignal(0);
+
   return (
-<div class="app-container">
-      <header class="hero">
-        <span class="badge">v1.0.0 Stable</span>
-        <h1>Nuclie <span style={{color: '#18b6f6'}}>+ Qwik</span></h1>
-        <p class="subtitle">
-          The high-performance build engine for modern web applications.<br/>
-          Engineered for speed. Built for stability.
+    <div>
+      <nav class="navbar">
+        <a href="/" class="navbar-brand">NUCLIE</a>
+        <div class="navbar-links">
+          <a href="#" class="nav-link">Features</a>
+          <a href="#" class="nav-link">Docs</a>
+          <button class="nav-btn">Get Started</button>
+        </div>
+      </nav>
+
+      <main class="hero-section">
+        <div class="badge">Engine v1.0.8 Ready</div>
+
+        <h1 class="hero-title">
+          The Nucleus for<br />
+          <span class="highlight">Stunning Web Apps</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Experience the next generation of build speed with Nuclie.
+          Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
-      </header>
-      <main class="features">
-        <div class="feature-card">
-          <h3>Native Core</h3>
-          <p>Rust-powered hashing and scanning for lightning-fast module resolution.</p>
+
+        <div class="action-buttons">
+          <button class="btn-primary" onClick$={() => count.value++}>
+            Interactions: {count.value}
+          </button>
+          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            Read Documentation
+          </a>
         </div>
-        <div class="feature-card">
-          <h3>Sub-100ms HMR</h3>
-          <p>Instant feedback loop with state preservation across all major frameworks.</p>
-        </div>
-        <div class="feature-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h3>Interactive Qwik</h3>
-          <p><button class="interactive-btn" onClick$={() => count.value++}>Count is: {count.value}</button></p>
+
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="term-dot red"></div>
+            <div class="term-dot yellow"></div>
+            <div class="term-dot green"></div>
+          </div>
+          <div class="terminal-body">
+            <span class="term-comment">// Initializing the nucleus...</span><br />
+            <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br />
+            <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br /><br />
+            <span class="term-success">✓ Core Ready in 3.15ms</span>
+          </div>
         </div>
       </main>
-      <div class="code-area">
-        <span style={{ color: '#6366F1' }}>$</span> nuclie build --optimize
-        <br />
-        <span style={{ color: '#94A3B8', opacity: 0.6 }}>// Generating optimized production bundle...</span>
-        <br />
-        <span style={{ color: '#10B981' }}>✓ Build complete in 1.4s</span>
-      </div>
-      <footer class="footer">
-        Powered by <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer">Nuclie Build Tool</a>
-      </footer>
     </div>
   );
 });
+
+export default App;
+
+// Mount the app
+if (typeof document !== 'undefined') {
+  render(document.getElementById('root')!, <App />);
+}
