@@ -16,6 +16,55 @@ export { CoreBuildEngine } from './core/engine/index.js';
 export type { BuildFingerprint, BuildArtifact, BuildMode } from './core/engine/types.js';
 
 // ============================================================================
+// MODULE FEDERATION (Fixed Runtime — replaces stub in plugins/federation_next.ts)
+// ============================================================================
+
+export {
+    generateRemoteEntry,
+    generateFederationRuntime,
+    federationPlugin,
+    injectRemotesIntoHTML,
+    validateFederationConfig,
+    SHARED_SCOPE_RUNTIME,
+} from './federation/index.js';
+export type {
+    FederationConfig as MFConfig,
+    SharedConfig,
+    FederationBuildResult,
+} from './federation/index.js';
+
+// ============================================================================
+// ENV SYSTEM (.env → import.meta.env.NUCLIE_*)
+// ============================================================================
+
+export { loadEnv, getEsbuildDefines, warnSensitiveEnv } from './env.js';
+export type { EnvConfig, LoadedEnv } from './env.js';
+
+// ============================================================================
+// CONFIG LOADER (extends + deep merge + validation)
+// ============================================================================
+
+export { loadConfigExtended, mergeConfig, findConfigFile, validateConfig } from './config-loader.js';
+export type { NuclieConfig, LoadConfigResult, ConfigValidationResult } from './config-loader.js';
+
+// ============================================================================
+// COMMANDS (Preview server + Library build)
+// ============================================================================
+
+export { preview } from './commands/preview.js';
+export type { PreviewOptions } from './commands/preview.js';
+
+export { buildLib } from './commands/lib-build.js';
+export type { NuclieLibConfig, LibBuildResult } from './commands/lib-build.js';
+
+// ============================================================================
+// DEV MIDDLEWARE (proxy + CORS + request logger)
+// ============================================================================
+
+export { applyMiddleware, applyProxies, applyCORS, applyRequestLogger } from './dev-middleware.js';
+export type { MiddlewareFn } from './dev-middleware.js';
+
+// ============================================================================
 // CONFIGURATION
 // ============================================================================
 

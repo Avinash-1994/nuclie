@@ -63,7 +63,7 @@ async function main() {
   // ⚡ Hyper-Fast Short-Circuit (Phase S2 Mastery)
   // Bypasses yargs for core commands to achieve <50ms cold start
   const cmd = process.argv[2];
-  if ((cmd === 'dev' || cmd === 'build') && !process.argv.includes('--help')) {
+  if ((cmd === 'dev' || cmd === 'build' || cmd === 'preview') && !process.argv.includes('--help')) {
     try {
       if (cmd === 'dev') {
         const portIdx = process.argv.indexOf('--port');
@@ -78,6 +78,13 @@ async function main() {
         const config = await loadConfig(process.cwd());
         config.mode = 'production';
         await runBuild(config);
+        return;
+      }
+      if (cmd === 'preview') {
+        const portIdx = process.argv.indexOf('--port');
+        const port = portIdx !== -1 ? parseInt(process.argv[portIdx + 1]) : 4173;
+        const { preview } = await import('./commands/preview.js');
+        await preview({ port, outDir: 'build_output' });
         return;
       }
     } catch (e: any) {
@@ -174,6 +181,25 @@ async function main() {
           // Build command always uses production mode unless explicitly disabled
           config.mode = args.prod !== false ? 'production' : config.mode || 'development';
 
+          // ── Module Federation validation ─────────────────────────────────────
+          if (config.federation) {
+            const { validateFederationConfig } = await import('./federation/index.js');
+            const mfErrors = validateFederationConfig(config.federation as any);
+            if (mfErrors.length > 0) {
+              console.error('\n❌ Module Federation config errors:');
+              mfErrors.forEach((e: string) => console.error(`  • ${e}`));
+              process.exit(1);
+            }
+          }
+
+          // ── Env loading (.env → import.meta.env.NUCLIE_*) ───────────────────
+          const { loadEnv, warnSensitiveEnv } = await import('./env.js');
+          const env = loadEnv(config.mode as 'development' | 'production' | 'test', process.cwd());
+          warnSensitiveEnv(env);
+          // env.define and env.metaEnv are available for bundler.js to consume
+          // Pass through config so bundler can access it
+          (config as any).__envDefines = { ...env.define, ...env.metaEnv };
+
           const { build: runBuild } = await import('./build/bundler.js');
           const result = await runBuild(config);
 
@@ -181,7 +207,8 @@ async function main() {
             printProfileReport(result);
           }
 
-          console.log('\n💡  Tip: Run `npx nuclie audit` to generate a full audit report.');
+          console.log('\n💡  Tip: Run `npx nuclie preview` to serve the build locally.');
+          console.log('💡  Tip: Run `npx nuclie audit` to generate a full audit report.');
 
           await telemetry.stop(true);
         } catch (e: any) {
@@ -193,14 +220,46 @@ async function main() {
 
           await telemetry.stop(false, {}, [heroError.message]);
 
-          // AI Self-Healing capability
-          /*
-          const { HealerCLI } = await import('./ai/healer/cli.js');
-          await HealerCLI.handle(e);
-          */
-
           process.exit(1);
         }
+      }
+    )
+    .command(
+      'preview',
+      'Serve production build locally (after nuclie build)',
+      (yargs: any) => {
+        return yargs
+          .option('port', {
+            alias: 'p',
+            type: 'number',
+            description: 'Port to serve on',
+            default: 4173
+          })
+          .option('host', {
+            type: 'string',
+            description: 'Host to bind to',
+            default: 'localhost'
+          })
+          .option('open', {
+            alias: 'o',
+            type: 'boolean',
+            description: 'Open browser automatically',
+            default: false
+          })
+          .option('outDir', {
+            type: 'string',
+            description: 'Output directory to serve',
+            default: 'build_output'
+          });
+      },
+      async (args: any) => {
+        const { preview } = await import('./commands/preview.js');
+        await preview({
+          port: args.port,
+          host: args.host,
+          open: args.open,
+          outDir: args.outDir,
+        });
       }
     )
     .command(

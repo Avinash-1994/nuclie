@@ -216,12 +216,21 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     console.log = originalLog; // Restore console
   } catch (e) { }
 
-  // Filter public env vars
-  const publicEnv = Object.keys(process.env)
+  // Filter public env vars — also loads .env / .env.development / .env.local files
+  let publicEnv: Record<string, string | undefined> = Object.keys(process.env)
     .filter(key => key.startsWith('NUCLIE_') || key.startsWith('PUBLIC_') || key === 'NODE_ENV')
     .reduce((acc, key) => ({ ...acc, [key]: process.env[key] }), {
       NODE_ENV: process.env.NODE_ENV || 'development'
     });
+
+  try {
+    const { loadEnv } = await import('../env.js');
+    const loaded = loadEnv('development', cfg.root);
+    // Merge .env file vars on top (higher priority than process.env)
+    publicEnv = { ...publicEnv, ...loaded.raw };
+  } catch {
+    // env.ts not available — fall back to process.env only
+  }
 
   log.debug('Loaded Environment Variables', { category: 'server', count: Object.keys(publicEnv).length });
 

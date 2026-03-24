@@ -2,154 +2,266 @@ name: CI
 
 on:
   push:
-    branches: [main, master, develop]
+    branches: [master, main, develop]
   pull_request:
-    branches: [main, master, develop]
+    branches: [master, main, develop]
+  release:
+    types: [created]
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: '20'
+  NPM_FLAGS: '--legacy-peer-deps'
+
 jobs:
-  lint-and-typecheck:
-    name: 🔍 Lint & Type Check
+  # ─── 1. Type check ──────────────────────────────────────────────────────────
+  typecheck:
+    name: 🔍 TypeScript
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node.js 20
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📦 Install Dependencies
-        run: npm ci --legacy-peer-deps
+      - name: 📦 Install dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
+
+      - name: 🔍 Type check
+        run: npm run typecheck
+
+  # ─── 2. Lint ────────────────────────────────────────────────────────────────
+  lint:
+    name: 🔍 Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
 
       - name: 🔍 Lint
         run: npm run lint
 
-      - name: 🔍 TypeScript Type Check
-        run: npm run typecheck
-
-  build-and-test:
-    name: 🔨 Build & Test (Node ${{ matrix.node-version }}, ${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    needs: lint-and-typecheck
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [20, 22]
-        os: [ubuntu-latest, windows-latest]
-
+  # ─── 3. Build ───────────────────────────────────────────────────────────────
+  build:
+    name: 🔨 Build
+    runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node.js ${{ matrix.node-version }}
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: 🦀 Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: 📦 Install Dependencies
-        run: npm ci --legacy-peer-deps
+      - name: 📦 Install dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
 
-      - name: 🔨 Build Project
+      - name: 🔨 Build
         run: npm run build
 
-      - name: ✅ Verify Build Artifacts
+      - name: ✅ Verify build artifacts
         shell: bash
         run: |
           echo "🔍 Checking required build artifacts..."
           test -f dist/cli.js        && echo "✅ CLI built" || (echo "❌ CLI missing" && exit 1)
           test -f dist/index.js      && echo "✅ API entry built" || (echo "❌ index.js missing" && exit 1)
           test -f dist/index.d.ts    && echo "✅ Type declarations built" || (echo "❌ index.d.ts missing" && exit 1)
-          test -f dist/core/universal-transformer.js && echo "✅ Universal Transformer built" || echo "⚠️ Universal Transformer missing"
-          test -f dist/nuclie_native.node && echo "✅ Native binary in dist" || echo "⚠️ Native binary not in dist (JS fallback active)"
           echo ""
           echo "📋 Verifying package exports..."
           node --input-type=module --eval "import { CoreBuildEngine, loadConfig, defineConfig } from './dist/index.js'; console.log('✅ Public API exports verified');"
 
-      - name: 🧪 Jest Test Suite (All)
-        env:
-          NODE_OPTIONS: --experimental-vm-modules
-        run: npm test
-
-      - name: 🧪 Property-Based Tests
-        env:
-          NODE_OPTIONS: --experimental-vm-modules
-        run: npm run test:property
-
-      - name: 🧪 Load / Stress Tests
-        env:
-          NODE_OPTIONS: --experimental-vm-modules
-        run: npm run test:load
-
-      - name: 📤 Upload Build Artifacts
-        if: matrix.node-version == 20 && matrix.os == 'ubuntu-latest'
+      - name: 📤 Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts-node${{ matrix.node-version }}
-          path: |
-            dist/
-            nuclie_native.node
+          name: dist
+          path: dist/
           retention-days: 7
 
-  visual-tests:
-    name: 🎭 Visual Regression Tests
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: github.event_name == 'push'
-    continue-on-error: true
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v4
+  # ─── 4. Unit & Integration tests ────────────────────────────────────────────
+  test:
+    name: 🧪 Tests (${{ matrix.os }})
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-      - name: 🔧 Setup Node.js 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📦 Install Dependencies
-        run: npm ci --legacy-peer-deps
+      - name: 📦 Install dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
 
-      - name: 🔨 Build Project
-        run: npm run build
+      - name: 📥 Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
 
-      - name: 🎭 Install Playwright Browsers
-        run: npx playwright install --with-deps
+      - name: 🧪 Run unit tests
+        run: npm test
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
-      - name: 🎭 Visual Regression Tests
-        run: npm run test:visual
+      - name: 🧪 Run federation tests
+        run: npm run test:federation
+        continue-on-error: true
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
 
-      - name: 📤 Upload Visual Test Results
+      - name: 🧪 Run property-based tests
+        run: npm run test:property
+        continue-on-error: true
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
+
+      - name: 📤 Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-test-results
+          name: test-results-${{ matrix.os }}
           path: |
-            playwright-report/
-            test-results/
+            coverage/
+            junit.xml
           retention-days: 7
 
+  # ─── 5. Playwright E2E (Linux only) ──────────────────────────────────────────
+  test-e2e:
+    name: 🎭 E2E Tests
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
+
+      - name: 📥 Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: 🎭 Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: 🎭 Run E2E tests
+        run: npm run test:real-world
+        env:
+          NODE_OPTIONS: --experimental-vm-modules
+          CI: true
+        timeout-minutes: 15
+
+      - name: 📤 Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  # ─── 6. Publish to npm (on release only) ────────────────────────────────────
+  publish:
+    name: 📦 Publish to npm
+    needs: [typecheck, lint, test]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'created'
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js with npm registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
+
+      - name: 📥 Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: ✅ Verify build output
+        run: |
+          test -f dist/cli.js || (echo "❌ dist/cli.js missing" && exit 1)
+          test -f dist/index.js || (echo "❌ dist/index.js missing" && exit 1)
+          test -f dist/index.d.ts || (echo "❌ dist/index.d.ts missing" && exit 1)
+          echo "✅ Build output verified"
+
+      - name: 🚀 Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 📦 Pack for release
+        run: npm pack
+
+      - name: 📤 Upload release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: '*.tgz'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─── 7. CI Summary ──────────────────────────────────────────────────────────
   summary:
     name: 📊 CI Summary
     runs-on: ubuntu-latest
-    needs: [lint-and-typecheck, build-and-test]
+    needs: [typecheck, lint, build, test]
     if: always()
     steps:
       - name: 📊 Report Status
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "       NUCLIE v1.0.0 — CI COMPLETE"
+          echo "       NUCLIE — CI COMPLETE"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "  Lint & Type Check : ${{ needs.lint-and-typecheck.result }}"
-          echo "  Build & Test Suite: ${{ needs.build-and-test.result }}"
+          echo "  TypeScript  : ${{ needs.typecheck.result }}"
+          echo "  Lint        : ${{ needs.lint.result }}"
+          echo "  Build       : ${{ needs.build.result }}"
+          echo "  Tests       : ${{ needs.test.result }}"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

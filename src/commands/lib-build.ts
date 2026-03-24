@@ -1,0 +1,170 @@
+/**
+ * src/commands/lib-build.ts
+ *
+ * Library mode — builds nuclie projects as npm packages.
+ * Produces ES + CJS + UMD/IIFE outputs with proper externals.
+ *
+ * Wire into cli.ts build command:
+ *   if (config.lib) await buildLib(config)
+ *   else await buildApp(config)  // your existing build
+ */
+
+import path from 'path'
+import fs from 'fs'
+import { build } from 'esbuild'
+import type { BuildConfig } from '../config/index.js'
+
+export interface NuclieLibConfig {
+  entry: string
+  name?: string
+  formats?: string[]
+  externals?: string[]
+  fileName?: string | ((format: string) => string)
+}
+
+export interface LibBuildResult {
+  outputs: { file: string; format: string; size: number }[]
+  durationMs: number
+}
+
+const FORMAT_EXTENSIONS: Record<string, string> = {
+  es: '.mjs',
+  cjs: '.cjs',
+  umd: '.umd.js',
+  iife: '.iife.js',
+}
+
+function resolveFileName(
+  lib: NuclieLibConfig,
+  format: string
+): string {
+  if (typeof lib.fileName === 'function') {
+    return lib.fileName(format)
+  }
+  if (typeof lib.fileName === 'string') {
+    return `${lib.fileName}${FORMAT_EXTENSIONS[format] ?? '.js'}`
+  }
+  // Default: derive from entry file name
+  const base = path.basename(lib.entry, path.extname(lib.entry))
+  return `${base}${FORMAT_EXTENSIONS[format] ?? '.js'}`
+}
+
+export async function buildLib(config: BuildConfig, lib: NuclieLibConfig): Promise<LibBuildResult> {
+  const outDir = path.resolve(process.cwd(), config.outDir ?? 'build_output')
+  const formats = lib.formats ?? ['es', 'cjs']
+  const externals = lib.externals ?? []
+
+  // Auto-detect externals from peerDependencies in package.json
+  const pkgPath = path.join(process.cwd(), 'package.json')
+  const autoExternals: string[] = [...externals]
+  if (fs.existsSync(pkgPath)) {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+    const peers = Object.keys(pkg.peerDependencies ?? {})
+    const deps = Object.keys(pkg.dependencies ?? {})
+    // Externalize peers and deps (don't bundle them)
+    autoExternals.push(...peers, ...deps)
+  }
+
+  // Deduplicate
+  const uniqueExternals = [...new Set(autoExternals)]
+
+  const startTime = Date.now()
+  const outputs: LibBuildResult['outputs'] = []
+
+  // Build each format
+  for (const format of formats) {
+    const outFile = path.join(outDir, resolveFileName(lib, format))
+
+    const esbuildFormat =
+      format === 'es' ? 'esm' :
+      format === 'cjs' ? 'cjs' :
+      format === 'umd' ? 'iife' :  // esbuild uses iife for umd-like
+      format === 'iife' ? 'iife' :
+      'esm'
+
+    await build({
+      entryPoints: [path.resolve(process.cwd(), lib.entry)],
+      outfile: outFile,
+      bundle: true,
+      format: esbuildFormat,
+      globalName: format === 'umd' || format === 'iife' ? lib.name : undefined,
+      platform: format === 'cjs' ? 'node' : 'browser',
+      target: (config.build?.targets?.[0] as string) ?? 'es2020',
+      minify: config.build?.minify ?? true,
+      sourcemap: config.build?.sourcemap === true || config.build?.sourcemap === 'external' ? true : false,
+      external: uniqueExternals,
+      // Tree shaking
+      treeShaking: true,
+      define: {
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      },
+    })
+
+    const size = fs.statSync(outFile).size
+    outputs.push({ file: outFile, format, size })
+
+    console.log(
+      `  ✅ ${format.padEnd(4)} → ${path.relative(process.cwd(), outFile)} ` +
+        `(${(size / 1024).toFixed(1)} kB)`
+    )
+  }
+
+  // Generate TypeScript declarations if tsconfig present
+  const tsConfig = path.join(process.cwd(), 'tsconfig.json')
+  if (fs.existsSync(tsConfig)) {
+    await generateDts(lib, outDir)
+  }
+
+  // Generate package.json exports field suggestion
+  printExportsAdvice(lib, formats, outDir, config.outDir ?? 'build_output')
+
+  return {
+    outputs,
+    durationMs: Date.now() - startTime,
+  }
+}
+
+async function generateDts(lib: NuclieLibConfig, outDir: string): Promise<void> {
+  try {
+    // Use tsc if available
+    const { execSync } = await import('child_process')
+
+    execSync(
+      `npx tsc --declaration --declarationDir ${outDir} --emitDeclarationOnly --noEmit false`,
+      { stdio: 'pipe' }
+    )
+    console.log(`  ✅ dts  → ${path.relative(process.cwd(), outDir)}/*.d.ts`)
+  } catch {
+    // tsc not available or failed — skip silently
+  }
+}
+
+function printExportsAdvice(
+  lib: NuclieLibConfig,
+  formats: string[],
+  outDir: string,
+  outDirName: string
+): void {
+  const base = path.basename(lib.entry, path.extname(lib.entry))
+
+  const exports: Record<string, unknown> = { '.': {} }
+  const exportsField = exports['.'] as Record<string, string>
+
+  if (formats.includes('es')) {
+    exportsField['import'] = `./${outDirName}/${base}.mjs`
+  }
+  if (formats.includes('cjs')) {
+    exportsField['require'] = `./${outDirName}/${base}.cjs`
+    exportsField['default'] = `./${outDirName}/${base}.cjs`
+  }
+
+  const advice: Record<string, unknown> = {
+    main: formats.includes('cjs') ? `./${outDirName}/${base}.cjs` : `./${outDirName}/${base}.mjs`,
+    module: formats.includes('es') ? `./${outDirName}/${base}.mjs` : undefined,
+    types: `./${outDirName}/index.d.ts`,
+    exports,
+  }
+
+  console.log('\n  💡 Add to package.json:')
+  console.log(JSON.stringify(advice, null, 2).split('\n').map(l => '  ' + l).join('\n'))
+}
