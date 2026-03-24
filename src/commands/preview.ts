@@ -42,6 +42,31 @@ function getMime(filePath: string): string {
   return MIME_TYPES[ext] ?? 'application/octet-stream'
 }
 
+async function openUrl(url: string): Promise<void> {
+  const platform = process.platform
+  let cmd: string
+  let args: string[]
+
+  if (platform === 'darwin') {
+    cmd = 'open'
+    args = [url]
+  } else if (platform === 'win32') {
+    cmd = 'cmd'
+    args = ['/c', 'start', '""', url]
+  } else {
+    cmd = 'xdg-open'
+    args = [url]
+  }
+
+  try {
+    const { spawn } = await import('child_process')
+    const child = spawn(cmd, args, { stdio: 'ignore', detached: true })
+    child.unref()
+  } catch (error) {
+    console.warn(`Could not open browser automatically: ${(error as Error).message}`)
+  }
+}
+
 function serveFile(
   filePath: string,
   res: http.ServerResponse,
@@ -169,10 +194,7 @@ export async function preview(options: PreviewOptions = {}): Promise<void> {
   console.log(`\n  Serving \x1b[2m${outDir}/\x1b[0m — press Ctrl+C to stop\n`)
 
   if (open) {
-    const openMod = await import('open').catch(() => null)
-    if (openMod?.default) {
-      openMod.default(url)
-    }
+    await openUrl(url)
   }
 
   // Keep alive

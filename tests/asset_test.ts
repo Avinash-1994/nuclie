@@ -64,11 +64,11 @@ export default logo;
         assert(pngFiles[0].includes('.'), 'PNG filename should include hash');
 
         // Check that the JS bundle exists and contains the asset reference
-        const jsFiles = await fs.readdir(distDir);
-        const bundleFiles = jsFiles.filter(f => f.endsWith('.js'));
-        assert(bundleFiles.length > 0, 'Should have at least one JS bundle');
+        const assetFilesInDist = await fs.readdir(assetsDir);
+        const bundleFiles = assetFilesInDist.filter(f => f.endsWith('.js'));
+        assert(bundleFiles.length > 0, 'Should have at least one JS bundle in assets directory');
 
-        const bundleContent = await fs.readFile(path.join(distDir, bundleFiles[0]), 'utf-8');
+        const bundleContent = await fs.readFile(path.join(assetsDir, bundleFiles[0]), 'utf-8');
         assert(bundleContent.includes('/assets/'), 'Bundle should reference assets directory');
 
         console.log('✓ Asset Pipeline Test Passed!');
