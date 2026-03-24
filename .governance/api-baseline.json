@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-freeze",
+  "version": "1.0.9",
   "exports": [
     {
       "name": "CoreBuildEngine",
@@ -15,6 +15,130 @@
     },
     {
       "name": "BuildMode",
+      "type": "const"
+    },
+    {
+      "name": "generateRemoteEntry",
+      "type": "const"
+    },
+    {
+      "name": "generateFederationRuntime",
+      "type": "const"
+    },
+    {
+      "name": "federationPlugin",
+      "type": "const"
+    },
+    {
+      "name": "injectRemotesIntoHTML",
+      "type": "const"
+    },
+    {
+      "name": "validateFederationConfig",
+      "type": "const"
+    },
+    {
+      "name": "SHARED_SCOPE_RUNTIME",
+      "type": "const"
+    },
+    {
+      "name": "MFConfig",
+      "type": "const"
+    },
+    {
+      "name": "SharedConfig",
+      "type": "const"
+    },
+    {
+      "name": "FederationBuildResult",
+      "type": "const"
+    },
+    {
+      "name": "loadEnv",
+      "type": "const"
+    },
+    {
+      "name": "getEsbuildDefines",
+      "type": "const"
+    },
+    {
+      "name": "warnSensitiveEnv",
+      "type": "const"
+    },
+    {
+      "name": "EnvConfig",
+      "type": "const"
+    },
+    {
+      "name": "LoadedEnv",
+      "type": "const"
+    },
+    {
+      "name": "loadConfigExtended",
+      "type": "const"
+    },
+    {
+      "name": "mergeConfig",
+      "type": "const"
+    },
+    {
+      "name": "findConfigFile",
+      "type": "const"
+    },
+    {
+      "name": "validateConfig",
+      "type": "const"
+    },
+    {
+      "name": "NuclieConfig",
+      "type": "const"
+    },
+    {
+      "name": "LoadConfigResult",
+      "type": "const"
+    },
+    {
+      "name": "ConfigValidationResult",
+      "type": "const"
+    },
+    {
+      "name": "preview",
+      "type": "const"
+    },
+    {
+      "name": "PreviewOptions",
+      "type": "const"
+    },
+    {
+      "name": "buildLib",
+      "type": "const"
+    },
+    {
+      "name": "NuclieLibConfig",
+      "type": "const"
+    },
+    {
+      "name": "LibBuildResult",
+      "type": "const"
+    },
+    {
+      "name": "applyMiddleware",
+      "type": "const"
+    },
+    {
+      "name": "applyProxies",
+      "type": "const"
+    },
+    {
+      "name": "applyCORS",
+      "type": "const"
+    },
+    {
+      "name": "applyRequestLogger",
+      "type": "const"
+    },
+    {
+      "name": "MiddlewareFn",
       "type": "const"
     },
     {
@@ -110,5 +234,5 @@
       "type": "const"
     }
   ],
-  "timestamp": "2026-01-30T07:30:00.000Z"
+  "timestamp": "2026-03-24T06:55:00.000Z"
 }

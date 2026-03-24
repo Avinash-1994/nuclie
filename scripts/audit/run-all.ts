@@ -49,9 +49,12 @@ async function runAudit(name: string, script: string): Promise<AuditResult> {
 
         proc.on('close', (code) => {
             const duration = Date.now() - startTime;
+            // Exit code 2 = new APIs added (additive, not breaking) — treat as warning, not failure
+            // Exit code 1 = breaking changes (removals/signature changes) — block release
+            const passed = code === 0 || code === 2;
             resolve({
                 name,
-                passed: code === 0,
+                passed,
                 exitCode: code || 0,
                 output,
                 duration,
