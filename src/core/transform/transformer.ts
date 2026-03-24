@@ -36,7 +36,7 @@ export class Transformer {
             throw new Error('Native minifier returned empty result');
         } catch (e: any) {
             // Fallback to esbuild minification if native fails
-            log.warn(`Native minify failed (${e.message}), falling back to esbuild`, { category: 'build' });
+            log.debug(`Native minify failed (${e.message}), falling back to esbuild`, { category: 'build' });
             try {
                 const esbuild = require('esbuild');
                 // Use 'iife' format to avoid import/export statements in output.
@@ -56,7 +56,7 @@ export class Transformer {
                 }
                 throw new Error('esbuild returned empty result');
             } catch (esbuildError: any) {
-                log.warn(`esbuild minification also failed (${esbuildError.message.substring(0, 120)}). Bundle size: ${sizeInMB.toFixed(2)}MB. Returning original code.`, { category: 'build' });
+                log.debug(`esbuild minification also failed (${esbuildError.message.substring(0, 120)}). Bundle size: ${sizeInMB.toFixed(2)}MB. Returning original code.`, { category: 'build' });
                 return code;
             }
         }

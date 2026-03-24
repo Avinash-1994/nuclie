@@ -203,7 +203,7 @@ export class NextJsRouter extends BaseRouter {
         }
 
         if (!found) {
-            log.warn('No Next.js routing directories found (pages/ or app/)');
+            log.debug('No Next.js routing directories found (pages/ or app/)');
         }
     }
 

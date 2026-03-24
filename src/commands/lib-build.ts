@@ -91,7 +91,7 @@ export async function buildLib(config: BuildConfig, lib: NuclieLibConfig): Promi
       platform: format === 'cjs' ? 'node' : 'browser',
       target: (config.build?.targets?.[0] as string) ?? 'es2020',
       minify: config.build?.minify ?? true,
-      sourcemap: config.build?.sourcemap === true || config.build?.sourcemap === 'external' ? true : false,
+      sourcemap: (config.build?.sourcemap === 'external' || config.build?.sourcemap === 'inline') ? true : false,
       external: uniqueExternals,
       // Tree shaking
       treeShaking: true,

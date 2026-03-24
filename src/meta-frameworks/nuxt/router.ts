@@ -96,7 +96,7 @@ export class NuxtRouter extends BaseRouter {
             const fs = await import('fs/promises');
             await fs.access(pagesDir);
         } catch {
-            log.warn('No Nuxt pages/ directory found');
+            log.debug('No Nuxt pages/ directory found');
         }
     }
 }

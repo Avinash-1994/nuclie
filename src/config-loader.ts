@@ -71,8 +71,10 @@ async function loadRawConfig(filePath: string): Promise<NuclieConfig & { extends
     if (ext === '.ts') {
       // TypeScript config — use tsx/esm if available
       try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore — tsx/esm has no type declarations; this is an optional dev dependency
         const { register } = await import('tsx/esm').catch(() => ({ register: null }))
-        if (register) register()
+        if (register) (register as () => void)()
       } catch {
         // tsx not available — fall through to dynamic import (may fail for .ts)
       }

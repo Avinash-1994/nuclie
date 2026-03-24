@@ -41,4 +41,13 @@ export default {
         '!src/**/*.d.ts',
         '!src/cli/**',
     ],
+    // Silence Node.js ExperimentalWarning: VM Modules — it's expected with --experimental-vm-modules
+    testEnvironmentOptions: {
+        customExportConditions: ['node', 'node-addons'],
+    },
+    globals: {
+        'ts-jest': {
+            diagnostics: false, // suppress ts-jest noise during tests
+        },
+    },
 };

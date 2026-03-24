@@ -153,7 +153,7 @@ export class RemixRouter extends BaseRouter {
             const fs = await import('fs/promises');
             await fs.access(routesDir);
         } catch {
-            log.warn('No Remix app/routes/ directory found');
+            log.debug('No Remix app/routes/ directory found');
         }
     }
 }
