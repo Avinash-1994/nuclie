@@ -7,7 +7,7 @@
 [![Node >=20](https://img.shields.io/badge/node-%3E%3D20-blue)](https://nodejs.org)
 [![Website](https://img.shields.io/badge/website-live-brightgreen)](https://avinash-1994.github.io/Nuclie/)
 
-Nuclie is a build tool with built-in HMR, source maps, tree shaking, module federation, and support for 10+ JavaScript frameworks. It ships a native Rust core (SWC + LightningCSS) for fast transforms.
+Nuclie is a blazing-fast JavaScript build tool powered by SWC (Rust) and LightningCSS. It delivers HMR in under 60ms, native module federation for micro-frontends, automatic tree shaking, and deep multi-framework support (React, Vue, Svelte, Solid, Preact, Qwik) — a modern Vite alternative with a Rust-native core.
 
 **[📖 Documentation Website →](https://avinash-1994.github.io/Nuclie/)**
 

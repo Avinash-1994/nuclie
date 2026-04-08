@@ -19,6 +19,7 @@ urja-web-app/
 nuclie-web-app/
 src/
 scripts/
+packages/
 Cargo.toml
 Cargo.lock
 target/

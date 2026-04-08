@@ -1,15 +1,40 @@
-# Multi-Module Documentation Index
+# Nuclie Documentation
 
-## 🚀 Module 1: Speed Mastery (COMPLETE)
-- [**Status**](./MODULE_1_STATUS.md): ✅ 100% Complete
-- [**Plan**](./MODULE_1_SPEED_MASTERY_PLAN.md): Original 7-Day Plan
-- [**Day 7 Report**](./DAY_7_COMPLETE.md): Final Verification & Benchmarks
+> Blazing-fast JavaScript build tool powered by SWC + LightningCSS
 
-## 🛡️ Module 2: Zero-Trust Ecosystem (IN PROGRESS)
-- [**Status**](./MODULE_2_STATUS.md): Current Progress Tracker
-- [**Plan**](./MODULE_2_ZERO_TRUST_PLAN.md): 7-Day Implementation Plan
+---
 
-## 📚 Future Modules
-- **Module 3**: Elite DX/UI
-- **Module 4**: Deployment
-...
+## Quick Links
+
+| | |
+|--|--|
+| 🚀 **[Getting Started](./getting-started.md)** | Zero to running app in 5 minutes |
+| ⚙️ **[Configuration Reference](./guides/configuration.md)** | Every config option documented |
+| 🔥 **[HMR Guide](./HMR_IMPLEMENTATION_STATUS.md)** | How hot module replacement works |
+| 🔌 **[Plugin Guide](./plugins.md)** | Using and writing plugins |
+| 📦 **[Module Federation](./guides/federation.md)** | Micro-frontend setup |
+| 🚚 **[Migration Guide](./migration.md)** | From Vite, Webpack, Rollup |
+| ❓ **[Troubleshooting](./TROUBLESHOOTING.md)** | Top 10 errors and fixes |
+| ⚖️ **[Why Nuclie?](./WHY_NUCLIE.md)** | Honest comparison vs Vite, Rspack, Turbopack |
+| 📊 **[Benchmarks](./benchmarks.md)** | Reproducible performance data |
+
+---
+
+## Framework Guides
+
+| Framework | Guide |
+|-----------|-------|
+| ⚛️ React | [guides/react.md](./guides/react.md) |
+| 🟩 Vue 3 | [guides/vue.md](./guides/vue.md) |
+| 🧡 Svelte 5 | [guides/svelte.md](./guides/svelte.md) |
+| 🔵 SolidJS | [guides/solid.md](./guides/solid.md) |
+
+---
+
+## Online Resources
+
+- 🌐 [Documentation Website](https://avinash-1994.github.io/Nuclie/)
+- 📦 [npm Package](https://www.npmjs.com/package/nuclie)
+- 💻 [GitHub Repository](https://github.com/Avinash-1994/Nuclie)
+- 🐛 [Report a Bug](https://github.com/Avinash-1994/Nuclie/issues)
+- 💬 [Discussions](https://github.com/Avinash-1994/Nuclie/discussions)

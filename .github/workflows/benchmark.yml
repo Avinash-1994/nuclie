@@ -1,0 +1,83 @@
+name: Benchmark
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      fixtures:
+        description: 'Which fixtures to test (small-app,medium-app,large-app)'
+        required: false
+        default: 'small-app,medium-app,large-app'
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    name: 📊 Run Benchmarks
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: 🔨 Build Nuclie
+        run: npm run build
+
+      - name: 📦 Install Benchmark Dependencies
+        run: |
+          # Install Vite as the baseline comparison tool
+          npm install -g vite
+
+      - name: 🏃 Run Benchmark Suite
+        run: |
+          node benchmarks/run.mjs
+
+      - name: 📊 Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results-${{ github.run_number }}
+          path: benchmarks/results/latest.json
+
+      - name: 📝 Commit Updated Results
+        if: github.event_name == 'release'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Copy latest results to a dated file
+          RELEASE_TAG="${{ github.event.release.tag_name }}"
+          cp benchmarks/results/latest.json "benchmarks/results/${RELEASE_TAG}.json"
+          
+          git add benchmarks/results/
+          git commit -m "chore: update benchmark results for ${RELEASE_TAG} [skip ci]" || echo "No changes to commit"
+          git push origin HEAD:main || echo "Push skipped (branch protection)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📋 Print Summary
+        run: |
+          echo "## Benchmark Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Tool | Fixture | Build Time | Bundle Size (gzip) |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|---------|------------|-------------------|" >> $GITHUB_STEP_SUMMARY
+          node -e "
+            const fs = require('fs');
+            const data = JSON.parse(fs.readFileSync('benchmarks/results/latest.json', 'utf8'));
+            for (const r of data.results) {
+              const buildS = r.buildTimeMs ? (r.buildTimeMs / 1000).toFixed(2) + 's' : 'N/A';
+              const sizeKB = r.gzipSizeBytes ? (r.gzipSizeBytes / 1024).toFixed(0) + ' KB' : 'N/A';
+              console.log(\`| \${r.tool} | \${r.fixture} | \${buildS} | \${sizeKB} |\`);
+            }
+          " >> $GITHUB_STEP_SUMMARY

@@ -53,14 +53,24 @@ export function createFederationPlugin(config: FederationConfig): NucliePlugin {
                     // For now, in this simpler engine, we can check if there's a chunk for it.
                     // Or we just point to the client bundle if it's there.
 
-                    // HEURISTIC: Find chunk with ID containing the exposed name
+                    // HEURISTIC: Find chunk with ID containing the exposed name, or fallback to the main bundle
                     const exposedName = path.basename(importPath, path.extname(importPath));
-                    const artifact = artifacts.find((a: any) => a.fileName.includes(exposedName));
+                    const artifact = artifacts.find((a: any) => a.fileName.includes(exposedName)) 
+                                  || artifacts.find((a: any) => a.type === 'js' && a.fileName.includes('main.'));
+
+                    let shortId = importPath; // fallback
+                    let chunkUrl = artifact ? path.basename(artifact.fileName) : '';
+
+                    if (artifact && artifact.modules) {
+                        const mod = artifact.modules.find((m: any) => m.id.includes(exposedName) || m.id.includes(importPath.replace('./', '')));
+                        if (mod) shortId = mod.shortId || mod.id;
+                    }
 
                     manifest.exposes[key] = {
-                        import: artifact ? `./${artifact.fileName}` : importPath,
+                        import: importPath,
                         name: key,
-                        assets: []
+                        chunk: chunkUrl,
+                        shortId: shortId
                     };
                 }
             }
@@ -84,14 +94,58 @@ export function createFederationPlugin(config: FederationConfig): NucliePlugin {
 
             // Create Artifact
             const isJs = filename.endsWith('.js');
+            let sourceCode = JSON.stringify(manifest, null, 2);
+
+            if (isJs) {
+                sourceCode = `
+var ${config.name} = (() => {
+  var exposes = ${JSON.stringify(manifest.exposes, null, 2)};
+  var __promises = {};
+
+  return {
+    get: async (moduleName) => {
+      return async () => {
+        if (!exposes[moduleName]) throw new Error("Module not found: " + moduleName);
+        var exposed = exposes[moduleName];
+        
+        // Ensure monolithic chunk is loaded
+        if (exposed.chunk) {
+          if (!__promises[exposed.chunk]) {
+            __promises[exposed.chunk] = new Promise((resolve, reject) => {
+              var script = document.createElement("script");
+              /* Resolve path relative to this script */
+              var scriptSrc = document.currentScript ? document.currentScript.src : window.location.href;
+              var basePath = scriptSrc.substring(0, scriptSrc.lastIndexOf('/'));
+              script.src = basePath + "/assets/" + exposed.chunk;
+              script.onload = resolve;
+              script.onerror = reject;
+              document.head.appendChild(script);
+            });
+          }
+          await __promises[exposed.chunk];
+        }
+        
+        // Use Nuclie's globalThis.r runtime short ID registration
+        if (typeof globalThis.r === 'function') {
+           return globalThis.r(exposed.shortId);
+        }
+        throw new Error("Nuclie runtime missing in host!");
+      };
+    },
+    init: async (shareScope) => {
+      // Dynamic federation shared scopes
+      return true;
+    }
+  };
+})();`;
+            }
+
             const manifestArtifact = {
                 id: canonicalHash(content).substring(0, 16),
                 type: isJs ? 'js' : 'json',
                 fileName: filename,
                 dependencies: [],
-                source: isJs
-                    ? `var ${config.name}; ${config.name} = ${JSON.stringify(manifest, null, 2)};`
-                    : JSON.stringify(manifest, null, 2)
+                source: sourceCode
             };
 
             return {

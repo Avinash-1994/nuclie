@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-03-24T06:47:42.799Z",
+  "timestamp": "2026-04-08T03:47:58.856Z",
   "target": "browser",
   "artifacts": [
     {
       "fileName": "assets/entry1.b87e97f9.bundle.js",
-      "hash": "b87e198024212ff0",
+      "hash": "25d1ec65c547178a",
       "type": "js"
     },
     {
       "fileName": "assets/entry1.b87e97f9.bundle.js.gz",
-      "hash": "b87e198024212ff0.gz",
+      "hash": "25d1ec65c547178a.gz",
       "type": "asset"
     },
     {
       "fileName": "assets/entry1.b87e97f9.bundle.js.br",
-      "hash": "b87e198024212ff0.br",
+      "hash": "25d1ec65c547178a.br",
       "type": "asset"
     },
     {

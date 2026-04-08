@@ -54,11 +54,10 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
             let bundleContent = '';
             const isCss = chunk.id.endsWith('_css');
 
-            // Phase 1: ULTRA-CONDENSED RUNTIME
+            // Phase 1: ULTRA-CONDENSED RUNTIME (Globally Shared for Module Federation)
             if (!isCss) {
-                bundleContent += isProd
-                    ? `(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`
-                    : `/* Nuclie Runtime */\n(function(g){const m={};g.d=(i,f)=>m[i]=f;g.r=i=>{if(m[i].z)return m[i].z;const o={e:{}};m[i](o,o.e,g.r);return m[i].z=o.e}})(globalThis);\n`;
+                const rt = `(function(g){g.__nm=g.__nm||{};if(!g.d)g.d=(i,f)=>g.__nm[i]=f;if(!g.r)g.r=i=>{if(!g.__nm[i])throw new Error("Module not found: "+i);if(g.__nm[i].z)return g.__nm[i].z;const o={e:{}};g.__nm[i](o,o.e,g.r);return g.__nm[i].z=o.e}})(globalThis);\n`;
+                bundleContent += isProd ? rt : `/* Nuclie Runtime */\n${rt}`;
             }
 
             const artifactModules: any[] = [];

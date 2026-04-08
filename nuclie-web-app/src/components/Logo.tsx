@@ -16,8 +16,10 @@ export const LogoIcon: React.FC<{ className?: string }> = ({ className = "w-7 h-
                 <linearGradient id="nuclieSecondary" x1="0%" y1="100%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#F59E0B" />
                     <stop offset="100%" stopColor="#EF4444" />
-                    {/* Glowing Geometric Core */}
-                    <path d="M12 2L2 7L2 17L12 22L22 17L22 7L12 2Z" stroke="url(#nucliePrimary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="url(#nucliePrimary)" fillOpacity="0.1" />
+                </linearGradient>
+            </defs>
+            {/* Glowing Geometric Core */}
+            <path d="M12 2L2 7L2 17L12 22L22 17L22 7L12 2Z" stroke="url(#nucliePrimary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="url(#nucliePrimary)" fillOpacity="0.1" />
                     <path d="M12 22L12 12L22 7" stroke="url(#nucliePrimary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M12 12L2 7" stroke="url(#nucliePrimary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 

@@ -1,0 +1,9 @@
+{
+  "module": "nuclie",
+  "entry": ["./src/main.jsx"],
+  "outDir": "./dist-nuclie",
+  "build": {
+    "minify": true,
+    "sourcemap": false
+  }
+}

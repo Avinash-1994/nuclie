@@ -1,16 +1,18 @@
 {
   "name": "nuclie",
   "version": "1.0.9",
-  "description": "⚡ Fast build tool with HMR, source maps, tree shaking, and module federation",
+  "description": "⚡ Nuclie — blazing-fast JavaScript build tool powered by SWC and LightningCSS. HMR in <60ms, module federation, tree shaking, and multi-framework support (React, Vue, Svelte, Solid). A fast Vite alternative built with Rust.",
   "type": "module",
   "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./dist/*": "./dist/*"
   },
   "sideEffects": false,
   "bin": {
@@ -55,24 +57,46 @@
     "audit:plugin-contract": "npx tsx scripts/audit/plugin-contract.ts",
     "audit:all": "npx tsx scripts/audit/run-all.ts",
     "governance:check": "npm run audit:all",
-    "lint": "eslint src/**/*.ts tests/**/*.ts"
+    "lint": "eslint src/**/*.ts tests/**/*.ts",
+    "dev:mfe": "node --no-warnings ./dist/cli.js dev --all ./real-world-mfe",
+    "portal": "node --no-warnings ./dist/cli.js dev --all ./portal"
   },
   "keywords": [
     "build-tool",
     "bundler",
     "hmr",
     "hot-reload",
+    "hot-module-replacement",
     "source-maps",
     "tree-shaking",
     "module-federation",
+    "micro-frontend",
     "react",
     "vue",
     "svelte",
     "solid",
+    "qwik",
+    "preact",
     "typescript",
     "dev-server",
     "fast",
-    "performance"
+    "performance",
+    "swc",
+    "lightningcss",
+    "rust",
+    "vite-alternative",
+    "webpack-alternative",
+    "rspack-alternative",
+    "fast-bundler",
+    "javascript-bundler",
+    "esm",
+    "es-modules",
+    "postcss",
+    "css-modules",
+    "tailwind",
+    "turbopack-alternative",
+    "esbuild-alternative",
+    "rollup-alternative"
   ],
   "author": "Avinash-1994",
   "license": "MIT",

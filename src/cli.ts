@@ -66,6 +66,17 @@ async function main() {
   if ((cmd === 'dev' || cmd === 'build' || cmd === 'preview') && !process.argv.includes('--help')) {
     try {
       if (cmd === 'dev') {
+        const isAll = process.argv.includes('--all');
+        if (isAll) {
+           const allIdx = process.argv.indexOf('--all');
+           const maybePath = process.argv[allIdx + 1];
+           const targetRoot = (maybePath && !maybePath.startsWith('-')) ? path.resolve(process.cwd(), maybePath) : process.cwd();
+           
+           const { startWorkspaceOrchestrator } = await import('./commands/workspaces.js');
+           await startWorkspaceOrchestrator(targetRoot);
+           return;
+        }
+
         const portIdx = process.argv.indexOf('--port');
         const port = portIdx !== -1 ? parseInt(process.argv[portIdx + 1]) : undefined;
         const { startDevServer } = await import('./dev/devServer.minimal.js');

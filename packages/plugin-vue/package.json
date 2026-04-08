@@ -1,0 +1,30 @@
+{
+  "name": "@nuclie/plugin-vue",
+  "version": "1.0.0",
+  "description": "Official Nuclie plugin for Vue 3 — SFC parsing, template compilation, and HMR",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test src/__tests__/index.test.js"
+  },
+  "keywords": ["nuclie", "plugin", "vue", "vue3", "sfc", "hmr"],
+  "author": "Avinash-1994",
+  "license": "MIT",
+  "peerDependencies": {
+    "nuclie": ">=1.0.0",
+    "vue": ">=3.0.0",
+    "@vue/compiler-sfc": ">=3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2"
+  }
+}

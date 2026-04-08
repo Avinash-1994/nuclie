@@ -130,6 +130,17 @@ jobs:
           NODE_OPTIONS: --experimental-vm-modules
           CI: true
 
+      - name: 🔌 Run plugin unit tests
+        run: |
+          node --test \
+            packages/plugin-react/src/__tests__/index.test.js \
+            packages/plugin-vue/src/__tests__/index.test.js \
+            packages/plugin-svelte/src/__tests__/index.test.js \
+            packages/plugin-legacy/src/__tests__/index.test.js \
+            packages/plugin-visualizer/src/__tests__/index.test.js
+        env:
+          CI: true
+
       - name: 🧪 Run federation tests
         run: npm run test:federation
         continue-on-error: true

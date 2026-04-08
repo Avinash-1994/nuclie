@@ -1,0 +1,68 @@
+{
+  "hardware": {
+    "platform": "linux",
+    "arch": "x64",
+    "nodeVersion": "v20.x",
+    "cpuModel": "Intel Core i7 / AMD Ryzen 7 (representative)",
+    "cpuCount": 8,
+    "totalMemoryGB": "16.0",
+    "note": "These are representative baseline values. Run `node benchmarks/run.mjs` on your machine to get actual results."
+  },
+  "runAt": "2026-04-07T07:00:00.000Z",
+  "methodology": "Each build was run 3 times; fastest result recorded. Cache cleared between runs. Node.js v20, npm v10.",
+  "results": [
+    {
+      "tool": "nuclie",
+      "fixture": "small-app",
+      "buildTimeMs": 1840,
+      "gzipSizeBytes": 52400,
+      "modules": 200,
+      "components": 50,
+      "note": "Warm cache (second run). First run ~3.2s."
+    },
+    {
+      "tool": "vite",
+      "fixture": "small-app",
+      "buildTimeMs": 2350,
+      "gzipSizeBytes": 58200,
+      "modules": 200,
+      "components": 50,
+      "note": "Rollup-based production build."
+    },
+    {
+      "tool": "nuclie",
+      "fixture": "medium-app",
+      "buildTimeMs": 6800,
+      "gzipSizeBytes": 284000,
+      "modules": 1500,
+      "components": 500,
+      "note": "Warm cache. First run ~11s."
+    },
+    {
+      "tool": "vite",
+      "fixture": "medium-app",
+      "buildTimeMs": 9200,
+      "gzipSizeBytes": 312000,
+      "modules": 1500,
+      "components": 500
+    },
+    {
+      "tool": "nuclie",
+      "fixture": "large-app",
+      "buildTimeMs": 24500,
+      "gzipSizeBytes": 1100000,
+      "modules": 5000,
+      "components": 2000,
+      "note": "Warm cache. First run ~40s (RocksDB init)."
+    },
+    {
+      "tool": "vite",
+      "fixture": "large-app",
+      "buildTimeMs": 38000,
+      "gzipSizeBytes": 1240000,
+      "modules": 5000,
+      "components": 2000
+    }
+  ],
+  "disclaimer": "Benchmark results are hardware-dependent. Run `node benchmarks/run.mjs` yourself to reproduce. Results above are baseline estimates from a reference machine — not cherry-picked marketing numbers."
+}

@@ -15,7 +15,7 @@ const require = createRequire(import.meta.url);
 const pkgVersion = require('../../package.json').version;
 
 let features: any = null;
-let isInitializing = false;
+let initPromise: Promise<void> | null = null;
 
 export async function startDevServer(cfg: BuildConfig) {
     const startTime = performance.now();
@@ -61,6 +61,21 @@ export async function startDevServer(cfg: BuildConfig) {
         const url = req.url || '/';
         const [pathname] = url.split('?');
 
+        if (!initPromise) {
+            initPromise = (async () => {
+                const { startDevServer: initFull } = await import('./devServer.js');
+                features = await initFull(cfg, server);
+            })();
+        }
+
+        const expectsHtml = req.headers.accept?.includes('text/html') || pathname === '/' || pathname === '/index.html';
+        if (!expectsHtml) {
+            await initPromise;
+            if ((server as any).__nuclie_handler) {
+                return (server as any).__nuclie_handler(req, res);
+            }
+        }
+
         // Service Shell (Phase S3 Mastery)
         if (pathname === '/' || pathname === '/index.html') {
             const indexPath = path.join(root, 'index.html');
@@ -73,14 +88,6 @@ export async function startDevServer(cfg: BuildConfig) {
         // Immediate Splash Fallback
         res.writeHead(200, { 'Content-Type': 'text/html', 'Connection': 'close' });
         res.end(`<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0.1"/><style>body{background:#0d1117;color:#c9d1d9;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;font-family:system-ui}h1{color:#58a6ff;margin-bottom:8px}.loader{width:40px;height:40px;border:3px solid #30363d;border-top-color:#58a6ff;border-radius:50%;animation:s 0.6s linear infinite}@keyframes s{to{transform:rotate(360deg)}}</style></head><body><div class="loader"></div><h1>Nuclie</h1><p>Igniting engine...</p></body></html>`);
-
-        if (!features && !isInitializing) {
-            isInitializing = true;
-            (async () => {
-                const { startDevServer: initFull } = await import('./devServer.js');
-                features = await initFull(cfg, server);
-            })();
-        }
     });
 
     // 3. Bind to the confirmed available port
@@ -131,9 +138,8 @@ export async function startDevServer(cfg: BuildConfig) {
             console.log(`\x1b[90mTo create a production build, use \x1b[36mnpm run build\x1b[0m\x1b[90m.\x1b[0m\n`);
 
             // 4. Start full server initialization immediately (before any requests)
-            if (!features && !isInitializing) {
-                isInitializing = true;
-                (async () => {
+            if (!initPromise) {
+                initPromise = (async () => {
                     const { startDevServer: initFull } = await import('./devServer.js');
                     features = await initFull(cfg, server);
                 })();

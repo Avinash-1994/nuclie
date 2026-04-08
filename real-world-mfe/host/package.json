@@ -1,0 +1,14 @@
+{
+  "name": "host",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nuclie dev --port 3000",
+    "build": "nuclie build",
+    "preview": "nuclie preview --port 3000"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

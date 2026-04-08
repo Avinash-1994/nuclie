@@ -1,0 +1,28 @@
+{
+  "name": "@nuclie/plugin-visualizer",
+  "version": "1.0.0",
+  "description": "Official Nuclie plugin for bundle visualization — treemap HTML report of bundle composition",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test src/__tests__/index.test.js"
+  },
+  "keywords": ["nuclie", "plugin", "visualizer", "bundle-size", "treemap", "analysis"],
+  "author": "Avinash-1994",
+  "license": "MIT",
+  "peerDependencies": {
+    "nuclie": ">=1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2"
+  }
+}
