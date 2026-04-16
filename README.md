@@ -6,21 +6,21 @@
 [![Tests](https://img.shields.io/badge/tests-109%2F109-brightgreen)](#test-status)
 [![Node >=20](https://img.shields.io/badge/node-%3E%3D20-blue)](https://nodejs.org)
 
-Nuclie is a modern JavaScript build tool powered by SWC (Rust) and LightningCSS. It delivers fast HMR, native module federation for micro-frontends, automatic tree shaking, and deep multi-framework support (React, Vue, Svelte, Solid, Preact, Qwik) — a modern alternative with a Rust-native core.
+Nuclie is a modern JavaScript build tool powered by SWC (Rust) and LightningCSS. It delivers fast HMR, native module federation for micro-frontends, automatic tree shaking, and deep multi-framework support (React, Vue, Svelte, Solid, Preact, Qwik, Lit, Alpine, Vanilla JS) — a modern alternative with a Rust-native core.
 
 ---
 
 ## ✨ Features
 
 - ⚡ **Fast Builds** — Parallel pipeline with Rust-native transforms (SWC)
-- 🔥 **Hot Module Replacement** — Framework-aware HMR with low-latency updates
-- 🗺️ **Source Maps** — `inline`, `external`, and `hidden` modes
-- 🌳 **Tree Shaking** — AST-based dead code elimination in production
-- 📦 **Module Federation** — Micro-frontend support built in
-- 🎨 **CSS Processing** — PostCSS, CSS Modules, and Tailwind CSS (LightningCSS)
-- 🔌 **Plugin System** — Extensible `load` and `transform` hooks
-- 💾 **Smart Caching** — Fingerprint-based incremental builds
-- 🌐 **Multi-Framework** — React, Vue, Svelte, Solid, Preact, Lit, Alpine, Qwik, and more
+- 🔥 **Zero-Config Bootstrapping** — Dynamic template injection pulling real-time latest framework dependencies gracefully.
+- 🗺️ **MFE Workspace Orchestrator** — Boot an entire host proxy and array of remotes natively through a single unified process.
+- 🕊️ **Ultra-lightweight Core** — Aggressively optimized npm package size completely dropping boilerplate footprint (< 1.5MB unpacked).
+- 📦 **Module Federation** — Micro-frontend support built directly into the runtime.
+- 🎨 **CSS Processing** — PostCSS, CSS Modules, and Tailwind CSS via fast Rust LightningCSS.
+- 🔌 **Plugin System** — Extensible `load` and `transform` hooks globally.
+- 💾 **Smart Caching** — Fingerprint-based RocksDB incremental builds.
+- 🌐 **Multi-Framework HMR** — State-preserving Hot-Module Replacement for React, Vue, Svelte, Solid, Preact, Lit, Alpine, and Qwik!
 
 ---
 
