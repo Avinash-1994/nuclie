@@ -1,0 +1,13 @@
+{
+  "name": "sidebar",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../dist/cli.js dev --port 3003 --strictPort",
+    "build": "node ../../dist/cli.js build",
+    "preview": "node ../../dist/cli.js preview --port 3003 --strictPort"
+  },
+  "dependencies": {
+    "vue": "^3.5.26"
+  }
+}

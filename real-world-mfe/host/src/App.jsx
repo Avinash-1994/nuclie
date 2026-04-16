@@ -1,17 +1,14 @@
-import React, { Suspense } from 'react';
-
-// Dynamically import the Header from our "navApp" Micro Frontend
-const RemoteHeader = React.lazy(() => import('navApp/Header').then(module => {
-    return { default: module.default || module };
-}));
+import React from 'react';
+import { RemoteMount } from './RemoteSlot.jsx';
 
 export default function App() {
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', minHeight: '100vh', background: '#0f172a', color: 'white' }}>
-      <Suspense fallback={<div style={{ padding: '1rem', textAlign: 'center', background: '#1e293b' }}>Loading Navigation...</div>}>
-        <RemoteHeader />
-      </Suspense>
-      
+      <RemoteMount
+        loader={() => import('navApp/Header')}
+        fallback={<div style={{ padding: '1rem', textAlign: 'center', background: '#1e293b' }}>Loading Navigation...</div>}
+      />
+
       <main style={{ padding: '3rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ background: 'linear-gradient(135deg, #1e293b, #0f172a)', padding: '3rem', borderRadius: '16px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.5)', border: '1px solid #334155' }}>
           <span style={{ background: '#3b82f6', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.875rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -38,6 +35,22 @@ export default function App() {
           </div>
         </div>
       </main>
+
+      <RemoteMount
+        loader={() => import('bannerApp/Banner')}
+        fallback={<div style={{ padding: '1rem', textAlign: 'center', background: '#1e293b' }}>Loading Svelte Banner...</div>}
+      />
+
+      <RemoteMount
+        loader={() => import('sidebarApp/Sidebar')}
+        fallback={<div style={{ padding: '1rem', textAlign: 'center', background: '#1e293b' }}>Loading Vue Sidebar...</div>}
+        style={{ margin: '0 auto', maxWidth: '1200px', padding: '0 1.5rem' }}
+      />
+
+      <RemoteMount
+        loader={() => import('footerApp/Footer')}
+        fallback={<div style={{ padding: '1rem', textAlign: 'center', background: '#1e293b' }}>Loading Footer...</div>}
+      />
     </div>
   );
 }

@@ -1,11 +1,11 @@
 {
-  "name": "host",
+  "name": "footer",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node ../../dist/cli.js dev --port 3000 --strictPort",
+    "dev": "node ../../dist/cli.js dev --port 3002 --strictPort",
     "build": "node ../../dist/cli.js build",
-    "preview": "node ../../dist/cli.js preview --port 3000 --strictPort"
+    "preview": "node ../../dist/cli.js preview --port 3002 --strictPort"
   },
   "dependencies": {
     "react": "^19.2.3",

@@ -1,14 +1,14 @@
 export default {
   preset: 'spa',
-  entryPoints: ['./src/index.jsx'],
+  framework: 'react',
+  entryPoints: ['./src/preview.jsx'],
   publicPath: '/',
   outDir: './dist',
-  server: { port: 3001, strictPort: true },
-  framework: 'react',
+  server: { port: 3002, strictPort: true },
   federation: {
-    name: 'navApp',
+    name: 'footerApp',
     filename: 'remoteEntry.js',
-    exposes: { './Header': './src/Header.jsx' },
+    exposes: { './Footer': './src/Footer.jsx' },
     shared: {
       react: { singleton: true, requiredVersion: '^19.2.3', import: 'react' },
       'react-dom': { singleton: true, requiredVersion: '^19.2.3', import: 'react-dom' }

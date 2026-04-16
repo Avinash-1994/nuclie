@@ -1,4 +1,5 @@
 import React from 'react';
+import { createRoot } from 'react-dom/client';
 
 export default function Header() {
   return (
@@ -48,4 +49,24 @@ export default function Header() {
       </div>
     </header>
   );
+}
+
+let root = null;
+export function mount(container) {
+  if (!container) return;
+  root = createRoot(container);
+  root.render(<Header />);
+  return () => {
+    if (root) {
+      root.unmount();
+      root = null;
+    }
+  };
+}
+
+export function unmount() {
+  if (root) {
+    root.unmount();
+    root = null;
+  }
 }
