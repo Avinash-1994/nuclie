@@ -1,0 +1,53 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Build nuclie core CLI
+        run: npm run build
+
+      - name: Install website dependencies
+        run: npm ci --legacy-peer-deps --prefix nuclie-web-app
+
+      - name: Build website
+        run: npm --prefix nuclie-web-app run build
+
+      - name: Upload website artifact for Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: nuclie-web-app/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy artifact
+        uses: actions/deploy-pages@v1
