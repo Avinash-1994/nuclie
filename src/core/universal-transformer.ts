@@ -61,12 +61,21 @@ export class UniversalTransformer {
      */
     async transform(options: TransformOptions): Promise<TransformResult> {
         const { filePath, code, framework, isDev = true } = options;
+        let frameworkToUse = framework;
+
+        if (frameworkToUse === 'vanilla' && (filePath.endsWith('.jsx') || filePath.endsWith('.tsx'))) {
+            const preactImportPattern = /from\s+['"]preact(?:\/hooks|\/jsx-runtime|\/jsx-dev-runtime)?['"]/;
+            const importSourceComment = /@jsxImportSource\s+preact/;
+            if (preactImportPattern.test(code) || importSourceComment.test(code)) {
+                frameworkToUse = 'preact';
+            }
+        }
 
         // Advanced Deterministic Cache (Phase F1)
         // Ensure that identical inputs ALWAYS produce identical outputs
         // This is critical for Tier 2/3 frameworks to be "production ready"
         if (this.cacheEnabled) {
-            const h = canonicalHash(code + framework + (isDev ? 'dev' : 'prod')).substring(0, 16);
+            const h = canonicalHash(code + frameworkToUse + (isDev ? 'dev' : 'prod')).substring(0, 16);
             const cacheKey = `${filePath}:${h}`;
             const cached = this.transformCache.get(cacheKey);
             if (cached) {
@@ -74,11 +83,11 @@ export class UniversalTransformer {
             }
         }
 
-        const preset = getFrameworkPreset(framework);
+        const preset = getFrameworkPreset(frameworkToUse);
 
         // Route to appropriate transformer
         let result: TransformResult;
-        switch (framework) {
+        switch (frameworkToUse) {
             case 'react':
             case 'next':
             case 'remix':
@@ -157,7 +166,7 @@ export class UniversalTransformer {
 
         // Cache the result (Advanced Determinism)
         if (this.cacheEnabled) {
-            const h = canonicalHash(code + framework + (isDev ? 'dev' : 'prod')).substring(0, 16);
+            const h = canonicalHash(code + frameworkToUse + (isDev ? 'dev' : 'prod')).substring(0, 16);
             const cacheKey = `${filePath}:${h}`;
             this.transformCache.set(cacheKey, result);
         }
@@ -177,40 +186,33 @@ export class UniversalTransformer {
         }
 
         try {
-            const babelModule = await import('@babel/core');
-            const babel: any = (babelModule as any).default || babelModule;
+            const swcModule = await import('@swc/core');
+            const swc = (swcModule as any).default || swcModule;
 
             // Detect React version to use appropriate transform
             const reactVersion = await this.getPackageVersion('react');
             const useAutomatic = (reactVersion && parseInt(reactVersion) >= 17) || !!jsxOptions?.importSource;
 
-            // Resolve presets from tool's dependencies, not user's project
-            const output = await babel.transformAsync(code, {
+            const output = await swc.transform(code, {
                 filename: filePath,
-                presets: [
-                    [
-                        _require.resolve('@babel/preset-react'),
-                        {
+                sourceMaps: isDev ? 'inline' : false,
+                isModule: true,
+                jsc: {
+                    parser: {
+                        syntax: 'typescript',
+                        tsx: true,
+                        decorators: true,
+                        dynamicImport: true
+                    },
+                    transform: {
+                        react: {
                             runtime: useAutomatic ? 'automatic' : 'classic',
+                            importSource: jsxOptions?.importSource,
                             development: isDev,
-                            importSource: jsxOptions?.importSource // For Preact/others
-                        }
-                    ],
-                    _require.resolve('@babel/preset-typescript')
-                ],
-                plugins: ((): any[] => {
-                    const plugins: any[] = [];
-                    if (isDev) {
-                        try {
-                            // Fix validation error in tests by skipping environment check
-                            plugins.push([_require.resolve('react-refresh/babel'), { skipEnvCheck: true }]);
-                        } catch (e) {
-                            // React refresh not found, skip
+                            refresh: isDev
                         }
                     }
-                    return plugins;
-                })(),
-                sourceMaps: isDev ? 'inline' : false
+                }
             });
 
             let finalCode = output?.code || code;
@@ -328,21 +330,37 @@ if (import.meta.hot) {
                 }
             }
 
-            // Fallback for template-only components or if script-setup didn't inline
+            // Always compile template separately and attach render function.
+            // The `inlineTemplate` option on compileScript is unreliable for empty/minimal
+            // <script setup> blocks — the render function may not be inlined. We detect
+            // this by checking if the compiled script actually contains a render fn.
             let templateCode = '';
-            if (hasTemplate && !scriptContent.includes('const _sfc_main =')) {
-                const templateResult = compiler.compileTemplate({
-                    source: descriptor.template!.content,
-                    filename: filePath,
-                    id: scopeId,
-                    scoped: descriptor.styles.some((s: any) => s.scoped),
-                    compilerOptions: {
-                        scopeId: descriptor.styles.some((s: any) => s.scoped) ? scopeId : undefined
+            if (hasTemplate) {
+                const hasInlinedRender =
+                    scriptContent.includes('return (_ctx') ||
+                    scriptContent.includes('(_ctx, _cache)') ||
+                    scriptContent.includes('createElementBlock') ||
+                    scriptContent.includes('createVNode');
+
+                if (!hasInlinedRender) {
+                    try {
+                        const templateResult = compiler.compileTemplate({
+                            source: descriptor.template!.content,
+                            filename: filePath,
+                            id: scopeId,
+                            scoped: descriptor.styles.some((s: any) => s.scoped),
+                            compilerOptions: {
+                                scopeId: descriptor.styles.some((s: any) => s.scoped) ? scopeId : undefined
+                            }
+                        });
+                        templateCode = templateResult.code.replace('export function render', 'const _sfc_render = function render');
+                        // Ensure _sfc_main is declared before we assign .render
+                        if (!scriptContent.includes('const _sfc_main')) {
+                            scriptContent = 'const _sfc_main = {};\n' + scriptContent;
+                        }
+                    } catch (templateErr: any) {
+                        log.warn(`Vue template compile failed for ${filePath}: ${templateErr.message}`);
                     }
-                });
-                templateCode = templateResult.code.replace('export function render', 'const _sfc_render = function render');
-                if (!scriptContent.includes('const _sfc_main =')) {
-                    scriptContent = 'const _sfc_main = {};\n' + scriptContent;
                 }
             }
 
@@ -574,18 +592,27 @@ if (import.meta.hot) {
         }
 
         try {
-            const babelModule = await import('@babel/core');
-            const babel: any = (babelModule as any).default || babelModule;
-            const result = await babel.transformAsync(code, {
+            const swcModule = await import('@swc/core');
+            const swc = (swcModule as any).default || swcModule;
+            const output = await swc.transform(code, {
                 filename: filePath,
-                presets: [
-                    _require.resolve('babel-preset-solid'),
-                    _require.resolve('@babel/preset-typescript')
-                ],
-                sourceMaps: isDev ? 'inline' : false
+                sourceMaps: isDev ? 'inline' : false,
+                isModule: true,
+                jsc: {
+                    parser: {
+                        syntax: 'typescript',
+                        tsx: true
+                    },
+                    transform: {
+                        react: {
+                            runtime: 'automatic',
+                            importSource: 'solid-js/h'
+                        }
+                    }
+                }
             });
 
-            let finalCode = result?.code || code;
+            let finalCode = output?.code || code;
 
             // Inject HMR context for Solid
             if (isDev) {
@@ -619,7 +646,7 @@ if (import.meta.hot) {
                 finalCode = finalCode + hmrFooter;
             }
 
-            return { code: finalCode, map: result?.map ? JSON.stringify(result.map) : undefined };
+            return { code: finalCode, map: output?.map ? JSON.stringify(output.map) : undefined };
         } catch (error: any) {
             log.warn(`Solid transform failed (babel-preset-solid missing?), using esbuild fallback with HMR`);
             // Fallback: use esbuild but still add HMR

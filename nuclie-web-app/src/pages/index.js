@@ -165,7 +165,7 @@ export class UrHome extends LitElement {
           </tr>
           <tr>
             <td><strong>Performance</strong></td>
-            <td>Standardized sub-50ms HMR.</td>
+            <td>Consistent low-latency HMR.</td>
             <td>Variable based on plugin load.</td>
           </tr>
         </tbody>

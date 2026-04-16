@@ -1,4 +1,4 @@
-import { component$, $ } from '@builder.io/qwik';
+import { component$, render } from '@builder.io/qwik';
 import './index.css';
 
 export const App = component$(() => {
@@ -6,7 +6,7 @@ export const App = component$(() => {
         <div class="app-container">
             <header class="hero">
                 <span class="badge">v1.0.0 Stable</span>
-                <h1>Nuclie</h1>
+                <h1>Nuclie (Qwik)</h1>
                 <p class="subtitle">
                     The high-performance build engine for modern web applications.<br />
                     Built with Qwik + Nuclie.
@@ -42,3 +42,5 @@ export const App = component$(() => {
         </div>
     );
 });
+
+render(document.getElementById('root')!, <App />);

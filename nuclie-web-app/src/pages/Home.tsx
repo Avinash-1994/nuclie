@@ -117,7 +117,7 @@ export const Home: React.FC = () => {
 
                     {/* Subtitle */}
                     <p className="text-lg md:text-xl text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed mb-10 animate-in slide-in-from-bottom duration-700 delay-200">
-                        A high-performance build tool with <span className="text-blue-500 font-semibold">69ms cold starts</span>,
+                        A high-performance build tool with <span className="text-blue-500 font-semibold">fast cold starts</span>,
                         instant HMR, universal framework support, and enterprise-grade features.
                         Built for modern web development.
                     </p>
@@ -164,14 +164,14 @@ cd my-app && nuclie dev`} />
                     {[
                         {
                             label: 'Cold Start',
-                            value: '69ms',
+                            value: 'Fast',
                             icon: Zap,
                             gradient: 'from-yellow-400 to-orange-500',
                             description: 'Instant dev server'
                         },
                         {
                             label: 'HMR Speed',
-                            value: '10-60ms',
+                            value: 'Low-latency',
                             icon: Activity,
                             gradient: 'from-emerald-400 to-teal-500',
                             description: 'Lightning updates'
@@ -181,11 +181,11 @@ cd my-app && nuclie dev`} />
                             value: '109',
                             icon: CheckCircle2,
                             gradient: 'from-green-400 to-emerald-500',
-                            description: '14 test suites'
+                            description: 'Verified suites'
                         },
                         {
                             label: 'Bundle Size',
-                            value: '6.9KB',
+                            value: 'Optimized',
                             icon: Package,
                             gradient: 'from-purple-400 to-pink-500',
                             description: 'Optimized output'
@@ -226,7 +226,7 @@ cd my-app && nuclie dev`} />
                         title="Lightning Fast Dev Server"
                         description="Native ESM-based development server with instant startup and HMR."
                         details={[
-                            '69ms cold start time',
+                            'Fast cold starts',
                             'No bundling during development',
                             'Instant server-side transformations',
                             'Smart dependency pre-bundling'
@@ -236,9 +236,9 @@ cd my-app && nuclie dev`} />
                     <FeatureCard
                         icon={Rocket}
                         title="Hot Module Replacement"
-                        description="Blazing fast HMR that stays fast regardless of application size."
+                        description="Blazing fast HMR that stays responsive regardless of application size."
                         details={[
-                            '10-60ms update speed',
+                            'Low-latency interactive updates',
                             'Preserves application state',
                             'Framework-aware updates',
                             'Automatic error recovery'
@@ -308,9 +308,9 @@ cd my-app && nuclie dev`} />
                     <FeatureCard
                         icon={Workflow}
                         title="Plugin System"
-                        description="Extensible plugin architecture with WASM sandboxing."
+                        description="Extensible plugin architecture with sandboxed execution and strict permission controls."
                         details={[
-                            'WASM-sandboxed plugins',
+                            'VM sandbox with strict permissions',
                             'Hook-based API',
                             'Transform & resolve hooks',
                             'Build lifecycle control'
@@ -374,7 +374,7 @@ cd my-app && nuclie dev`} />
                             <Lock className="text-purple-500 mb-3" size={28} />
                             <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">Security & Sandboxing</h3>
                             <p className="text-sm text-[var(--text-secondary)] mb-3">
-                                WASM-based plugin sandboxing for secure third-party extensions.
+                                Sandboxed plugin execution with strict runtime permission controls and isolated file access.
                             </p>
                             <ul className="space-y-1.5 text-xs text-[var(--text-secondary)]">
                                 <li className="flex items-start gap-2">
@@ -383,11 +383,11 @@ cd my-app && nuclie dev`} />
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
-                                    <span>Memory and CPU limits for plugins</span>
+                                    <span>WASM plugin sandbox support with native isolation</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 flex-shrink-0" />
-                                    <span>Secure communication channels</span>
+                                    <span>Explicit permission controls for FS/env/module access</span>
                                 </li>
                             </ul>
                         </div>

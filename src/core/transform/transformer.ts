@@ -1,6 +1,6 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const { NativeWorker, minifySync } = require('../../../native/index.js');
+const { NativeWorker, minifySync } = require('../../native/index.js');
 import fs from 'fs/promises';
 import { BuildContext } from '../engine/types.js';
 
@@ -76,7 +76,8 @@ export class Transformer {
             // Conservative Native Routing (Phase G1)
             // We only use the native worker for plain JS files without framework-specific syntax.
             // TS, JSX, and anything with decorators or assets MUST go to the plugin system.
-            const hasFrameworkSyntax = /<[a-zA-Z]/.test(content) || /@\w+/.test(content);
+            const isNodeModule = m.path.includes('node_modules') || m.path.includes('.pnpm');
+            const hasFrameworkSyntax = !isNodeModule && (/<[a-zA-Z]/.test(content) || /@[A-Z]/.test(content));
             const isPlainJs = ['js', 'mjs', 'cjs'].includes(ext);
             const isCss = ext === 'css';
             const isVue = ext === 'vue';

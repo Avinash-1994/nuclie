@@ -1,5 +1,7 @@
 
 import path from 'path';
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
 import { initBuild, attachGraph, computeInputFingerprint } from './config.js';
 import { planBuild, planParallelExecution, determinismCheck } from './plan.js';
 import { executeParallel } from './execute.js';
@@ -11,6 +13,7 @@ import { BuildMode } from './types.js';
 import { explainReporter } from './events.js';
 import { log } from '../../utils/logger.js';
 import { canonicalHash } from './hash.js';
+import { normalizePath, generateModuleId } from '../../resolve/utils.js';
 
 /**
  * Core Build Engine
@@ -49,6 +52,48 @@ export class CoreBuildEngine {
     }
 
     /**
+     * @internal
+     * Inject synthetic dependencies that SWC adds during transform (e.g. react/jsx-runtime)
+     * but which don't appear in the source and are therefore missing from the graph.
+     */
+    private async injectSyntheticDeps(graph: DependencyGraph, rootDir: string) {
+        // Known SWC-injected specifiers per file type
+        const JSX_SYNTHETIC: Record<string, string[]> = {
+            '.jsx': ['react/jsx-runtime'],
+            '.tsx': ['react/jsx-runtime'],
+        };
+
+        for (const [nodeId, node] of graph.nodes) {
+            const ext = path.extname(node.path).toLowerCase();
+            const syntheticSpecifiers = JSX_SYNTHETIC[ext];
+            if (!syntheticSpecifiers) continue;
+
+            if (!node.specifierMap) node.specifierMap = {};
+
+            for (const specifier of syntheticSpecifiers) {
+                if (node.specifierMap[specifier]) continue; // already mapped
+                try {
+                    const resolved = _require.resolve(specifier, { paths: [path.dirname(node.path), rootDir] });
+                    const normalized = normalizePath(resolved);
+                    const depId = generateModuleId('file', normalized, rootDir);
+                    node.specifierMap[specifier] = depId;
+
+                    // Also ensure this file is in the graph
+                    if (!graph.nodes.has(depId)) {
+                        await graph.addEntry(resolved, rootDir);
+                    }
+
+                    // Add an edge from this node to the synthetic dep
+                    const alreadyLinked = node.edges.some(e => e.to === depId);
+                    if (!alreadyLinked) {
+                        node.edges.push({ from: nodeId, to: depId, kind: 'import' });
+                    }
+                } catch (_) { /* specifier not resolvable, skip */ }
+            }
+        }
+    }
+
+    /**
      * Main Entry Point for the Build Engine (Pipeline Orchestrator)
      */
     async run(userConfig: BuildConfig, mode: BuildMode = 'dev', rootDir: string, changedFiles: string[] = []) {
@@ -84,6 +129,11 @@ export class CoreBuildEngine {
                     await graph.addEntry(absEntry, this.ctx.rootDir);
                 }
                 this.latestGraph = graph;
+
+                // Post-graph augmentation: inject SWC synthetic deps
+                // SWC adds `require('react/jsx-runtime')` to JSX/TSX files at transform time.
+                // Since graph is built pre-transform, we need to explicitly resolve and register it.
+                await this.injectSyntheticDeps(this.latestGraph, this.ctx.rootDir);
             } else {
                 log.info(`--> Core Engine: Reusing Incremental Dependency Graph with ${changedFiles.length} changes`);
                 // If we have explicit changed files, invalidate them now

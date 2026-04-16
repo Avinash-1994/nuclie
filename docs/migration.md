@@ -478,8 +478,8 @@ npm run build  # Second run: ~500ms (warm)
 ### What Nuclie Does Better ✅
 
 - **Memory efficiency**: ~0.1MB vs 20MB+ (Vite)
-- **HMR speed**: Consistent 15ms updates
-- **Security**: WASM-sandboxed plugins
+- **HMR speed**: Fast updates with incremental reloads
+- **Security**: Isolated plugin execution model
 - **Build caching**: Persistent RocksDB cache
 
 ### What Needs Improvement ⚠️

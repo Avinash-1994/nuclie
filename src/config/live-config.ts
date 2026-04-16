@@ -82,6 +82,24 @@ export class LiveConfigManager {
         }
     }
 
+    public replaceConfig(newConfig: BuildConfig): boolean {
+        try {
+            const result = BuildConfigSchema.safeParse(newConfig);
+            if (!result.success) {
+                log.error(`Invalid config replacement: ${result.error.message}`);
+                return false;
+            }
+
+            this.currentConfig = result.data as BuildConfig;
+            this.lastUpdateTimestamp = Date.now();
+            this.notifyListeners();
+            return true;
+        } catch (e) {
+            log.error(`Failed to replace config: ${e instanceof Error ? e.message : String(e)}`);
+            return false;
+        }
+    }
+
     public subscribe(callback: (config: BuildConfig) => void) {
         this.listeners.push(callback);
     }

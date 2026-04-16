@@ -235,10 +235,15 @@ export class DependencyGraph {
         abs + '.ts',
         abs + '.tsx',
         abs + '.js',
+        abs + '.jsx',
+        abs + '.mjs',
         abs + '.vue',
         abs + '.svelte',
         abs + '/index.ts',
-        abs + '/index.js'
+        abs + '/index.tsx',
+        abs + '/index.js',
+        abs + '/index.jsx',
+        abs + '/index.mjs'
       ];
       for (const c of candidates) {
         if (existsSync(c)) return normalizePath(c);

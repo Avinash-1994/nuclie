@@ -7,7 +7,7 @@
 
 ## LOCKED STACK
 - **Migration**: Vite/Webpack/Rollup/Angular CLI → Nuclie
-- **Plugins**: 20 → 100+ real plugins (WASM-sandboxed)
+- **Plugins**: 20 → 100+ real plugins (VM-based sandboxing with permission controls)
 - **Templates**: SPA/SSR/Edge/Fintech/Monorepo starters
 - **Benchmarks**: Honest comparison vs Vite/Turbopack/Rspack/Webpack
 - **Docs**: Migration guides, plugin docs, security summary

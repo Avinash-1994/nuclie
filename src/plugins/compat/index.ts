@@ -4,7 +4,7 @@
  * This module provides adapters to use Rollup/Vite plugins within Nuclie.
  */
 
-export { rollupAdapter } from './rollup.js';
+export { rollupAdapter, rollupAdapter as vitePluginAdapter, rollupAdapter as viteToNuclie, rollupAdapter as createRollupAdapter } from './rollup.js';
 export {
     nuclieBabel,
     nuclieTerser,

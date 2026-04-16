@@ -62,13 +62,13 @@ export async function startWorkspaceOrchestrator(rootDir: string) {
     // Sort to start Remotes first, then Host
     targets.sort((a, b) => (a.isHost === b.isHost) ? 0 : a.isHost ? 1 : -1);
 
-    // 3. Boot up the entire cluster concurrently
+    // 3. Boot up the entire cluster sequentially to avoid port allocation races
     for (const target of targets) {
         const role = target.isHost ? '🏠 HOST' : '🔗 REMOTE';
         console.log(`🌀 Booting ${role} [${target.name}] -> Port ${target.port}`);
         
         try {
-            startDevServer({ root: target.path, port: target.port, server: { host: '0.0.0.0' } } as any);
+            await startDevServer({ root: target.path, port: target.port, server: { host: '0.0.0.0' } } as any);
         } catch (e: any) {
             console.error(`❌ [${target.name}] Failed to start: ${e.message}`);
         }

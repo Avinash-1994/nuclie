@@ -1,0 +1,17 @@
+{
+  "name": "test-lit-ts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuclie dev",
+    "build": "nuclie build"
+  },
+  "dependencies": {
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "nuclie": "file:..",
+    "typescript": "^5.0.0"
+  }
+}

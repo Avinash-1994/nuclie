@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-04-11T05:00:36.238Z",
+  "pass": 9,
+  "fail": 0,
+  "skip": 0,
+  "results": [
+    {
+      "name": "React (TS)",
+      "dir": "test-react-ts",
+      "status": "PASS",
+      "duration": 257,
+      "output": "ne...\n📁 Root: /home/avinash/Desktop/framework_practis/build/test-react-ts\n📦 Entry: []\n📂 Output: build_output\n\n📦 Production Bundle Statistics\n--------------------------------------------------\n┌─────────┬──────────────┬───────────┬─────────┐\n│ (index) │ Asset        │ Size      │ Type    │\n├─────────┼──────────────┼───────────┼─────────┤\n│ 0       │ 'index.html' │ '0.26 KB' │ 'asset' │\n└─────────┴──────────────┴───────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 0.26 KB\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Vue (TS)",
+      "dir": "test-vue-ts",
+      "status": "PASS",
+      "duration": 3070,
+      "output": " │\n│ 3       │ 'assets/main.02fae780.bundle.css'    │ '1.98 KB'   │ 'css'   │\n│ 4       │ 'assets/main.02fae780.bundle.css.gz' │ '0.93 KB'   │ 'asset' │\n│ 5       │ 'assets/main.02fae780.bundle.css.br' │ '0.77 KB'   │ 'asset' │\n│ 6       │ 'index.html'                         │ '0.39 KB'   │ 'asset' │\n└─────────┴──────────────────────────────────────┴─────────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 856.10 KB\nGzip Transferred: 291.90 KB\nBrotli Transferred: 212.01 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Svelte (TS)",
+      "dir": "test-svelte-ts",
+      "status": "PASS",
+      "duration": 469,
+      "output": "58 KB' │ 'asset' │\n│ 3       │ 'assets/main.c1d29975.bundle.js.br'  │ '1.31 KB' │ 'asset' │\n│ 4       │ 'assets/main.02fae780.bundle.css.gz' │ '0.77 KB' │ 'asset' │\n│ 5       │ 'assets/main.02fae780.bundle.css.br' │ '0.62 KB' │ 'asset' │\n│ 6       │ 'index.html'                         │ '0.39 KB' │ 'asset' │\n└─────────┴──────────────────────────────────────┴───────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 5.27 KB\nGzip Transferred: 2.36 KB\nBrotli Transferred: 1.93 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Solid (TS)",
+      "dir": "test-solid-ts",
+      "status": "PASS",
+      "duration": 452,
+      "output": "et' │\n│ 3       │ 'assets/index.02fae780.bundle.css'    │ '1.68 KB'  │ 'css'   │\n│ 4       │ 'assets/index.02fae780.bundle.css.gz' │ '0.77 KB'  │ 'asset' │\n│ 5       │ 'assets/index.02fae780.bundle.css.br' │ '0.62 KB'  │ 'asset' │\n│ 6       │ 'index.html'                          │ '0.39 KB'  │ 'asset' │\n└─────────┴───────────────────────────────────────┴────────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 87.29 KB\nGzip Transferred: 28.54 KB\nBrotli Transferred: 24.86 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Preact (TS)",
+      "dir": "test-preact-ts",
+      "status": "PASS",
+      "duration": 334,
+      "output": " 'asset' │\n│ 3       │ 'assets/main.02fae780.bundle.css'    │ '1.23 KB'  │ 'css'   │\n│ 4       │ 'assets/main.02fae780.bundle.css.gz' │ '0.56 KB'  │ 'asset' │\n│ 5       │ 'assets/main.02fae780.bundle.css.br' │ '0.44 KB'  │ 'asset' │\n│ 6       │ 'index.html'                         │ '0.39 KB'  │ 'asset' │\n└─────────┴──────────────────────────────────────┴────────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 28.79 KB\nGzip Transferred: 11.21 KB\nBrotli Transferred: 10.07 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Qwik (TS)",
+      "dir": "test-qwik-ts",
+      "status": "PASS",
+      "duration": 241,
+      "output": "/home/avinash/Desktop/framework_practis/build/test-qwik-ts\n📦 Entry: [ 'src/root.tsx' ]\n📂 Output: build_output\n\n📦 Production Bundle Statistics\n--------------------------------------------------\n┌─────────┬──────────────┬───────────┬─────────┐\n│ (index) │ Asset        │ Size      │ Type    │\n├─────────┼──────────────┼───────────┼─────────┤\n│ 0       │ 'index.html' │ '0.26 KB' │ 'asset' │\n└─────────┴──────────────┴───────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 0.26 KB\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Preact (JS)",
+      "dir": "test-preact-js",
+      "status": "PASS",
+      "duration": 917,
+      "output": "t' │\n│ 3       │ 'index.html'                         │ '0.39 KB'   │ 'asset' │\n│ 4       │ 'assets/main.02fae780.bundle.css'    │ '0.17 KB'   │ 'css'   │\n│ 5       │ 'assets/main.02fae780.bundle.css.gz' │ '0.16 KB'   │ 'asset' │\n│ 6       │ 'assets/main.02fae780.bundle.css.br' │ '0.11 KB'   │ 'asset' │\n└─────────┴──────────────────────────────────────┴─────────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 188.21 KB\nGzip Transferred: 60.29 KB\nBrotli Transferred: 51.74 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Lit (TS)",
+      "dir": "test-lit-ts",
+      "status": "PASS",
+      "duration": 250,
+      "output": "┼───────────┼─────────┤\n│ 0       │ 'assets/main.a32bc431.bundle.js'    │ '3.96 KB' │ 'js'    │\n│ 1       │ 'assets/main.a32bc431.bundle.js.gz' │ '1.72 KB' │ 'asset' │\n│ 2       │ 'assets/main.a32bc431.bundle.js.br' │ '1.41 KB' │ 'asset' │\n│ 3       │ 'index.html'                        │ '0.33 KB' │ 'asset' │\n└─────────┴─────────────────────────────────────┴───────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 4.29 KB\nGzip Transferred: 1.72 KB\nBrotli Transferred: 1.41 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    },
+    {
+      "name": "Alpine (TS)",
+      "dir": "test-alpine-ts",
+      "status": "PASS",
+      "duration": 359,
+      "output": "────┼─────────┤\n│ 0       │ 'assets/main.839f308d.bundle.js'    │ '59.22 KB' │ 'js'    │\n│ 1       │ 'assets/main.839f308d.bundle.js.gz' │ '22.56 KB' │ 'asset' │\n│ 2       │ 'assets/main.839f308d.bundle.js.br' │ '20.17 KB' │ 'asset' │\n│ 3       │ 'index.html'                        │ '0.33 KB'  │ 'asset' │\n└─────────┴─────────────────────────────────────┴────────────┴─────────┘\n--------------------------------------------------\nTotal Raw Size: 59.55 KB\nGzip Transferred: 22.56 KB\nBrotli Transferred: 20.17 KB 🚀\n--------------------------------------------------\n\n✅ Build completed successfully!\n",
+      "files": [
+        "build-explain.json",
+        "build-manifest.json",
+        "index.html"
+      ]
+    }
+  ]
+}

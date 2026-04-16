@@ -272,11 +272,11 @@ function App() {
       </nav>
 
       <main className="hero-section">
-        <div className="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+        <div className="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
         
         <h1 className="hero-title">
           The Nucleus for<br/>
-          <span className="highlight">Stunning Web Apps</span>
+          <span className="highlight">Stunning React Apps</span>
         </h1>
         
         <p className="hero-subtitle">
@@ -336,11 +336,11 @@ export function App() {
       </nav>
 
       <main className="hero-section">
-        <div className="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+        <div className="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
         
         <h1 className="hero-title">
           The Nucleus for<br/>
-          <span className="highlight">Stunning Web Apps</span>
+          <span className="highlight">Stunning Preact Apps</span>
         </h1>
         
         <p className="hero-subtitle">
@@ -392,11 +392,11 @@ export const getVueTemplateApp = (color: string) => `<template>
     </nav>
 
     <main class="hero-section">
-      <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+      <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
       
       <h1 class="hero-title">
         The Nucleus for<br/>
-        <span class="highlight">Stunning Web Apps</span>
+        <span class="highlight">Stunning Vue Apps</span>
       </h1>
       
       <p class="hero-subtitle">
@@ -461,11 +461,11 @@ function App() {
       </nav>
 
       <main class="hero-section">
-        <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
         
         <h1 class="hero-title">
           The Nucleus for<br/>
-          <span class="highlight">Stunning Web Apps</span>
+          <span class="highlight">Stunning SolidJS Apps</span>
         </h1>
         
         <p class="hero-subtitle">
@@ -525,11 +525,11 @@ export const getSvelteTemplateApp = (color: string) => `<script lang="ts">
 </nav>
 
 <main class="hero-section">
-  <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+  <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
   
   <h1 class="hero-title">
     The Nucleus for<br/>
-    <span class="highlight">Stunning Web Apps</span>
+    <span class="highlight">Stunning Svelte Apps</span>
   </h1>
   
   <p class="hero-subtitle">
@@ -580,11 +580,11 @@ const App = component$(() => {
       </nav>
 
       <main class="hero-section">
-        <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
         
         <h1 class="hero-title">
           The Nucleus for<br />
-          <span class="highlight">Stunning Web Apps</span>
+          <span class="highlight">Stunning Qwik Apps</span>
         </h1>
 
         <p class="hero-subtitle">
@@ -684,11 +684,11 @@ export class MyElement extends LitElement {
       </nav>
 
       <main class="hero-section">
-        <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
         
         <h1 class="hero-title">
           The Nucleus for<br/>
-          <span class="highlight">Stunning Web Apps</span>
+          <span class="highlight">Stunning Lit Apps</span>
         </h1>
         
         <p class="hero-subtitle">
@@ -743,11 +743,11 @@ export const alpineTemplateHtml = `<!DOCTYPE html>
         </nav>
 
         <main class="hero-section">
-          <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+          <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
           
           <h1 class="hero-title">
             The Nucleus for<br/>
-            <span class="highlight" style="color: #77C1D2; text-shadow: 0 0 30px rgba(119, 193, 210, 0.4);">Stunning Web Apps</span>
+            <span class="highlight" style="color: #77C1D2; text-shadow: 0 0 30px rgba(119, 193, 210, 0.4);">Stunning Alpine Apps</span>
           </h1>
           
           <p class="hero-subtitle">
@@ -802,7 +802,7 @@ const App = {
         m("div", { class: "badge" }, "Engine v{{NUCLIE_VERSION}} Ready"),
         m("h1", { class: "hero-title" }, [
           "The Nucleus for", m("br"),
-          "", m("span", { class: "highlight" }, "Stunning Web Apps")
+          "", m("span", { class: "highlight" }, "Stunning Mithril Apps")
         ]),
         m("p", { class: "hero-subtitle" }, "Experience the next generation of build speed with Nuclie. Instant HMR, native performance, and a developer experience that feels like magic."),
         m("div", { class: "action-buttons" }, [
@@ -849,11 +849,11 @@ export const vanillaTemplateHtml = `<!DOCTYPE html>
         </nav>
 
         <main class="hero-section">
-          <div class="badge">Engine v{{NUCLIE_VERSION}} Ready</div>
+          <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
           
           <h1 class="hero-title">
             The Nucleus for<br/>
-            <span class="highlight" style="color: #f59f00; text-shadow: 0 0 30px rgba(245, 159, 0, 0.4);">Stunning Web Apps</span>
+            <span class="highlight" style="color: #f59f00; text-shadow: 0 0 30px rgba(245, 159, 0, 0.4);">Stunning Vanilla JS Apps</span>
           </h1>
           
           <p class="hero-subtitle">
@@ -995,6 +995,20 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     ],
     dependencies: { "preact": "^10.19.0" },
     devDependencies: { "typescript": "^5.0.0" }
+  },
+  'preact-js': {
+    id: 'preact-js',
+    name: 'Preact JavaScript',
+    description: 'Preact + JavaScript + Stunning UI',
+    files: [
+      ...COMMON_FILES,
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Preact</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.jsx"></script>\n  </body>\n</html>' },
+      { path: 'src/main.jsx', content: preactTemplateMain },
+      { path: 'src/App.jsx', content: getPreactTemplateApp('#673ab7') },
+      { path: 'src/index.css', content: getPremiumCss({ hexBase: '#673ab7', hexRgbMap: '103, 58, 183', buttonColor: '#673ab7', shadowHex: 'rgba(103, 58, 183, 0.4)', frameworkLogoHex: '#673ab7' }) }
+    ],
+    dependencies: { "preact": "^10.19.0" },
+    devDependencies: {}
   },
   'qwik-ts': {
     id: 'qwik-ts',

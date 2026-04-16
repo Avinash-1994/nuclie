@@ -1,6 +1,7 @@
 import { AnonymizedLearning } from './telemetry.js';
 import { AIConfig } from '../config.js';
 import { log } from '../../utils/logger.js';
+import { getFetch } from '../../utils/fetch.js';
 
 export interface CloudResponse {
     success: boolean;
@@ -71,6 +72,7 @@ export class CloudAPI {
         }
 
         try {
+            const fetch = await getFetch();
             const response = await fetch(`${this.baseUrl}/api/v1/learnings`, {
                 method: 'POST',
                 headers: {
@@ -115,6 +117,7 @@ export class CloudAPI {
         }
 
         try {
+            const fetch = await getFetch();
             const response = await fetch(`${this.baseUrl}/api/v1/patterns?limit=${limit}`, {
                 method: 'GET',
                 headers: {
@@ -138,6 +141,7 @@ export class CloudAPI {
 
     async checkHealth(): Promise<boolean> {
         try {
+            const fetch = await getFetch();
             const response = await fetch(`${this.baseUrl}/health`, {
                 method: 'GET',
                 headers: { 'X-User-Id': this.userId }

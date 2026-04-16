@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import http from 'http';
 import path from 'path';
 import fs from 'fs/promises';
@@ -65,7 +66,7 @@ import { LiveConfigManager } from '../config/live-config.js';
  * Rewrite bare module imports to node_modules paths
  * Production-grade AST-based rewriting (Phase C1 Honest)
  */
-async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Map<string, string>): Promise<string> {
+async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Map<string, string>, federationRemotes?: Set<string>): Promise<string> {
   try {
     const acorn = await import('acorn');
     const ast = acorn.parse(code, {
@@ -88,6 +89,13 @@ async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Ma
             });
           }
           return;
+        }
+
+        if (federationRemotes) {
+          const [remoteName] = specifier.split('/');
+          if (remoteName && federationRemotes.has(remoteName) && specifier.includes('/')) {
+            return;
+          }
         }
 
         let replacement = `/node_modules/${specifier}`;
@@ -145,6 +153,7 @@ async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Ma
     return code;
   }
 }
+
 
 /**
  * Check if a port is available
@@ -270,8 +279,8 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   // 3. Initialize Universal Transformer
   const { UniversalTransformer } = await import('../core/universal-transformer.js');
   const universalTransformer = new UniversalTransformer(cfg.root);
-
-  const nativeWorker = new NativeWorker(4); // 4 threads
+  const workerThreads = Math.max(2, require('os').cpus().length - 2); // Leave 2 for OS + watcher
+  const nativeWorker = new NativeWorker(workerThreads);
   const pluginManager = new PluginManager();
   if (cfg.plugins) {
     cfg.plugins.forEach(p => pluginManager.register(p));
@@ -301,6 +310,20 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
   const { StylusPlugin } = await import('../plugins/css/stylus.js');
   pluginManager.register(new StylusPlugin(cfg.root));
+
+  if (cfg.federation?.remotes && Object.keys(cfg.federation.remotes).length > 0) {
+    const remoteNames = Object.keys(cfg.federation.remotes).map(name => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+    pluginManager.register({
+      name: 'nuclie-federation-dev',
+      transform(code, id) {
+        const regex = new RegExp('\\bimport\\s*\\(\\s*["\'](' + remoteNames + ')\\/([^"\']+)["\']\\s*\\)', 'g');
+        if (!regex.test(code)) return code;
+        return code.replace(regex, (_, remote, modulePath) => {
+          return `globalThis.__nuclie_import__("${remote}/${modulePath}")`;
+        });
+      }
+    });
+  }
 
   // Svelte Support removed - Handled by UniversalTransformer
   // Vue Support removed - Handled by UniversalTransformer
@@ -359,7 +382,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       vue: ['vue'],
       nuxt: ['vue'],
       svelte: getSvelteDeps(),
-      solid: ['solid-js', 'solid-js/web', 'solid-js/store'],
+      solid: ['solid-js', 'solid-js/web', 'solid-js/store', 'solid-js/h/jsx-runtime', 'solid-js/h/jsx-dev-runtime'],
       angular: [
         '@angular/core',
         '@angular/common',
@@ -539,7 +562,9 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   const hmrThrottle = new HMRThrottle(broadcast);
 
   // Initialize Federation Dev
-  const { FederationDev } = await import('./federation-dev.js');
+  // Federation dev logic is isolated in a dedicated module so runtime
+  // functionality and helper generation remain separate from the main server.
+  const { FederationDev, createFederationDevManifest, createFederationDevRemoteEntry } = await import('./federation-dev.js');
   const federationDev = new FederationDev(cfg, broadcast);
   federationDev.start();
 
@@ -642,6 +667,15 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
               type: 'config:current',
               config: liveConfig.getConfig()
             }));
+            return;
+          }
+
+          if (message.type === 'client:error') {
+            log.error(`Client runtime error: ${message.error?.message || 'Unknown runtime error'}`, {
+              category: 'runtime',
+              error: message.error
+            });
+            return;
           }
         } catch (e) {
           log.error('Failed to handle WS message', e);
@@ -651,6 +685,16 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   };
 
   const requestHandler = async (req: http.IncomingMessage, res: http.ServerResponse) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
     if (process.env.DEBUG) {
       // Diagnostic log removed for cleaner production output
       // log.debug(`[DevServer] Request: ${req.url} Preset: ${cfg.preset}`);
@@ -755,9 +799,13 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
             // Final failure
             log.debug(`Failed to find index.html in root, public, or src`);
             if (e3.code === 'EISDIR') { /* ignore */ }
-            res.writeHead(404);
-            res.end('index.html not found');
-            return;
+            if (cfg.entry && cfg.entry.length > 0) {
+              data = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body><div id="root"></div></body></html>`;
+            } else {
+              res.writeHead(404);
+              res.end('index.html not found');
+              return;
+            }
           }
         }
       }
@@ -765,20 +813,29 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       try {
         // Inject entry point if not present (simple heuristic)
         // Angular CLI projects often don't have the script tag in source index.html
-        if (!data.includes('src="main.ts"') && !data.includes('src="/src/main.ts"')) {
-          // Try to inject main entry point script at the end of body
-          // We need to guess the entry point or use config. 
-          // Config has cfg.entry which is an array.
-          if (cfg.entry && cfg.entry.length > 0) {
-            const entryScript = `<script type="module" src="/${cfg.entry[0]}"></script>`;
-            data = data.replace('</body>', `${entryScript}</body>`);
-          }
+        let needsInjection = true;
+        if (cfg.entry && cfg.entry.length > 0) {
+          const entryPath = cfg.entry[0].replace(/^\.\//, '');
+          needsInjection = !data.includes(`src="${entryPath}"`) && !data.includes(`src="/${entryPath}"`);
+        }
+
+        if (needsInjection && cfg.entry && cfg.entry.length > 0) {
+          const entryPath = cfg.entry[0].replace(/^\.\//, '');
+          const entryScript = `<script type="module" src="/${entryPath}"></script>`;
+          data = data.replace('</body>', `${entryScript}</body>`);
         }
 
         // Inject only client runtime
         let clientScript = `
     <script type="module" src="/@nuclie/client"></script>
         `;
+
+        // Federation runtime injection for host apps
+        let federationRuntime = '';
+        if (cfg.federation?.remotes && Object.keys(cfg.federation.remotes).length > 0) {
+          const { generateFederationRuntime } = await import('../federation/index.js');
+          federationRuntime = `<script>${generateFederationRuntime(cfg.federation.remotes)}</script>`;
+        }
 
         // Always inject basic shims in dev mode to prevent ReferenceErrors from any React-ish modules
         let preamble = `
@@ -812,12 +869,12 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         // Use a more robust injection that handles case-sensitivity and space variations
         if (data.includes('<head>')) {
-          data = data.replace('<head>', '<head>' + clientScript);
+          data = data.replace('<head>', '<head>' + federationRuntime + clientScript);
         } else if (data.includes('<HEAD>')) {
-          data = data.replace('<HEAD>', '<HEAD>' + clientScript);
+          data = data.replace('<HEAD>', '<HEAD>' + federationRuntime + clientScript);
         } else {
           // Fallback if no head tag found
-          data = clientScript + data;
+          data = federationRuntime + clientScript + data;
         }
 
         res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -1005,7 +1062,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         }
 
         // ── Step 2: Manual resolution via package.json exports field ──
-        if (!resolvedModulePath) {
+        {
           const pkgName = specifier.startsWith('@')
             ? specifier.split('/').slice(0, 2).join('/')
             : specifier.split('/')[0];
@@ -1063,7 +1120,8 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         // ── Step 3: Naive filesystem path (original behaviour) ──
         if (!resolvedModulePath) {
-          let modulePath = path.join(cfg.root, cleanUrl);
+          const relativePath = cleanUrl.startsWith('/') ? cleanUrl.slice(1) : cleanUrl;
+          let modulePath = path.join(cfg.root, relativePath);
           try {
             const stats = await fs.stat(modulePath);
             if (stats.isDirectory()) {
@@ -1167,8 +1225,34 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       }
     }
 
+    // Try to serve federation dev endpoints for remote apps before static file lookup.
+    if (cfg.federation?.exposes && cfg.federation.name) {
+      const filename = cfg.federation.filename || 'remoteEntry.js';
+      const manifestName = filename.endsWith('.js') ? filename.replace(/\.js$/, '.json') : `${filename}.json`;
+      const cleanUrl = url.split('?')[0];
+
+      if (cleanUrl === `/${filename}`) {
+        res.writeHead(200, {
+          'Content-Type': 'application/javascript',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(createFederationDevRemoteEntry(cfg.federation));
+        return;
+      }
+
+      if (cleanUrl === `/${manifestName}`) {
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify(createFederationDevManifest(cfg.federation), null, 2));
+        return;
+      }
+    }
+
     // Try to serve from public first
-    const publicPath = path.join(cfg.root, 'public', url);
+    const publicUrlPath = url.startsWith('/') ? url.slice(1) : url;
+    const publicPath = path.join(cfg.root, 'public', publicUrlPath);
     try {
       await fs.access(publicPath);
       const data = await fs.readFile(publicPath);
@@ -1183,7 +1267,8 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     // Try to serve from root (src, node_modules, etc)
     // Remove query params
     const cleanUrl = url.split('?')[0];
-    let filePath = path.join(cfg.root, cleanUrl);
+    const relativePath = cleanUrl.startsWith('/') ? cleanUrl.slice(1) : cleanUrl;
+    let filePath = path.join(cfg.root, relativePath);
 
     // console.log('Serving:', { url, cleanUrl, filePath });
 
@@ -1268,7 +1353,8 @@ ${raw}
           });
 
           // Rewrite imports after transformation
-          let code = await rewriteImports(transformResult.code, cfg.root, preBundledDeps);
+          const federationRemotes = cfg.federation?.remotes ? new Set(Object.keys(cfg.federation.remotes)) : undefined;
+          let code = await rewriteImports(transformResult.code, cfg.root, preBundledDeps, federationRemotes);
 
           res.writeHead(200, {
             'Content-Type': 'application/javascript',
@@ -1450,15 +1536,15 @@ ${raw}
         const updatedCfg = await loadConfig(cfg.root);
 
         // Update live config manager (which will broadcast to clients)
-        // We do a full replacement here because the whole file changed
-        Object.entries(updatedCfg).forEach(([key, value]) => {
-          liveConfig.updateConfig({ path: key, value });
-        });
-
-        broadcast(JSON.stringify({
-          type: 'config:changed',
-          config: liveConfig.getConfig()
-        }));
+        // We do a full replacement here because the whole file changed.
+        // Use server-side replace so we don't fail CSRF checks or rate limits.
+        const replaced = liveConfig.replaceConfig(updatedCfg);
+        if (replaced) {
+          broadcast(JSON.stringify({
+            type: 'config:changed',
+            config: liveConfig.getConfig()
+          }));
+        }
       } catch (e) {
         log.error('Failed to hot reload config', e);
       }
@@ -1487,7 +1573,12 @@ ${raw}
   const { default: chokidar } = await import('chokidar');
   const watcher = chokidar.watch(cfg.root, {
     ignored: ['**/node_modules/**', '**/.git/**', '**/.nuclie/**', '**/.nuclie_cache/**'],
-    ignoreInitial: true
+    ignoreInitial: true,
+    usePolling: false,
+    awaitWriteFinish: {
+      stabilityThreshold: 5,
+      pollInterval: 10
+    }
   });
   watcher.on('change', async (file: string) => {
     try {

@@ -55,7 +55,7 @@ impl BuildCache {
         opts.set_compaction_style(rocksdb::DBCompactionStyle::Level); // Efficient LSM structure
         
         // Memory tuning for <200ms startup
-        opts.set_write_buffer_size(16 * 1024 * 1024); // 16MB (reduced for faster init)
+        opts.set_write_buffer_size(8 * 1024 * 1024); // 8MB (was 16MB)
         opts.set_max_write_buffer_number(2);
         opts.set_target_file_size_base(32 * 1024 * 1024); // 32MB files
         

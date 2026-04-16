@@ -4,6 +4,7 @@
  * Validates Day 28 Pipeline Logic
  */
 
+import * as fs from 'fs';
 import { BuildPipeline } from '../src/build/pipeline.js';
 
 async function runBuildTest() {
@@ -19,6 +20,7 @@ async function runBuildTest() {
         edge: false
     });
     await spaPipeline.build();
+    if (!fs.existsSync('./dist/browser')) throw new Error('SPA output directory missing');
     console.log('✅ SPA Build Verified\n');
 
     // Test 2: Multi-Target (SPA + SSR + Edge)
@@ -31,6 +33,8 @@ async function runBuildTest() {
         edge: true
     });
     await multiPipeline.build();
+    if (!fs.existsSync('./dist/server')) throw new Error('SSR output directory missing');
+    if (!fs.existsSync('./dist/edge')) throw new Error('Edge output directory missing');
     console.log('✅ Multi-Target Build Verified\n');
 
     // Test 3: All Targets
@@ -43,6 +47,8 @@ async function runBuildTest() {
         edge: true
     });
     await allPipeline.build();
+    if (!fs.existsSync('./dist/static/index.html')) throw new Error('SSG output missing index.html');
+    if (!fs.existsSync('./dist/dist/index.js')) throw new Error('Library bundle missing');
     console.log('✅ All Targets Build Verified\n');
 
     console.log('---------------------------');

@@ -9,7 +9,7 @@ What this tool gives you
 - Plugin system for extensions
 
 Basic workflow:
-- **Dev**: Run `npx nuclie dev`, see browser update via sub-100ms HMR.
+- **Dev**: Run `npx nuclie dev`, see browser update via fast HMR.
 - **Audit**: Run `npx nuclie verify` to check project health.
 - **Build**: Run `npx nuclie build` for a production-ready bundle.
 - **Analyze**: Run `npx nuclie analyze` to see bundle composition.

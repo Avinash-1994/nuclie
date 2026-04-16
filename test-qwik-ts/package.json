@@ -8,7 +8,7 @@
     "build": "nuclie build"
   },
   "devDependencies": {
-    "nuclie": "latest",
+    "nuclie": "file:..",
     "typescript": "^5.0.0"
   },
   "dependencies": {

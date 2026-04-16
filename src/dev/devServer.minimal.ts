@@ -14,10 +14,9 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pkgVersion = require('../../package.json').version;
 
-let features: any = null;
-let initPromise: Promise<void> | null = null;
-
 export async function startDevServer(cfg: BuildConfig) {
+    let features: any = null;
+    let initPromise: Promise<void> | null = null;
     const startTime = performance.now();
     const root = cfg.root || process.cwd();
 

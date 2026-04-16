@@ -15,6 +15,8 @@ export interface IssueResult {
     error?: string;
 }
 
+import { getFetch } from '../utils/fetch.js';
+
 export class GitHubIntegration {
     private config: GitHubConfig;
 
@@ -31,6 +33,7 @@ export class GitHubIntegration {
         }
 
         try {
+            const fetch = await getFetch();
             const response = await fetch(`https://api.github.com/repos/${this.config.owner}/${this.config.repo}/issues`, {
                 method: 'POST',
                 headers: {

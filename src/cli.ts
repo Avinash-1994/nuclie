@@ -79,8 +79,14 @@ async function main() {
 
         const portIdx = process.argv.indexOf('--port');
         const port = portIdx !== -1 ? parseInt(process.argv[portIdx + 1]) : undefined;
+        const rootIdx = process.argv.findIndex(arg => arg === '--root' || arg === '-r');
+        const rootArg = rootIdx !== -1 ? process.argv[rootIdx + 1] : undefined;
+        const root = rootArg && !rootArg.startsWith('-')
+          ? path.resolve(process.cwd(), rootArg)
+          : process.cwd();
+        const strictPort = process.argv.includes('--strictPort') || process.argv.includes('--strict-port');
         const { startDevServer } = await import('./dev/devServer.minimal.js');
-        await startDevServer({ root: process.cwd(), port, server: { host: '0.0.0.0' } } as any);
+        await startDevServer({ root, port, server: { host: '0.0.0.0', strictPort } } as any);
         return;
       }
       if (cmd === 'build') {
@@ -116,6 +122,16 @@ async function main() {
             type: 'number',
             description: 'Server port'
           })
+          .option('root', {
+            alias: 'r',
+            type: 'string',
+            description: 'Project root directory'
+          })
+          .option('strictPort', {
+            type: 'boolean',
+            description: 'Fail if the requested port is unavailable instead of trying another port',
+            default: false
+          })
           .option('quiet', {
             type: 'boolean',
             description: 'Suppress non-error output',
@@ -138,12 +154,14 @@ async function main() {
           }
           // Production Optimization: Start server FIRST, load config LATER
           // This allows us to hit the <200ms target
-          const root = (globalThis as any).process.cwd();
+          const root = args.root
+            ? path.resolve(process.cwd(), args.root)
+            : (globalThis as any).process.cwd();
           const cfg = {
             root,
             port: args.port || 5173,
             mode: 'development',
-            server: { host: '0.0.0.0' }
+            server: { host: '0.0.0.0', strictPort: args.strictPort }
           } as any;
 
           const { startDevServer } = await import('./dev/devServer.minimal.js');

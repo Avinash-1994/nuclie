@@ -11,7 +11,7 @@
     "solid-js": "^1.8.17"
   },
   "devDependencies": {
-    "nuclie": "latest",
+    "nuclie": "file:..",
     "typescript": "^5.0.0",
     "babel-preset-solid": "^1.8.17",
     "@babel/core": "^7.24.0"

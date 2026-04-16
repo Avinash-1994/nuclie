@@ -39,5 +39,12 @@ async function copyAll(patternDir, filterExt, outDir) {
   await copyAll(join(rootDir, 'src', 'plugins'), '.mjs', join(distDir, 'plugins'));
   await copyAll(join(rootDir, 'src', 'runtime'), '.js', join(distDir, 'runtime'));
 
+  // Ensure CLI entry points are executable when installed as a local package
+  const executables = ['cli.js', 'create-nuclie.js'];
+  for (const file of executables) {
+    const target = join(distDir, file);
+    await fs.chmod(target, 0o755).catch(() => { });
+  }
+
   console.log('Post-build copy complete');
 })();

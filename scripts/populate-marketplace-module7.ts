@@ -407,7 +407,7 @@ export class PluginMarketplaceExpander {
         console.log('📊 Marketplace Summary:');
         console.log(`   Total Plugins: ${this.plugins.length}`);
         console.log(`   Manifest Version: 2.0`);
-        console.log(`   Security: WASM Sandboxed`);
+        console.log(`   Security: VM-based sandboxed`);
         console.log('\n   By Category:');
         Object.entries(byCategory).forEach(([cat, count]) => {
             console.log(`   - ${cat}: ${count}`);

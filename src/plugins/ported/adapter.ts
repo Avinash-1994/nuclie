@@ -2,7 +2,7 @@
  * Plugin Compatibility Layer (Day 45)
  * 
  * Provides compatibility adapters for ported Vite/Webpack plugins
- * to work seamlessly in Nuclie's WASM-sandboxed environment.
+ * to work seamlessly in Nuclie's isolated plugin runtime.
  */
 
 export interface PluginAdapter {

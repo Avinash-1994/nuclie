@@ -1,6 +1,6 @@
 # Nuclie Security Guide
 
-> **Zero-trust architecture** with WASM sandboxing, WebCrypto signing, and security-first design.
+> **Zero-trust architecture** with secure plugin execution, WebCrypto signing, and security-first design.
 
 ---
 
@@ -8,8 +8,8 @@
 
 Nuclie implements **defense-in-depth** security:
 
-1. **WASM Sandboxing** - Plugins run in isolated environments
-2. **WebCrypto Signing** - All plugins cryptographically signed
+1. **Plugin sandboxing** - Plugins run in isolated runtime environments
+2. **WebCrypto Signing** - Plugin signatures can be verified at load time
 3. **Content Security Policy** - Strict CSP headers
 4. **Subresource Integrity** - SRI for all assets
 5. **Dependency Scanning** - Automated vulnerability checks
@@ -17,11 +17,11 @@ Nuclie implements **defense-in-depth** security:
 
 ---
 
-## WASM Plugin Sandboxing
+## Plugin Sandbox Architecture
 
 ### How It Works
 
-Every plugin runs in a **WebAssembly sandbox**:
+Nuclie executes plugins in an isolated runtime environment with strict permission boundaries. The current implementation uses a VM-based sandbox plus runtime checks to limit filesystem and environment access. The sandbox currently exposes only approved built-ins and only allows `fs` and `path` via `require()`; all other module imports are denied. Environment variables are gated by explicit permission, and network globals such as `fetch`, `XMLHttpRequest`, `WebSocket`, and `EventSource` are explicitly removed from the plugin context. A dedicated WASM-based plugin runtime is under development for future releases.
 
 ```
 ┌─────────────────────────────────────┐
@@ -29,7 +29,7 @@ Every plugin runs in a **WebAssembly sandbox**:
 ├─────────────────────────────────────┤
 │  ┌───────────┐  ┌───────────┐      │
 │  │  Plugin A │  │  Plugin B │      │
-│  │  (WASM)   │  │  (WASM)   │      │
+│  │  (Sandbox)|  │  (Sandbox)|      │
 │  └───────────┘  └───────────┘      │
 │       ↕              ↕              │
 │  ┌─────────────────────────┐       │

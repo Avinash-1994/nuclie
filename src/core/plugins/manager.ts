@@ -1,5 +1,7 @@
 
+import fs from 'fs/promises';
 import { NucliePlugin, PluginHookName, PluginExecutionRecord, PluginValidation } from './types.js';
+import { WASMPluginSandbox } from './sandbox_wasm.js';
 import { canonicalHash } from '../engine/hash.js';
 import { explainReporter } from '../engine/events.js';
 
@@ -53,6 +55,23 @@ export class PluginManager {
         this.plugins.set(pluginId, activePlugin);
 
         explainReporter.report('plugins', 'load', `Loaded plugin: ${name}@${version} (${activePlugin.manifest.type})`);
+    }
+
+    /**
+     * Register a WASM plugin binary into the core plugin manager.
+     * This enables true WASM-based plugin isolation for hooks and transforms.
+     */
+    async registerWasmPlugin(wasmBytes: Buffer | Uint8Array | ArrayBuffer): Promise<void> {
+        const buffer = Buffer.isBuffer(wasmBytes)
+            ? wasmBytes
+            : Buffer.from(wasmBytes instanceof ArrayBuffer ? new Uint8Array(wasmBytes) : wasmBytes);
+        const wasmPlugin = await WASMPluginSandbox.create(buffer);
+        await this.register(wasmPlugin);
+    }
+
+    async registerWasmPluginFromFile(filePath: string): Promise<void> {
+        const wasmBytes = await fs.readFile(filePath);
+        await this.registerWasmPlugin(wasmBytes);
     }
 
     /** @internal */

@@ -1,6 +1,6 @@
 # Nuclie Plugins Guide
 
-> **100+ production-ready plugins** with WASM sandboxing and WebCrypto signing.
+> **Plugin ecosystem with sandboxing support and WebCrypto signing support.**
 
 ---
 
@@ -155,16 +155,22 @@ export default defineConfig({
 
 ## Plugin Security
 
-### WASM Sandboxing
+### Plugin Security Model
 
-All plugins run in **WASM-isolated environments**:
+Nuclie currently executes plugins in an isolated VM-based runtime with strict permission controls. A secure WASM runtime for plugin execution is planned, but the current model is based on runtime isolation and API safety checks.
+
+Plugins are subject to explicit permissions:
+- Filesystem access is denied by default and only granted for approved paths.
+- Environment variables are only available when the plugin is loaded with an explicit env allowlist.
+- `require()` is whitelisted to a small set of safe built-ins (`fs`, `path`) and all other module imports are blocked.
+- Network access is blocked by default because no network globals are exposed in the sandbox (`fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource` are removed).
 
 ```typescript
-// Plugins CANNOT:
-❌ Access filesystem directly
+// Plugins SHOULD NOT:
+❌ Access filesystem directly without permission
 ❌ Make network requests
 ❌ Execute arbitrary code
-❌ Access environment variables
+❌ Access environment variables unless explicitly allowed
 
 // Plugins CAN:
 ✅ Transform code
@@ -172,7 +178,6 @@ All plugins run in **WASM-isolated environments**:
 ✅ Emit warnings/errors
 ✅ Use approved APIs
 ```
-
 ### Signature Verification
 
 Every plugin is **cryptographically signed**:
@@ -200,7 +205,7 @@ nuclie plugin verify @nuclie/plugin-react
     "transform:jsx",
     "emit:assets"
   ],
-  "sandbox": "wasm",
+  "sandbox": "isolated",
   "verified": true
 }
 ```
@@ -321,18 +326,18 @@ function App() {
 
 ```typescript
 import { defineConfig } from 'nuclie';
-import { vitePluginAdapter } from '@nuclie/plugin-compat';
+import { rollupAdapter } from '@nuclie/plugin-compat';
 import viteReactSvgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
     // Wrap Vite plugin
-    vitePluginAdapter(viteReactSvgr())
+    rollupAdapter(viteReactSvgr())
   ]
 });
 ```
 
-**Compatibility**: ~80% of Vite plugins work with adapter
+**Compatibility**: Experimental and plugin-dependent; many Vite plugins can work with adapter
 
 ### Webpack Loader Adapter
 
@@ -350,7 +355,7 @@ export default defineConfig({
 });
 ```
 
-**Compatibility**: ~70% of Webpack loaders work with adapter
+**Compatibility**: Experimental and plugin-dependent; many Webpack loaders can work with adapter
 
 ---
 
@@ -380,7 +385,7 @@ nuclie plugin info @nuclie/plugin-react
 ⭐ 4.8/5.0 (1,234 reviews)
 📥 50,000 downloads/week
 ✅ Verified by Nuclie Team
-🔒 WASM sandboxed
+🔒 Secure isolated plugin runtime
 📝 React Fast Refresh + JSX transform
 ```
 

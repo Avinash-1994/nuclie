@@ -12,8 +12,8 @@
 **Before:**
 ```html
 <title>Nuclie - The Engineering-First Build Tool</title>
-<meta name="description" content="...deterministic build graph model. Zero-config, persistent caching, and WASM-sandboxed plugins..." />
-<meta name="keywords" content="...webpack alternative, vite alternative" />
+<meta name="description" content="Fast build tool with HMR, source maps, tree shaking, and strict plugin sandboxing." />
+<meta name="keywords" content="...hmr, source maps, build tool, plugin sandboxing..." />
 ```
 
 **After:**

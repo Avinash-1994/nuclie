@@ -38,3 +38,4 @@ dist/nexxo_native.node
 nexxo_native.node
 **/*.node
 *.node
+dist/**/__tests__/

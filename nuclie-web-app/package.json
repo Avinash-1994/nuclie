@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "homepage": "https://avinash-1994.github.io/Nuclie/",
   "scripts": {
     "dev": "node ../dist/cli.js dev",
     "build": "node ../dist/cli.js build",
-    "preview": "node ../dist/cli.js dev --port 4173"
+    "preview": "node ../dist/cli.js dev --port 4173",
+    "deploy": "npm run build"
   },
   "dependencies": {
     "lucide-react": "^0.460.0",

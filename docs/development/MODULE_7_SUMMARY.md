@@ -41,7 +41,7 @@ Module 7 successfully transformed Nuclie from a build tool into a **production-r
 **Delivered**:
 - ✅ **116 plugins** (exceeds 100+ target by 16%)
 - ✅ **10 categories**: Framework, CSS, Assets, Performance, Security, Testing, i18n, State, Deployment, Analytics
-- ✅ **100% WASM sandboxed** - All plugins run in isolated environments
+- ✅ **Security-hardened plugin runtime** - VM-based isolation with explicit permission controls
 - ✅ **100% cryptographically signed** - WebCrypto Ed25519 signatures
 - ✅ **Automated porting script** for Vite/Webpack plugins
 - ✅ **Plugin verification system** (`nuclie plugin verify`)
@@ -111,7 +111,7 @@ Module 7 successfully transformed Nuclie from a build tool into a **production-r
 
 - ✅ **`docs/plugins.md`** (528 lines)
   - 100+ plugin catalog with install commands
-  - Security documentation (WASM sandboxing, signatures)
+  - Security documentation (VM-based sandboxing, signatures)
   - Custom plugin authoring guide
   - Vite/Webpack plugin compatibility adapters
 
@@ -127,7 +127,7 @@ Module 7 successfully transformed Nuclie from a build tool into a **production-r
   - Transparent about limitations
 
 - ✅ **`docs/security.md`** (595 lines)
-  - WASM sandboxing explained
+  - VM-based sandboxing explained
   - WebCrypto signing process
   - CSP, SRI, security headers
   - Vulnerability reporting process
@@ -203,7 +203,7 @@ Module 7 successfully transformed Nuclie from a build tool into a **production-r
 ### Plugin Ecosystem
 - **Total Plugins**: 116 (16% over target)
 - **Categories**: 10
-- **Security**: 100% WASM sandboxed + cryptographically signed
+- **Security**: VM-based sandboxed runtime with strict permission controls + cryptographically signed
 - **Verification**: WebCrypto Ed25519 signatures
 
 ### Starter Templates
@@ -255,7 +255,7 @@ Status:      ✅ ALL PASSING
 
 ### ✅ All Criteria Met
 - [x] **Migration Path**: <30min from Vite/Webpack/Rollup/Angular CLI
-- [x] **Plugin Ecosystem**: 116 WASM-sandboxed, signed plugins
+- [x] **Plugin Ecosystem**: 116 security-hardened, signed plugins
 - [x] **Quick Start**: 10 templates, <5min setup
 - [x] **Performance**: Competitive with honest benchmarks
 - [x] **Documentation**: 5 comprehensive guides
@@ -266,7 +266,7 @@ Status:      ✅ ALL PASSING
 **Nuclie v2.0.0-rc1** is certified as:
 - ✅ **Production-ready** for general use
 - ✅ **Migration-ready** from major build tools
-- ✅ **Security-hardened** with WASM sandboxing
+- ✅ **Security-hardened** with isolated plugin sandboxing
 - ✅ **Well-documented** with 2,355 lines of docs
 - ✅ **Community-ready** with templates and tools
 

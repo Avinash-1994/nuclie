@@ -72,11 +72,17 @@ async function main() {
     // 2. Create Files (replace version placeholder with real version)
     const nuclieVersion = getNuclieVersion();
     const versionLabel = nuclieVersion.replace('^', '');
+    const frameworkName = template.name;
+    const frameworkVersion = Object.values(template.dependencies)[0] || 'latest';
+
     for (const file of template.files) {
         const filePath = path.join(targetDir, file.path);
         const dir = path.dirname(filePath);
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        const content = file.content.replace(/\{\{NUCLIE_VERSION\}\}/g, versionLabel);
+        const content = file.content
+            .replace(/\{\{NUCLIE_VERSION\}\}/g, versionLabel)
+            .replace(/\{\{FRAMEWORK_NAME\}\}/g, frameworkName)
+            .replace(/\{\{FRAMEWORK_VERSION\}\}/g, frameworkVersion);
         fs.writeFileSync(filePath, content);
     }
 

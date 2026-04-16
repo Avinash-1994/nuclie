@@ -34,7 +34,7 @@ export class UrGuideLit extends LitElement {
       <ul>
         <li><strong>Shadow DOM Isolation</strong>: Styles are correctly scoped to component roots.</li>
         <li><strong>Deterministic Chunks</strong>: Build outputs are bit-for-bit identical.</li>
-        <li><strong>Fast HMR</strong>: Component updates in sub-50ms.</li>
+        <li><strong>Fast HMR</strong>: Component updates with minimal reload latency.</li>
       </ul>
 
       <div class="warning">

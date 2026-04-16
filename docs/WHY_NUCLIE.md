@@ -21,7 +21,7 @@
 
 | Feature | Nuclie | Vite | Rspack | Turbopack | Webpack 5 |
 |---------|--------|------|--------|-----------|-----------|
-| **HMR** | ✅ <60ms | ✅ ~50ms | ✅ ~80ms | ✅ ~30ms* | ✅ ~200ms |
+| **HMR** | ✅ Fast | ✅ ~50ms | ✅ ~80ms | ✅ ~30ms* | ✅ ~200ms |
 | **Cold Start** | ✅ Fast | ✅ Fast | ✅ Fast | ✅ Fast | ❌ Slow |
 | **Module Federation** | ✅ Built-in | ⚠️ Plugin | ✅ Built-in | ❌ N/A | ✅ Built-in |
 | **CSS Modules** | ✅ Built-in | ✅ Built-in | ✅ Built-in | ✅ Built-in | ⚠️ Loaders |
@@ -70,7 +70,7 @@ Fingerprint-based incremental builds persist across restarts. Second builds are 
 ### Where Nuclie is Behind
 
 **1. Plugin ecosystem**
-Vite has 1500+ plugins. Nuclie is newer — ecosystem is growing but not there yet. Most Vite plugins work through the compatibility adapter (~80%).
+Vite has 1500+ plugins. Nuclie is newer — ecosystem is growing but not there yet. Many Vite plugins can work through the compatibility adapter, but compatibility depends on plugin APIs and adapter coverage.
 
 **2. Community size**
 Smaller community means fewer StackOverflow answers and third-party tutorials. The docs are the primary reference.

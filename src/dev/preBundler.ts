@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { build } from 'esbuild';
-import { createHash } from 'crypto';
+import { xxh3 } from '@node-rs/xxhash';
 import { createRequire } from 'module';
 import { log } from '../utils/logger.js';
 
@@ -30,18 +30,18 @@ export class DependencyPreBundler {
         // Generate hash of package.json for cache invalidation
         const pkgJsonPath = path.join(this.root, 'package.json');
         const pkgJson = await fs.readFile(pkgJsonPath, 'utf-8');
-        const hash = createHash('md5').update(pkgJson).digest('hex').slice(0, 8);
+        const hash = xxh3.xxh64(pkgJson).toString(16).slice(0, 8);
         const metaPath = path.join(cacheDir, '_metadata.json');
 
         // Check if cache is valid
         // Use both package.json hash AND a sorted dep list hash for strong cache invalidation
-        const depsHash = createHash('md5').update([...deps].sort().join(',')).digest('hex').slice(0, 8);
+        const depsHash = xxh3.xxh64([...deps].sort().join(',')).toString(16).slice(0, 8);
         let cachedMeta: any = {};
         try {
             cachedMeta = JSON.parse(await fs.readFile(metaPath, 'utf-8'));
             const cacheHit = cachedMeta.hash === hash &&
                 (cachedMeta.depsHash === depsHash || // New-style: exact dep hash
-                    (cachedMeta.deps && createHash('md5').update([...cachedMeta.deps].sort().join(',')).digest('hex').slice(0, 8) === depsHash)); // Legacy-style fallback
+                    (cachedMeta.deps && xxh3.xxh64([...cachedMeta.deps].sort().join(',')).toString(16).slice(0, 8) === depsHash)); // Legacy-style fallback
             if (cacheHit) {
                 log.info('Using cached pre-bundled dependencies');
                 // Load from cache

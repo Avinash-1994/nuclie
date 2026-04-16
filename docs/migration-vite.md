@@ -1,6 +1,6 @@
 # Migrating from Vite to Nuclie
 
-Nuclie is designed to be a drop-in 10x faster replacement for Vite.
+Nuclie is designed to be a fast replacement for Vite.
 
 ## 1. Quick Switch
 Run the auto-migration command:
@@ -20,17 +20,17 @@ Change your content in `package.json`:
 ```
 
 ### Reuse Vite Plugins
-Nuclie supports Vite plugins natively via the compatibility adapter.
+Nuclie can reuse many Vite-compatible plugins through compatibility adapters.
 
 ```ts
 // nuclie.config.ts
 import { defineConfig } from 'nuclie';
-import { viteToNuclie } from 'nuclie';
+import { rollupAdapter } from '@nuclie/plugin-compat';
 import someVitePlugin from 'vite-plugin-cool';
 
 export default defineConfig({
   plugins: [
-    viteToNuclie(someVitePlugin())
+    rollupAdapter(someVitePlugin())
   ]
 });
 ```

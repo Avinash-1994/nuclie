@@ -2,6 +2,8 @@ import { AIConfig } from '../config.js';
 import { FixAction } from '../healer/fixer.js';
 import { ParsedError } from '../healer/parser.js';
 
+import { getFetch } from '../../utils/fetch.js';
+
 export class OllamaProvider {
     private endpoint: string;
     private model: string;
@@ -15,6 +17,7 @@ export class OllamaProvider {
         const prompt = this.generatePrompt(error);
 
         try {
+            const fetch = await getFetch();
             const response = await fetch(this.endpoint, {
                 method: 'POST',
                 body: JSON.stringify({

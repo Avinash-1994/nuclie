@@ -5,7 +5,7 @@
 <div class="app-container">
   <header class="hero">
     <span class="badge">v1.0.0 Stable</span>
-    <h1>Nuclie</h1>
+    <h1>Nuclie (Svelte)</h1>
     <p class="subtitle">
       The high-performance build engine for modern web applications.<br />
       Engineered for speed. Built for stability.

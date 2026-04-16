@@ -1,0 +1,3981 @@
+Copied: /home/avinash/Desktop/framework_practis/build/src/plugins/pluginWorker.mjs -> /home/avinash/Desktop/framework_practis/build/dist/plugins/pluginWorker.mjs
+Copied: /home/avinash/Desktop/framework_practis/build/src/plugins/samplePlugin.mjs -> /home/avinash/Desktop/framework_practis/build/dist/plugins/samplePlugin.mjs
+Copied: /home/avinash/Desktop/framework_practis/build/src/runtime/federation.js -> /home/avinash/Desktop/framework_practis/build/dist/runtime/federation.js
+Copied: /home/avinash/Desktop/framework_practis/build/src/runtime/federation_runtime.js -> /home/avinash/Desktop/framework_practis/build/dist/runtime/federation_runtime.js
+Post-build copy complete
+[
+  {
+    "id": "nuclie@1.0.10",
+    "name": "nuclie",
+    "version": "1.0.10",
+    "size": 404680,
+    "unpackedSize": 1576615,
+    "shasum": "aa0589bf2670a2d5515bb65fe52c84ddfabf34d1",
+    "integrity": "sha512-hGEqjhE9w+PidItwfcy73h9Kh4hKGMZQeBsuN93ORnUZfZkWQ0viIZlSYiQcg288SeLG5JrhQDDuI0qj4zFRXQ==",
+    "filename": "nuclie-1.0.10.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1076,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 10602,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/analyzer.d.ts",
+        "size": 920,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/analyzer.js",
+        "size": 6513,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/chat/cli.d.ts",
+        "size": 80,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/chat/cli.js",
+        "size": 1440,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/client.d.ts",
+        "size": 489,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/client.js",
+        "size": 2227,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/cloud/api.d.ts",
+        "size": 789,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/cloud/api.js",
+        "size": 4377,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/cloud/modelSync.d.ts",
+        "size": 478,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/cloud/modelSync.js",
+        "size": 4671,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/cloud/telemetry.d.ts",
+        "size": 495,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/cloud/telemetry.js",
+        "size": 770,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/config.d.ts",
+        "size": 379,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/config.js",
+        "size": 209,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/core/errorMemory.d.ts",
+        "size": 363,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/core/errorMemory.js",
+        "size": 1651,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/dashboard/cli.d.ts",
+        "size": 84,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/dashboard/cli.js",
+        "size": 1174,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/applier.d.ts",
+        "size": 272,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/applier.js",
+        "size": 2644,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/cli.d.ts",
+        "size": 83,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/cli.js",
+        "size": 2368,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/collector.d.ts",
+        "size": 430,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/collector.js",
+        "size": 1209,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/fixer.d.ts",
+        "size": 339,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/fixer.js",
+        "size": 1451,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/llm.d.ts",
+        "size": 284,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/llm.js",
+        "size": 652,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/parser.d.ts",
+        "size": 422,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/healer/parser.js",
+        "size": 2530,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/learning/evolver.d.ts",
+        "size": 300,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/learning/evolver.js",
+        "size": 756,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/llm/fixGenerator.d.ts",
+        "size": 372,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/llm/fixGenerator.js",
+        "size": 747,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/llm/ollama.d.ts",
+        "size": 342,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/llm/ollama.js",
+        "size": 1826,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/local/fixStore.d.ts",
+        "size": 604,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/local/fixStore.js",
+        "size": 3886,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/analyzer.d.ts",
+        "size": 261,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/analyzer.js",
+        "size": 1852,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/engine.d.ts",
+        "size": 396,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/engine.js",
+        "size": 1742,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/llm.d.ts",
+        "size": 343,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/llm.js",
+        "size": 469,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/profiler.d.ts",
+        "size": 327,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/profiler.js",
+        "size": 3311,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/rules.d.ts",
+        "size": 361,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/optimizer/rules.js",
+        "size": 1415,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/patterns/common.d.ts",
+        "size": 243,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/patterns/common.js",
+        "size": 5988,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/reporter/assembler.d.ts",
+        "size": 364,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/reporter/assembler.js",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/reporter/generator.d.ts",
+        "size": 138,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/reporter/generator.js",
+        "size": 1762,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/reporter/narrator.d.ts",
+        "size": 272,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/reporter/narrator.js",
+        "size": 1171,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/schema.d.ts",
+        "size": 4126,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/schema.js",
+        "size": 1708,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/telemetry.d.ts",
+        "size": 620,
+        "mode": 420
+      },
+      {
+        "path": "dist/ai/telemetry.js",
+        "size": 3653,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit-stub/types.d.ts",
+        "size": 512,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit-stub/types.js",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/a11y.d.ts",
+        "size": 206,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/a11y.js",
+        "size": 5826,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/best-practices.d.ts",
+        "size": 206,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/best-practices.js",
+        "size": 2918,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/build-integration.d.ts",
+        "size": 1508,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/build-integration.js",
+        "size": 4592,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/core.d.ts",
+        "size": 1737,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/core.js",
+        "size": 12504,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/index.d.ts",
+        "size": 139,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/index.js",
+        "size": 2136,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/perf.d.ts",
+        "size": 204,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/perf.js",
+        "size": 2984,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/seo.d.ts",
+        "size": 196,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/seo.js",
+        "size": 2705,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/types.d.ts",
+        "size": 834,
+        "mode": 420
+      },
+      {
+        "path": "dist/audit/types.js",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/bundle-stats.d.ts",
+        "size": 133,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/bundle-stats.js",
+        "size": 1982,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/bundler.d.ts",
+        "size": 1353,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/bundler.js",
+        "size": 1229,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/index.d.ts",
+        "size": 935,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/index.js",
+        "size": 2107,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/pipeline.d.ts",
+        "size": 817,
+        "mode": 420
+      },
+      {
+        "path": "dist/build/pipeline.js",
+        "size": 5711,
+        "mode": 420
+      },
+      {
+        "path": "dist/builder/server.d.ts",
+        "size": 447,
+        "mode": 420
+      },
+      {
+        "path": "dist/builder/server.js",
+        "size": 8874,
+        "mode": 420
+      },
+      {
+        "path": "dist/cache/incremental.d.ts",
+        "size": 1860,
+        "mode": 420
+      },
+      {
+        "path": "dist/cache/incremental.js",
+        "size": 6409,
+        "mode": 420
+      },
+      {
+        "path": "dist/cache/index.d.ts",
+        "size": 538,
+        "mode": 420
+      },
+      {
+        "path": "dist/cache/index.js",
+        "size": 6995,
+        "mode": 420
+      },
+      {
+        "path": "dist/cache/rocksdb.d.ts",
+        "size": 505,
+        "mode": 420
+      },
+      {
+        "path": "dist/cache/rocksdb.js",
+        "size": 1579,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli.d.ts",
+        "size": 31,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli.js",
+        "size": 28340,
+        "mode": 493
+      },
+      {
+        "path": "dist/cli/css-cli.d.ts",
+        "size": 376,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/css-cli.js",
+        "size": 4108,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/inspect.d.ts",
+        "size": 72,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/inspect.js",
+        "size": 4516,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/analyze.d.ts",
+        "size": 95,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/analyze.js",
+        "size": 13335,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/doctor.d.ts",
+        "size": 603,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/doctor.js",
+        "size": 15506,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/lib-build.d.ts",
+        "size": 790,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/lib-build.js",
+        "size": 4943,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/preview.d.ts",
+        "size": 229,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/preview.js",
+        "size": 5483,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/ssr.d.ts",
+        "size": 277,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/ssr.js",
+        "size": 879,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/verify.d.ts",
+        "size": 963,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/verify.js",
+        "size": 16499,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/workspaces.d.ts",
+        "size": 84,
+        "mode": 420
+      },
+      {
+        "path": "dist/commands/workspaces.js",
+        "size": 3181,
+        "mode": 420
+      },
+      {
+        "path": "dist/config-loader.d.ts",
+        "size": 1463,
+        "mode": 420
+      },
+      {
+        "path": "dist/config-loader.js",
+        "size": 7308,
+        "mode": 420
+      },
+      {
+        "path": "dist/config/index.d.ts",
+        "size": 5417,
+        "mode": 420
+      },
+      {
+        "path": "dist/config/index.js",
+        "size": 10777,
+        "mode": 420
+      },
+      {
+        "path": "dist/config/live-config.d.ts",
+        "size": 733,
+        "mode": 420
+      },
+      {
+        "path": "dist/config/live-config.js",
+        "size": 3860,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/__tests__/permissions.test.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/__tests__/permissions.test.js",
+        "size": 819,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/__tests__/universal-transformer.test.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/__tests__/universal-transformer.test.js",
+        "size": 1476,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/build/globalOptimizer.d.ts",
+        "size": 321,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/build/globalOptimizer.js",
+        "size": 1107,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/build/incremental.d.ts",
+        "size": 588,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/build/incremental.js",
+        "size": 1041,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/bundler-rolldown.d.ts",
+        "size": 1213,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/bundler-rolldown.js",
+        "size": 3744,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/cache-manager.d.ts",
+        "size": 1447,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/cache-manager.js",
+        "size": 4530,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/cache/lazy-init.d.ts",
+        "size": 1484,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/cache/lazy-init.js",
+        "size": 5338,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/css-framework-detector.d.ts",
+        "size": 371,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/css-framework-detector.js",
+        "size": 5662,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/css/engine.d.ts",
+        "size": 1170,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/css/engine.js",
+        "size": 4253,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/files.d.ts",
+        "size": 156,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/files.js",
+        "size": 2792,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/index.d.ts",
+        "size": 324,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/index.js",
+        "size": 1901,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/resolver.d.ts",
+        "size": 159,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/resolver.js",
+        "size": 4628,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/scanner.d.ts",
+        "size": 308,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/scanner.js",
+        "size": 4709,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/types.d.ts",
+        "size": 1219,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/detection/types.js",
+        "size": 312,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/cache.d.ts",
+        "size": 659,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/cache.js",
+        "size": 2336,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/config.d.ts",
+        "size": 612,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/config.js",
+        "size": 5518,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/emit.d.ts",
+        "size": 508,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/emit.js",
+        "size": 2556,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/events.d.ts",
+        "size": 436,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/events.js",
+        "size": 1007,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/execute.d.ts",
+        "size": 289,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/execute.js",
+        "size": 15433,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/hash.d.ts",
+        "size": 229,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/hash.js",
+        "size": 1344,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/index.d.ts",
+        "size": 1682,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/index.js",
+        "size": 9325,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/optimize.d.ts",
+        "size": 174,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/optimize.js",
+        "size": 4786,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/plan.d.ts",
+        "size": 402,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/plan.js",
+        "size": 8273,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/types.d.ts",
+        "size": 3019,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/engine/types.js",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/errors/hero-errors.d.ts",
+        "size": 2168,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/errors/hero-errors.js",
+        "size": 11916,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/framework-detector.d.ts",
+        "size": 753,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/framework-detector.js",
+        "size": 4990,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/graph/js-graph-analyzer.d.ts",
+        "size": 1416,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/graph/js-graph-analyzer.js",
+        "size": 5703,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/graph/serializer.d.ts",
+        "size": 261,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/graph/serializer.js",
+        "size": 694,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/analyze_ast.d.ts",
+        "size": 354,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/analyze_ast.js",
+        "size": 6996,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/analyze.d.ts",
+        "size": 385,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/analyze.js",
+        "size": 3017,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/index.d.ts",
+        "size": 542,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/index.js",
+        "size": 1374,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/resolve.d.ts",
+        "size": 471,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/resolve.js",
+        "size": 2025,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/types.d.ts",
+        "size": 779,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/types.js",
+        "size": 64,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/wrapper.d.ts",
+        "size": 397,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/interop/wrapper.js",
+        "size": 2212,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/parser-bun.d.ts",
+        "size": 1487,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/parser-bun.js",
+        "size": 3115,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/permissions.d.ts",
+        "size": 508,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/permissions.js",
+        "size": 1727,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/pipeline/framework-pipeline.d.ts",
+        "size": 2366,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/pipeline/framework-pipeline.js",
+        "size": 5253,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/index.d.ts",
+        "size": 159,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/index.js",
+        "size": 159,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/manager.d.ts",
+        "size": 1171,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/manager.js",
+        "size": 5918,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/sandbox_js.d.ts",
+        "size": 349,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/sandbox_js.js",
+        "size": 1525,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/sandbox_wasm.d.ts",
+        "size": 509,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/sandbox_wasm.js",
+        "size": 2999,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/types.d.ts",
+        "size": 1064,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/types.js",
+        "size": 58,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/validation.d.ts",
+        "size": 347,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/plugins/validation.js",
+        "size": 1256,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/sandbox.d.ts",
+        "size": 301,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/sandbox.js",
+        "size": 3621,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/steps.d.ts",
+        "size": 190,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/steps.js",
+        "size": 601,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/steps/css-optimization.d.ts",
+        "size": 1518,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/steps/css-optimization.js",
+        "size": 11571,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/transform/batchTransformer.d.ts",
+        "size": 337,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/transform/batchTransformer.js",
+        "size": 924,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/transform/transformer.d.ts",
+        "size": 328,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/transform/transformer.js",
+        "size": 8934,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/universal-transformer.d.ts",
+        "size": 2215,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/universal-transformer.js",
+        "size": 35422,
+        "mode": 420
+      },
+      {
+        "path": "dist/create-nuclie.d.ts",
+        "size": 31,
+        "mode": 420
+      },
+      {
+        "path": "dist/create-nuclie.js",
+        "size": 213,
+        "mode": 493
+      },
+      {
+        "path": "dist/create-nuclie/cli.d.ts",
+        "size": 174,
+        "mode": 420
+      },
+      {
+        "path": "dist/create-nuclie/cli.js",
+        "size": 3892,
+        "mode": 420
+      },
+      {
+        "path": "dist/create/index.d.ts",
+        "size": 969,
+        "mode": 420
+      },
+      {
+        "path": "dist/create/index.js",
+        "size": 20957,
+        "mode": 420
+      },
+      {
+        "path": "dist/create/ui.d.ts",
+        "size": 459,
+        "mode": 420
+      },
+      {
+        "path": "dist/create/ui.js",
+        "size": 8005,
+        "mode": 420
+      },
+      {
+        "path": "dist/dashboard/metrics.d.ts",
+        "size": 794,
+        "mode": 420
+      },
+      {
+        "path": "dist/dashboard/metrics.js",
+        "size": 1754,
+        "mode": 420
+      },
+      {
+        "path": "dist/dashboard/server/router.d.ts",
+        "size": 1495,
+        "mode": 420
+      },
+      {
+        "path": "dist/dashboard/server/router.js",
+        "size": 1288,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev-middleware.d.ts",
+        "size": 1796,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev-middleware.js",
+        "size": 5995,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev-server-manual.d.ts",
+        "size": 107,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev-server-manual.js",
+        "size": 969,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev-server.d.ts",
+        "size": 695,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev-server.js",
+        "size": 9196,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/__tests__/preBundler.test.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/__tests__/preBundler.test.js",
+        "size": 1749,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/configWatcher.d.ts",
+        "size": 319,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/configWatcher.js",
+        "size": 1346,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/devServer.d.ts",
+        "size": 147,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/devServer.js",
+        "size": 76565,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/devServer.minimal.d.ts",
+        "size": 359,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/devServer.minimal.js",
+        "size": 6556,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/federation-dev.d.ts",
+        "size": 898,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/federation-dev.js",
+        "size": 6242,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/hmr-engine.d.ts",
+        "size": 469,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/hmr-engine.js",
+        "size": 2410,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/hmr-v2.d.ts",
+        "size": 1044,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/hmr-v2.js",
+        "size": 4286,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/hmrThrottle.d.ts",
+        "size": 420,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/hmrThrottle.js",
+        "size": 2016,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/overlay/overlay-client.d.ts",
+        "size": 217,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/overlay/overlay-client.js",
+        "size": 1542,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/overlay/overlay-ui.d.ts",
+        "size": 409,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/overlay/overlay-ui.js",
+        "size": 3136,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/preBundler.d.ts",
+        "size": 625,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/preBundler.js",
+        "size": 20528,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/statusHandler.d.ts",
+        "size": 319,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/statusHandler.js",
+        "size": 1519,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/types.d.ts",
+        "size": 776,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/types.js",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/watcher.d.ts",
+        "size": 298,
+        "mode": 420
+      },
+      {
+        "path": "dist/dev/watcher.js",
+        "size": 1323,
+        "mode": 420
+      },
+      {
+        "path": "dist/env.d.ts",
+        "size": 976,
+        "mode": 420
+      },
+      {
+        "path": "dist/env.js",
+        "size": 4774,
+        "mode": 420
+      },
+      {
+        "path": "dist/env/api.d.ts",
+        "size": 713,
+        "mode": 420
+      },
+      {
+        "path": "dist/env/api.js",
+        "size": 905,
+        "mode": 420
+      },
+      {
+        "path": "dist/federation/index.d.ts",
+        "size": 3253,
+        "mode": 420
+      },
+      {
+        "path": "dist/federation/index.js",
+        "size": 16307,
+        "mode": 420
+      },
+      {
+        "path": "dist/fix/ast-transforms.d.ts",
+        "size": 2201,
+        "mode": 420
+      },
+      {
+        "path": "dist/fix/ast-transforms.js",
+        "size": 16963,
+        "mode": 420
+      },
+      {
+        "path": "dist/hmr/classifier.d.ts",
+        "size": 1625,
+        "mode": 420
+      },
+      {
+        "path": "dist/hmr/classifier.js",
+        "size": 9428,
+        "mode": 420
+      },
+      {
+        "path": "dist/hmr/index.d.ts",
+        "size": 262,
+        "mode": 420
+      },
+      {
+        "path": "dist/hmr/index.js",
+        "size": 188,
+        "mode": 420
+      },
+      {
+        "path": "dist/hmr/overlay.d.ts",
+        "size": 1061,
+        "mode": 420
+      },
+      {
+        "path": "dist/hmr/overlay.js",
+        "size": 10439,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 3153,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 4378,
+        "mode": 420
+      },
+      {
+        "path": "dist/init/bootstrap.d.ts",
+        "size": 89,
+        "mode": 420
+      },
+      {
+        "path": "dist/init/bootstrap.js",
+        "size": 3574,
+        "mode": 420
+      },
+      {
+        "path": "dist/init/index.d.ts",
+        "size": 65,
+        "mode": 420
+      },
+      {
+        "path": "dist/init/index.js",
+        "size": 2746,
+        "mode": 420
+      },
+      {
+        "path": "dist/main.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/main.js",
+        "size": 154,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/client.d.ts",
+        "size": 889,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/client.js",
+        "size": 3697,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/db.d.ts",
+        "size": 858,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/db.js",
+        "size": 3394,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/plugin-adapter.d.ts",
+        "size": 452,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/plugin-adapter.js",
+        "size": 3759,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/server.d.ts",
+        "size": 2479,
+        "mode": 420
+      },
+      {
+        "path": "dist/marketplace/server.js",
+        "size": 4055,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/base-router.d.ts",
+        "size": 1939,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/base-router.js",
+        "size": 8409,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/index.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/index.js",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/nextjs/router.d.ts",
+        "size": 860,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/nextjs/router.js",
+        "size": 5977,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/nuxt/router.d.ts",
+        "size": 564,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/nuxt/router.js",
+        "size": 2866,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/remix/router.d.ts",
+        "size": 772,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/remix/router.js",
+        "size": 4454,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/ssr/react-renderer.d.ts",
+        "size": 701,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/ssr/react-renderer.js",
+        "size": 1896,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/ssr/server.d.ts",
+        "size": 1986,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/ssr/server.js",
+        "size": 10875,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/ssr/vue-renderer.d.ts",
+        "size": 283,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/ssr/vue-renderer.js",
+        "size": 1129,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/types.d.ts",
+        "size": 2198,
+        "mode": 420
+      },
+      {
+        "path": "dist/meta-frameworks/types.js",
+        "size": 86,
+        "mode": 420
+      },
+      {
+        "path": "dist/migrate/analyzer.d.ts",
+        "size": 1493,
+        "mode": 420
+      },
+      {
+        "path": "dist/migrate/analyzer.js",
+        "size": 9768,
+        "mode": 420
+      },
+      {
+        "path": "dist/migrate/cli.d.ts",
+        "size": 285,
+        "mode": 420
+      },
+      {
+        "path": "dist/migrate/cli.js",
+        "size": 2429,
+        "mode": 420
+      },
+      {
+        "path": "dist/migrate/generator.d.ts",
+        "size": 982,
+        "mode": 420
+      },
+      {
+        "path": "dist/migrate/generator.js",
+        "size": 8549,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/cache.d.ts",
+        "size": 2148,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/cache.js",
+        "size": 3894,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/index.d.ts",
+        "size": 299,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/index.js",
+        "size": 2549,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/orchestrator.d.ts",
+        "size": 2165,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/orchestrator.js",
+        "size": 2887,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/wasm.d.ts",
+        "size": 596,
+        "mode": 420
+      },
+      {
+        "path": "dist/native/wasm.js",
+        "size": 1010,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/assets.d.ts",
+        "size": 131,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/assets.js",
+        "size": 2156,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/adapter.d.ts",
+        "size": 1139,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/adapter.js",
+        "size": 3938,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/deferred.d.ts",
+        "size": 637,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/deferred.js",
+        "size": 922,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/index.d.ts",
+        "size": 543,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/index.js",
+        "size": 645,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/rollup.d.ts",
+        "size": 1514,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/rollup.js",
+        "size": 3211,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/tier-a.d.ts",
+        "size": 1588,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/tier-a.js",
+        "size": 3952,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/tier-b.d.ts",
+        "size": 898,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/tier-b.js",
+        "size": 3286,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/tier-c.d.ts",
+        "size": 1573,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/tier-c.js",
+        "size": 1225,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/webpack.d.ts",
+        "size": 1072,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/compat/webpack.js",
+        "size": 3204,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/core/linker.d.ts",
+        "size": 327,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/core/linker.js",
+        "size": 2400,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css-in-js.d.ts",
+        "size": 294,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css-in-js.js",
+        "size": 1093,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/bootstrap.d.ts",
+        "size": 793,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/bootstrap.js",
+        "size": 4318,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/bulma.d.ts",
+        "size": 667,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/bulma.js",
+        "size": 2299,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/css-modules.d.ts",
+        "size": 570,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/css-modules.js",
+        "size": 3759,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/css-optimizer.d.ts",
+        "size": 1396,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/css-optimizer.js",
+        "size": 5331,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/emotion.d.ts",
+        "size": 956,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/emotion.js",
+        "size": 3358,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/less.d.ts",
+        "size": 169,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/less.js",
+        "size": 1069,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/material.d.ts",
+        "size": 767,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/material.js",
+        "size": 3339,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/postcss.d.ts",
+        "size": 136,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/postcss.js",
+        "size": 3876,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/sass.d.ts",
+        "size": 169,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/sass.js",
+        "size": 1299,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/styled-components.d.ts",
+        "size": 1021,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/styled-components.js",
+        "size": 2937,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/stylus.d.ts",
+        "size": 171,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/stylus.js",
+        "size": 1406,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/tailwind.d.ts",
+        "size": 265,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/css/tailwind.js",
+        "size": 5396,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/edge.d.ts",
+        "size": 189,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/edge.js",
+        "size": 1519,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/esbuildAdapter.d.ts",
+        "size": 188,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/esbuildAdapter.js",
+        "size": 3650,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/federation_next.d.ts",
+        "size": 495,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/federation_next.js",
+        "size": 5712,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/framework-plugins.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/framework-plugins.js",
+        "size": 1218,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/index.d.ts",
+        "size": 452,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/index.js",
+        "size": 376,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/lit.d.ts",
+        "size": 856,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/lit.js",
+        "size": 3366,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/react.d.ts",
+        "size": 949,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/react.js",
+        "size": 5102,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/solid.d.ts",
+        "size": 841,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/solid.js",
+        "size": 3302,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/svelte.d.ts",
+        "size": 983,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/svelte.js",
+        "size": 4291,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/vue.d.ts",
+        "size": 985,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/frameworks/vue.js",
+        "size": 8504,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/governance.d.ts",
+        "size": 1200,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/governance.js",
+        "size": 1764,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/html.d.ts",
+        "size": 146,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/html.js",
+        "size": 1627,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/analytics.d.ts",
+        "size": 211,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/analytics.js",
+        "size": 355,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/apollo.d.ts",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/apollo.js",
+        "size": 363,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/audit.d.ts",
+        "size": 211,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/audit.js",
+        "size": 978,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/auto-fix.d.ts",
+        "size": 213,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/auto-fix.js",
+        "size": 363,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/avif.d.ts",
+        "size": 199,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/avif.js",
+        "size": 847,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/babel.d.ts",
+        "size": 203,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/babel.js",
+        "size": 346,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/bundle-analyzer.d.ts",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/bundle-analyzer.js",
+        "size": 675,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/bundle-size.d.ts",
+        "size": 220,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/bundle-size.js",
+        "size": 651,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/checker.d.ts",
+        "size": 215,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/checker.js",
+        "size": 373,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/chromatic.d.ts",
+        "size": 220,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/chromatic.js",
+        "size": 373,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/cloudflare.d.ts",
+        "size": 223,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/cloudflare.js",
+        "size": 413,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/code-split.d.ts",
+        "size": 217,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/code-split.js",
+        "size": 645,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/compression.d.ts",
+        "size": 219,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/compression.js",
+        "size": 660,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/copy.d.ts",
+        "size": 200,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/copy.js",
+        "size": 349,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/critical-css.d.ts",
+        "size": 226,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/critical-css.js",
+        "size": 791,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/crypto-sign.d.ts",
+        "size": 229,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/crypto-sign.js",
+        "size": 1010,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/css-framework.d.ts",
+        "size": 229,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/css-framework.js",
+        "size": 796,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/css.d.ts",
+        "size": 199,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/css.js",
+        "size": 741,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/cypress.d.ts",
+        "size": 209,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/cypress.js",
+        "size": 355,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/determinism.d.ts",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/determinism.js",
+        "size": 663,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/edge.d.ts",
+        "size": 218,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/edge.js",
+        "size": 848,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/env-validation.d.ts",
+        "size": 240,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/env-validation.js",
+        "size": 1029,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/eslint.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/eslint.js",
+        "size": 354,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/federation.d.ts",
+        "size": 216,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/federation.js",
+        "size": 363,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/file.d.ts",
+        "size": 200,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/file.js",
+        "size": 847,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/font-subset.d.ts",
+        "size": 215,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/font-subset.js",
+        "size": 874,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/fonts.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/fonts.js",
+        "size": 862,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/formatjs.d.ts",
+        "size": 226,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/formatjs.js",
+        "size": 496,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/graphql.d.ts",
+        "size": 209,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/graphql.js",
+        "size": 355,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/hmr-classify.d.ts",
+        "size": 221,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/hmr-classify.js",
+        "size": 653,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/html.d.ts",
+        "size": 196,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/html.js",
+        "size": 341,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/i18n.d.ts",
+        "size": 201,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/i18n.js",
+        "size": 345,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/icon.d.ts",
+        "size": 206,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/icon.js",
+        "size": 861,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/imagemin.d.ts",
+        "size": 211,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/imagemin.js",
+        "size": 874,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/inspect.d.ts",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/inspect.js",
+        "size": 367,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/jest.d.ts",
+        "size": 203,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/jest.js",
+        "size": 500,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/jotai.d.ts",
+        "size": 223,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/jotai.js",
+        "size": 859,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/lazy-load.d.ts",
+        "size": 216,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/lazy-load.js",
+        "size": 643,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/legacy.d.ts",
+        "size": 209,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/legacy.js",
+        "size": 365,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/lighthouse.d.ts",
+        "size": 224,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/lighthouse.js",
+        "size": 657,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/manifest.d.ts",
+        "size": 216,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/manifest.js",
+        "size": 367,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/markdown.d.ts",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/markdown.js",
+        "size": 359,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/md.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/md.js",
+        "size": 342,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mdx.d.ts",
+        "size": 189,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mdx.js",
+        "size": 323,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/meta-tags.d.ts",
+        "size": 207,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/meta-tags.js",
+        "size": 349,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mini-css-extract-plugin.d.ts",
+        "size": 246,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mini-css-extract-plugin.js",
+        "size": 834,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mobx.d.ts",
+        "size": 214,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mobx.js",
+        "size": 844,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mock.d.ts",
+        "size": 192,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/mock.js",
+        "size": 330,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/msw.d.ts",
+        "size": 209,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/msw.js",
+        "size": 514,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/nanostores.d.ts",
+        "size": 222,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/nanostores.js",
+        "size": 509,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/netlify.d.ts",
+        "size": 216,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/netlify.js",
+        "size": 400,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/observability.d.ts",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/observability.js",
+        "size": 379,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/og-image.d.ts",
+        "size": 218,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/og-image.js",
+        "size": 373,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/pages.d.ts",
+        "size": 202,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/pages.js",
+        "size": 349,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/pinia.d.ts",
+        "size": 224,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/pinia.js",
+        "size": 860,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/plausible.d.ts",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/plausible.js",
+        "size": 510,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/playwright.d.ts",
+        "size": 213,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/playwright.js",
+        "size": 357,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/postcss.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/postcss.js",
+        "size": 759,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/posthog.d.ts",
+        "size": 219,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/posthog.js",
+        "size": 496,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/prebundle.d.ts",
+        "size": 219,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/prebundle.js",
+        "size": 647,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/prefetch.d.ts",
+        "size": 210,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/prefetch.js",
+        "size": 629,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/preload.d.ts",
+        "size": 209,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/preload.js",
+        "size": 627,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/prisma.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/prisma.js",
+        "size": 349,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/pwa.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/pwa.js",
+        "size": 357,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/qr-code.d.ts",
+        "size": 206,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/qr-code.js",
+        "size": 547,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/razorpay.d.ts",
+        "size": 213,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/razorpay.js",
+        "size": 558,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/react-i18next.d.ts",
+        "size": 231,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/react-i18next.js",
+        "size": 503,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/react-query.d.ts",
+        "size": 240,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/react-query.js",
+        "size": 883,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/react.d.ts",
+        "size": 252,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/react.js",
+        "size": 926,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/recoil.d.ts",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/recoil.js",
+        "size": 869,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/redux.d.ts",
+        "size": 218,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/redux.js",
+        "size": 854,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/relay.d.ts",
+        "size": 201,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/relay.js",
+        "size": 343,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/repro.d.ts",
+        "size": 211,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/repro.js",
+        "size": 363,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/robots.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/robots.js",
+        "size": 355,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/root-cause.d.ts",
+        "size": 222,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/root-cause.js",
+        "size": 377,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/rss.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/rss.js",
+        "size": 339,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sass.d.ts",
+        "size": 202,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sass.js",
+        "size": 747,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sentry.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sentry.js",
+        "size": 355,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sitemap.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sitemap.js",
+        "size": 353,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/solid.d.ts",
+        "size": 233,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/solid.js",
+        "size": 874,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sprite.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/sprite.js",
+        "size": 863,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/ssr.d.ts",
+        "size": 216,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/ssr.js",
+        "size": 840,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/storybook.d.ts",
+        "size": 217,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/storybook.js",
+        "size": 367,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/stripe.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/stripe.js",
+        "size": 544,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/style.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/style.js",
+        "size": 737,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/svelte.d.ts",
+        "size": 246,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/svelte.js",
+        "size": 897,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/tailwind.d.ts",
+        "size": 217,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/tailwind.js",
+        "size": 775,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/tanstack-query.d.ts",
+        "size": 237,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/tanstack-query.js",
+        "size": 537,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/terser.d.ts",
+        "size": 202,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/terser.js",
+        "size": 621,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/testing-library-react.d.ts",
+        "size": 249,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/testing-library-react.js",
+        "size": 562,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/testing-library.d.ts",
+        "size": 239,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/testing-library.js",
+        "size": 401,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/tree-shake.d.ts",
+        "size": 218,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/tree-shake.js",
+        "size": 647,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/trpc.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/trpc.js",
+        "size": 337,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/ts.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/ts.js",
+        "size": 337,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/typescript.d.ts",
+        "size": 221,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/typescript.js",
+        "size": 369,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/unocss.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/unocss.js",
+        "size": 753,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/upi-payment.d.ts",
+        "size": 231,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/upi-payment.js",
+        "size": 593,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/url.d.ts",
+        "size": 197,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/url.js",
+        "size": 841,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vercel.d.ts",
+        "size": 212,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vercel.js",
+        "size": 394,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/visualizer.d.ts",
+        "size": 227,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/visualizer.js",
+        "size": 385,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vite-svg-loader.d.ts",
+        "size": 218,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vite-svg-loader.js",
+        "size": 880,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vitest.d.ts",
+        "size": 205,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vitest.js",
+        "size": 349,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue-i18n-next.d.ts",
+        "size": 224,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue-i18n-next.js",
+        "size": 491,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue-i18n.d.ts",
+        "size": 211,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue-i18n.js",
+        "size": 366,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue-layouts.d.ts",
+        "size": 257,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue-layouts.js",
+        "size": 900,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue.d.ts",
+        "size": 230,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vue.js",
+        "size": 860,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vuex.d.ts",
+        "size": 214,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/vuex.js",
+        "size": 844,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/wasm-sandbox.d.ts",
+        "size": 222,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/wasm-sandbox.js",
+        "size": 995,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/webp.d.ts",
+        "size": 202,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/webp.js",
+        "size": 853,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/windicss.d.ts",
+        "size": 213,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/windicss.js",
+        "size": 774,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/workbox.d.ts",
+        "size": 215,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/workbox.js",
+        "size": 376,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/xstate.d.ts",
+        "size": 208,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/xstate.js",
+        "size": 485,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/zod.d.ts",
+        "size": 192,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/zod.js",
+        "size": 329,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/zustand-devtools.d.ts",
+        "size": 243,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/zustand-devtools.js",
+        "size": 547,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/zustand.d.ts",
+        "size": 231,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/implementations/zustand.js",
+        "size": 879,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/index.d.ts",
+        "size": 1793,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/index.js",
+        "size": 4638,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/js-transform.d.ts",
+        "size": 137,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/js-transform.js",
+        "size": 2232,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/json.d.ts",
+        "size": 115,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/json.js",
+        "size": 1117,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/pluginWorker.mjs",
+        "size": 2532,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/ported/adapter.d.ts",
+        "size": 2664,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/ported/adapter.js",
+        "size": 6357,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/registry.d.ts",
+        "size": 1384,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/registry.js",
+        "size": 5203,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/reporter.d.ts",
+        "size": 147,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/reporter.js",
+        "size": 1873,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/samplePlugin.mjs",
+        "size": 195,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/sandbox.d.ts",
+        "size": 304,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/sandbox.js",
+        "size": 4873,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/signer.d.ts",
+        "size": 1606,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/signer.js",
+        "size": 3845,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/static.d.ts",
+        "size": 148,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/static.js",
+        "size": 1539,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/svelte.d.ts",
+        "size": 225,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/svelte.js",
+        "size": 852,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/testSandbox.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/testSandbox.js",
+        "size": 419,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/verify.d.ts",
+        "size": 235,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/verify.js",
+        "size": 4980,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/vue.d.ts",
+        "size": 222,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/vue.js",
+        "size": 3577,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/wasm-runtime.d.ts",
+        "size": 442,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/wasm-runtime.js",
+        "size": 1045,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/wasm.d.ts",
+        "size": 138,
+        "mode": 420
+      },
+      {
+        "path": "dist/plugins/wasm.js",
+        "size": 1485,
+        "mode": 420
+      },
+      {
+        "path": "dist/polyfills/corejs.d.ts",
+        "size": 348,
+        "mode": 420
+      },
+      {
+        "path": "dist/polyfills/corejs.js",
+        "size": 617,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/core.d.ts",
+        "size": 2661,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/core.js",
+        "size": 8219,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/frameworks.d.ts",
+        "size": 1009,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/frameworks.js",
+        "size": 7146,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/index.d.ts",
+        "size": 273,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/index.js",
+        "size": 114,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/infrastructure.d.ts",
+        "size": 170,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/infrastructure.js",
+        "size": 1640,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/spa.d.ts",
+        "size": 77,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/spa.js",
+        "size": 459,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/ssg.d.ts",
+        "size": 77,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/ssg.js",
+        "size": 189,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/ssr.d.ts",
+        "size": 77,
+        "mode": 420
+      },
+      {
+        "path": "dist/presets/ssr.js",
+        "size": 474,
+        "mode": 420
+      },
+      {
+        "path": "dist/repro/dashboard.d.ts",
+        "size": 1950,
+        "mode": 420
+      },
+      {
+        "path": "dist/repro/dashboard.js",
+        "size": 9302,
+        "mode": 420
+      },
+      {
+        "path": "dist/repro/github.d.ts",
+        "size": 673,
+        "mode": 420
+      },
+      {
+        "path": "dist/repro/github.js",
+        "size": 2176,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve/css-precedence.d.ts",
+        "size": 436,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve/css-precedence.js",
+        "size": 2278,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve/graph.d.ts",
+        "size": 1536,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve/graph.js",
+        "size": 9224,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve/utils.d.ts",
+        "size": 652,
+        "mode": 420
+      },
+      {
+        "path": "dist/resolve/utils.js",
+        "size": 2274,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/client.d.ts",
+        "size": 360,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/client.js",
+        "size": 8302,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/error-overlay.d.ts",
+        "size": 465,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/error-overlay.js",
+        "size": 8174,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/federation_runtime.js",
+        "size": 2350,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/federation-fallback.d.ts",
+        "size": 1760,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/federation-fallback.js",
+        "size": 7496,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/federation.d.ts",
+        "size": 921,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/federation.js",
+        "size": 6733,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/hmr-client.d.ts",
+        "size": 117,
+        "mode": 420
+      },
+      {
+        "path": "dist/runtime/hmr-client.js",
+        "size": 2516,
+        "mode": 420
+      },
+      {
+        "path": "dist/security/anomaly.d.ts",
+        "size": 1039,
+        "mode": 420
+      },
+      {
+        "path": "dist/security/anomaly.js",
+        "size": 2338,
+        "mode": 420
+      },
+      {
+        "path": "dist/server/security-headers.d.ts",
+        "size": 1132,
+        "mode": 420
+      },
+      {
+        "path": "dist/server/security-headers.js",
+        "size": 3881,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/adapters/edge.d.ts",
+        "size": 420,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/adapters/edge.js",
+        "size": 765,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/adapters/index.d.ts",
+        "size": 704,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/adapters/index.js",
+        "size": 2034,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/app-router.d.ts",
+        "size": 808,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/app-router.js",
+        "size": 2645,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/edge/handlers.d.ts",
+        "size": 934,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/edge/handlers.js",
+        "size": 1583,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/image.d.ts",
+        "size": 675,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/image.js",
+        "size": 1378,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/isr.d.ts",
+        "size": 346,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/isr.js",
+        "size": 813,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/rsc.d.ts",
+        "size": 506,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/rsc.js",
+        "size": 1059,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/streaming.d.ts",
+        "size": 1149,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/streaming.js",
+        "size": 2942,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/universal-engine.d.ts",
+        "size": 1060,
+        "mode": 420
+      },
+      {
+        "path": "dist/ssr/universal-engine.js",
+        "size": 4982,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/manager.d.ts",
+        "size": 938,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/manager.js",
+        "size": 5824,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/angular-spa.d.ts",
+        "size": 198,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/angular-spa.js",
+        "size": 3692,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/edge.d.ts",
+        "size": 173,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/edge.js",
+        "size": 2008,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/fintech.d.ts",
+        "size": 186,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/fintech.js",
+        "size": 4728,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/monorepo.d.ts",
+        "size": 188,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/monorepo.js",
+        "size": 2851,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/nextjs-app.d.ts",
+        "size": 357,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/nextjs-app.js",
+        "size": 2482,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/preact-spa.d.ts",
+        "size": 203,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/preact-spa.js",
+        "size": 2174,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/premium-dashboard.d.ts",
+        "size": 224,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/premium-dashboard.js",
+        "size": 17697,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/react-spa.d.ts",
+        "size": 193,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/react-spa.js",
+        "size": 3222,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/react-ssr.d.ts",
+        "size": 190,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/react-ssr.js",
+        "size": 4749,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/remix-app.d.ts",
+        "size": 317,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/remix-app.js",
+        "size": 2508,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/solid-spa.d.ts",
+        "size": 191,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/solid-spa.js",
+        "size": 3420,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/svelte-spa.d.ts",
+        "size": 194,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/svelte-spa.js",
+        "size": 3064,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/vue-spa.d.ts",
+        "size": 185,
+        "mode": 420
+      },
+      {
+        "path": "dist/templates/starters/vue-spa.js",
+        "size": 2921,
+        "mode": 420
+      },
+      {
+        "path": "dist/test-server.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/test-server.js",
+        "size": 607,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/api.d.ts",
+        "size": 1768,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/api.js",
+        "size": 4491,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/coverage.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/coverage.js",
+        "size": 5290,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/determinism.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/determinism.js",
+        "size": 4785,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/regression.d.ts",
+        "size": 11,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/regression.js",
+        "size": 1167,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/runner.d.ts",
+        "size": 60,
+        "mode": 420
+      },
+      {
+        "path": "dist/test/runner.js",
+        "size": 5598,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/terminal-warnings.d.ts",
+        "size": 312,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/terminal-warnings.js",
+        "size": 3085,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/types.d.ts",
+        "size": 273,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/types.js",
+        "size": 92,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/warning-detector.d.ts",
+        "size": 1142,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/warning-detector.js",
+        "size": 6224,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/warning-library.d.ts",
+        "size": 2293,
+        "mode": 420
+      },
+      {
+        "path": "dist/ui/warning-library.js",
+        "size": 9584,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/fetch.d.ts",
+        "size": 59,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/fetch.js",
+        "size": 722,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/interactive.d.ts",
+        "size": 167,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/interactive.js",
+        "size": 1190,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/logger.d.ts",
+        "size": 882,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/logger.js",
+        "size": 5837,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/path-normalize.d.ts",
+        "size": 676,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/path-normalize.js",
+        "size": 1065,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/templates.d.ts",
+        "size": 17852,
+        "mode": 420
+      },
+      {
+        "path": "dist/utils/templates.js",
+        "size": 44477,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/chart-generator.d.ts",
+        "size": 334,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/chart-generator.js",
+        "size": 1410,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/client/renderer.d.ts",
+        "size": 778,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/client/renderer.js",
+        "size": 4016,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/federation-editor.d.ts",
+        "size": 60,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/federation-editor.js",
+        "size": 7894,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/graph-engine.d.ts",
+        "size": 1000,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/graph-engine.js",
+        "size": 2534,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/graph-ui.d.ts",
+        "size": 127,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/graph-ui.js",
+        "size": 3788,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/graph-visualizer.d.ts",
+        "size": 1545,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/graph-visualizer.js",
+        "size": 10304,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/root-cause.d.ts",
+        "size": 2145,
+        "mode": 420
+      },
+      {
+        "path": "dist/visual/root-cause.js",
+        "size": 9341,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 7358,
+        "mode": 420
+      }
+    ],
+    "entryCount": 792,
+    "bundled": []
+  }
+]

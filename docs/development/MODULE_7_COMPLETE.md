@@ -108,7 +108,7 @@ Module 7 successfully establishes Nuclie as a production-ready build tool with c
 - **Total Plugins**: 116 (exceeds 100+ target)
 - **Plugin Categories**: 10 (Framework, CSS, Assets, Performance, Security, Testing, i18n, State, Deployment, Analytics)
 - **Signature Verification**: 100% (all plugins cryptographically signed)
-- **WASM Sandboxing**: 100% (all plugins run in isolated environments)
+- **Sandbox Model**: VM-based isolation with explicit permission controls
 
 ### Starter Templates
 - **Total Templates**: 10
@@ -191,7 +191,7 @@ Time:        0.964 s
 Module 7 successfully establishes Nuclie as a production-ready build tool with:
 
 1. **Seamless Migration**: <30min migration from Vite/Webpack/Rollup/Angular CLI
-2. **Rich Ecosystem**: 116 WASM-sandboxed, cryptographically-signed plugins
+2. **Rich Ecosystem**: 116 security-hardened, cryptographically-signed plugins
 3. **Quick Start**: 10 production-ready templates, <5min setup
 4. **Honest Performance**: Competitive benchmarks with transparent limitations
 5. **Professional Documentation**: 5 comprehensive guides with 50+ code examples

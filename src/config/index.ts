@@ -9,6 +9,13 @@ import { z } from 'zod';
 import { log } from '../utils/logger.js';
 import { spaPreset, ssrPreset, ssgPreset } from '../presets/index.js';
 
+function normalizeRemoteUrl(value: any): string {
+  if (typeof value !== 'string') return value;
+  const webpackRemote = /^([A-Za-z0-9_$-]+)@(https?:\/\/.*)$/;
+  const match = webpackRemote.exec(value);
+  return match ? match[2] : value;
+}
+
 export type BuildMode = 'development' | 'production' | 'test';
 
 export const BuildConfigSchema = z.object({
@@ -196,6 +203,23 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
         platform: 'browser',
         preset: 'spa',
       };
+    }
+
+    if (rawConfig && typeof rawConfig === 'object') {
+      if (!rawConfig.entry && rawConfig.entryPoints) {
+        rawConfig.entry = Array.isArray(rawConfig.entryPoints)
+          ? rawConfig.entryPoints
+          : [rawConfig.entryPoints];
+      }
+
+      if (rawConfig.federation?.remotes && typeof rawConfig.federation.remotes === 'object') {
+        rawConfig.federation.remotes = Object.fromEntries(
+          Object.entries(rawConfig.federation.remotes).map(([name, url]) => [
+            name,
+            normalizeRemoteUrl(url)
+          ])
+        );
+      }
     }
 
     const result = BuildConfigSchema.safeParse(rawConfig);

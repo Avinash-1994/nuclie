@@ -3,6 +3,8 @@ import { build } from './dist/build/bundler.js';
 (async () => {
   console.log('Building Nav Application...');
   await build({
+    mode: 'production',
+    build: { treeShaking: true },
     root: process.cwd() + '/real-world-mfe/nav',
     entry: './src/index.jsx',
     outDir: './dist',
@@ -15,6 +17,8 @@ import { build } from './dist/build/bundler.js';
 
   console.log('\nBuilding Host Application...');
   await build({
+    mode: 'production',
+    build: { treeShaking: true },
     root: process.cwd() + '/real-world-mfe/host',
     entry: './src/index.jsx',
     outDir: './dist',

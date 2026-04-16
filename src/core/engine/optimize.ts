@@ -44,7 +44,10 @@ export async function optimizeArtifacts(artifacts: BuildArtifact[], ctx: BuildCo
                     minify: true,
                     loader: artifact.type as any,
                     legalComments: 'none',
-                    charset: 'utf8'
+                    charset: 'utf8',
+                    define: (ctx.mode === 'production' || ctx.mode === 'build') 
+                        ? { 'process.env.NODE_ENV': '"production"' } 
+                        : {}
                 });
                 content = result.code;
             } catch (err: any) {
@@ -59,8 +62,8 @@ export async function optimizeArtifacts(artifacts: BuildArtifact[], ctx: BuildCo
 
         const optimizedArtifact: BuildArtifact = {
             ...artifact,
-            source: content,
-            id: canonicalHash(content).substring(0, 16)
+            id: canonicalHash(content).substring(0, 16),
+            source: content
         };
         tasks.push(optimizedArtifact);
 

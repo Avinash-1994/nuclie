@@ -119,7 +119,7 @@
 ## 🟢 WHAT WORKED WELL (Keep)
 
 ✅ Migration analyzer (95% detection accuracy)  
-✅ Plugin security (WASM sandboxing + signatures)  
+✅ Plugin security (VM-based isolation + signatures)  
 ✅ Template variety (10 production-ready templates)  
 ✅ Documentation comprehensiveness (2,355 lines)  
 ✅ Community infrastructure (doctor command, templates)  

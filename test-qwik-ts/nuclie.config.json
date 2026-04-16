@@ -1,6 +1,6 @@
 {
   "entry": [
-    "src/root.tsx"
+    "src/main.tsx"
   ],
   "mode": "development",
   "preset": "spa",

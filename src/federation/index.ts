@@ -203,10 +203,24 @@ ${sharedEntries}
  * This code runs in the host app browser.
  * It fetches remoteEntry.js files and resolves modules from them.
  */
+function normalizeRemoteUrl(url: string): string {
+  const webpackRemote = /^([A-Za-z0-9_$-]+)@(https?:\/\/.*)$/;
+  const match = webpackRemote.exec(url);
+  if (match) {
+    return match[2];
+  }
+  return url;
+}
+
 export function generateFederationRuntime(
   remotes: Record<string, string>
 ): string {
-  const remotesJson = JSON.stringify(remotes, null, 2)
+  const normalizedRemotes = Object.entries(remotes).reduce<Record<string, string>>((acc, [name, value]) => {
+    acc[name] = normalizeRemoteUrl(value);
+    return acc;
+  }, {});
+
+  const remotesJson = JSON.stringify(normalizedRemotes, null, 2)
 
   return `
 // Nuclie Module Federation Runtime
@@ -244,6 +258,8 @@ export function generateFederationRuntime(
 
     var promise = new Promise(function(resolve, reject) {
       var script = document.createElement('script');
+      script.type = 'module';
+      script.crossOrigin = 'anonymous';
       script.src = url;
       script.async = true;
 
@@ -452,8 +468,10 @@ export function injectRemotesIntoHTML(
 ): string {
   const scriptTags = Object.entries(remotes)
     .map(
-      ([name, url]) =>
-        `  <script src="${url}" data-nuclie-remote="${name}"></script>`
+      ([name, url]) => {
+        const normalized = normalizeRemoteUrl(url);
+        return `  <script type="module" src="${normalized}" crossorigin="anonymous" data-nuclie-remote="${name}"></script>`;
+      }
     )
     .join('\n')
 
@@ -478,18 +496,19 @@ export function validateFederationConfig(config: FederationConfig): string[] {
 
   if (config.remotes) {
     for (const [key, url] of Object.entries(config.remotes)) {
-      if (!url.endsWith('.js')) {
+      const normalizedUrl = normalizeRemoteUrl(url);
+      if (!normalizedUrl.endsWith('.js')) {
         errors.push(
           `federation.remotes["${key}"] = "${url}" should point to a .js file (typically remoteEntry.js)`
-        )
+        );
       }
       try {
-        new URL(url)
+        new URL(normalizedUrl);
       } catch {
-        if (!url.startsWith('/')) {
+        if (!normalizedUrl.startsWith('/')) {
           errors.push(
             `federation.remotes["${key}"] = "${url}" is not a valid URL or absolute path`
-          )
+          );
         }
       }
     }

@@ -12,7 +12,7 @@ export const Plugins: React.FC = () => {
                 </div>
                 <h1 className="text-5xl font-black font-display mb-6 tracking-tight">Plugin Marketplace</h1>
                 <p className="text-xl text-[var(--text-secondary)] leading-relaxed max-w-3xl">
-                    Extend Nuclie with verified, sandboxed plugins. From legacy loaders to modern frameworks, we have you covered.
+                    Extend Nuclie with vetted plugins and compatibility adapters. Compatibility support is focused on transform-level Vite/Rollup plugins and Webpack loaders; complex adapters remain experimental.
                 </p>
             </div>
 
@@ -22,16 +22,15 @@ export const Plugins: React.FC = () => {
                     <h2 className="text-3xl font-black font-display tracking-tight">Verified & Secure</h2>
                 </div>
                 <p className="text-[var(--text-secondary)] mb-6">
-                    All official `@nuclie/*` plugins are cryptographically signed and run in a WASM sandbox to prevent supply-chain attacks.
+                    Official `@nuclie/*` plugins and WASM plugin binaries execute inside a controlled sandbox with explicit file, environment, and module permission checks. The plugin API is built for safe, extensible project transformations.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[
-                        { name: '@nuclie/plugin-react', desc: 'Fast Refresh + JSX', dl: '50k/wk' },
-                        { name: '@nuclie/plugin-vue', desc: 'SFC + JSX Support', dl: '32k/wk' },
-                        { name: '@nuclie/plugin-typescript', desc: 'isolatedModules: true', dl: '120k/wk' },
-                        { name: '@nuclie/plugin-tailwind', desc: 'JIT Engine Integration', dl: '85k/wk' },
-                        { name: '@nuclie/plugin-pwa', desc: 'Service Worker Gen', dl: '15k/wk' },
-                        { name: '@nuclie/plugin-image', desc: 'Avif/WebP Conversion', dl: '40k/wk' }
+                        { name: '@nuclie/plugin-react', desc: 'React JSX and Fast Refresh', dl: 'Official' },
+                        { name: '@nuclie/plugin-vue', desc: 'Vue SFC and HMR', dl: 'Official' },
+                        { name: '@nuclie/plugin-svelte', desc: 'Svelte compiler support', dl: 'Official' },
+                        { name: '@nuclie/plugin-visualizer', desc: 'Bundle analysis report', dl: 'Official' },
+                        { name: '@nuclie/plugin-legacy', desc: 'Legacy compatibility support', dl: 'Official' }
                     ].map(p => (
                         <div key={p.name} className="p-6 rounded-2xl bg-[var(--surface-color)] border border-[var(--border-color)] hover:border-blue-500/50 transition-all group">
                             <div className="font-mono text-xs font-bold text-blue-500 mb-2 truncate" title={p.name}>{p.name}</div>
@@ -51,19 +50,19 @@ export const Plugins: React.FC = () => {
                     <h2 className="text-3xl font-black font-display tracking-tight">Compatibility Adapters</h2>
                 </div>
                 <p className="text-[var(--text-secondary)] mb-6">
-                    Use your favorite Vite plugins and Webpack loaders directly in Nuclie.
+                    Reuse many Vite-compatible plugins and Webpack loaders in Nuclie through compatibility adapters; actual support depends on plugin APIs.
                 </p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div>
                         <h4 className="font-bold mb-3">Vite Plugin Adapter</h4>
                         <CodeBlock code={`import { defineConfig } from 'nuclie';
-import { vitePluginAdapter } from '@nuclie/plugin-compat';
+import { rollupAdapter } from '@nuclie/plugin-compat';
 import viteSvgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
-    vitePluginAdapter(viteSvgr())
+    rollupAdapter(viteSvgr())
   ]
 });`} />
                     </div>

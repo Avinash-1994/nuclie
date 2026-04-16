@@ -152,11 +152,25 @@ async function testRollupAdapterBasic() {
 async function testRollupAdapterHooks() {
     console.log('\n[Test 7] Rollup Adapter - Hook Mapping');
 
+    let emittedAsset = false;
     const rollupPlugin = {
         name: 'multi-hook-plugin',
-        resolveId: (source: string) => source === 'virtual' ? '/virtual/path.js' : null,
-        load: (id: string) => id.endsWith('.virtual') ? 'export default "virtual"' : null,
-        renderChunk: (code: string) => code.replace(/\s+/g, ' ')
+        resolveId: function (this: any, source: string) {
+            if (source === 'virtual') return '/virtual/path.js';
+            return null;
+        },
+        load: function (this: any, id: string) {
+            if (id.endsWith('.virtual')) return 'export default "virtual"';
+            return null;
+        },
+        transform: function (this: any, code: string) {
+            this.emitFile({ type: 'asset', name: 'test.txt', source: 'asset-content' });
+            emittedAsset = true;
+            return code + ' // transformed';
+        },
+        renderChunk: function (this: any, code: string) {
+            return code.replace(/\s+/g, ' ');
+        }
     };
 
     const nucliePlugin = rollupAdapter(rollupPlugin);
@@ -166,6 +180,10 @@ async function testRollupAdapterHooks() {
 
     const loadResult = await nucliePlugin.load!('test.virtual');
     assert.strictEqual(loadResult, 'export default "virtual"');
+
+    const transformed = await nucliePlugin.transform!('const  x  =  1;', 'test.js');
+    assert.strictEqual(transformed, 'const  x  =  1; // transformed');
+    assert.ok(emittedAsset, 'emitFile should be available on the Rollup plugin context');
 
     const renderResult = await nucliePlugin.renderChunk!('const  x  =  1;', {});
     assert.strictEqual(renderResult, 'const x = 1;');
@@ -195,6 +213,129 @@ async function testRollupAdapterIntegration() {
     assert.strictEqual(result, 'start [nuclie] [rollup]');
 
     console.log('✅ Rollup plugins integrate seamlessly with Nuclie plugins');
+}
+
+async function testSandboxPermissionEnforcement() {
+    console.log('\n[Test 8] Sandbox Permission Enforcement');
+
+    const manager = new PluginManager();
+    const testDir = path.resolve(process.cwd(), 'sandbox_permission_test');
+    const testFile = path.join(testDir, 'allowed.txt');
+
+    await fs.promises.mkdir(testDir, { recursive: true });
+    await fs.promises.writeFile(testFile, 'secret-content', 'utf8');
+
+    const code = `
+const fs = require('fs');
+module.exports = {
+  name: 'sandbox-secure-plugin',
+  transform(code, id) {
+    return fs.readFileSync(${JSON.stringify(testFile)}, 'utf8');
+  }
+};
+`;
+
+    const plugin = manager.loadSandboxedPlugin(code, { read: [testFile] });
+    const result = await plugin.transform!('input', 'test.js');
+    assert.strictEqual(result, 'secret-content');
+
+    const blockedPlugin = manager.loadSandboxedPlugin(code);
+    let blocked = false;
+    try {
+        await blockedPlugin.transform!('input', 'test.js');
+    } catch (error) {
+        blocked = true;
+        assert.ok(String(error).includes('Read access denied'));
+    }
+
+    await fs.promises.rm(testDir, { recursive: true, force: true });
+    assert.ok(blocked, 'Unauthorized filesystem access should be blocked');
+
+    console.log('✅ Sandbox enforces file read permissions');
+}
+
+async function testSandboxEnvPermissionEnforcement() {
+    console.log('\n[Test 9] Sandbox Environment Permission Enforcement');
+
+    const manager = new PluginManager();
+    const code = `
+module.exports = {
+  name: 'env-secure-plugin',
+  transform(code, id) {
+    const secret = process.env.MY_SECRET;
+    if (!secret) throw new Error('env access blocked');
+    return secret;
+  }
+};
+`;
+
+    process.env.MY_SECRET = 'allowed-value';
+    const plugin = manager.loadSandboxedPlugin(code, { env: ['MY_SECRET'] });
+    const result = await plugin.transform!('input', 'test.js');
+    assert.strictEqual(result, 'allowed-value');
+    delete process.env.MY_SECRET;
+
+    const blockedPlugin = manager.loadSandboxedPlugin(code);
+    let blocked = false;
+    try {
+        await blockedPlugin.transform!('input', 'test.js');
+    } catch (error) {
+        blocked = true;
+        assert.ok(String(error).includes('env access blocked'));
+    }
+
+    assert.ok(blocked, 'Unauthorized environment access should be blocked');
+    console.log('✅ Sandbox enforces explicit env permissions');
+}
+
+async function testSandboxModuleRequireIsolation() {
+    console.log('\n[Test 10] Sandbox Module Require Isolation');
+
+    const manager = new PluginManager();
+    const code = `
+module.exports = {
+  name: 'module-isolation-plugin',
+  transform(code, id) {
+    const http = require('http');
+    return 'should-not-run';
+  }
+};
+`;
+
+    const plugin = manager.loadSandboxedPlugin(code, { env: ['MY_SECRET'] });
+    let blocked = false;
+    try {
+        await plugin.transform!('input', 'test.js');
+    } catch (error) {
+        blocked = true;
+        assert.ok(String(error).includes("Access to module 'http' is denied."));
+    }
+
+    assert.ok(blocked, 'Unauthorized module require() should be blocked');
+    console.log('✅ Sandbox blocks unauthorized module imports');
+}
+
+async function testSandboxNetworkIsolation() {
+    console.log('\n[Test 11] Sandbox Network Isolation');
+
+    const manager = new PluginManager();
+    const code = `
+module.exports = {
+  name: 'network-isolation-plugin',
+  transform(code, id) {
+    if (typeof fetch !== 'undefined') {
+      throw new Error('network APIs should be unavailable');
+    }
+    return 'network-blocked';
+  }
+};
+`;
+
+    const plugin = manager.loadSandboxedPlugin(code);
+    const result = await plugin.transform!('input', 'test.js');
+    assert.strictEqual(result, 'network-blocked');
+
+    console.log('✅ Sandbox blocks network APIs like fetch');
 }
 
 async function testPerformanceBenchmark() {
@@ -266,8 +407,9 @@ async function testReturnValueHandling() {
 async function testWebpackLoaderAdapter() {
     console.log('\n[Test 11] Webpack Loader Adapter');
 
-    const simpleLoader = function (this: any, content: string) {
-        return content + ' [webpack]';
+    const simpleLoader = function (this: any, content: string | Buffer) {
+        const text = typeof content === 'string' ? content : content.toString('utf8');
+        return text + ' [webpack]';
     };
 
     const plugin = webpackLoaderAdapter({
@@ -364,6 +506,10 @@ async function runAllTests() {
         await testRollupAdapterBasic();
         await testRollupAdapterHooks();
         await testRollupAdapterIntegration();
+        await testSandboxPermissionEnforcement();
+        await testSandboxEnvPermissionEnforcement();
+        await testSandboxModuleRequireIsolation();
+        await testSandboxNetworkIsolation();
         await testPerformanceBenchmark();
         await testReturnValueHandling();
         await testWebpackLoaderAdapter();
@@ -373,7 +519,7 @@ async function runAllTests() {
         await testTierC();
 
         console.log('\n' + '='.repeat(60));
-        console.log('✅ ALL TESTS PASSED (14/14)');
+        console.log('✅ ALL TESTS PASSED (15/15)');
         console.log('='.repeat(60));
         console.log('\nPhase 2.1 Plugin System is VERIFIED and READY');
 

@@ -1,13 +1,17 @@
-
 export class ShortIdMap {
     private map = new Map<string, string>();
     private counter = 0;
+    private prefix: string;
+
+    constructor(prefix: string = 'n') {
+        this.prefix = prefix;
+    }
 
     get(path: string, isProduction: boolean = true): string {
         if (!isProduction) return path;
 
         if (!this.map.has(path)) {
-            this.map.set(path, `n${this.counter++}`);
+            this.map.set(path, `${this.prefix}${this.counter++}`);
         }
         return this.map.get(path)!;
     }

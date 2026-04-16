@@ -27,6 +27,7 @@ const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 let ws: WebSocket;
 let reconnectAttempts = 0;
 const MAX_ATTEMPTS = 50;
+let pendingClientErrors: any[] = [];
 
 // Secure Config Sync State
 let config: any = null;
@@ -45,6 +46,46 @@ const hotModulesMap = new Map<string, {
 
 const isHmrUpdating = false;
 
+function flushClientErrors() {
+    if (ws && ws.readyState === WebSocket.OPEN && pendingClientErrors.length > 0) {
+        for (const error of pendingClientErrors) {
+            ws.send(JSON.stringify({ type: 'client:error', error }));
+        }
+        pendingClientErrors = [];
+    }
+}
+
+function sendClientError(error: any) {
+    pendingClientErrors.push(error);
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        flushClientErrors();
+    }
+    return error;
+}
+
+window.addEventListener('error', (event) => {
+    const errorPayload = {
+        type: 'runtime',
+        message: event.message,
+        filename: event.filename,
+        lineno: event.lineno,
+        colno: event.colno,
+        stack: event.error?.stack
+    };
+    showError(errorPayload);
+    sendClientError(errorPayload);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+    const errorPayload = {
+        type: 'runtime',
+        message: `Unhandled Promise Rejection: ${event.reason}`,
+        stack: event.reason?.stack
+    };
+    showError(errorPayload);
+    sendClientError(errorPayload);
+});
+
 function connect() {
     // Determine host: if running in proxy, might need to respect forward headers?
     // Using window.location.host is safe for dev
@@ -53,6 +94,7 @@ function connect() {
     ws.onopen = () => {
         // console.log('[nuclie] Connected to dev server');
         reconnectAttempts = 0;
+        flushClientErrors();
         // Notify server we are ready?
     };
 
@@ -231,23 +273,3 @@ export function createHotContext(ownerPath: string) {
 }
 
 connect();
-
-// Runtime Errors
-window.addEventListener('error', (event) => {
-    showError({
-        type: 'runtime',
-        message: event.message,
-        filename: event.filename,
-        lineno: event.lineno,
-        colno: event.colno,
-        stack: event.error?.stack
-    });
-});
-
-window.addEventListener('unhandledrejection', (event) => {
-    showError({
-        type: 'runtime',
-        message: `Unhandled Promise Rejection: ${event.reason}`,
-        stack: event.reason?.stack
-    });
-});
