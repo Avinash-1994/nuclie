@@ -79,3 +79,4 @@ secrets/
 **/.sparx/telemetry/**
 *.db
 *.db-journal
+*.tgz
