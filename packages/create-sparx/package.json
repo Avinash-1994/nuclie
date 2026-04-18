@@ -1,0 +1,14 @@
+{
+  "name": "create-sparx",
+  "version": "1.0.10",
+  "description": "Scaffolding tool for Sparx",
+  "type": "module",
+  "bin": {
+    "create-sparx": "./index.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "sparx": "^1.0.10"
+  },
+  "scripts": {}
+}

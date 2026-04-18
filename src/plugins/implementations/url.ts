@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-url
+ * @sparx/plugin-url
  * URL/data URI assets
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createUrlPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-url',
+        name: '@sparx/plugin-url',
         originalPlugin: 'url-loader',
         
         async load(id: string) {

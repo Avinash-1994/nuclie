@@ -13,7 +13,7 @@ const require = createRequire(import.meta.url);
  * Handles transitive dependencies automatically
  */
 export class DependencyPreBundler {
-    constructor(private root: string, private cacheDir: string = 'node_modules/.nuclie') { }
+    constructor(private root: string, private cacheDir: string = 'node_modules/.sparx') { }
 
     /**
      * Pre-bundle dependencies using full graph approach
@@ -347,7 +347,7 @@ export class DependencyPreBundler {
                             // Exact match - prevent "react" matching "react-router-dom"
                             if (outputBasename === normalizedName) {
                                 const relativePath = path.relative(cacheDir, outputPath);
-                                const urlPath = `/@nuclie-deps/${relativePath}`;
+                                const urlPath = `/@sparx-deps/${relativePath}`;
                                 bundledDeps.set(dep, urlPath);
                                 depMap[dep] = urlPath;
                                 log.debug(`✓ Pre-bundled: ${dep} → ${urlPath}`);

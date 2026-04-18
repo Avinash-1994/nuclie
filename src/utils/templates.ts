@@ -263,7 +263,7 @@ function App() {
   return (
     <>
       <nav className="navbar">
-        <a href="/" className="navbar-brand">NUCLIE</a>
+        <a href="/" className="navbar-brand">SPARX</a>
         <div className="navbar-links">
           <a href="#" className="nav-link">Features</a>
           <a href="#" className="nav-link">Docs</a>
@@ -272,7 +272,7 @@ function App() {
       </nav>
 
       <main className="hero-section">
-        <div className="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+        <div className="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
         
         <h1 className="hero-title">
           The Nucleus for<br/>
@@ -280,7 +280,7 @@ function App() {
         </h1>
         
         <p className="hero-subtitle">
-          Experience the next generation of build speed with Nuclie. 
+          Experience the next generation of build speed with Sparx. 
           Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
 
@@ -288,7 +288,7 @@ function App() {
           <button className="btn-primary" onClick={() => setCount(c => c + 1)}>
             Interactions: {count}
           </button>
-          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary">
+          <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary">
             Read Documentation
           </a>
         </div>
@@ -301,7 +301,7 @@ function App() {
           </div>
           <div className="terminal-body">
             <span className="term-comment">// Initializing the nucleus...</span><br/>
-            <span className="term-prompt">$</span><span className="term-cmd">npm install nuclie</span><br/>
+            <span className="term-prompt">$</span><span className="term-cmd">npm install sparx</span><br/>
             <span className="term-prompt">$</span><span className="term-cmd">npm run dev</span><br/><br/>
             <span className="term-success">✓ Core Ready in 3.15ms</span>
           </div>
@@ -327,7 +327,7 @@ export function App() {
   return (
     <>
       <nav className="navbar">
-        <a href="/" className="navbar-brand">NUCLIE</a>
+        <a href="/" className="navbar-brand">SPARX</a>
         <div className="navbar-links">
           <a href="#" className="nav-link">Features</a>
           <a href="#" className="nav-link">Docs</a>
@@ -336,7 +336,7 @@ export function App() {
       </nav>
 
       <main className="hero-section">
-        <div className="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+        <div className="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
         
         <h1 className="hero-title">
           The Nucleus for<br/>
@@ -344,7 +344,7 @@ export function App() {
         </h1>
         
         <p className="hero-subtitle">
-          Experience the next generation of build speed with Nuclie. 
+          Experience the next generation of build speed with Sparx. 
           Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
 
@@ -352,7 +352,7 @@ export function App() {
           <button className="btn-primary" onClick={() => setCount(c => c + 1)}>
             Interactions: {count}
           </button>
-          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary">
+          <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" className="btn-secondary">
             Read Documentation
           </a>
         </div>
@@ -365,7 +365,7 @@ export function App() {
           </div>
           <div className="terminal-body">
             <span className="term-comment">// Initializing the nucleus...</span><br/>
-            <span className="term-prompt">$</span><span className="term-cmd">npm install nuclie</span><br/>
+            <span className="term-prompt">$</span><span className="term-cmd">npm install sparx</span><br/>
             <span className="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
             <span className="term-success">✓ Core Ready in 3.15ms</span>
           </div>
@@ -383,7 +383,7 @@ createApp(App).mount('#root');`;
 
 export const getVueTemplateApp = (color: string) => `<template>
     <nav class="navbar">
-      <a href="/" class="navbar-brand">NUCLIE</a>
+      <a href="/" class="navbar-brand">SPARX</a>
       <div class="navbar-links">
         <a href="#" class="nav-link">Features</a>
         <a href="#" class="nav-link">Docs</a>
@@ -392,7 +392,7 @@ export const getVueTemplateApp = (color: string) => `<template>
     </nav>
 
     <main class="hero-section">
-      <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+      <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
       
       <h1 class="hero-title">
         The Nucleus for<br/>
@@ -400,7 +400,7 @@ export const getVueTemplateApp = (color: string) => `<template>
       </h1>
       
       <p class="hero-subtitle">
-        Experience the next generation of build speed with Nuclie. 
+        Experience the next generation of build speed with Sparx. 
         Instant HMR, native performance, and a developer experience that feels like magic.
       </p>
 
@@ -408,7 +408,7 @@ export const getVueTemplateApp = (color: string) => `<template>
         <button class="btn-primary" @click="count++">
           Interactions: {{ count }}
         </button>
-        <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
           Read Documentation
         </a>
       </div>
@@ -421,7 +421,7 @@ export const getVueTemplateApp = (color: string) => `<template>
         </div>
         <div class="terminal-body">
           <span class="term-comment">// Initializing the nucleus...</span><br/>
-          <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br/>
+          <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br/>
           <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
           <span class="term-success">✓ Core Ready in 3.15ms</span>
         </div>
@@ -452,7 +452,7 @@ function App() {
   return (
     <>
       <nav class="navbar">
-        <a href="/" class="navbar-brand">NUCLIE</a>
+        <a href="/" class="navbar-brand">SPARX</a>
         <div class="navbar-links">
           <a href="#" class="nav-link">Features</a>
           <a href="#" class="nav-link">Docs</a>
@@ -461,7 +461,7 @@ function App() {
       </nav>
 
       <main class="hero-section">
-        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
         
         <h1 class="hero-title">
           The Nucleus for<br/>
@@ -469,7 +469,7 @@ function App() {
         </h1>
         
         <p class="hero-subtitle">
-          Experience the next generation of build speed with Nuclie. 
+          Experience the next generation of build speed with Sparx. 
           Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
 
@@ -477,7 +477,7 @@ function App() {
           <button class="btn-primary" onClick={() => setCount(c => c + 1)}>
             Interactions: {count()}
           </button>
-          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
             Read Documentation
           </a>
         </div>
@@ -490,7 +490,7 @@ function App() {
           </div>
           <div class="terminal-body">
             <span class="term-comment">// Initializing the nucleus...</span><br/>
-            <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br/>
+            <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br/>
             <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
             <span class="term-success">✓ Core Ready in 3.15ms</span>
           </div>
@@ -516,7 +516,7 @@ export const getSvelteTemplateApp = (color: string) => `<script lang="ts">
 </script>
 
 <nav class="navbar">
-  <a href="/" class="navbar-brand">NUCLIE</a>
+  <a href="/" class="navbar-brand">SPARX</a>
   <div class="navbar-links">
     <a href="#" class="nav-link">Features</a>
     <a href="#" class="nav-link">Docs</a>
@@ -525,7 +525,7 @@ export const getSvelteTemplateApp = (color: string) => `<script lang="ts">
 </nav>
 
 <main class="hero-section">
-  <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+  <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
   
   <h1 class="hero-title">
     The Nucleus for<br/>
@@ -533,7 +533,7 @@ export const getSvelteTemplateApp = (color: string) => `<script lang="ts">
   </h1>
   
   <p class="hero-subtitle">
-    Experience the next generation of build speed with Nuclie. 
+    Experience the next generation of build speed with Sparx. 
     Instant HMR, native performance, and a developer experience that feels like magic.
   </p>
 
@@ -541,7 +541,7 @@ export const getSvelteTemplateApp = (color: string) => `<script lang="ts">
     <button class="btn-primary" on:click={() => count++}>
       Interactions: {count}
     </button>
-    <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+    <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
       Read Documentation
     </a>
   </div>
@@ -554,7 +554,7 @@ export const getSvelteTemplateApp = (color: string) => `<script lang="ts">
     </div>
     <div class="terminal-body">
       <span class="term-comment">// Initializing the nucleus...</span><br/>
-      <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br/>
+      <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br/>
       <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
       <span class="term-success">✓ Core Ready in 3.15ms</span>
     </div>
@@ -571,7 +571,7 @@ const App = component$(() => {
   return (
     <div>
       <nav class="navbar">
-        <a href="/" class="navbar-brand">NUCLIE</a>
+        <a href="/" class="navbar-brand">SPARX</a>
         <div class="navbar-links">
           <a href="#" class="nav-link">Features</a>
           <a href="#" class="nav-link">Docs</a>
@@ -580,7 +580,7 @@ const App = component$(() => {
       </nav>
 
       <main class="hero-section">
-        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
         
         <h1 class="hero-title">
           The Nucleus for<br />
@@ -588,7 +588,7 @@ const App = component$(() => {
         </h1>
 
         <p class="hero-subtitle">
-          Experience the next generation of build speed with Nuclie.
+          Experience the next generation of build speed with Sparx.
           Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
 
@@ -596,7 +596,7 @@ const App = component$(() => {
           <button class="btn-primary" onClick$={() => count.value++}>
             Interactions: {count.value}
           </button>
-          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
             Read Documentation
           </a>
         </div>
@@ -609,7 +609,7 @@ const App = component$(() => {
           </div>
           <div class="terminal-body">
             <span class="term-comment">// Initializing the nucleus...</span><br />
-            <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br />
+            <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br />
             <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br /><br />
             <span class="term-success">✓ Core Ready in 3.15ms</span>
           </div>
@@ -675,7 +675,7 @@ export class MyElement extends LitElement {
   render() {
     return html\`
       <nav class="navbar">
-        <a href="/" class="navbar-brand">NUCLIE</a>
+        <a href="/" class="navbar-brand">SPARX</a>
         <div class="navbar-links">
           <a href="#" class="nav-link">Features</a>
           <a href="#" class="nav-link">Docs</a>
@@ -684,7 +684,7 @@ export class MyElement extends LitElement {
       </nav>
 
       <main class="hero-section">
-        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+        <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
         
         <h1 class="hero-title">
           The Nucleus for<br/>
@@ -692,7 +692,7 @@ export class MyElement extends LitElement {
         </h1>
         
         <p class="hero-subtitle">
-          Experience the next generation of build speed with Nuclie. 
+          Experience the next generation of build speed with Sparx. 
           Instant HMR, native performance, and a developer experience that feels like magic.
         </p>
 
@@ -700,7 +700,7 @@ export class MyElement extends LitElement {
           <button class="btn-primary" @click=\${() => this.count++}>
             Interactions: \${this.count}
           </button>
-          <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
             Read Documentation
           </a>
         </div>
@@ -713,7 +713,7 @@ export class MyElement extends LitElement {
           </div>
           <div class="terminal-body">
             <span class="term-comment">// Initializing the nucleus...</span><br/>
-            <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br/>
+            <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br/>
             <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
             <span class="term-success">✓ Core Ready in 3.15ms</span>
           </div>
@@ -728,13 +728,13 @@ export const alpineTemplateHtml = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuclie + Alpine.js App</title>
+    <title>Sparx + Alpine.js App</title>
     <link rel="stylesheet" href="/src/index.css" />
 </head>
 <body>
     <div id="root" x-data="{ count: 0 }">
         <nav class="navbar">
-          <a href="/" class="navbar-brand">NUCLIE</a>
+          <a href="/" class="navbar-brand">SPARX</a>
           <div class="navbar-links">
             <a href="#" class="nav-link">Features</a>
             <a href="#" class="nav-link">Docs</a>
@@ -743,7 +743,7 @@ export const alpineTemplateHtml = `<!DOCTYPE html>
         </nav>
 
         <main class="hero-section">
-          <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+          <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
           
           <h1 class="hero-title">
             The Nucleus for<br/>
@@ -751,7 +751,7 @@ export const alpineTemplateHtml = `<!DOCTYPE html>
           </h1>
           
           <p class="hero-subtitle">
-            Experience the next generation of build speed with Nuclie. 
+            Experience the next generation of build speed with Sparx. 
             Instant HMR, native performance, and a developer experience that feels like magic.
           </p>
 
@@ -759,7 +759,7 @@ export const alpineTemplateHtml = `<!DOCTYPE html>
             <button class="btn-primary" @click="count++">
               Interactions: <span x-text="count"></span>
             </button>
-            <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
               Read Documentation
             </a>
           </div>
@@ -772,7 +772,7 @@ export const alpineTemplateHtml = `<!DOCTYPE html>
             </div>
             <div class="terminal-body">
               <span class="term-comment">// Initializing the nucleus...</span><br/>
-              <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br/>
+              <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br/>
               <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
               <span class="term-success">✓ Core Ready in 3.15ms</span>
             </div>
@@ -791,7 +791,7 @@ const App = {
   view: function() {
     return m("div", [
       m("nav", { class: "navbar" }, [
-        m("a", { href: "/", class: "navbar-brand" }, "NUCLIE"),
+        m("a", { href: "/", class: "navbar-brand" }, "SPARX"),
         m("div", { class: "navbar-links" }, [
           m("a", { href: "#", class: "nav-link" }, "Features"),
           m("a", { href: "#", class: "nav-link" }, "Docs"),
@@ -799,15 +799,15 @@ const App = {
         ])
       ]),
       m("main", { class: "hero-section" }, [
-        m("div", { class: "badge" }, "Engine v{{NUCLIE_VERSION}} Ready"),
+        m("div", { class: "badge" }, "Engine v{{SPARX_VERSION}} Ready"),
         m("h1", { class: "hero-title" }, [
           "The Nucleus for", m("br"),
           "", m("span", { class: "highlight" }, "Stunning Mithril Apps")
         ]),
-        m("p", { class: "hero-subtitle" }, "Experience the next generation of build speed with Nuclie. Instant HMR, native performance, and a developer experience that feels like magic."),
+        m("p", { class: "hero-subtitle" }, "Experience the next generation of build speed with Sparx. Instant HMR, native performance, and a developer experience that feels like magic."),
         m("div", { class: "action-buttons" }, [
           m("button", { class: "btn-primary", onclick: () => App.count++ }, "Interactions: " + App.count),
-          m("a", { class: "btn-secondary", href: "https://nuclie.dev", target: "_blank" }, "Read Documentation")
+          m("a", { class: "btn-secondary", href: "https://sparx.dev", target: "_blank" }, "Read Documentation")
         ]),
         m("div", { class: "terminal-window" }, [
           m("div", { class: "terminal-header" }, [
@@ -817,7 +817,7 @@ const App = {
           ]),
           m("div", { class: "terminal-body" }, [
             m("span", { class: "term-comment" }, "// Initializing the nucleus..."), m("br"),
-            m("span", { class: "term-prompt" }, "$"), m("span", { class: "term-cmd" }, "npm install nuclie"), m("br"),
+            m("span", { class: "term-prompt" }, "$"), m("span", { class: "term-cmd" }, "npm install sparx"), m("br"),
             m("span", { class: "term-prompt" }, "$"), m("span", { class: "term-cmd" }, "npm run dev"), m("br"), m("br"),
             m("span", { class: "term-success" }, "✓ Core Ready in 3.15ms")
           ])
@@ -834,13 +834,13 @@ export const vanillaTemplateHtml = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuclie + Vanilla App</title>
+    <title>Sparx + Vanilla App</title>
     <link rel="stylesheet" href="/src/index.css" />
 </head>
 <body>
     <div id="root">
         <nav class="navbar">
-          <a href="/" class="navbar-brand">NUCLIE</a>
+          <a href="/" class="navbar-brand">SPARX</a>
           <div class="navbar-links">
             <a href="#" class="nav-link">Features</a>
             <a href="#" class="nav-link">Docs</a>
@@ -849,7 +849,7 @@ export const vanillaTemplateHtml = `<!DOCTYPE html>
         </nav>
 
         <main class="hero-section">
-          <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Nuclie v{{NUCLIE_VERSION}}</div>
+          <div class="badge">{{FRAMEWORK_NAME}} v{{FRAMEWORK_VERSION}} · Sparx v{{SPARX_VERSION}}</div>
           
           <h1 class="hero-title">
             The Nucleus for<br/>
@@ -857,15 +857,15 @@ export const vanillaTemplateHtml = `<!DOCTYPE html>
           </h1>
           
           <p class="hero-subtitle">
-            Experience the next generation of build speed with Nuclie. 
+            Experience the next generation of build speed with Sparx. 
             Instant HMR, native performance, and a developer experience that feels like magic.
           </p>
 
           <div class="action-buttons">
             <button class="btn-primary" onclick="alert('Hello from vanilla JS!')">
-              Hello Nuclie!
+              Hello Sparx!
             </button>
-            <a href="https://nuclie.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            <a href="https://sparx.dev" target="_blank" rel="noopener noreferrer" class="btn-secondary">
               Read Documentation
             </a>
           </div>
@@ -878,7 +878,7 @@ export const vanillaTemplateHtml = `<!DOCTYPE html>
             </div>
             <div class="terminal-body">
               <span class="term-comment">// Initializing the nucleus...</span><br/>
-              <span class="term-prompt">$</span><span class="term-cmd">npm install nuclie</span><br/>
+              <span class="term-prompt">$</span><span class="term-cmd">npm install sparx</span><br/>
               <span class="term-prompt">$</span><span class="term-cmd">npm run dev</span><br/><br/>
               <span class="term-success">✓ Core Ready in 3.15ms</span>
             </div>
@@ -906,7 +906,7 @@ export interface TemplateDef {
 
 const COMMON_FILES: TemplateFile[] = [
   {
-    path: 'nuclie.config.json',
+    path: 'sparx.config.json',
     content: `{
   "mode": "development"
 }`
@@ -932,7 +932,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'React 19 + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + React</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.tsx"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + React</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.tsx"></script>\n  </body>\n</html>' },
       { path: 'src/main.tsx', content: reactTemplateMain },
       { path: 'src/App.tsx', content: getReactTemplateApp('#61dafb') },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#3b8cfd', hexRgbMap: '59, 140, 253', buttonColor: '#3b8cfd', shadowHex: 'rgba(59, 140, 253, 0.4)', frameworkLogoHex: '#61dafb' }) }
@@ -946,7 +946,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Vue 3 + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Vue</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Vue</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
       { path: 'src/main.ts', content: vueTemplateMain },
       { path: 'src/App.vue', content: getVueTemplateApp('#42b883') },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#42b883', hexRgbMap: '66, 184, 131', buttonColor: '#42b883', shadowHex: 'rgba(66, 184, 131, 0.4)', frameworkLogoHex: '#42b883' }) }
@@ -960,7 +960,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Svelte 4 + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Svelte</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Svelte</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
       { path: 'src/main.ts', content: svelteTemplateMain },
       { path: 'src/App.svelte', content: getSvelteTemplateApp('#ff3e00') },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#ff3e00', hexRgbMap: '255, 62, 0', buttonColor: '#ff3e00', shadowHex: 'rgba(255, 62, 0, 0.4)', frameworkLogoHex: '#ff3e00' }) }
@@ -974,7 +974,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'SolidJS + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Solid</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/index.tsx"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Solid</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/index.tsx"></script>\n  </body>\n</html>' },
       { path: 'src/index.tsx', content: solidTemplateMain },
       { path: 'src/App.tsx', content: getSolidTemplateApp('#446b9e') },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#446b9e', hexRgbMap: '68, 107, 158', buttonColor: '#446b9e', shadowHex: 'rgba(68, 107, 158, 0.4)', frameworkLogoHex: '#446b9e' }) }
@@ -988,7 +988,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Preact + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Preact</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.tsx"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Preact</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.tsx"></script>\n  </body>\n</html>' },
       { path: 'src/main.tsx', content: preactTemplateMain },
       { path: 'src/App.tsx', content: getPreactTemplateApp('#673ab7') },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#673ab7', hexRgbMap: '103, 58, 183', buttonColor: '#673ab7', shadowHex: 'rgba(103, 58, 183, 0.4)', frameworkLogoHex: '#673ab7' }) }
@@ -1002,7 +1002,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Preact + JavaScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Preact</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.jsx"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Preact</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.jsx"></script>\n  </body>\n</html>' },
       { path: 'src/main.jsx', content: preactTemplateMain },
       { path: 'src/App.jsx', content: getPreactTemplateApp('#673ab7') },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#673ab7', hexRgbMap: '103, 58, 183', buttonColor: '#673ab7', shadowHex: 'rgba(103, 58, 183, 0.4)', frameworkLogoHex: '#673ab7' }) }
@@ -1016,7 +1016,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Qwik + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset="UTF-8" />\n    <title>Nuclie + Qwik</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/root.tsx"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset="UTF-8" />\n    <title>Sparx + Qwik</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/root.tsx"></script>\n  </body>\n</html>' },
       { path: 'src/root.tsx', content: qwikTemplateMainTSX },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#18B6F6', hexRgbMap: '24, 182, 246', buttonColor: '#18B6F6', shadowHex: 'rgba(24, 182, 246, 0.4)', frameworkLogoHex: '#18B6F6' }) }
     ],
@@ -1029,7 +1029,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Lit Web Components + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Lit</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <my-element></my-element>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Lit</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <my-element></my-element>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
       { path: 'src/main.ts', content: litTemplateMain },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#3b8cfd', hexRgbMap: '59, 140, 253', buttonColor: '#308cfd', shadowHex: 'rgba(48, 140, 253, 0.4)', frameworkLogoHex: '#3b8cfd' }) }
     ],
@@ -1068,7 +1068,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Mithril.js + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Mithril</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.js"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Mithril</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.js"></script>\n  </body>\n</html>' },
       { path: 'src/main.js', content: mithrilTemplateMain },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#22d3ee', hexRgbMap: '34, 211, 238', buttonColor: '#22d3ee', shadowHex: 'rgba(34, 211, 238, 0.4)', frameworkLogoHex: '#22d3ee' }) }
     ],
@@ -1081,7 +1081,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     description: 'Mithril.js + TypeScript + Stunning UI',
     files: [
       ...COMMON_FILES,
-      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Nuclie + Mithril TS</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
+      { path: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <title>Sparx + Mithril TS</title>\n    <link rel="stylesheet" href="/src/index.css" />\n  </head>\n  <body>\n    <div id="root"></div>\n    <script type="module" src="/src/main.ts"></script>\n  </body>\n</html>' },
       { path: 'src/main.ts', content: mithrilTemplateMain },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#22d3ee', hexRgbMap: '34, 211, 238', buttonColor: '#22d3ee', shadowHex: 'rgba(34, 211, 238, 0.4)', frameworkLogoHex: '#22d3ee' }) }
     ],
@@ -1095,7 +1095,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     files: [
       ...COMMON_FILES,
       { path: 'index.html', content: vanillaTemplateHtml.replace('src/main.ts', 'src/main.js') },
-      { path: 'src/main.js', content: 'console.log("Hello from Nuclie Vanilla!");\n\nconst countBtn = document.querySelector(".btn-primary");\nlet count = 0;\ncountBtn.onclick = () => {\n  count++;\n  countBtn.innerText = "Interactions: " + count;\n};' },
+      { path: 'src/main.js', content: 'console.log("Hello from Sparx Vanilla!");\n\nconst countBtn = document.querySelector(".btn-primary");\nlet count = 0;\ncountBtn.onclick = () => {\n  count++;\n  countBtn.innerText = "Interactions: " + count;\n};' },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#f59f00', hexRgbMap: '245, 159, 0', buttonColor: '#f59f00', shadowHex: 'rgba(245, 159, 0, 0.4)', frameworkLogoHex: '#f59f00' }) }
     ],
     dependencies: {},
@@ -1108,7 +1108,7 @@ export const TEMPLATES: Record<string, TemplateDef> = {
     files: [
       ...COMMON_FILES,
       { path: 'index.html', content: vanillaTemplateHtml },
-      { path: 'src/main.ts', content: 'console.log("Hello from Nuclie Vanilla TS!");\n\nconst countBtn = document.querySelector(".btn-primary") as HTMLButtonElement;\nlet count = 0;\ncountBtn.onclick = () => {\n  count++;\n  countBtn.innerText = "Interactions: " + count;\n};' },
+      { path: 'src/main.ts', content: 'console.log("Hello from Sparx Vanilla TS!");\n\nconst countBtn = document.querySelector(".btn-primary") as HTMLButtonElement;\nlet count = 0;\ncountBtn.onclick = () => {\n  count++;\n  countBtn.innerText = "Interactions: " + count;\n};' },
       { path: 'src/index.css', content: getPremiumCss({ hexBase: '#3178c6', hexRgbMap: '49, 120, 198', buttonColor: '#3178c6', shadowHex: 'rgba(49, 120, 198, 0.4)', frameworkLogoHex: '#3178c6' }) }
     ],
     dependencies: {},

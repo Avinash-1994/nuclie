@@ -12,7 +12,7 @@ import { HMRClassifier, HMRLevel } from '../../src/hmr/classifier.js';
 import { createPostCssPlugin } from '../../src/plugins/css/postcss.js';
 import { frameworkPresets } from '../../src/presets/frameworks.js';
 
-const TMP = path.join(os.tmpdir(), 'nuclie-css-tests');
+const TMP = path.join(os.tmpdir(), 'sparx-css-tests');
 fs.mkdirSync(TMP, { recursive: true });
 
 function writeFile(name: string, content: string): string {
@@ -25,10 +25,10 @@ function writeFile(name: string, content: string): string {
 // ──────────────────────────────────────────────────────────────────────
 // CSS-001: CSS Modules scoping via PostCSS plugin creation
 // ──────────────────────────────────────────────────────────────────────
-test('CSS-001: createPostCssPlugin returns a valid NucliePlugin', () => {
+test('CSS-001: createPostCssPlugin returns a valid SparxPlugin', () => {
     const plugin = createPostCssPlugin('/tmp');
     expect(plugin).toBeDefined();
-    expect(plugin.manifest.name).toBe('nuclie:postcss');
+    expect(plugin.manifest.name).toBe('sparx:postcss');
     expect(plugin.manifest.hooks).toContain('transformModule');
 });
 

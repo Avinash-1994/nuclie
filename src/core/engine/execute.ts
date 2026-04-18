@@ -15,6 +15,14 @@ import { Transformer } from '../transform/transformer.js';
 import { GlobalOptimizer } from '../build/globalOptimizer.js';
 import { ShortIdMap } from '../graph/serializer.js';
 
+// Phase 3.1 + 3.2 — Native chunker + source map merger
+let _native: any = null;
+async function getNative() {
+    if (_native) return _native;
+    try { _native = await import('../../native/index.js'); } catch { _native = {}; }
+    return _native;
+}
+
 export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildPlan, ctx: BuildContext): Promise<BuildArtifact[]> {
     explainReporter.report('execute', 'start', 'Starting optimized execution');
 
@@ -74,7 +82,7 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                     ));
                     fedRt = `globalThis.__remotes=${remotesMap};globalThis.__loadRemote=async function(r,m){var u=__remotes[r];if(!window[r]){await new Promise((rs,rj)=>{var s=document.createElement('script');s.type='module';s.crossOrigin='anonymous';s.async=true;s.src=u;s.onload=rs;s.onerror=rj;document.head.appendChild(s)})}var c=window[r];await c.init({});var f=await c.get(m);return f();};\n`;
                 }
-                bundleContent += isProd ? processShim + rt + fedRt : `/* Nuclie Runtime */\n${processShim}${rt}${fedRt}`;
+                bundleContent += isProd ? processShim + rt + fedRt : `/* Sparx Runtime */\n${processShim}${rt}${fedRt}`;
             }
 
             const artifactModules: any[] = [];
@@ -109,7 +117,46 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
                 }
             }
 
-            // Phase 3.5: TREE SHAKING (Production Only - Before Bundling)
+            // Phase 3.1 — Native DCE via sparxChunk (production only, additive — falls back to existing logic)
+            if (isProd && moduleResults.size > 0) {
+                try {
+                    const nat = await getNative();
+                    if (nat.sparxChunk) {
+                        const graphJson = JSON.stringify({
+                            modules: [...moduleResults.keys()].map(id => {
+                                const node = ctx.graph.nodes.get(id);
+                                return {
+                                    id,
+                                    imports: [...(node?.edges?.map(e => e.to) ?? [])],
+                                    exports: [],
+                                    sizeBytes: moduleResults.get(id)!.code.length
+                                };
+                            })
+                        });
+                        let resolvedEntryPoint = chunk.entry;
+                        if (chunk.entry) {
+                            const absEntry = path.isAbsolute(chunk.entry) ? chunk.entry : path.resolve(ctx.rootDir, chunk.entry);
+                            resolvedEntryPoint = generateModuleId('file', normalizePath(absEntry), ctx.rootDir);
+                        }
+                        
+                        const result = nat.sparxChunk(graphJson, {
+                            strategy: 'auto',
+                            maxChunkSizeKb: 0,
+                            entryPoints: resolvedEntryPoint && moduleResults.has(resolvedEntryPoint) 
+                                ? [resolvedEntryPoint] 
+                                : [...moduleResults.keys()].slice(0, 1)
+                        });
+                        if (result.eliminated?.length > 0) {
+                            for (const id of result.eliminated) moduleResults.delete(id);
+                            explainReporter.report('execute', 'dce', `Native DCE eliminated ${result.eliminated.length} modules`);
+                        }
+                    }
+                } catch (e: any) {
+                    // Native DCE unavailable — existing JS tree-shake handles it
+                }
+            }
+
+            // Phase 3.5 (existing): TREE SHAKING (Production Only - Before Bundling)
             if (isProd && moduleResults.size > 0) {
                 const { AutoFixEngine } = await import('../../fix/ast-transforms.js');
                 const autoFix = new AutoFixEngine();
@@ -262,19 +309,35 @@ export async function executeParallel(execPlan: ExecutionPlan, buildPlan: BuildP
 
             // Generate source map if enabled
             if (!isCss && ctx.config.sourceMaps) {
-                const sourceMapContent = {
-                    version: 3,
-                    sources: chunk.modules.map(modId => {
-                        const node = ctx.graph.nodes.get(modId);
-                        return node?.path || modId;
-                    }),
-                    names: [],
-                    mappings: '', // Basic mapping - can be enhanced later
-                    file: chunk.outputName
-                };
+                // Phase 3.2 — Try native mergeSourceMaps to compose SWC + LightningCSS maps
+                let sourceMapJson = '';
+                try {
+                    const nat = await getNative();
+                    if (nat.mergeSourceMaps) {
+                        // Collect individual per-module maps emitted during transform
+                        const perModuleMaps = [...chunk.modules]
+                            .map(id => (moduleResults.get(id) as any)?.map)
+                            .filter(Boolean) as string[];
+                        if (perModuleMaps.length > 0) {
+                            sourceMapJson = nat.mergeSourceMaps(perModuleMaps);
+                        }
+                    }
+                } catch { /* fallback to hand-made map below */ }
 
-                const sourceMapJson = JSON.stringify(sourceMapContent);
-
+                if (!sourceMapJson) {
+                    // Fallback: hand-made skeleton map (same as before)
+                    const sourceMapContent = {
+                        version: 3,
+                        sources: chunk.modules.map(modId => {
+                            const node = ctx.graph.nodes.get(modId);
+                            return node?.path || modId;
+                        }),
+                        names: [],
+                        mappings: '',
+                        file: chunk.outputName
+                    };
+                    sourceMapJson = JSON.stringify(sourceMapContent);
+                }
                 if (ctx.config.sourceMaps === 'inline') {
                     // Inline source map
                     artifact.source += `\n//# sourceMappingURL=data:application/json;base64,${Buffer.from(sourceMapJson).toString('base64')}`;

@@ -1,10 +1,10 @@
 
 import path from 'path';
 import { createRequire } from 'module';
-import { NucliePlugin } from '../../core/plugins/types.js';
+import { SparxPlugin } from '../../core/plugins/types.js';
 import { log } from '../../utils/logger.js';
 
-export function createPostCssPlugin(rootDir: string): NucliePlugin {
+export function createPostCssPlugin(rootDir: string): SparxPlugin {
     let processor: any = null;
     let initialized = false;
 
@@ -54,14 +54,14 @@ export function createPostCssPlugin(rootDir: string): NucliePlugin {
 
     return {
         manifest: {
-            name: 'nuclie:postcss',
+            name: 'sparx:postcss',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['transformModule'],
             permissions: { fs: 'read' }
         },
-        id: 'nuclie:postcss',
+        id: 'sparx:postcss',
         async runHook(hook, input, context) {
             if (hook !== 'transformModule' || !input.path.endsWith('.css')) {
                 return input;

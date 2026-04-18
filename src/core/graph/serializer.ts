@@ -17,7 +17,7 @@ export class ShortIdMap {
     }
 
     toRuntime(): string {
-        return `const __nuclie_map = ${JSON.stringify(Object.fromEntries(this.map))};`;
+        return `const __sparx_map = ${JSON.stringify(Object.fromEntries(this.map))};`;
     }
 
     getInverse(shortId: string): string | undefined {

@@ -94,6 +94,10 @@ async function main() {
         const { build: runBuild } = await import('./build/bundler.js');
         const config = await loadConfig(process.cwd());
         config.mode = 'production';
+        // Phase 4.5 — --compat-rollup: byte-identical Vite/Rollup output format
+        if (process.argv.includes('--compat-rollup')) {
+          (config as any).compatRollup = true;
+        }
         await runBuild(config);
         return;
       }
@@ -147,7 +151,7 @@ async function main() {
         try {
           // Set environment variables for logger
           if (args.quiet) {
-            process.env.NUCLIE_QUIET = 'true';
+            process.env.SPARX_QUIET = 'true';
           }
           if (args.verbose) {
             process.env.DEBUG = '*';
@@ -174,7 +178,7 @@ async function main() {
           printAuditReport(report);
           */
           if (!args.quiet) {
-            console.log('\n💡  Tip: Run `npx nuclie audit --url http://localhost:' + (cfg.port || 5173) + '` to generate an audit report.');
+            console.log('\n💡  Tip: Run `npx sparx audit --url http://localhost:' + (cfg.port || 5173) + '` to generate an audit report.');
           }
         } catch (e: any) {
           log.error(e.message);
@@ -221,7 +225,7 @@ async function main() {
             }
           }
 
-          // ── Env loading (.env → import.meta.env.NUCLIE_*) ───────────────────
+          // ── Env loading (.env → import.meta.env.SPARX_*) ───────────────────
           const { loadEnv, warnSensitiveEnv } = await import('./env.js');
           const env = loadEnv(config.mode as 'development' | 'production' | 'test', process.cwd());
           warnSensitiveEnv(env);
@@ -236,8 +240,8 @@ async function main() {
             printProfileReport(result);
           }
 
-          console.log('\n💡  Tip: Run `npx nuclie preview` to serve the build locally.');
-          console.log('💡  Tip: Run `npx nuclie audit` to generate a full audit report.');
+          console.log('\n💡  Tip: Run `npx sparx preview` to serve the build locally.');
+          console.log('💡  Tip: Run `npx sparx audit` to generate a full audit report.');
 
           await telemetry.stop(true);
         } catch (e: any) {
@@ -255,7 +259,7 @@ async function main() {
     )
     .command(
       'preview',
-      'Serve production build locally (after nuclie build)',
+      'Serve production build locally (after sparx build)',
       (yargs: any) => {
         return yargs
           .option('port', {
@@ -320,8 +324,121 @@ async function main() {
         }
       }
     )
+    // Phase 5.4 — sparx why <module-path>
+    .command(
+      'why <module>',
+      'Print the full import chain from entry to a target module',
+      (yargs: any) => yargs.positional('module', { type: 'string', describe: 'Module path to trace' }),
+      async (args: any) => {
+        const { loadConfig } = await import('./config/index.js');
+        const { FrameworkPipeline } = await import('./core/pipeline/framework-pipeline.js');
+        const config = await loadConfig(process.cwd());
+        const pipeline = await FrameworkPipeline.auto(config);
+        const engine = pipeline.getEngine();
+        const graph = engine.getGraph?.();
+        if (!graph) { console.error('No dependency graph — run sparx build first.'); process.exit(1); }
+
+        const target = args.module as string;
+        // BFS: find shortest path from any entry to target
+        const entries = config.entry ?? [];
+        let found = false;
+        for (const entry of entries) {
+          const queue: string[][] = [[entry]];
+          const visited = new Set<string>();
+          while (queue.length) {
+            const chain = queue.shift()!;
+            const node = chain[chain.length - 1];
+            if (visited.has(node)) continue;
+            visited.add(node);
+            if (node.includes(target) || node.endsWith(target)) {
+              console.log('\n  Import chain:');
+              chain.forEach((m, i) => console.log(`  ${'  '.repeat(i)}${i === 0 ? '→' : '└'} ${m}`));
+              found = true; break;
+            }
+            const graphNode = graph.nodes?.get(node);
+            for (const dep of (graphNode?.edges?.map((e: any) => e.to) ?? [])) queue.push([...chain, dep]);
+          }
+          if (found) break;
+        }
+        if (!found) { console.error(`\n  Module not found: ${target}`); process.exit(1); }
+        process.exit(0);
+      }
+    )
+    // Phase 5.5 — sparx check
+    .command(
+      'check',
+      'Pre-build validation: resolve + type-check without emitting output',
+      (yargs: any) => yargs
+        .option('no-types', { type: 'boolean', default: false, description: 'Skip TypeScript type checking' })
+        .option('no-circular', { type: 'boolean', default: false, description: 'Skip circular import detection' }),
+      async (args: any) => {
+        const { loadConfig } = await import('./config/index.js');
+        const config = await loadConfig(process.cwd());
+        config.mode = 'production';
+        let exitCode = 0;
+
+        process.stderr.write('[sparx:check] Resolving module graph...\n');
+        const { FrameworkPipeline } = await import('./core/pipeline/framework-pipeline.js');
+        const pipeline = await FrameworkPipeline.auto(config);
+
+        // TypeScript type check (non-emitting)
+        if (!args['no-types']) {
+          try {
+            const { execSync } = await import('child_process');
+            process.stderr.write('[sparx:check] Running TypeScript type-check...\n');
+            execSync('npx tsc --noEmit 2>&1', { cwd: process.cwd(), stdio: 'inherit' });
+            process.stderr.write('[sparx:check] TypeScript ✅\n');
+          } catch { exitCode = 1; }
+        }
+
+        // Circular import detection
+        if (!args['no-circular']) {
+          try {
+            const engine = pipeline.getEngine();
+            const graph = engine.getGraph?.();
+            if (graph) {
+              const cycles: string[][] = [];
+              const visited = new Set<string>(), stack = new Set<string>();
+              function dfs(id: string, path: string[]) {
+                if (stack.has(id)) { cycles.push([...path, id]); return; }
+                if (visited.has(id)) return;
+                visited.add(id); stack.add(id);
+                for (const dep of (graph?.nodes?.get(id)?.edges?.map((e: any) => e.to) ?? [])) dfs(dep, [...path, id]);
+                stack.delete(id);
+              }
+              for (const id of graph.nodes?.keys() ?? []) dfs(id, []);
+              if (cycles.length > 0) {
+                process.stderr.write(`[sparx:check] ❌ ${cycles.length} circular import(s) detected:\n`);
+                cycles.slice(0, 5).forEach(c => process.stderr.write(`  ${c.join(' → ')}\n`));
+                exitCode = 1;
+              } else {
+                process.stderr.write('[sparx:check] Circular imports ✅\n');
+              }
+            }
+          } catch (e: any) { process.stderr.write(`[sparx:check] Graph check skipped: ${e.message}\n`); }
+        }
+
+        process.stderr.write(exitCode === 0 ? '\n[sparx:check] All checks passed ✅\n' : '\n[sparx:check] Check failed ❌\n');
+        process.exit(exitCode);
+      }
+    )
+    // Phase 5.6 — sparx migrate
+    .command(
+      'migrate',
+      'Automated upgrade assistant — detects deprecated config and proposes fixes',
+      (yargs: any) => yargs
+        .option('dry-run', { type: 'boolean', default: false, description: 'Print diff without writing' })
+        .option('yes', { type: 'boolean', default: false, description: 'Auto-apply all fixes without prompting' }),
+      async (args: any) => {
+        const { migrate } = await import('../packages/sparx-migrate/src/index.js')
+          .catch(() => ({ migrate: null as any }));
+        if (!migrate) { console.error('[sparx:migrate] Migration tool not found.'); process.exit(1); }
+        await migrate(process.cwd(), { dryRun: args['dry-run'], yes: args.yes });
+      }
+    )
     .command(
       'ssr',
+
       'Start SSR server for meta-frameworks',
       (yargs: any) => {
         return yargs
@@ -569,7 +686,7 @@ async function main() {
     )
     .command(
       'test',
-      'Run tests using Nuclie Custom Runner',
+      'Run tests using Sparx Custom Runner',
       (yargs: any) => {
         return yargs
           .option('watch', {

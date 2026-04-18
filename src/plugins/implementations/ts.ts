@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-ts
+ * @sparx/plugin-ts
  * TypeScript compilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTsPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-ts',
+        name: '@sparx/plugin-ts',
         originalPlugin: 'ts-loader',
         
         async transform(code: string, id: string) {

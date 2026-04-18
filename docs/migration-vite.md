@@ -1,11 +1,11 @@
-# Migrating from Vite to Nuclie
+# Migrating from Vite to Sparx
 
-Nuclie is designed to be a fast replacement for Vite.
+Sparx is designed to be a fast replacement for Vite.
 
 ## 1. Quick Switch
 Run the auto-migration command:
 ```bash
-npx nuclie migrate
+npx sparx migrate
 ```
 
 ## 2. Manual Migration
@@ -14,18 +14,18 @@ npx nuclie migrate
 Change your content in `package.json`:
 ```json
 "scripts": {
-  "dev": "nuclie dev",
-  "build": "nuclie build"
+  "dev": "sparx dev",
+  "build": "sparx build"
 }
 ```
 
 ### Reuse Vite Plugins
-Nuclie can reuse many Vite-compatible plugins through compatibility adapters.
+Sparx can reuse many Vite-compatible plugins through compatibility adapters.
 
 ```ts
-// nuclie.config.ts
-import { defineConfig } from 'nuclie';
-import { rollupAdapter } from '@nuclie/plugin-compat';
+// sparx.config.ts
+import { defineConfig } from 'sparx';
+import { rollupAdapter } from '@sparx/plugin-compat';
 import someVitePlugin from 'vite-plugin-cool';
 
 export default defineConfig({
@@ -36,10 +36,10 @@ export default defineConfig({
 ```
 
 ## 3. Environment Variables
-Nuclie respects `.env` files exactly like Vite. Use `import.meta.env` as usual.
+Sparx respects `.env` files exactly like Vite. Use `import.meta.env` as usual.
 
 ## 4. Key Differences
-| Feature | Vite | Nuclie |
+| Feature | Vite | Sparx |
 |---------|------|-------|
 | Startup | ~400ms | < 50ms |
 | Build | esbuild/Rollup | Native Rust |

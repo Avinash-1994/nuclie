@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-stripe
+ * @sparx/plugin-stripe
  * Stripe integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createStripePlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-stripe',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-stripe',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Fintech integration: Stripe integration
@@ -16,7 +16,7 @@ export function createStripePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-stripe] Fintech integration ready');
+            console.log('[@sparx/plugin-stripe] Fintech integration ready');
             // Initialize payment gateway, generate QR codes, etc.
         }
     };

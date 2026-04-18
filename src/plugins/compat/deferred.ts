@@ -9,29 +9,29 @@ export interface CompressOptions {
 }
 
 /**
- * Nuclie Compress Plugin (nuclie-compress)
+ * Sparx Compress Plugin (sparx-compress)
  * Mocks compression-webpack-plugin using a simple status message.
  * In a real V1, this would actually gzip/brotli the assets in `dist`.
  */
-export function nuclieCompress(options: CompressOptions = {}): Plugin {
+export function sparxCompress(options: CompressOptions = {}): Plugin {
     return {
-        name: 'nuclie-compress',
+        name: 'sparx-compress',
         async buildEnd() {
-            // Nuclie v1 - Placeholder for Asset Compression
+            // Sparx v1 - Placeholder for Asset Compression
             // Real implementation would iterate dist/ and gzip
-            // console.log('[nuclie-compress] Compression enabled (Placeholder)');
+            // console.log('[sparx-compress] Compression enabled (Placeholder)');
         }
     };
 }
 
 /**
- * Nuclie CSS Extract Plugin (nuclie-css-extract)
+ * Sparx CSS Extract Plugin (sparx-css-extract)
  * Mocks mini-css-extract-plugin.
- * Nuclie extracts CSS by default, so this is mostly a no-op compatibility shim.
+ * Sparx extracts CSS by default, so this is mostly a no-op compatibility shim.
  */
-export function nuclieCssExtract(options: any = {}): Plugin {
+export function sparxCssExtract(options: any = {}): Plugin {
     return {
-        name: 'nuclie-css-extract',
+        name: 'sparx-css-extract',
         // No-op
     };
 }

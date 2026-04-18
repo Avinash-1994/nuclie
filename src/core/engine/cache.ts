@@ -29,7 +29,7 @@ export class PersistentBuildCache implements BuildCache {
     private dbPromise: Promise<any> | null = null;
 
     constructor(rootDir: string) {
-        this.cacheDir = path.join(rootDir, '.nuclie_cache');
+        this.cacheDir = path.join(rootDir, '.sparx_cache');
         initCacheInBackground(this.cacheDir);
     }
 

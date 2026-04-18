@@ -1,4 +1,4 @@
-# How a Nuclie Plugin Works — Internal Guide
+# How a Sparx Plugin Works — Internal Guide
 
 **Audience**: Core engineers, plugin authors (advanced)  
 **Purpose**: Mental model, not marketing  
@@ -8,7 +8,7 @@
 
 ## 🎯 Purpose
 
-This guide explains **HOW** Nuclie plugins work internally, not **WHY** you should use them.
+This guide explains **HOW** Sparx plugins work internally, not **WHY** you should use them.
 
 Written as if onboarding a new core engineer.
 
@@ -31,7 +31,7 @@ Source Code → [Plugin 1] → [Plugin 2] → [Plugin N] → Bundled Code
 ### 1. **Registration** (Build Start)
 
 ```typescript
-// User's nuclie.config.ts
+// User's sparx.config.ts
 export default {
   plugins: [
     myPlugin({ option: 'value' }),
@@ -41,8 +41,8 @@ export default {
 
 **What happens**:
 1. Config loader calls `myPlugin({ option: 'value' })`
-2. Plugin returns a `NucliePlugin` object
-3. Nuclie validates the plugin interface
+2. Plugin returns a `SparxPlugin` object
+3. Sparx validates the plugin interface
 4. Plugin is added to the pipeline
 
 ---
@@ -145,7 +145,7 @@ transform(code: string, id: string): { code: string; map?: SourceMap } | null {
 
 ### Enforcement
 ```typescript
-const plugin: NucliePlugin = {
+const plugin: SparxPlugin = {
   name: 'my-plugin',
   enforce: 'pre', // Run before normal plugins
 };
@@ -224,7 +224,7 @@ export function replacePlugin(options: { from: string; to: string }) {
 
 **Usage**:
 ```typescript
-// nuclie.config.ts
+// sparx.config.ts
 export default {
   plugins: [
     replacePlugin({ from: 'process.env.NODE_ENV', to: '"production"' }),
@@ -248,7 +248,7 @@ transform(code: string, id: string) {
 // ✅ GOOD
 transform(code: string, id: string) {
   return {
-    code: code + `\n// Built with Nuclie`,
+    code: code + `\n// Built with Sparx`,
   };
 }
 ```

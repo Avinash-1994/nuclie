@@ -168,7 +168,7 @@ test('HMR-010: HMR propagates through dependency graph correctly', () => {
 // HMR-011: Config file change → full reload
 // ──────────────────────────────────────────────────────────────────────
 test('HMR-EXTRA: Config file change always triggers HMR_FULL_RELOAD', () => {
-    const configs = ['nuclie.config.js', 'nuclie.config.ts', 'package.json', 'tsconfig.json'];
+    const configs = ['sparx.config.js', 'sparx.config.ts', 'package.json', 'tsconfig.json'];
     for (const cfg of configs) {
         const result = hmrClassifier.classify({ path: cfg, type: 'updated' });
         expect(result.level).toBe(HMRLevel.HMR_FULL_RELOAD);

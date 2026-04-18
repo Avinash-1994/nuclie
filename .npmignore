@@ -16,7 +16,7 @@ benchmarks/
 docs/
 examples/
 urja-web-app/
-nuclie-web-app/
+sparx-web-app/
 src/
 scripts/
 packages/
@@ -32,7 +32,7 @@ jest.config.js
 
 # Exclude massive platform-specific Rust binaries from the main package (keeps size < 2MB).
 # Users without the binary will gracefully fall back to the JS stub implemented in index.js.
-dist/nuclie_native.node
+dist/sparx_native.node
 dist/**/*.node
 dist/nexxo_native.node
 nexxo_native.node

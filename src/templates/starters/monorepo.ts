@@ -7,14 +7,14 @@ import { TemplateConfig } from '../manager.js';
 
 export const monorepoTemplate: TemplateConfig = {
     id: 'monorepo',
-    name: 'Monorepo (PNPM via Nuclie)',
+    name: 'Monorepo (PNPM via Sparx)',
     description: 'High-performance monorepo with apps and shared packages',
     framework: 'react',
     type: 'monorepo',
     dependencies: {},
     devDependencies: {
         "typescript": "^5.0.0",
-        "@nuclie/plugin-workspace": "^1.0.0"
+        "@sparx/plugin-workspace": "^1.0.0"
     },
     files: {
         'pnpm-workspace.yaml': `packages:
@@ -26,19 +26,19 @@ export const monorepoTemplate: TemplateConfig = {
   "name": "{{PROJECT_NAME}}",
   "private": true,
   "scripts": {
-    "build": "nuclie build --filter=...",
-    "dev": "nuclie dev --parallel",
-    "test": "nuclie test",
-    "lint": "nuclie lint"
+    "build": "sparx build --filter=...",
+    "dev": "sparx dev --parallel",
+    "test": "sparx test",
+    "lint": "sparx lint"
   },
   "devDependencies": {
-    "nuclie": "latest",
+    "sparx": "latest",
     "typescript": "^5.0.0"
   }
 }
 `,
-        'nuclie.config.ts': `
-import { defineConfig } from 'nuclie';
+        'sparx.config.ts': `
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
     workspace: {
@@ -92,16 +92,16 @@ export const Button = ({ children }: { children: React.ReactNode }) => {
     "@{{PROJECT_NAME}}/ui": "workspace:*"
   },
   "devDependencies": {
-    "@nuclie/plugin-react": "^1.0.0",
+    "@sparx/plugin-react": "^1.0.0",
     "typescript": "^5.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0"
   }
 }
 `,
-        'apps/web/nuclie.config.ts': `
-import { defineConfig } from 'nuclie';
-import react from '@nuclie/plugin-react';
+        'apps/web/sparx.config.ts': `
+import { defineConfig } from 'sparx';
+import react from '@sparx/plugin-react';
 
 export default defineConfig({
     plugins: [react()]
@@ -115,7 +115,7 @@ import { Button } from '@{{PROJECT_NAME}}/ui';
 export default function App() {
   return (
     <div>
-      <h1>Nuclie Monorepo</h1>
+      <h1>Sparx Monorepo</h1>
       <Button>Shared UI Button</Button>
     </div>
   );

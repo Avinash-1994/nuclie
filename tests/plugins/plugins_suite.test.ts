@@ -1,20 +1,20 @@
 /**
  * Plugin System Test Suite — Agent 5
- * Tests the Nuclie plugin system: load hooks, transform hooks, virtual modules,
+ * Tests the Sparx plugin system: load hooks, transform hooks, virtual modules,
  * ordering, error handling, and context APIs.
  */
 
 import { PluginManager } from '../../src/core/plugins/manager.js';
-import type { NucliePlugin } from '../../src/core/plugins/types.js';
+import type { SparxPlugin } from '../../src/core/plugins/types.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
-const TMP = path.join(os.tmpdir(), 'nuclie-plugin-tests');
+const TMP = path.join(os.tmpdir(), 'sparx-plugin-tests');
 fs.mkdirSync(TMP, { recursive: true });
 
-// Helper: build a minimal NucliePlugin
-function makePlugin(name: string, runHookFn: NucliePlugin['runHook']): NucliePlugin {
+// Helper: build a minimal SparxPlugin
+function makePlugin(name: string, runHookFn: SparxPlugin['runHook']): SparxPlugin {
     return {
         id: name,
         manifest: {

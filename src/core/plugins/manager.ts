@@ -1,6 +1,6 @@
 
 import fs from 'fs/promises';
-import { NucliePlugin, PluginHookName, PluginExecutionRecord, PluginValidation } from './types.js';
+import { SparxPlugin, PluginHookName, PluginExecutionRecord, PluginValidation } from './types.js';
 import { WASMPluginSandbox } from './sandbox_wasm.js';
 import { canonicalHash } from '../engine/hash.js';
 import { explainReporter } from '../engine/events.js';
@@ -8,17 +8,17 @@ import { explainReporter } from '../engine/events.js';
 /**
  * Plugin Manager
  * 
- * PUBLIC: Responsible for registering and executing plugins in the Nuclie pipeline.
+ * PUBLIC: Responsible for registering and executing plugins in the Sparx pipeline.
  * Use this to extend engine functionality via the official plugin contract.
  * 
  * @public
  */
 export class PluginManager {
     /** @internal */
-    private plugins: Map<string, NucliePlugin> = new Map();
+    private plugins: Map<string, SparxPlugin> = new Map();
 
     /** @public */
-    async register(plugin: NucliePlugin | any) {
+    async register(plugin: SparxPlugin | any) {
         let activePlugin = plugin;
 
         // Auto-adapt ported plugins (missing manifest)
@@ -39,7 +39,7 @@ export class PluginManager {
                     }
                     return null;
                 }
-            } as NucliePlugin;
+            } as SparxPlugin;
         }
 
         const { name, version } = activePlugin.manifest;
@@ -77,7 +77,7 @@ export class PluginManager {
     /** @internal */
     private metrics: Map<string, { time: number, calls: number }> = new Map();
     /** @internal */
-    private hookCache: Map<string, NucliePlugin[]> = new Map();
+    private hookCache: Map<string, SparxPlugin[]> = new Map();
 
     /** @internal - Used by the engine to execute hooks. */
     async runHook(hookName: PluginHookName, input: any, context?: any): Promise<any> {

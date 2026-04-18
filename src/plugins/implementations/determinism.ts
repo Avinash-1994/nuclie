@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-determinism
+ * @sparx/plugin-determinism
  * Build determinism checker
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createDeterminismPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-determinism',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-determinism',
+        originalPlugin: 'sparx-native',
         
         async buildStart() {
-            console.log('[@nuclie/plugin-determinism] Starting performance optimization...');
+            console.log('[@sparx/plugin-determinism] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createDeterminismPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-determinism] Performance optimization complete');
+            console.log('[@sparx/plugin-determinism] Performance optimization complete');
         }
     };
 }

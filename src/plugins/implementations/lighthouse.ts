@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-lighthouse
+ * @sparx/plugin-lighthouse
  * Lighthouse CI integration
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createLighthousePlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-lighthouse',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-lighthouse',
+        originalPlugin: 'sparx-native',
         
         async buildStart() {
-            console.log('[@nuclie/plugin-lighthouse] Starting performance optimization...');
+            console.log('[@sparx/plugin-lighthouse] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createLighthousePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-lighthouse] Performance optimization complete');
+            console.log('[@sparx/plugin-lighthouse] Performance optimization complete');
         }
     };
 }

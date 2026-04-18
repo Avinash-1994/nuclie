@@ -14,23 +14,23 @@ async function measureColdStart(cwd: string) {
     console.log(`\n🚀 Measuring True Cold Start in ${cwd}...`);
 
     // Clean cache for TRUE cold start
-    const cacheDir = path.join(cwd, '.nuclie_cache');
+    const cacheDir = path.join(cwd, '.sparx_cache');
     if (fs.existsSync(cacheDir)) {
         console.log('🧹 Cleaning existing cache...');
         fs.rmSync(cacheDir, { recursive: true, force: true });
     }
 
-    const nuclieBin = path.join(process.cwd(), 'dist/cli.mjs');
-    if (!fs.existsSync(nuclieBin)) {
-        console.error('❌ Nuclie CLI not found at dist/cli.mjs. Run npm run build first.');
+    const sparxBin = path.join(process.cwd(), 'dist/cli.mjs');
+    if (!fs.existsSync(sparxBin)) {
+        console.error('❌ Sparx CLI not found at dist/cli.mjs. Run npm run build first.');
         process.exit(1);
     }
 
     const start = performance.now();
-    const server = spawn('node', [nuclieBin, 'dev', '--port', '4099'], {
+    const server = spawn('node', [sparxBin, 'dev', '--port', '4099'], {
         cwd,
         detached: true,
-        env: { ...process.env, NUCLIE_QUIET: 'true' }
+        env: { ...process.env, SPARX_QUIET: 'true' }
     });
 
     return new Promise<{ coldStart: number; ttfb: number }>((resolve) => {

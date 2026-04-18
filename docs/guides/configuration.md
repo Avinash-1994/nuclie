@@ -1,15 +1,15 @@
 # Configuration Guide
 
-Complete reference for configuring Nuclie.
+Complete reference for configuring Sparx.
 
 ## Configuration File
 
-Nuclie supports multiple configuration formats:
+Sparx supports multiple configuration formats:
 
-- `nuclie.config.js` (recommended)
-- `nuclie.config.ts`
-- `nuclie.config.mjs`
-- `nuclie.config.cjs`
+- `sparx.config.js` (recommended)
+- `sparx.config.ts`
+- `sparx.config.mjs`
+- `sparx.config.cjs`
 
 ## Basic Configuration
 
@@ -165,7 +165,7 @@ module.exports = {
     },
     
     // Or import external plugins
-    require('@nuclie/plugin-react-refresh'),
+    require('@sparx/plugin-react-refresh'),
   ],
 };
 ```
@@ -208,7 +208,7 @@ module.exports = {
   },
   
   // Environment variable prefix
-  envPrefix: ['VITE_', 'NUCLIE_'],
+  envPrefix: ['VITE_', 'SPARX_'],
 };
 ```
 
@@ -354,7 +354,7 @@ module.exports = {
 ## Environment-Specific Configuration
 
 ```javascript
-// nuclie.config.js
+// sparx.config.js
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {

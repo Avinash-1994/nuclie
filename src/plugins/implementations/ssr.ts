@@ -1,15 +1,15 @@
 /**
- * @nuclie/plugin-ssr
+ * @sparx/plugin-ssr
  * Universal SSR support
- * Nuclie-native
+ * Sparx-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSsrPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-ssr',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-ssr',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // ssr transformation

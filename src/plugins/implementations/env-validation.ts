@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-env-validation
+ * @sparx/plugin-env-validation
  * Environment variable validation
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createEnvValidationPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-env-validation',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-env-validation',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Security check: Environment variable validation
@@ -29,7 +29,7 @@ export function createEnvValidationPlugin(): PluginAdapter {
             }
             
             if (issues.length > 0) {
-                console.warn(`[@nuclie/plugin-env-validation] Security issues found:`, issues);
+                console.warn(`[@sparx/plugin-env-validation] Security issues found:`, issues);
             }
         }
     };

@@ -269,7 +269,7 @@ jobs:
       - name: 📊 Report Status
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "       NUCLIE — CI COMPLETE"
+          echo "       SPARX — CI COMPLETE"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "  TypeScript  : ${{ needs.typecheck.result }}"
           echo "  Lint        : ${{ needs.lint.result }}"

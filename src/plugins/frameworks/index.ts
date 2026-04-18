@@ -3,10 +3,10 @@
  */
 
 // Tier 1: Production-Ready
-export { nuclieReact, reactPreset, type ReactPluginOptions } from './react.js';
-export { nuclieVue, vuePreset, type VuePluginOptions } from './vue.js';
+export { sparxReact, reactPreset, type ReactPluginOptions } from './react.js';
+export { sparxVue, vuePreset, type VuePluginOptions } from './vue.js';
 
 // Tier 2: Stable
-export { nuclieSvelte, sveltePreset, type SveltePluginOptions } from './svelte.js';
-export { nuclieSolid, solidPreset, type SolidPluginOptions } from './solid.js';
-export { nuclieLit, litPreset, type LitPluginOptions } from './lit.js';
+export { sparxSvelte, sveltePreset, type SveltePluginOptions } from './svelte.js';
+export { sparxSolid, solidPreset, type SolidPluginOptions } from './solid.js';
+export { sparxLit, litPreset, type LitPluginOptions } from './lit.js';

@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-testing-library-react
+ * @sparx/plugin-testing-library-react
  * React Testing Library
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTestingLibraryReactPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-testing-library-react',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-testing-library-react',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Testing: React Testing Library

@@ -1,5 +1,5 @@
 
-import { NucliePlugin } from '../core/plugins/types.js';
+import { SparxPlugin } from '../core/plugins/types.js';
 import { canonicalHash } from '../core/engine/hash.js';
 import crypto from 'crypto';
 import path from 'path';
@@ -17,10 +17,10 @@ export interface FederationConfig {
     healthCheck?: string;
 }
 
-export function createFederationPlugin(config: FederationConfig): NucliePlugin {
+export function createFederationPlugin(config: FederationConfig): SparxPlugin {
     return {
         manifest: {
-            name: 'nuclie:federation',
+            name: 'sparx:federation',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
@@ -132,11 +132,11 @@ var ${config.name} = (() => {
           await __promises[exposed.chunk];
         }
         
-        // Use Nuclie's globalThis.r runtime short ID registration
+        // Use Sparx's globalThis.r runtime short ID registration
         if (typeof globalThis.r === 'function') {
            return globalThis.r(exposed.shortId);
         }
-        throw new Error("Nuclie runtime missing in host!");
+        throw new Error("Sparx runtime missing in host!");
       };
     },
     init: async (shareScope) => {

@@ -27,19 +27,19 @@ jobs:
       - name: Install root dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build nuclie core CLI
+      - name: Build sparx core CLI
         run: npm run build
 
       - name: Install website dependencies
-        run: npm ci --legacy-peer-deps --prefix nuclie-web-app
+        run: npm ci --legacy-peer-deps --prefix sparx-web-app
 
       - name: Build website
-        run: npm --prefix nuclie-web-app run build
+        run: npm --prefix sparx-web-app run build
 
       - name: Upload website artifact for Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: nuclie-web-app/dist
+          path: sparx-web-app/dist
 
   deploy:
     name: Deploy to GitHub Pages

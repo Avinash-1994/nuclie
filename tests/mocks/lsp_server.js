@@ -1,11 +1,11 @@
 /**
- * Nuclie Language Server Logic (Mock for Tests)
+ * Sparx Language Server Logic (Mock for Tests)
  * Copied from extensions/vscode-lsp to ensure reliable loading in tests
  */
 
-export class NuclieLSPServer {
+export class SparxLSPServer {
     constructor() {
-        console.log('Nuclie LSP Initialized');
+        console.log('Sparx LSP Initialized');
     }
 
     onCompletion(documentText, position) {
@@ -14,10 +14,10 @@ export class NuclieLSPServer {
 
         if (line.includes('plugins:') || (line.trim().startsWith('[') && lines[position.line - 1]?.includes('plugins:'))) {
             return [
-                { label: '@nuclie/plugin-react', kind: 9, detail: 'React 19 Adapter' },
-                { label: '@nuclie/plugin-vue', kind: 9, detail: 'Vue 3 Adapter' },
-                { label: '@nuclie/plugin-tailwindcss', kind: 9, detail: 'Tailwind JIT' },
-                { label: '@nuclie/plugin-visualizer', kind: 9, detail: 'Bundle Analysis' }
+                { label: '@sparx/plugin-react', kind: 9, detail: 'React 19 Adapter' },
+                { label: '@sparx/plugin-vue', kind: 9, detail: 'Vue 3 Adapter' },
+                { label: '@sparx/plugin-tailwindcss', kind: 9, detail: 'Tailwind JIT' },
+                { label: '@sparx/plugin-visualizer', kind: 9, detail: 'Bundle Analysis' }
             ];
         }
 
@@ -41,7 +41,7 @@ export class NuclieLSPServer {
                     range: { start: { line: i, character: line.indexOf("'prod'") }, end: { line: i, character: line.indexOf("'prod'") + 6 } },
                     severity: 2,
                     message: "Did you mean 'production'?",
-                    source: 'Nuclie LSP'
+                    source: 'Sparx LSP'
                 });
             }
 
@@ -50,7 +50,7 @@ export class NuclieLSPServer {
                     range: { start: { line: i, character: 0 }, end: { line: i, character: line.length } },
                     severity: 3,
                     message: "Performance: Prefer default import or lodash-es for better tree-shaking.",
-                    source: 'Nuclie Perf'
+                    source: 'Sparx Perf'
                 });
             }
         });

@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-prebundle
+ * @sparx/plugin-prebundle
  * Dependency pre-bundling
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrebundlePlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-prebundle',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-prebundle',
+        originalPlugin: 'sparx-native',
         
         async buildStart() {
-            console.log('[@nuclie/plugin-prebundle] Starting performance optimization...');
+            console.log('[@sparx/plugin-prebundle] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPrebundlePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-prebundle] Performance optimization complete');
+            console.log('[@sparx/plugin-prebundle] Performance optimization complete');
         }
     };
 }

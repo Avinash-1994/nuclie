@@ -1,5 +1,5 @@
 /**
- * Nuclie Module Federation
+ * Sparx Module Federation
  *
  * Implements the Module Federation protocol compatible with webpack 5 MF.
  * Works in both dev (dynamic import from remote URL) and build (remoteEntry.js).
@@ -39,12 +39,12 @@ export interface FederationBuildResult {
 /** Injected once into the host page — manages shared singleton deps */
 export const SHARED_SCOPE_RUNTIME = `
 (function() {
-  if (typeof __nuclie_shared__ !== 'undefined') return;
+  if (typeof __sparx_shared__ !== 'undefined') return;
   
   var _shared = {};
   var _initialized = {};
 
-  globalThis.__nuclie_shared__ = {
+  globalThis.__sparx_shared__ = {
     /** Register a version of a shared module */
     register: function(name, version, factory, eager) {
       if (!_shared[name]) _shared[name] = {};
@@ -124,7 +124,7 @@ ${code.split('\n').map(l => '      ' + l).join('\n')}
         .join(',\n')
     : ''
 
-  return `// Nuclie Module Federation — Remote Entry
+  return `// Sparx Module Federation — Remote Entry
 // App: ${config.name}
 // Generated: ${new Date().toISOString()}
 (function() {
@@ -137,13 +137,13 @@ ${sharedEntries}
   };
 
   // Register shared deps into the global scope
-  if (typeof globalThis.__nuclie_shared__ !== 'undefined' && Object.keys(__shared__).length > 0) {
+  if (typeof globalThis.__sparx_shared__ !== 'undefined' && Object.keys(__shared__).length > 0) {
     Object.keys(__shared__).forEach(function(pkg) {
       var cfg = __shared__[pkg];
       // Only register if we have the module available
       try {
         var factory = function() { return require(pkg); };
-        globalThis.__nuclie_shared__.register(pkg, cfg.version, factory, cfg.eager);
+        globalThis.__sparx_shared__.register(pkg, cfg.version, factory, cfg.eager);
       } catch(e) {
         // Module not available as shared - that's okay
       }
@@ -157,11 +157,11 @@ ${sharedEntries}
     /** Initialize shared scope */
     init: function(sharedScope) {
       // Merge external shared scope with ours
-      if (sharedScope && typeof globalThis.__nuclie_shared__ !== 'undefined') {
+      if (sharedScope && typeof globalThis.__sparx_shared__ !== 'undefined') {
         Object.keys(sharedScope).forEach(function(name) {
-          if (!globalThis.__nuclie_shared__.has(name)) {
+          if (!globalThis.__sparx_shared__.has(name)) {
             Object.keys(sharedScope[name]).forEach(function(version) {
-              globalThis.__nuclie_shared__.register(name, version, sharedScope[name][version].get, false);
+              globalThis.__sparx_shared__.register(name, version, sharedScope[name][version].get, false);
             });
           }
         });
@@ -173,7 +173,7 @@ ${sharedEntries}
       var factory = __modules__[moduleName] || __modules__['./' + moduleName];
       if (!factory) {
         return Promise.reject(new Error(
-          '[Nuclie MF] Module "' + moduleName + '" not found in remote "' + ${JSON.stringify(config.name)} + '". ' +
+          '[Sparx MF] Module "' + moduleName + '" not found in remote "' + ${JSON.stringify(config.name)} + '". ' +
           'Available: ' + Object.keys(__modules__).join(', ')
         ));
       }
@@ -182,14 +182,14 @@ ${sharedEntries}
   };
 
   // Register on globalThis so the host can access it
-  var globalKey = 'nuclie_remote_' + ${JSON.stringify(config.name)};
+  var globalKey = 'sparx_remote_' + ${JSON.stringify(config.name)};
   globalThis[globalKey] = container;
   
   // Also register under the app name directly (for compatibility)
   globalThis[${JSON.stringify(config.name)}] = container;
 
   // Signal that this remote is ready
-  var event = new CustomEvent('nuclie:remote:ready', { detail: { name: ${JSON.stringify(config.name)} } });
+  var event = new CustomEvent('sparx:remote:ready', { detail: { name: ${JSON.stringify(config.name)} } });
   if (typeof document !== 'undefined') {
     document.dispatchEvent(event);
   }
@@ -223,10 +223,10 @@ export function generateFederationRuntime(
   const remotesJson = JSON.stringify(normalizedRemotes, null, 2)
 
   return `
-// Nuclie Module Federation Runtime
+// Sparx Module Federation Runtime
 // Injected into host app
 (function() {
-  if (typeof globalThis.__nuclie_federation__ !== 'undefined') return;
+  if (typeof globalThis.__sparx_federation__ !== 'undefined') return;
 
   ${SHARED_SCOPE_RUNTIME}
 
@@ -252,7 +252,7 @@ export function generateFederationRuntime(
     var url = __remotes__[remoteName];
     if (!url) {
       return Promise.reject(
-        new Error('[Nuclie MF] Unknown remote: "' + remoteName + '". Configured remotes: ' + Object.keys(__remotes__).join(', '))
+        new Error('[Sparx MF] Unknown remote: "' + remoteName + '". Configured remotes: ' + Object.keys(__remotes__).join(', '))
       );
     }
 
@@ -265,16 +265,16 @@ export function generateFederationRuntime(
 
       script.onload = function() {
         // The script registers itself on globalThis
-        var container = globalThis['nuclie_remote_' + remoteName] || globalThis[remoteName];
+        var container = globalThis['sparx_remote_' + remoteName] || globalThis[remoteName];
         if (!container) {
-          reject(new Error('[Nuclie MF] Remote "' + remoteName + '" loaded but container not found on globalThis. ' +
-            'Make sure the remote app was built with Nuclie MF.'));
+          reject(new Error('[Sparx MF] Remote "' + remoteName + '" loaded but container not found on globalThis. ' +
+            'Make sure the remote app was built with Sparx MF.'));
           return;
         }
 
         // Initialize with shared scope
         if (typeof container.init === 'function') {
-          container.init(globalThis.__nuclie_shared__ || {});
+          container.init(globalThis.__sparx_shared__ || {});
         }
 
         __loaded__[remoteName] = container;
@@ -284,7 +284,7 @@ export function generateFederationRuntime(
 
       script.onerror = function(err) {
         delete __loading__[remoteName];
-        reject(new Error('[Nuclie MF] Failed to load remote "' + remoteName + '" from ' + url));
+        reject(new Error('[Sparx MF] Failed to load remote "' + remoteName + '" from ' + url));
       };
 
       document.head.appendChild(script);
@@ -296,9 +296,9 @@ export function generateFederationRuntime(
 
   /**
    * Import a module from a remote app.
-   * Usage: __nuclie_import__('cart/CartWidget')
+   * Usage: __sparx_import__('cart/CartWidget')
    */
-  globalThis.__nuclie_import__ = function(moduleId) {
+  globalThis.__sparx_import__ = function(moduleId) {
     var parts = moduleId.split('/');
     var remoteName = parts[0];
     var modulePath = './' + parts.slice(1).join('/');
@@ -314,11 +314,11 @@ export function generateFederationRuntime(
    * Preload a remote — fetches the container without importing any module yet.
    * Call this early to warm up the remote.
    */
-  globalThis.__nuclie_preload__ = function(remoteName) {
+  globalThis.__sparx_preload__ = function(remoteName) {
     return loadRemote(remoteName);
   };
 
-  globalThis.__nuclie_federation__ = {
+  globalThis.__sparx_federation__ = {
     remotes: __remotes__,
     loaded: __loaded__,
     loadRemote: loadRemote,
@@ -337,7 +337,7 @@ export function federationPlugin(config: FederationConfig): Plugin {
   const remoteNames = new Set(Object.keys(config.remotes ?? {}))
 
   return {
-    name: 'nuclie-module-federation',
+    name: 'sparx-module-federation',
 
     setup(build) {
       // ── Intercept imports from remote names ─────────────────────────────────
@@ -349,7 +349,7 @@ export function federationPlugin(config: FederationConfig): Plugin {
         if (remoteNames.has(remoteName) && rest.length > 0) {
           return {
             path: args.path,
-            namespace: 'nuclie-federation-remote',
+            namespace: 'sparx-federation-remote',
           }
         }
         return null
@@ -357,7 +357,7 @@ export function federationPlugin(config: FederationConfig): Plugin {
 
       // ── Generate proxy module for each remote import ─────────────────────────
       build.onLoad(
-        { filter: /.*/, namespace: 'nuclie-federation-remote' },
+        { filter: /.*/, namespace: 'sparx-federation-remote' },
         (args) => {
           const [remoteName, ...rest] = args.path.split('/')
           const modulePath = rest.join('/')
@@ -365,7 +365,7 @@ export function federationPlugin(config: FederationConfig): Plugin {
 
           // Generate a proxy that uses the runtime loader
           const contents = `
-// Nuclie MF: proxy for '${moduleId}'
+// Sparx MF: proxy for '${moduleId}'
 // This module is loaded from remote '${remoteName}' at runtime
 
 var __module__ = null;
@@ -375,14 +375,14 @@ function __loadModule__() {
   if (__module__) return Promise.resolve(__module__);
   if (__promise__) return __promise__;
 
-  if (typeof globalThis.__nuclie_import__ === 'undefined') {
+  if (typeof globalThis.__sparx_import__ === 'undefined') {
     throw new Error(
-      '[Nuclie MF] Federation runtime not found. ' +
-      'Make sure the host app has federation configured in nuclie.config.js'
+      '[Sparx MF] Federation runtime not found. ' +
+      'Make sure the host app has federation configured in sparx.config.js'
     );
   }
 
-  __promise__ = globalThis.__nuclie_import__(${JSON.stringify(moduleId)}).then(function(m) {
+  __promise__ = globalThis.__sparx_import__(${JSON.stringify(moduleId)}).then(function(m) {
     __module__ = m;
     __promise__ = null;
     return m;
@@ -403,8 +403,8 @@ var proxy = new Proxy({}, {
     }
     return function() {
       throw new Error(
-        '[Nuclie MF] Module "${moduleId}" not yet loaded. ' +
-        'Use React.lazy(() => import("${moduleId}")) or await nuclie.preload("${remoteName}").'
+        '[Sparx MF] Module "${moduleId}" not yet loaded. ' +
+        'Use React.lazy(() => import("${moduleId}")) or await sparx.preload("${remoteName}").'
       );
     };
   }
@@ -439,7 +439,7 @@ export default proxy;
 
           return {
             contents: `
-// Nuclie MF: Runtime injected by federation plugin
+// Sparx MF: Runtime injected by federation plugin
 (function() {
   if (typeof window === 'undefined') return; // Skip in SSR
   var script = document.createElement('script');
@@ -470,7 +470,7 @@ export function injectRemotesIntoHTML(
     .map(
       ([name, url]) => {
         const normalized = normalizeRemoteUrl(url);
-        return `  <script type="module" src="${normalized}" crossorigin="anonymous" data-nuclie-remote="${name}"></script>`;
+        return `  <script type="module" src="${normalized}" crossorigin="anonymous" data-sparx-remote="${name}"></script>`;
       }
     )
     .join('\n')

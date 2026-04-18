@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-jest
+ * @sparx/plugin-jest
  * Jest testing framework
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createJestPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-jest',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-jest',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Testing: Jest testing framework

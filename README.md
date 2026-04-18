@@ -1,12 +1,12 @@
-# ⚡ Nuclie — Modern Build Tool
+# ⚡ Sparx — Modern Build Tool
 
-[![npm version](https://img.shields.io/npm/v/nuclie.svg)](https://www.npmjs.com/package/nuclie)
-[![CI](https://github.com/Avinash-1994/Nuclie/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Nuclie/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/sparx.svg)](https://www.npmjs.com/package/sparx)
+[![CI](https://github.com/Avinash-1994/Sparx/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-1994/Sparx/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-109%2F109-brightgreen)](#test-status)
 [![Node >=20](https://img.shields.io/badge/node-%3E%3D20-blue)](https://nodejs.org)
 
-Nuclie is a modern JavaScript build tool powered by SWC (Rust) and LightningCSS. It delivers fast HMR, native module federation for micro-frontends, automatic tree shaking, and deep multi-framework support (React, Vue, Svelte, Solid, Preact, Qwik, Lit, Alpine, Vanilla JS) — a modern alternative with a Rust-native core.
+Sparx is a modern JavaScript build tool powered by SWC (Rust) and LightningCSS. It delivers fast HMR, native module federation for micro-frontends, automatic tree shaking, and deep multi-framework support (React, Vue, Svelte, Solid, Preact, Qwik, Lit, Alpine, Vanilla JS) — a modern alternative with a Rust-native core.
 
 ---
 
@@ -28,17 +28,17 @@ Nuclie is a modern JavaScript build tool powered by SWC (Rust) and LightningCSS.
 
 ```bash
 # Install globally
-npm install -g nuclie
+npm install -g sparx
 
 # Scaffold a new project
-nuclie bootstrap --name my-app --template react-ts
+sparx bootstrap --name my-app --template react-ts
 
 # Start dev server
 cd my-app
-nuclie dev
+sparx dev
 
 # Production build
-nuclie build
+sparx build
 ```
 
 ---
@@ -46,7 +46,7 @@ nuclie build
 ## 📦 Installation
 
 ```bash
-npm install -g nuclie
+npm install -g sparx
 ```
 
 **Requirements:** Node.js ≥ 20
@@ -60,11 +60,11 @@ Every framework gets an identical config shape — only the `entry` file changes
 ### ⚛️ React
 
 ```bash
-nuclie bootstrap --name my-app --template react-ts
+sparx bootstrap --name my-app --template react-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   outDir: './dist',
@@ -92,11 +92,11 @@ module.exports = {
 ### 🟩 Vue 3
 
 ```bash
-nuclie bootstrap --name my-app --template vue-ts
+sparx bootstrap --name my-app --template vue-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -118,11 +118,11 @@ module.exports = {
 ### 🧡 Svelte 5
 
 ```bash
-nuclie bootstrap --name my-app --template svelte-ts
+sparx bootstrap --name my-app --template svelte-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -148,11 +148,11 @@ module.exports = {
 ### 🔵 SolidJS
 
 ```bash
-nuclie bootstrap --name my-app --template solid-ts
+sparx bootstrap --name my-app --template solid-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/index.tsx'],
   outDir: './dist',
@@ -174,11 +174,11 @@ module.exports = {
 ### 🟣 Preact
 
 ```bash
-nuclie bootstrap --name my-app --template preact-ts
+sparx bootstrap --name my-app --template preact-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/index.tsx'],
   outDir: './dist',
@@ -208,11 +208,11 @@ module.exports = {
 ### 🔶 Lit (Web Components)
 
 ```bash
-nuclie bootstrap --name my-app --template lit-ts
+sparx bootstrap --name my-app --template lit-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -235,11 +235,11 @@ module.exports = {
 ### 🏔️ Alpine.js
 
 ```bash
-nuclie bootstrap --name my-app --template alpine-js
+sparx bootstrap --name my-app --template alpine-js
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.js'],
   outDir: './dist',
@@ -260,13 +260,13 @@ module.exports = {
 ### ⚡ Vanilla JS / TypeScript
 
 ```bash
-nuclie bootstrap --name my-app --template vanilla-js
+sparx bootstrap --name my-app --template vanilla-js
 # or
-nuclie bootstrap --name my-app --template vanilla-ts
+sparx bootstrap --name my-app --template vanilla-ts
 ```
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.ts'],
   outDir: './dist',
@@ -288,7 +288,7 @@ module.exports = {
 ## ⚙️ Full Config Reference
 
 ```js
-// nuclie.config.js — all options
+// sparx.config.js — all options
 module.exports = {
   // Entry points (relative to project root)
   entry: ['./src/main.tsx'],
@@ -377,7 +377,7 @@ import CartWidget from 'cart/CartWidget';
 ## 🔌 Plugin System
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   plugins: [
@@ -405,16 +405,16 @@ module.exports = {
 ## 🛠️ CLI Commands
 
 ```bash
-nuclie dev                                          # Start dev server with HMR
-nuclie build                                        # Production build
-nuclie bootstrap --name <n> --template <t>          # Scaffold new project
-nuclie init                                         # Generate nuclie.config.js
-nuclie ssr                                          # SSR server
-nuclie inspect                                      # Inspect dependency graph
-nuclie analyze                                      # Analyze bundle size
-nuclie audit                                        # Accessibility, performance & SEO
-nuclie verify                                       # Config health check
-nuclie doctor                                       # Diagnose common issues
+sparx dev                                          # Start dev server with HMR
+sparx build                                        # Production build
+sparx bootstrap --name <n> --template <t>          # Scaffold new project
+sparx init                                         # Generate sparx.config.js
+sparx ssr                                          # SSR server
+sparx inspect                                      # Inspect dependency graph
+sparx analyze                                      # Analyze bundle size
+sparx audit                                        # Accessibility, performance & SEO
+sparx verify                                       # Config health check
+sparx doctor                                       # Diagnose common issues
 ```
 
 ---
@@ -423,27 +423,27 @@ nuclie doctor                                       # Diagnose common issues
 
 ```bash
 # TypeScript
-nuclie bootstrap --name my-app --template react-ts
-nuclie bootstrap --name my-app --template vue-ts
-nuclie bootstrap --name my-app --template svelte-ts
-nuclie bootstrap --name my-app --template solid-ts
-nuclie bootstrap --name my-app --template preact-ts
-nuclie bootstrap --name my-app --template lit-ts
-nuclie bootstrap --name my-app --template mithril-ts
-nuclie bootstrap --name my-app --template alpine-ts
-nuclie bootstrap --name my-app --template vanilla-ts
+sparx bootstrap --name my-app --template react-ts
+sparx bootstrap --name my-app --template vue-ts
+sparx bootstrap --name my-app --template svelte-ts
+sparx bootstrap --name my-app --template solid-ts
+sparx bootstrap --name my-app --template preact-ts
+sparx bootstrap --name my-app --template lit-ts
+sparx bootstrap --name my-app --template mithril-ts
+sparx bootstrap --name my-app --template alpine-ts
+sparx bootstrap --name my-app --template vanilla-ts
 
 # JavaScript
-nuclie bootstrap --name my-app --template react
-nuclie bootstrap --name my-app --template vue
-nuclie bootstrap --name my-app --template svelte
-nuclie bootstrap --name my-app --template solid
-nuclie bootstrap --name my-app --template preact
-nuclie bootstrap --name my-app --template lit
-nuclie bootstrap --name my-app --template qwik
-nuclie bootstrap --name my-app --template mithril
-nuclie bootstrap --name my-app --template alpine
-nuclie bootstrap --name my-app --template vanilla
+sparx bootstrap --name my-app --template react
+sparx bootstrap --name my-app --template vue
+sparx bootstrap --name my-app --template svelte
+sparx bootstrap --name my-app --template solid
+sparx bootstrap --name my-app --template preact
+sparx bootstrap --name my-app --template lit
+sparx bootstrap --name my-app --template qwik
+sparx bootstrap --name my-app --template mithril
+sparx bootstrap --name my-app --template alpine
+sparx bootstrap --name my-app --template vanilla
 ```
 
 ---
@@ -511,6 +511,6 @@ MIT © [Avinash-1994](https://github.com/Avinash-1994)
 
 ## 📞 Support
 
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Nuclie/discussions)
-- 🐛 [Issues](https://github.com/Avinash-1994/Nuclie/issues)
-- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Nuclie)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Sparx/discussions)
+- 🐛 [Issues](https://github.com/Avinash-1994/Sparx/issues)
+- ⭐ [Star on GitHub](https://github.com/Avinash-1994/Sparx)

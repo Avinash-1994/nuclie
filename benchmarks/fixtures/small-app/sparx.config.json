@@ -1,0 +1,9 @@
+{
+  "module": "sparx",
+  "entry": ["./src/main.jsx"],
+  "outDir": "./dist-sparx",
+  "build": {
+    "minify": true,
+    "sourcemap": false
+  }
+}

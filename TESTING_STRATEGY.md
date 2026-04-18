@@ -1,4 +1,4 @@
-# 🧪 Nuclie Testing Strategy - Current & Recommended
+# 🧪 Sparx Testing Strategy - Current & Recommended
 
 ## 📊 Current Testing Coverage (41 Tests)
 

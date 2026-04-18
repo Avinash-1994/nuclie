@@ -341,6 +341,6 @@ export class ErrorOverlay extends HTMLElement {
 (ErrorOverlay.prototype as any).dismiss = ErrorOverlay.prototype.dismiss;
 (ErrorOverlay.prototype as any).openInEditor = ErrorOverlay.prototype.openInEditor;
 
-if (!customElements.get('nuclie-error-overlay')) {
-  customElements.define('nuclie-error-overlay', ErrorOverlay);
+if (!customElements.get('sparx-error-overlay')) {
+  customElements.define('sparx-error-overlay', ErrorOverlay);
 }

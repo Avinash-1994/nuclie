@@ -143,6 +143,13 @@ export class Transformer {
                         }
                         results.push({ id: batch[i].id, code });
                     });
+
+                    // Phase 4.4 — PostCSS passthrough for CSS loader batches.
+                    // Order: LightningCSS (native) → PostCSS → output.
+                    // Skipped if no postcss.config.js or postcss not installed.
+                    if (loader === 'css') {
+                        await Transformer.applyPostCss(results, ctx.rootDir);
+                    }
                 } catch (e) {
                     const fallbackResults = await Promise.all(batch.map(async (m) => {
                         const transformed = await ctx.pluginManager.runHook('transformModule', {
@@ -164,7 +171,7 @@ export class Transformer {
     }
 
     static removeEsbuildWrappers(code: string): string {
-        // High-performance boilerplate removal for Nuclie minified
+        // High-performance boilerplate removal for Sparx minified
         let clean = code;
 
         // Pattern 1: ESM exports wrapper (Minified)
@@ -211,5 +218,39 @@ export class Transformer {
         }
 
         return clean;
+    }
+
+    /**
+     * Phase 4.4 — PostCSS passthrough.
+     * Mutates results in-place. Silently skips if postcss not installed or no config.
+     */
+    static async applyPostCss(results: Array<{ id: string; code: string }>, rootDir: string): Promise<void> {
+        try {
+            const fsMod = await import('fs/promises');
+            const pathMod = await import('path');
+            const candidates = ['postcss.config.js', 'postcss.config.cjs', 'postcss.config.mjs', 'postcss.config.ts'];
+            let configPath = '';
+            for (const c of candidates) {
+                try { await fsMod.access(pathMod.join(rootDir, c)); configPath = pathMod.join(rootDir, c); break; } catch { /* try next */ }
+            }
+            if (!configPath) return;
+
+            const postcss = (await import('postcss')).default;
+            const configMod = await import('file://' + configPath).catch(() => null);
+            if (!configMod) return;
+            const plugins = configMod.default?.plugins ?? configMod.plugins ?? [];
+            const processor = postcss(plugins);
+
+            for (const r of results) {
+                try {
+                    const out = await processor.process(r.code, { from: undefined });
+                    r.code = out.css;
+                } catch (e: any) {
+                    log.warn(`[sparx:postcss] Error processing ${r.id}: ${e.message}`);
+                }
+            }
+        } catch {
+            // postcss not installed — skip silently
+        }
     }
 }

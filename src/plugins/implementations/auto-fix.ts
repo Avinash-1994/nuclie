@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-auto-fix
+ * @sparx/plugin-auto-fix
  * Automatic error fixing
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createAutoFixPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-auto-fix',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-auto-fix',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Utility: Automatic error fixing

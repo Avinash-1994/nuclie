@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-avif
+ * @sparx/plugin-avif
  * AVIF image support
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createAvifPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-avif',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-avif',
+        originalPlugin: 'sparx-native',
         
         async load(id: string) {
             // Asset loading for avif

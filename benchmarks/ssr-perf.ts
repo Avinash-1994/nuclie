@@ -42,7 +42,7 @@ async function runSSRBenchmarks() {
 
     console.log(`| Platform | Avg TTFB | Baseline | Winner |`);
     console.log(`|:---|:---|:---|:---|`);
-    console.log(`| Nuclie (Node) | ${avgTTFB.toFixed(3)}ms | Next.js (${BASELINES.nextjs}ms) | 🏆 Nuclie |`);
+    console.log(`| Sparx (Node) | ${avgTTFB.toFixed(3)}ms | Next.js (${BASELINES.nextjs}ms) | 🏆 Sparx |`);
 
     // 2. Memory Usage
     const memory = process.memoryUsage().heapUsed / 1024 / 1024;
@@ -70,7 +70,7 @@ async function runSSRBenchmarks() {
     const sEnd = performance.now();
     console.log(`| Streaming Total Time | ${(sEnd - sStart).toFixed(2)}ms |`);
 
-    console.log('\n✅ CERTIFIED: Nuclie SSR TTFB beats Next.js by > 10x in raw engine latency.');
+    console.log('\n✅ CERTIFIED: Sparx SSR TTFB beats Next.js by > 10x in raw engine latency.');
 }
 
 runSSRBenchmarks().catch(console.error);

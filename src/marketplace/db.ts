@@ -1,6 +1,6 @@
 
 /**
- * Nuclie Marketplace Database
+ * Sparx Marketplace Database
  * Implementation: SQLite (via better-sqlite3) for Local Registry
  */
 
@@ -8,8 +8,8 @@ import Database from 'better-sqlite3';
 import * as fs from 'fs';
 import path from 'path';
 
-const DB_PATH = path.resolve('.nuclie-marketplace.db');
-const ARTIFACT_ROOT = path.resolve('.nuclie-marketplace-artifacts');
+const DB_PATH = path.resolve('.sparx-marketplace.db');
+const ARTIFACT_ROOT = path.resolve('.sparx-marketplace-artifacts');
 
 export interface PluginRecord {
     name: string;

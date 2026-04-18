@@ -15,13 +15,13 @@ native/target/
 native/Cargo.lock
 native/*.node
 native/native.d.ts
-native/nuclie_native*.node
+native/sparx_native*.node
 native/nextgen_native*.node
-native/nuclie_native*.node
+native/sparx_native*.node
 *.node
 
 # Test artifacts
-.test_create_nuclie/
+.test_create_sparx/
 test-project-*/
 my-react-app/
 test_output*/
@@ -33,7 +33,7 @@ marketplace.db
 marketplace.db-journal
 
 # Build artifacts
-nuclie_native.node
+sparx_native.node
 *.wasm
 
 # IDE
@@ -64,7 +64,7 @@ benchmark_temp/
 *.csr
 *.priv
 **/certs/**
-**/.nuclie/certs/**
+**/.sparx/certs/**
 .env
 .env.local
 .env.*.local
@@ -73,9 +73,9 @@ secrets/
 *.private
 
 # Cache and local data
-.nuclie_cache/
-.nuclie/telemetry/
-**/.nuclie_cache/**
-**/.nuclie/telemetry/**
+.sparx_cache/
+.sparx/telemetry/
+**/.sparx_cache/**
+**/.sparx/telemetry/**
 *.db
 *.db-journal

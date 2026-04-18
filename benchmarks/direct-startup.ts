@@ -34,7 +34,7 @@ async function benchmarkDirectStartup() {
     console.log('🏆 Competitor Comparison');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
-    console.log(`  Nuclie (Direct):  ${Math.round(total)}ms`);
+    console.log(`  Sparx (Direct):  ${Math.round(total)}ms`);
     console.log(`  esbuild (target): 200ms`);
     console.log(`  Rspack:          ~300ms`);
     console.log(`  Turbopack:       ~400ms`);

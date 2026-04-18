@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-trpc
+ * @sparx/plugin-trpc
  * tRPC integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createTrpcPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-trpc',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-trpc',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Utility: tRPC integration

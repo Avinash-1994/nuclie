@@ -1,19 +1,19 @@
 
-import { NucliePlugin } from '../core/plugins/types.js';
+import { SparxPlugin } from '../core/plugins/types.js';
 import path from 'path';
 import fs from 'fs/promises';
 
-export function createJsonPlugin(): NucliePlugin {
+export function createJsonPlugin(): SparxPlugin {
     return {
         manifest: {
-            name: 'nuclie:json',
+            name: 'sparx:json',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['load'],
             permissions: { fs: 'read' }
         },
-        id: 'nuclie:json',
+        id: 'sparx:json',
         async runHook(hook, input, context) {
             if (hook === 'load') {
                 if (input.path.endsWith('.json')) {

@@ -1,15 +1,15 @@
 # SolidJS Guide
 
-> Build SolidJS apps with Nuclie — fine-grained reactivity, signal-aware HMR, TypeScript.
+> Build SolidJS apps with Sparx — fine-grained reactivity, signal-aware HMR, TypeScript.
 
 ---
 
 ## Quick Start
 
 ```bash
-nuclie bootstrap --name my-solid-app --template solid-ts
+sparx bootstrap --name my-solid-app --template solid-ts
 cd my-solid-app
-nuclie dev
+sparx dev
 ```
 
 ---
@@ -19,11 +19,11 @@ nuclie dev
 ### 1. Install
 
 ```bash
-npm install --save-dev nuclie typescript
+npm install --save-dev sparx typescript
 npm install solid-js
 ```
 
-### 2. Create `nuclie.config.js`
+### 2. Create `sparx.config.js`
 
 **JavaScript:**
 ```js
@@ -37,7 +37,7 @@ module.exports = {
 
 **TypeScript:**
 ```ts
-import { defineConfig } from 'nuclie';
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   entry: ['./src/index.tsx'],
@@ -67,7 +67,7 @@ function App() {
 
   return (
     <div>
-      <h1>Hello from Nuclie + SolidJS</h1>
+      <h1>Hello from Sparx + SolidJS</h1>
       <button onClick={() => setCount(c => c + 1)}>
         Count: {count()}
       </button>
@@ -114,7 +114,7 @@ function Counter() {
 
 ## HMR — Signal-Aware Hot Reload
 
-Nuclie provides signal-aware HMR for SolidJS:
+Sparx provides signal-aware HMR for SolidJS:
 
 - Signal values are **preserved** across saves when possible
 - Component re-renders when code structure changes
@@ -260,7 +260,7 @@ function App() {
 ## Production Build
 
 ```bash
-nuclie build
+sparx build
 ```
 
 SolidJS compiles to **vanilla DOM operations** with no virtual DOM overhead. Bundles are typically 5–15KB gzipped for typical apps.

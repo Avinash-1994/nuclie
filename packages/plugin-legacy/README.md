@@ -1,18 +1,18 @@
-# @nuclie/plugin-legacy
+# @sparx/plugin-legacy
 
-> Official Nuclie plugin for legacy browser support — ES5 transpilation and core-js polyfills.
+> Official Sparx plugin for legacy browser support — ES5 transpilation and core-js polyfills.
 
 ## Install
 
 ```bash
-npm install --save-dev @nuclie/plugin-legacy
+npm install --save-dev @sparx/plugin-legacy
 npm install core-js regenerator-runtime
 ```
 
 ## Usage
 
 ```js
-const legacy = require('@nuclie/plugin-legacy');
+const legacy = require('@sparx/plugin-legacy');
 module.exports = {
   entry: ['./src/main.ts'],
   plugins: [

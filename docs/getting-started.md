@@ -1,4 +1,4 @@
-# Getting Started with Nuclie
+# Getting Started with Sparx
 
 > Get from zero to a running app in **under 5 minutes**.
 
@@ -11,17 +11,17 @@
 
 ---
 
-## Step 1 — Install Nuclie
+## Step 1 — Install Sparx
 
 ```bash
-npm install -g nuclie
+npm install -g sparx
 ```
 
 Verify the installation:
 
 ```bash
-nuclie --version
-# ⚡ nuclie v1.0.9
+sparx --version
+# ⚡ sparx v1.0.9
 ```
 
 ---
@@ -32,16 +32,16 @@ Pick your framework:
 
 ```bash
 # React + TypeScript (recommended)
-nuclie bootstrap --name my-app --template react-ts
+sparx bootstrap --name my-app --template react-ts
 
 # Vue 3 + TypeScript
-nuclie bootstrap --name my-app --template vue-ts
+sparx bootstrap --name my-app --template vue-ts
 
 # Svelte + TypeScript
-nuclie bootstrap --name my-app --template svelte-ts
+sparx bootstrap --name my-app --template svelte-ts
 
 # Vanilla TypeScript
-nuclie bootstrap --name my-app --template vanilla-ts
+sparx bootstrap --name my-app --template vanilla-ts
 ```
 
 This creates a `my-app/` directory with a working starter project.
@@ -52,13 +52,13 @@ This creates a `my-app/` directory with a working starter project.
 
 ```bash
 cd my-app
-nuclie dev
+sparx dev
 ```
 
 You should see:
 
 ```
-⚡ Nuclie v1.0.9
+⚡ Sparx v1.0.9
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://192.168.x.x:3000/
 
@@ -72,7 +72,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. **HMR is ac
 ## Step 4 — Production Build
 
 ```bash
-nuclie build
+sparx build
 ```
 
 Output goes to `./dist/`. The build is minified, tree-shaken, and ready to deploy.
@@ -82,7 +82,7 @@ Output goes to `./dist/`. The build is minified, tree-shaken, and ready to deplo
 ## Step 5 — Preview the Production Build
 
 ```bash
-nuclie preview
+sparx preview
 ```
 
 Serves the `dist/` folder locally so you can verify before deploying.
@@ -100,7 +100,7 @@ my-app/
 │   ├── App.tsx         ← Root component
 │   └── index.css
 ├── index.html
-├── nuclie.config.js    ← Nuclie configuration
+├── sparx.config.js    ← Sparx configuration
 └── package.json
 ```
 
@@ -108,10 +108,10 @@ my-app/
 
 ## Minimal Configuration
 
-The scaffolded `nuclie.config.js` works out of the box:
+The scaffolded `sparx.config.js` works out of the box:
 
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   entry: ['./src/main.tsx'],
   outDir: './dist',
@@ -134,14 +134,14 @@ module.exports = {
 
 ## Adding to an Existing Project
 
-If you already have a project, you can add Nuclie without scaffolding:
+If you already have a project, you can add Sparx without scaffolding:
 
 ```bash
 # Install locally
-npm install --save-dev nuclie
+npm install --save-dev sparx
 
 # Generate a config file
-npx nuclie init
+npx sparx init
 ```
 
 Then update your `package.json` scripts:
@@ -149,9 +149,9 @@ Then update your `package.json` scripts:
 ```json
 {
   "scripts": {
-    "dev": "nuclie dev",
-    "build": "nuclie build",
-    "preview": "nuclie preview"
+    "dev": "sparx dev",
+    "build": "sparx build",
+    "preview": "sparx preview"
   }
 }
 ```
@@ -161,14 +161,14 @@ Then update your `package.json` scripts:
 ## CLI Reference
 
 ```bash
-nuclie dev                            # Start dev server with HMR
-nuclie build                          # Production build
-nuclie preview                        # Preview production build
-nuclie bootstrap --name n --template t  # Scaffold new project
-nuclie init                           # Generate nuclie.config.js
-nuclie inspect                        # Inspect module graph
-nuclie analyze                        # Analyze bundle size
-nuclie doctor                         # Diagnose common issues
+sparx dev                            # Start dev server with HMR
+sparx build                          # Production build
+sparx preview                        # Preview production build
+sparx bootstrap --name n --template t  # Scaffold new project
+sparx init                           # Generate sparx.config.js
+sparx inspect                        # Inspect module graph
+sparx analyze                        # Analyze bundle size
+sparx doctor                         # Diagnose common issues
 ```
 
 ---
@@ -176,7 +176,7 @@ nuclie doctor                         # Diagnose common issues
 ## Next Steps
 
 - 📖 [Configuration Reference](./guides/configuration.md) — all config options with types and defaults
-- 🔌 [Plugin Guide](./plugins.md) — extend Nuclie with plugins
+- 🔌 [Plugin Guide](./plugins.md) — extend Sparx with plugins
 - 📦 [Module Federation](./guides/federation.md) — micro-frontend architecture
 - 🔥 [HMR Guide](./HMR_IMPLEMENTATION_STATUS.md) — how HMR works and how to debug it
 - 🚚 [Migration Guide](./migration.md) — moving from Vite or Webpack

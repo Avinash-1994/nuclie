@@ -1,6 +1,6 @@
-# Migration Guide: Moving to Nuclie
+# Migration Guide: Moving to Sparx
 
-> **Goal**: Migrate from Vite, Webpack, Rollup, or Angular CLI to Nuclie in **under 30 minutes**.
+> **Goal**: Migrate from Vite, Webpack, Rollup, or Angular CLI to Sparx in **under 30 minutes**.
 
 ---
 
@@ -8,10 +8,10 @@
 
 ```bash
 # Analyze your existing project
-npx nuclie migrate /path/to/your/project --dry-run
+npx sparx migrate /path/to/your/project --dry-run
 
-# Apply migration (creates nuclie.config.ts, updates package.json)
-npx nuclie migrate /path/to/your/project
+# Apply migration (creates sparx.config.ts, updates package.json)
+npx sparx migrate /path/to/your/project
 
 # Install dependencies
 npm install
@@ -34,7 +34,7 @@ npm run dev
 - Tailwind CSS configuration
 - Build output settings
 
-### Example: Vite → Nuclie
+### Example: Vite → Sparx
 
 **Before** (`vite.config.ts`):
 ```typescript
@@ -58,9 +58,9 @@ export default defineConfig({
 });
 ```
 
-**After** (`nuclie.config.ts`):
+**After** (`sparx.config.ts`):
 ```typescript
-import { defineConfig } from 'nuclie';
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'spa',
@@ -90,17 +90,17 @@ export default defineConfig({
 ```json
 {
   "scripts": {
-    "dev": "nuclie dev",
-    "build": "nuclie build",
-    "preview": "nuclie preview",
-    "test": "nuclie test"
+    "dev": "sparx dev",
+    "build": "sparx build",
+    "preview": "sparx preview",
+    "test": "sparx test"
   }
 }
 ```
 
 ### Manual Steps
 
-1. **Vite Plugins**: Check if equivalent Nuclie plugins exist in marketplace
+1. **Vite Plugins**: Check if equivalent Sparx plugins exist in marketplace
 2. **Custom Rollup Plugins**: May need adaptation (see [Plugins Guide](./plugins.md))
 3. **SSR**: Use `preset: 'ssr'` and configure server entry
 
@@ -112,12 +112,12 @@ export default defineConfig({
 
 - Entry points
 - Output configuration
-- Loaders → Nuclie plugins
+- Loaders → Sparx plugins
 - Aliases
 - DevServer settings
 - Environment variables
 
-### Example: Webpack → Nuclie
+### Example: Webpack → Sparx
 
 **Before** (`webpack.config.js`):
 ```javascript
@@ -159,9 +159,9 @@ module.exports = {
 };
 ```
 
-**After** (`nuclie.config.ts`):
+**After** (`sparx.config.ts`):
 ```typescript
-import { defineConfig } from 'nuclie';
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'spa',
@@ -187,23 +187,23 @@ export default defineConfig({
 });
 ```
 
-### Common Webpack Loaders → Nuclie
+### Common Webpack Loaders → Sparx
 
-| Webpack Loader | Nuclie Equivalent |
+| Webpack Loader | Sparx Equivalent |
 |----------------|------------------|
 | `ts-loader` | Built-in TypeScript support |
 | `babel-loader` | Built-in (via Bun parser) |
 | `css-loader` | Built-in CSS support |
-| `sass-loader` | `@nuclie/plugin-sass` |
+| `sass-loader` | `@sparx/plugin-sass` |
 | `file-loader` | Built-in asset handling |
 | `url-loader` | Built-in (auto inline < 4KB) |
-| `svg-loader` | `@nuclie/plugin-svgr` |
+| `svg-loader` | `@sparx/plugin-svgr` |
 
 ### Manual Steps
 
 1. **Complex Webpack Plugins**: Check marketplace or write custom plugin
-2. **Module Federation**: Use Nuclie's built-in federation
-3. **Custom Loaders**: Adapt to Nuclie plugin API
+2. **Module Federation**: Use Sparx's built-in federation
+3. **Custom Loaders**: Adapt to Sparx plugin API
 
 ---
 
@@ -216,7 +216,7 @@ export default defineConfig({
 - External dependencies
 - Tree-shaking settings
 
-### Example: Rollup → Nuclie
+### Example: Rollup → Sparx
 
 **Before** (`rollup.config.js`):
 ```javascript
@@ -238,9 +238,9 @@ export default {
 };
 ```
 
-**After** (`nuclie.config.ts`):
+**After** (`sparx.config.ts`):
 ```typescript
-import { defineConfig } from 'nuclie';
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'spa',
@@ -268,7 +268,7 @@ export default defineConfig({
 - Environment files
 - Build configurations
 
-### Example: Angular CLI → Nuclie
+### Example: Angular CLI → Sparx
 
 **Before** (`angular.json`):
 ```json
@@ -296,9 +296,9 @@ export default defineConfig({
 }
 ```
 
-**After** (`nuclie.config.ts`):
+**After** (`sparx.config.ts`):
 ```typescript
-import { defineConfig } from 'nuclie';
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'spa',
@@ -321,10 +321,10 @@ export default defineConfig({
 ```json
 {
   "scripts": {
-    "ng": "nuclie",
-    "start": "nuclie dev",
-    "build": "nuclie build",
-    "test": "nuclie test"
+    "ng": "sparx",
+    "start": "sparx dev",
+    "build": "sparx build",
+    "test": "sparx test"
   }
 }
 ```
@@ -333,10 +333,10 @@ export default defineConfig({
 
 ## Migration Analyzer
 
-Nuclie includes an intelligent migration analyzer:
+Sparx includes an intelligent migration analyzer:
 
 ```bash
-npx nuclie migrate /path/to/project --dry-run
+npx sparx migrate /path/to/project --dry-run
 ```
 
 **Output**:
@@ -356,7 +356,7 @@ npx nuclie migrate /path/to/project --dry-run
     ✓ React Fast Refresh
 
   Manual steps:
-    ⚠ vite-plugin-pwa → Check @nuclie/plugin-pwa
+    ⚠ vite-plugin-pwa → Check @sparx/plugin-pwa
     ⚠ Custom Vite plugin → Needs adaptation
 
 📊 Expected Success Rate: 95%
@@ -372,8 +372,8 @@ Run without --dry-run to apply changes.
 ### 1. Monorepo Migration
 
 ```typescript
-// nuclie.config.ts (root)
-import { defineConfig } from 'nuclie';
+// sparx.config.ts (root)
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'monorepo',
@@ -389,8 +389,8 @@ export default defineConfig({
 ### 2. SSR Migration
 
 ```typescript
-// nuclie.config.ts
-import { defineConfig } from 'nuclie';
+// sparx.config.ts
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'ssr',
@@ -411,8 +411,8 @@ export default defineConfig({
 ### 3. Edge Function Migration
 
 ```typescript
-// nuclie.config.ts
-import { defineConfig } from 'nuclie';
+// sparx.config.ts
+import { defineConfig } from 'sparx';
 
 export default defineConfig({
   preset: 'edge',
@@ -436,7 +436,7 @@ export default defineConfig({
 
 **Solution**:
 ```typescript
-// nuclie.config.ts
+// sparx.config.ts
 export default defineConfig({
   resolve: {
     alias: {
@@ -475,7 +475,7 @@ npm run build  # Second run: ~500ms (warm)
 
 ## Honest Limitations
 
-### What Nuclie Does Better ✅
+### What Sparx Does Better ✅
 
 - **Memory efficiency**: ~0.1MB vs 20MB+ (Vite)
 - **HMR speed**: Fast updates with incremental reloads
@@ -499,10 +499,10 @@ npm run build  # Second run: ~500ms (warm)
 
 ## Migration Checklist
 
-- [ ] Run `nuclie migrate --dry-run`
+- [ ] Run `sparx migrate --dry-run`
 - [ ] Review migration plan
 - [ ] Backup existing config files
-- [ ] Run `nuclie migrate`
+- [ ] Run `sparx migrate`
 - [ ] Install dependencies (`npm install`)
 - [ ] Test dev server (`npm run dev`)
 - [ ] Test production build (`npm run build`)
@@ -515,10 +515,10 @@ npm run build  # Second run: ~500ms (warm)
 
 ## Getting Help
 
-- **Documentation**: [https://nuclie.dev/docs](https://nuclie.dev/docs)
-- **GitHub Issues**: [https://github.com/your-org/nuclie/issues](https://github.com/your-org/nuclie/issues)
-- **Discord**: [https://discord.gg/nuclie](https://discord.gg/nuclie)
-- **Migration Tool**: `nuclie doctor` for diagnostics
+- **Documentation**: [https://sparx.dev/docs](https://sparx.dev/docs)
+- **GitHub Issues**: [https://github.com/your-org/sparx/issues](https://github.com/your-org/sparx/issues)
+- **Discord**: [https://discord.gg/sparx](https://discord.gg/sparx)
+- **Migration Tool**: `sparx doctor` for diagnostics
 
 ---
 

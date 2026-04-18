@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-bundle-size
+ * @sparx/plugin-bundle-size
  * Bundle size tracking
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createBundleSizePlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-bundle-size',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-bundle-size',
+        originalPlugin: 'sparx-native',
         
         async buildStart() {
-            console.log('[@nuclie/plugin-bundle-size] Starting performance optimization...');
+            console.log('[@sparx/plugin-bundle-size] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createBundleSizePlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-bundle-size] Performance optimization complete');
+            console.log('[@sparx/plugin-bundle-size] Performance optimization complete');
         }
     };
 }

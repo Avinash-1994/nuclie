@@ -1,7 +1,7 @@
 {
-  "name": "nuclie",
+  "name": "sparx",
   "version": "1.0.10",
-  "description": "⚡ Nuclie — a modern JavaScript build tool powered by SWC and LightningCSS. Fast HMR, module federation, tree shaking, and multi-framework support (React, Vue, Svelte, Solid). A fast, Rust-native build pipeline.",
+  "description": "⚡ Sparx — a modern JavaScript build tool powered by SWC and LightningCSS. Fast HMR, module federation, tree shaking, and multi-framework support (React, Vue, Svelte, Solid). A fast, Rust-native build pipeline.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -16,8 +16,8 @@
   },
   "sideEffects": false,
   "bin": {
-    "nuclie": "./dist/cli.js",
-    "create-nuclie": "./dist/create-nuclie.js"
+    "sparx": "./dist/cli.js",
+    "create-sparx": "./dist/create-sparx.js"
   },
   "files": [
     "dist",
@@ -103,12 +103,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Avinash-1994/nuclie.git"
+    "url": "git+https://github.com/Avinash-1994/sparx.git"
   },
   "bugs": {
-    "url": "https://github.com/Avinash-1994/nuclie/issues"
+    "url": "https://github.com/Avinash-1994/sparx/issues"
   },
-  "homepage": "https://github.com/Avinash-1994/nuclie#readme",
+  "homepage": "https://github.com/Avinash-1994/sparx#readme",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -118,10 +118,10 @@
     "@babel/preset-react": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
     "@node-rs/xxhash": "^1.7.6",
+    "@nuclie/adapter-core": "file:packages/nuclie-adapter-core",
     "@swc/core": "^1.15.24",
     "@trpc/client": "^11.8.1",
     "@trpc/server": "^11.8.1",
-    "@types/express": "^5.0.6",
     "@types/level": "^6.0.3",
     "@vue/compiler-sfc": "^3.5.26",
     "@vue/server-renderer": "^3.5.26",
@@ -134,7 +134,6 @@
     "dotenv": "^17.2.3",
     "esbuild": "^0.27.2",
     "esbuild-svelte": "^0.9.4",
-    "express": "^5.2.1",
     "http-proxy": "^1.18.1",
     "ink": "^6.6.0",
     "ink-spinner": "^5.0.0",
@@ -149,6 +148,7 @@
     "rimraf": "^6.1.2",
     "selfsigned": "^5.5.0",
     "svelte-preprocess": "^6.0.3",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.48.0",
     "vue": "^3.5.26",
     "ws": "^8.18.3",
     "yargs": "^17.7.2",
@@ -176,7 +176,7 @@
     "autocannon": "^8.0.0",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
-    "eslint-plugin-nuclie-governance": "file:eslint-plugin-nuclie-governance",
+    "eslint-plugin-sparx-governance": "file:eslint-plugin-sparx-governance",
     "fast-check": "^4.5.3",
     "jest": "^30.2.0",
     "jsdom": "^27.2.0",

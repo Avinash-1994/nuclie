@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-icon
+ * @sparx/plugin-icon
  * Icon component generation
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createIconPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-icon',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-icon',
+        originalPlugin: 'sparx-native',
         
         async load(id: string) {
             // Asset loading for icon

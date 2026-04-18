@@ -1,4 +1,4 @@
-# Nuclie Documentation
+# Sparx Documentation
 
 > Blazing-fast JavaScript build tool powered by SWC + LightningCSS
 
@@ -15,7 +15,7 @@
 | 📦 **[Module Federation](./guides/federation.md)** | Micro-frontend setup |
 | 🚚 **[Migration Guide](./migration.md)** | From Vite, Webpack, Rollup |
 | ❓ **[Troubleshooting](./TROUBLESHOOTING.md)** | Top 10 errors and fixes |
-| ⚖️ **[Why Nuclie?](./WHY_NUCLIE.md)** | Honest comparison vs Vite, Rspack, Turbopack |
+| ⚖️ **[Why Sparx?](./WHY_SPARX.md)** | Honest comparison vs Vite, Rspack, Turbopack |
 | 📊 **[Benchmarks](./benchmarks.md)** | Reproducible performance data |
 
 ---
@@ -33,8 +33,8 @@
 
 ## Online Resources
 
-- 🌐 [Documentation Website](https://avinash-1994.github.io/Nuclie/)
-- 📦 [npm Package](https://www.npmjs.com/package/nuclie)
-- 💻 [GitHub Repository](https://github.com/Avinash-1994/Nuclie)
-- 🐛 [Report a Bug](https://github.com/Avinash-1994/Nuclie/issues)
-- 💬 [Discussions](https://github.com/Avinash-1994/Nuclie/discussions)
+- 🌐 [Documentation Website](https://avinash-1994.github.io/Sparx/)
+- 📦 [npm Package](https://www.npmjs.com/package/sparx)
+- 💻 [GitHub Repository](https://github.com/Avinash-1994/Sparx)
+- 🐛 [Report a Bug](https://github.com/Avinash-1994/Sparx/issues)
+- 💬 [Discussions](https://github.com/Avinash-1994/Sparx/discussions)

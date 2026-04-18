@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-imagemin
+ * @sparx/plugin-imagemin
  * Image optimization
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createImageminPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-imagemin',
+        name: '@sparx/plugin-imagemin',
         originalPlugin: 'vite-plugin-imagemin',
         
         async load(id: string) {

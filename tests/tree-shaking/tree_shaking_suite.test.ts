@@ -1,6 +1,6 @@
 /**
  * Tree Shaking Test Suite — Agent 2
- * Tests dead code elimination using esbuild (which Nuclie uses under the hood).
+ * Tests dead code elimination using esbuild (which Sparx uses under the hood).
  */
 
 import { build } from 'esbuild';
@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
-const TMP = path.join(os.tmpdir(), 'nuclie-tree-shaking-tests');
+const TMP = path.join(os.tmpdir(), 'sparx-tree-shaking-tests');
 fs.mkdirSync(TMP, { recursive: true });
 
 function writeFixture(name: string, code: string): string {

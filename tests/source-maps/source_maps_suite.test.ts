@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
-const TMP = path.join(os.tmpdir(), 'nuclie-sourcemap-tests');
+const TMP = path.join(os.tmpdir(), 'sparx-sourcemap-tests');
 fs.mkdirSync(TMP, { recursive: true });
 
 function writeFile(name: string, content: string): string {

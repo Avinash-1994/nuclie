@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-file
+ * @sparx/plugin-file
  * File asset handling
  */
 
@@ -9,7 +9,7 @@ import path from 'path';
 
 export function createFilePlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-file',
+        name: '@sparx/plugin-file',
         originalPlugin: 'file-loader',
         
         async load(id: string) {

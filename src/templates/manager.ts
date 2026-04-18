@@ -1,7 +1,7 @@
 /**
  * Template Manager (Day 46)
  * 
- * Manages production-ready starter templates for Nuclie.
+ * Manages production-ready starter templates for Sparx.
  * Handles scaffolding, variable replacement, and initial setup.
  */
 
@@ -95,17 +95,17 @@ export class TemplateManager {
             private: true,
             type: 'module',
             scripts: {
-                "dev": "nuclie dev",
-                "build": "nuclie build",
-                "preview": "nuclie preview",
-                "test": "nuclie test",
+                "dev": "sparx dev",
+                "build": "sparx build",
+                "preview": "sparx preview",
+                "test": "sparx test",
                 "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
                 "check": "tsc --noEmit"
             },
             dependencies: template.dependencies,
             devDependencies: {
                 ...template.devDependencies,
-                "nuclie": "^2.0.0",
+                "sparx": "^2.0.0",
                 "typescript": "^5.0.0",
                 "@types/node": "^20.0.0"
             }
@@ -159,7 +159,7 @@ export class TemplateManager {
                 "moduleResolution": "bundler",
                 "allowSyntheticDefaultImports": true
             },
-            "include": ["nuclie.config.ts"]
+            "include": ["sparx.config.ts"]
         };
 
         fs.writeFileSync(
@@ -170,7 +170,7 @@ export class TemplateManager {
         // Create README.md
         const readme = `# ${projectName}
 
-Created with Nuclie - The High-Performance Build System.
+Created with Sparx - The High-Performance Build System.
 
 ## Getting Started
 
@@ -191,14 +191,14 @@ npm run dev
         // Create .gitignore
         const gitignore = `node_modules
 dist
-.nuclie
+.sparx
 .env
 .DS_Store
 coverage
 `;
         fs.writeFileSync(path.join(targetDir, '.gitignore'), gitignore);
 
-        console.log(`✅ ${template.name} created successfully! by Nuclie`);
+        console.log(`✅ ${template.name} created successfully! by Sparx`);
     }
 }
 

@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-sass
+ * @sparx/plugin-sass
  * Sass/SCSS compilation
  */
 
@@ -7,7 +7,7 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSassPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-sass',
+        name: '@sparx/plugin-sass',
         originalPlugin: 'sass-loader',
         
         async transform(code: string, id: string) {

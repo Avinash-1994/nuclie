@@ -1,6 +1,6 @@
-# Getting Started with Nuclie
+# Getting Started with Sparx
 
-Welcome to Nuclie! This guide will help you get up and running in minutes.
+Welcome to Sparx! This guide will help you get up and running in minutes.
 
 ## Quick Start
 
@@ -8,23 +8,23 @@ Welcome to Nuclie! This guide will help you get up and running in minutes.
 
 ```bash
 # Using npm
-npm install -g nuclie
+npm install -g sparx
 
 # Using yarn
-yarn global add nuclie
+yarn global add sparx
 
 # Using pnpm
-pnpm add -g nuclie
+pnpm add -g sparx
 ```
 
 ### Create a New Project
 
 ```bash
 # Create a new project from template
-npx create-nuclie my-app
+npx create-sparx my-app
 
 # Choose from available templates
-npx create-nuclie my-app --template react-spa
+npx create-sparx my-app --template react-spa
 ```
 
 ### Available Templates
@@ -57,7 +57,7 @@ npm install
 ### 3. Start development server
 
 ```bash
-nuclie dev
+sparx dev
 ```
 
 Your app will be running at `http://localhost:3000` with Hot Module Replacement enabled!
@@ -65,7 +65,7 @@ Your app will be running at `http://localhost:3000` with Hot Module Replacement 
 ### 4. Build for production
 
 ```bash
-nuclie build
+sparx build
 ```
 
 Your optimized build will be in the `dist/` folder.
@@ -79,14 +79,14 @@ my-app/
 │   ├── App.tsx          # Main component
 │   └── ...
 ├── public/              # Static assets
-├── nuclie.config.js      # Nuclie configuration
+├── sparx.config.js      # Sparx configuration
 ├── package.json
 └── tsconfig.json
 ```
 
 ## Configuration
 
-Create a `nuclie.config.js` in your project root:
+Create a `sparx.config.js` in your project root:
 
 ```javascript
 module.exports = {
@@ -122,7 +122,7 @@ module.exports = {
 
 ## Need Help?
 
-- 📖 [Documentation](https://nuclie.dev/docs)
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/nuclie/discussions)
-- 🐛 [Report Issues](https://github.com/Avinash-1994/nuclie/issues)
-- 🌟 [Star on GitHub](https://github.com/Avinash-1994/nuclie)
+- 📖 [Documentation](https://sparx.dev/docs)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/sparx/discussions)
+- 🐛 [Report Issues](https://github.com/Avinash-1994/sparx/issues)
+- 🌟 [Star on GitHub](https://github.com/Avinash-1994/sparx)

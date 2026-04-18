@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-preload
+ * @sparx/plugin-preload
  * Resource preloading
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPreloadPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-preload',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-preload',
+        originalPlugin: 'sparx-native',
         
         async buildStart() {
-            console.log('[@nuclie/plugin-preload] Starting performance optimization...');
+            console.log('[@sparx/plugin-preload] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPreloadPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-preload] Performance optimization complete');
+            console.log('[@sparx/plugin-preload] Performance optimization complete');
         }
     };
 }

@@ -39,8 +39,27 @@ async function copyAll(patternDir, filterExt, outDir) {
   await copyAll(join(rootDir, 'src', 'plugins'), '.mjs', join(distDir, 'plugins'));
   await copyAll(join(rootDir, 'src', 'runtime'), '.js', join(distDir, 'runtime'));
 
+  // Mirror dist/src/* → dist/* so tests using '../dist/config/index.js' resolve correctly.
+  // tsc with no rootDir and include:['src/**/*'] outputs dist/src/**  but tests expect dist/**
+  async function mirrorDir(srcDir, destDir) {
+    try {
+      const entries = await fs.readdir(srcDir, { withFileTypes: true });
+      await ensureDir(destDir);
+      for (const e of entries) {
+        const s = join(srcDir, e.name);
+        const d = join(destDir, e.name);
+        if (e.isDirectory()) {
+          await mirrorDir(s, d);
+        } else if (e.name.endsWith('.js') || e.name.endsWith('.d.ts') || e.name.endsWith('.js.map')) {
+          await copyIfExists(s, d);
+        }
+      }
+    } catch { }
+  }
+  await mirrorDir(join(distDir, 'src'), distDir);
+
   // Ensure CLI entry points are executable when installed as a local package
-  const executables = ['cli.js', 'create-nuclie.js'];
+  const executables = ['cli.js', 'create-sparx.js'];
   for (const file of executables) {
     const target = join(distDir, file);
     await fs.chmod(target, 0o755).catch(() => { });

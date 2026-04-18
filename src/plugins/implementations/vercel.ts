@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-vercel
+ * @sparx/plugin-vercel
  * Vercel deployment adapter
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createVercelPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-vercel',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-vercel',
+        originalPlugin: 'sparx-native',
         
         async buildEnd() {
-            console.log('[@nuclie/plugin-vercel] Deployment adapter ready');
+            console.log('[@sparx/plugin-vercel] Deployment adapter ready');
             // Generate deployment config
         }
     };

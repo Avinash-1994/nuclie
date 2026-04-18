@@ -19,11 +19,11 @@ let NativeWorker: any;
 
 try {
   const candidates = [
-    path.resolve(__dirname, '../../nuclie_native.node'), // From src/dev/devServer.ts
-    path.resolve(__dirname, '../nuclie_native.node'),    // From dist/dev/devServer.js
-    path.resolve(__dirname, './nuclie_native.node'),     // From dist/
-    path.resolve(process.cwd(), 'nuclie_native.node'),   // Root fallback
-    path.resolve(process.cwd(), 'dist/nuclie_native.node')
+    path.resolve(__dirname, '../../sparx_native.node'), // From src/dev/devServer.ts
+    path.resolve(__dirname, '../sparx_native.node'),    // From dist/dev/devServer.js
+    path.resolve(__dirname, './sparx_native.node'),     // From dist/
+    path.resolve(process.cwd(), 'sparx_native.node'),   // Root fallback
+    path.resolve(process.cwd(), 'dist/sparx_native.node')
   ];
 
   let pathFound = '';
@@ -116,7 +116,7 @@ async function rewriteImports(code: string, rootDir: string, preBundledDeps?: Ma
             if (specifier.endsWith('.js') && !preBundledDeps.has(specifier)) {
               replacement = `/node_modules/${specifier}`;
             } else {
-              replacement = `/@nuclie-deps/${safeName}.js?v=${Date.now()}`;
+              replacement = `/@sparx-deps/${safeName}.js?v=${Date.now()}`;
             }
           }
         }
@@ -184,6 +184,25 @@ async function findAvailablePort(startPort: number, host: string): Promise<numbe
 }
 
 export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) {
+  // Phase 5.1 — Startup diagnostics timing
+  const _t0 = Date.now();
+  const _phases: Array<{ name: string; ms: number }> = [];
+  function _mark(name: string) { _phases.push({ name, ms: Date.now() - _t0 }); }
+  function _printStartupDiagnostics(port: number) {
+    const total = Date.now() - _t0;
+    process.stderr.write('\n┌─ Sparx startup diagnostics ─────────────────\n');
+    let prev = 0;
+    for (const p of _phases) {
+      const dur = p.ms - prev;
+      const slow = dur > 1000 ? ' [slow]' : '';
+      process.stderr.write(`│  ${p.name.padEnd(28)} ${dur}ms${slow}\n`);
+      prev = p.ms;
+    }
+    process.stderr.write(`├──────────────────────────────────────────────\n`);
+    process.stderr.write(`│  Total${' '.repeat(22)} ${total}ms\n`);
+    process.stderr.write(`└──────────────────────────────────────────────\n`);
+    process.stderr.write(`\n  ➜  Local:   http://localhost:${port}\n\n`);
+  }
 
   // 1. Load User Config (Phase S3 Correctness)
   // Ensure we have the full config from disk, even if CLI passed a skeletal one
@@ -205,6 +224,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       prebundle: loaded.prebundle
     };
     log.debug('Merged User Config with CLI arguments');
+    _mark('config loaded');
   } catch (e) {
     log.warn('Failed to load user config, using defaults: ' + (e as any).message);
   }
@@ -227,7 +247,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
   // Filter public env vars — also loads .env / .env.development / .env.local files
   let publicEnv: Record<string, string | undefined> = Object.keys(process.env)
-    .filter(key => key.startsWith('NUCLIE_') || key.startsWith('PUBLIC_') || key === 'NODE_ENV')
+    .filter(key => key.startsWith('SPARX_') || key.startsWith('PUBLIC_') || key === 'NODE_ENV')
     .reduce((acc, key) => ({ ...acc, [key]: process.env[key] }), {
       NODE_ENV: process.env.NODE_ENV || 'development'
     });
@@ -248,6 +268,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   // 1. Initialize Framework Pipeline (Phase B3)
   const { FrameworkPipeline } = await import('../core/pipeline/framework-pipeline.js');
   const pipeline = await FrameworkPipeline.auto(cfg);
+  _mark('framework pipeline init');
   let primaryFramework = pipeline.getFramework();
   // Honor explicit adapter config if pipeline auto-detection returned 'vanilla'
   if (cfg.adapter) {
@@ -282,6 +303,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   const workerThreads = Math.max(2, require('os').cpus().length - 2); // Leave 2 for OS + watcher
   const nativeWorker = new NativeWorker(workerThreads);
   const pluginManager = new PluginManager();
+  _mark('plugin manager ready');
   if (cfg.plugins) {
     cfg.plugins.forEach(p => pluginManager.register(p));
   }
@@ -314,12 +336,12 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   if (cfg.federation?.remotes && Object.keys(cfg.federation.remotes).length > 0) {
     const remoteNames = Object.keys(cfg.federation.remotes).map(name => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
     pluginManager.register({
-      name: 'nuclie-federation-dev',
+      name: 'sparx-federation-dev',
       transform(code, id) {
         const regex = new RegExp('\\bimport\\s*\\(\\s*["\'](' + remoteNames + ')\\/([^"\']+)["\']\\s*\\)', 'g');
         if (!regex.test(code)) return code;
         return code.replace(regex, (_, remote, modulePath) => {
-          return `globalThis.__nuclie_import__("${remote}/${modulePath}")`;
+          return `globalThis.__sparx_import__("${remote}/${modulePath}")`;
         });
       }
     });
@@ -407,6 +429,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     const prebundleConfig = cfg.prebundle || { enabled: true, include: [], exclude: [] };
 
     if (prebundleConfig.enabled !== false) {
+      _mark('prebundle start');
       // Merge sources
       let depsToBundle = new Set([
         ...defaultDeps,
@@ -473,7 +496,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         line: error?.loc?.line,
         column: error?.loc?.column,
         type: 'Build Error',
-        plugin: 'nuclie:pipeline'
+        plugin: 'sparx:pipeline'
       });
       log.error('→ Dev Server: Warmup build failed - Fix the errors above');
     } else {
@@ -518,7 +541,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       httpsOptions = cfg.server.https;
     } else {
       // Generate self-signed cert
-      const certDir = path.join(cfg.root, '.nuclie', 'certs');
+      const certDir = path.join(cfg.root, '.sparx', 'certs');
       await fs.mkdir(certDir, { recursive: true });
       const keyPath = path.join(certDir, 'dev.key');
       const certPath = path.join(certDir, 'dev.crt');
@@ -706,11 +729,11 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     // Security Scan (Day 41)
     if (!anomalyDetector.scanRequest({ url: req.url || '', headers: req.headers, method: req.method || 'GET' })) {
       res.writeHead(403, { 'Content-Type': 'text/plain' });
-      res.end('Request Blocked by Nuclie Security Shield');
+      res.end('Request Blocked by Sparx Security Shield');
       return;
     }
 
-    if (req.url === '/__nuclie/security') {
+    if (req.url === '/__sparx/security') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(anomalyDetector.getDashboard(), null, 2));
       return;
@@ -775,6 +798,48 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     const hasExtension = path.extname(url.split('?')[0]) !== '';
     const acceptsHtml = req.headers.accept?.includes('text/html');
 
+    // Phase 3.6 — SSR route: when preset === 'ssr', pipe through renderToString.
+    // Default: preset !== 'ssr' → this block is skipped entirely. SPA path unchanged.
+    if (cfg.preset === 'ssr' && (url === '/' || (!hasExtension && !isInternal && acceptsHtml))) {
+      try {
+        const ssrRunner = await import('../../packages/sparx-ssr/src/runner.js')
+          .catch(() => null as any);
+
+        if (ssrRunner?.renderToString) {
+          const candidates = [
+            cfg.entry?.[0] ? path.join(cfg.root, cfg.entry[0]) : null,
+            path.join(cfg.root, 'src', 'entry-server.ts'),
+            path.join(cfg.root, 'src', 'entry-server.js'),
+            path.join(cfg.root, 'src', 'entry-server.tsx'),
+          ].filter(Boolean) as string[];
+
+          let entryPath = '';
+          for (const c of candidates) {
+            try { await fs.access(c); entryPath = c; break; } catch { /* try next */ }
+          }
+
+          if (entryPath) {
+            const { html, head, state } = await ssrRunner.renderToString(
+              entryPath, { url }, { root: cfg.root }
+            );
+            let shell = '';
+            try { shell = await fs.readFile(path.join(cfg.root, 'index.html'), 'utf-8'); } catch { }
+            if (!shell) shell = '<!DOCTYPE html><html><head><!--head--></head><body><div id="app"><!--app--></div></body></html>';
+            const finalHtml = shell
+              .replace('<!--head-->', head + `<script>window.__SPARX_STATE__=${state}</script>`)
+              .replace('<!--app-->', html)
+              .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+              .replace('<div id="app"></div>', `<div id="app">${html}</div>`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(finalHtml);
+            return;
+          }
+        }
+      } catch (e: any) {
+        log.warn(`[sparx:ssr] renderToString failed for ${url}: ${e.message} — falling through`);
+      }
+    }
+
     if ((url === '/' || (!hasExtension && !isInternal && acceptsHtml)) && cfg.preset === 'spa') {
       let p = path.join(cfg.root, 'index.html');
       let data = '';
@@ -827,7 +892,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         // Inject only client runtime
         let clientScript = `
-    <script type="module" src="/@nuclie/client"></script>
+    <script type="module" src="/@sparx/client"></script>
         `;
 
         // Federation runtime injection for host apps
@@ -851,7 +916,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         if (isReact) {
           if (process.env.DEBUG) {
-            log.info('[Nuclie] Injecting React Refresh Preamble', { category: 'server' });
+            log.info('[Sparx] Injecting React Refresh Preamble', { category: 'server' });
           }
           preamble += `
     <script type="module">
@@ -902,11 +967,11 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     }
 
     // Serve pre-bundled dependencies
-    if (url.startsWith('/@nuclie-deps/')) {
+    if (url.startsWith('/@sparx-deps/')) {
       // Strip query parameters
       const cleanUrl = url.split('?')[0];
-      const depFile = cleanUrl.replace('/@nuclie-deps/', '');
-      const depPath = path.join(cfg.root, 'node_modules', '.nuclie', depFile);
+      const depFile = cleanUrl.replace('/@sparx-deps/', '');
+      const depPath = path.join(cfg.root, 'node_modules', '.sparx', depFile);
       try {
         const content = await fs.readFile(depPath, 'utf-8');
         res.writeHead(200, {
@@ -917,12 +982,12 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       } catch (error) {
         // Dep file doesn't exist (e.g. Svelte 5 internal requested on Svelte 4 project).
         // Serve empty ESM module so the page loads gracefully instead of crashing with 404.
-        log.debug(`[NuclieDepS] Not found, serving empty module: ${depFile}`);
+        log.debug(`[SparxDepS] Not found, serving empty module: ${depFile}`);
         res.writeHead(200, {
           'Content-Type': 'application/javascript',
           'Cache-Control': 'no-cache, no-store, must-revalidate'
         });
-        res.end(`// nuclie: empty stub for missing dep: ${depFile}\nexport default {};\n`);
+        res.end(`// sparx: empty stub for missing dep: ${depFile}\nexport default {};\n`);
       }
       return;
     }
@@ -976,7 +1041,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
 
 
-    if (url === '/@nuclie/client') {
+    if (url === '/@sparx/client') {
       const clientPath = path.resolve(__dirname, '../runtime/client.ts');
       try {
         const raw = await fs.readFile(clientPath, 'utf-8');
@@ -993,13 +1058,13 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
           res.end(client);
         } catch (e2) {
           res.writeHead(404);
-          res.end('Nuclie client runtime not found');
+          res.end('Sparx client runtime not found');
         }
       }
       return;
     }
 
-    if (url === '/@nuclie/error-overlay.js') {
+    if (url === '/@sparx/error-overlay.js') {
       // Also transform error-overlay if ts
       const overlayPath = path.resolve(__dirname, '../runtime/error-overlay.ts');
       try {
@@ -1017,15 +1082,50 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
           res.end(overlay);
         } catch (e2) {
           res.writeHead(404);
-          res.end('Nuclie error overlay not found');
+          res.end('Sparx error overlay not found');
         }
       }
       return;
     }
 
+    // Phase 3.4 — HMR client runtime route
+    if (url === '/@sparx/hmr-client' || url === '/@sparx/hmr-client.js') {
+      const srcPath = path.resolve(__dirname, '../../packages/sparx-hmr-client/src/index.ts');
+      try {
+        const raw = await fs.readFile(srcPath, 'utf-8');
+        const { transform } = await import('esbuild');
+        const result = await transform(raw, { loader: 'ts', format: 'esm', target: 'es2020' });
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(result.code);
+      } catch (e: any) {
+        log.warn(`[sparx] /@sparx/hmr-client: ${e.message}`);
+        res.writeHead(404); res.end('/* @sparx/hmr-client not built */');
+      }
+      return;
+    }
 
+    // Phase 3.5 — Module registry route
+    if (url === '/@sparx/module-registry' || url === '/@sparx/module-registry.js') {
+      const srcPath = path.resolve(__dirname, '../../packages/sparx-module-registry/src/index.ts');
+      try {
+        const raw = await fs.readFile(srcPath, 'utf-8');
+        const { transform } = await import('esbuild');
+        const result = await transform(raw, { loader: 'ts', format: 'esm', target: 'es2020' });
+        const remotes = (cfg as any).federation?.remotes ?? {};
+        const initCall = Object.keys(remotes).length
+          ? `\nimport{__sparx_registry_init__ as _ri}from '/@sparx/module-registry';_ri(${JSON.stringify(remotes)});\n`
+          : '';
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(result.code + initCall);
+      } catch (e: any) {
+        log.warn(`[sparx] /@sparx/module-registry: ${e.message}`);
+        res.writeHead(404); res.end('/* @sparx/module-registry not built */');
+      }
+      return;
+    }
 
     // Open in Editor
+
     if (url.startsWith('/__open-in-editor')) {
       const urlObj = new URL(req.url || '', `http://${req.headers.host}`);
       const file = urlObj.searchParams.get('file');
@@ -1330,7 +1430,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         // Aggressive In-Module Shim: Guarantee $RefreshSig$ existence
         if (ext === '.ts' || ext === '.tsx' || ext === '.jsx' || ext === '.js' || ext === '.mjs') {
           raw = `
-/** Nuclie Dev Preamble **/
+/** Sparx Dev Preamble **/
 if (typeof window !== 'undefined') {
   window.$RefreshReg$ = window.$RefreshReg$ || (() => {});
   window.$RefreshSig$ = window.$RefreshSig$ || (() => (type) => type);
@@ -1476,12 +1576,12 @@ ${raw}
           // Serve a JS fallback that throws in console and triggers overlay
           res.writeHead(200, { 'Content-Type': 'application/javascript' });
           res.end(`
-            console.error("[Nuclie Build Error]", ${JSON.stringify(e.message)});
+            console.error("[Sparx Build Error]", ${JSON.stringify(e.message)});
             const error = ${JSON.stringify(errorData)};
-            if (window.__NUCLIE_ERROR_OVERLAY__) {
-              window.__NUCLIE_ERROR_OVERLAY__.show(error);
+            if (window.__SPARX_ERROR_OVERLAY__) {
+              window.__SPARX_ERROR_OVERLAY__.show(error);
             }
-            throw new Error("[Nuclie Build Error] See overlay for details");
+            throw new Error("[Sparx Build Error] See overlay for details");
           `);
           return;
         }
@@ -1497,7 +1597,7 @@ ${raw}
   let server;
   if (existingServer) {
     server = existingServer;
-    (server as any).__nuclie_handler = requestHandler;
+    (server as any).__sparx_handler = requestHandler;
   } else {
     if (httpsOptions) {
       const https = await import('https');
@@ -1572,7 +1672,7 @@ ${raw}
 
   const { default: chokidar } = await import('chokidar');
   const watcher = chokidar.watch(cfg.root, {
-    ignored: ['**/node_modules/**', '**/.git/**', '**/.nuclie/**', '**/.nuclie_cache/**'],
+    ignored: ['**/node_modules/**', '**/.git/**', '**/.sparx/**', '**/.sparx_cache/**'],
     ignoreInitial: true,
     usePolling: false,
     awaitWriteFinish: {
@@ -1691,6 +1791,9 @@ ${raw}
     server.listen(port, () => {
       const protocol = httpsOptions ? 'https' : 'http';
       const url = `${protocol}://${host}:${port}`;
+      // Phase 5.1 — print timing breakdown to stderr
+      _mark('server ready');
+      _printStartupDiagnostics(port);
       if (cfg.server?.open) openBrowser(url);
     });
   } else {

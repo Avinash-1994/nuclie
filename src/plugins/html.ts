@@ -1,19 +1,19 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { NucliePlugin } from '../core/plugins/types.js';
+import { SparxPlugin } from '../core/plugins/types.js';
 
-export function createHtmlPlugin(rootDir: string, outDir: string): NucliePlugin {
+export function createHtmlPlugin(rootDir: string, outDir: string): SparxPlugin {
     return {
         manifest: {
-            name: 'nuclie:html',
+            name: 'sparx:html',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['buildEnd'],
             permissions: { fs: 'read' }
         },
-        id: 'nuclie:html',
+        id: 'sparx:html',
         async runHook(hook, data) {
             if (hook !== 'buildEnd') return data;
 
@@ -29,7 +29,7 @@ export function createHtmlPlugin(rootDir: string, outDir: string): NucliePlugin 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuclie Build</title>
+    <title>Sparx Build</title>
     ${links}
 </head>
 <body>

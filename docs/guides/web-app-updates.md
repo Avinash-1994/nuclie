@@ -1,7 +1,7 @@
-# 🎯 Nuclie Web App Update Requirements
+# 🎯 Sparx Web App Update Requirements
 
 ## Current Status
-The nuclie-web-app exists at `/home/avinash/Desktop/framework_practis/build/nuclie-web-app` but needs updating with **accurate production data** from our v1.0 release.
+The sparx-web-app exists at `/home/avinash/Desktop/framework_practis/build/sparx-web-app` but needs updating with **accurate production data** from our v1.0 release.
 
 ---
 
@@ -61,20 +61,20 @@ The nuclie-web-app exists at `/home/avinash/Desktop/framework_practis/build/nucl
 
 ### CLI Commands (ACTUAL)
 ```bash
-nuclie dev        # Start development server
-nuclie build      # Build for production
-nuclie analyze    # Analyze bundle
-nuclie ssr        # Start SSR server
-nuclie init       # Initialize config
-nuclie bootstrap  # Create from template
-nuclie css        # CSS utilities
-nuclie optimize   # Optimize config
-nuclie inspect    # Inspect dependency graph
-nuclie report     # Generate build report
-nuclie audit      # Run audits (A11y, Perf, SEO)
-nuclie verify     # Verify project health
-nuclie test       # Run tests
-nuclie doctor     # Health diagnostics
+sparx dev        # Start development server
+sparx build      # Build for production
+sparx analyze    # Analyze bundle
+sparx ssr        # Start SSR server
+sparx init       # Initialize config
+sparx bootstrap  # Create from template
+sparx css        # CSS utilities
+sparx optimize   # Optimize config
+sparx inspect    # Inspect dependency graph
+sparx report     # Generate build report
+sparx audit      # Run audits (A11y, Perf, SEO)
+sparx verify     # Verify project health
+sparx test       # Run tests
+sparx doctor     # Health diagnostics
 ```
 
 ---
@@ -116,17 +116,17 @@ nuclie doctor     # Health diagnostics
 **Update CLI Example (line 125):**
 ```tsx
 // OLD
-<CodeBlock code="$ npx nuclie build --preset react" />
+<CodeBlock code="$ npx sparx build --preset react" />
 
 // NEW
 <CodeBlock code={`# Create new project
-npx create-nuclie my-app --template premium-dashboard
+npx create-sparx my-app --template premium-dashboard
 
 # Start development
-cd my-app && nuclie dev
+cd my-app && sparx dev
 
 # Build for production
-nuclie build`} />
+sparx build`} />
 ```
 
 **Update Framework Status (line 147-169):**
@@ -164,17 +164,17 @@ nuclie build`} />
 ```tsx
 {
   coldStart: {
-    nuclie: 69,
+    sparx: 69,
     vite: 100,
     webpack: 2000
   },
   hmr: {
-    nuclie: '10-60',
+    sparx: '10-60',
     vite: '<100',
     webpack: '~500'
   },
   bundleSize: {
-    nuclie: 6.9,
+    sparx: 6.9,
     vite: 7.2,
     webpack: 8.5
   }
@@ -186,10 +186,10 @@ nuclie build`} />
 **Update Getting Started:**
 ```bash
 # Install
-npm install -g nuclie
+npm install -g sparx
 
 # Create project
-npx create-nuclie my-app
+npx create-sparx my-app
 
 # Choose template
 - premium-dashboard (Feature showcase)
@@ -199,10 +199,10 @@ npx create-nuclie my-app
 - And 9 more...
 
 # Start dev server
-nuclie dev
+sparx dev
 
 # Build
-nuclie build
+sparx build
 ```
 
 ### 5. Templates Page (`src/pages/TemplateStarters.tsx`)

@@ -1,4 +1,4 @@
-# Nuclie Plugins Guide
+# Sparx Plugins Guide
 
 > **Plugin ecosystem with sandboxing support and WebCrypto signing support.**
 
@@ -8,29 +8,29 @@
 
 ```bash
 # Search for plugins
-nuclie plugin search react
+sparx plugin search react
 
 # Install a plugin
-nuclie plugin install @nuclie/plugin-react
+sparx plugin install @sparx/plugin-react
 
 # List installed plugins
-nuclie plugin list
+sparx plugin list
 
 # Verify plugin signatures
-nuclie plugin verify @nuclie/plugin-react
+sparx plugin verify @sparx/plugin-react
 ```
 
 ---
 
 ## Using Plugins
 
-### In `nuclie.config.ts`
+### In `sparx.config.ts`
 
 ```typescript
-import { defineConfig } from 'nuclie';
-import react from '@nuclie/plugin-react';
-import tailwind from '@nuclie/plugin-tailwind';
-import pwa from '@nuclie/plugin-pwa';
+import { defineConfig } from 'sparx';
+import react from '@sparx/plugin-react';
+import tailwind from '@sparx/plugin-tailwind';
+import pwa from '@sparx/plugin-pwa';
 
 export default defineConfig({
   preset: 'spa',
@@ -66,90 +66,90 @@ export default defineConfig({
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-react` | React Fast Refresh + JSX | `nuclie plugin install @nuclie/plugin-react` |
-| `@nuclie/plugin-vue` | Vue 3 SFC support | `nuclie plugin install @nuclie/plugin-vue` |
-| `@nuclie/plugin-svelte` | Svelte compiler | `nuclie plugin install @nuclie/plugin-svelte` |
-| `@nuclie/plugin-solid` | Solid.js JSX | `nuclie plugin install @nuclie/plugin-solid` |
-| `@nuclie/plugin-angular` | Angular AOT compiler | `nuclie plugin install @nuclie/plugin-angular` |
-| `@nuclie/plugin-preact` | Preact with Fast Refresh | `nuclie plugin install @nuclie/plugin-preact` |
+| `@sparx/plugin-react` | React Fast Refresh + JSX | `sparx plugin install @sparx/plugin-react` |
+| `@sparx/plugin-vue` | Vue 3 SFC support | `sparx plugin install @sparx/plugin-vue` |
+| `@sparx/plugin-svelte` | Svelte compiler | `sparx plugin install @sparx/plugin-svelte` |
+| `@sparx/plugin-solid` | Solid.js JSX | `sparx plugin install @sparx/plugin-solid` |
+| `@sparx/plugin-angular` | Angular AOT compiler | `sparx plugin install @sparx/plugin-angular` |
+| `@sparx/plugin-preact` | Preact with Fast Refresh | `sparx plugin install @sparx/plugin-preact` |
 
 ### CSS & Styling
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-tailwind` | Tailwind CSS v3+ | `nuclie plugin install @nuclie/plugin-tailwind` |
-| `@nuclie/plugin-sass` | Sass/SCSS compiler | `nuclie plugin install @nuclie/plugin-sass` |
-| `@nuclie/plugin-less` | Less compiler | `nuclie plugin install @nuclie/plugin-less` |
-| `@nuclie/plugin-postcss` | PostCSS processor | `nuclie plugin install @nuclie/plugin-postcss` |
-| `@nuclie/plugin-styled-components` | CSS-in-JS support | `nuclie plugin install @nuclie/plugin-styled-components` |
-| `@nuclie/plugin-emotion` | Emotion CSS-in-JS | `nuclie plugin install @nuclie/plugin-emotion` |
+| `@sparx/plugin-tailwind` | Tailwind CSS v3+ | `sparx plugin install @sparx/plugin-tailwind` |
+| `@sparx/plugin-sass` | Sass/SCSS compiler | `sparx plugin install @sparx/plugin-sass` |
+| `@sparx/plugin-less` | Less compiler | `sparx plugin install @sparx/plugin-less` |
+| `@sparx/plugin-postcss` | PostCSS processor | `sparx plugin install @sparx/plugin-postcss` |
+| `@sparx/plugin-styled-components` | CSS-in-JS support | `sparx plugin install @sparx/plugin-styled-components` |
+| `@sparx/plugin-emotion` | Emotion CSS-in-JS | `sparx plugin install @sparx/plugin-emotion` |
 
 ### Assets & Media
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-svgr` | SVG to React components | `nuclie plugin install @nuclie/plugin-svgr` |
-| `@nuclie/plugin-image-optimizer` | Image compression | `nuclie plugin install @nuclie/plugin-image-optimizer` |
-| `@nuclie/plugin-webp` | WebP conversion | `nuclie plugin install @nuclie/plugin-webp` |
-| `@nuclie/plugin-fonts` | Font optimization | `nuclie plugin install @nuclie/plugin-fonts` |
+| `@sparx/plugin-svgr` | SVG to React components | `sparx plugin install @sparx/plugin-svgr` |
+| `@sparx/plugin-image-optimizer` | Image compression | `sparx plugin install @sparx/plugin-image-optimizer` |
+| `@sparx/plugin-webp` | WebP conversion | `sparx plugin install @sparx/plugin-webp` |
+| `@sparx/plugin-fonts` | Font optimization | `sparx plugin install @sparx/plugin-fonts` |
 
 ### Performance
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-compression` | Gzip/Brotli compression | `nuclie plugin install @nuclie/plugin-compression` |
-| `@nuclie/plugin-preload` | Resource preloading | `nuclie plugin install @nuclie/plugin-preload` |
-| `@nuclie/plugin-lazy-load` | Code splitting helpers | `nuclie plugin install @nuclie/plugin-lazy-load` |
-| `@nuclie/plugin-bundle-analyzer` | Bundle size analysis | `nuclie plugin install @nuclie/plugin-bundle-analyzer` |
+| `@sparx/plugin-compression` | Gzip/Brotli compression | `sparx plugin install @sparx/plugin-compression` |
+| `@sparx/plugin-preload` | Resource preloading | `sparx plugin install @sparx/plugin-preload` |
+| `@sparx/plugin-lazy-load` | Code splitting helpers | `sparx plugin install @sparx/plugin-lazy-load` |
+| `@sparx/plugin-bundle-analyzer` | Bundle size analysis | `sparx plugin install @sparx/plugin-bundle-analyzer` |
 
 ### Security
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-csp` | Content Security Policy | `nuclie plugin install @nuclie/plugin-csp` |
-| `@nuclie/plugin-sri` | Subresource Integrity | `nuclie plugin install @nuclie/plugin-sri` |
-| `@nuclie/plugin-security-headers` | HTTP security headers | `nuclie plugin install @nuclie/plugin-security-headers` |
+| `@sparx/plugin-csp` | Content Security Policy | `sparx plugin install @sparx/plugin-csp` |
+| `@sparx/plugin-sri` | Subresource Integrity | `sparx plugin install @sparx/plugin-sri` |
+| `@sparx/plugin-security-headers` | HTTP security headers | `sparx plugin install @sparx/plugin-security-headers` |
 
 ### Testing
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-vitest` | Vitest integration | `nuclie plugin install @nuclie/plugin-vitest` |
-| `@nuclie/plugin-jest` | Jest integration | `nuclie plugin install @nuclie/plugin-jest` |
-| `@nuclie/plugin-playwright` | E2E testing | `nuclie plugin install @nuclie/plugin-playwright` |
+| `@sparx/plugin-vitest` | Vitest integration | `sparx plugin install @sparx/plugin-vitest` |
+| `@sparx/plugin-jest` | Jest integration | `sparx plugin install @sparx/plugin-jest` |
+| `@sparx/plugin-playwright` | E2E testing | `sparx plugin install @sparx/plugin-playwright` |
 
 ### i18n
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-i18next` | i18next integration | `nuclie plugin install @nuclie/plugin-i18next` |
-| `@nuclie/plugin-react-intl` | React Intl | `nuclie plugin install @nuclie/plugin-react-intl` |
-| `@nuclie/plugin-vue-i18n` | Vue I18n | `nuclie plugin install @nuclie/plugin-vue-i18n` |
+| `@sparx/plugin-i18next` | i18next integration | `sparx plugin install @sparx/plugin-i18next` |
+| `@sparx/plugin-react-intl` | React Intl | `sparx plugin install @sparx/plugin-react-intl` |
+| `@sparx/plugin-vue-i18n` | Vue I18n | `sparx plugin install @sparx/plugin-vue-i18n` |
 
 ### State Management
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-redux` | Redux DevTools | `nuclie plugin install @nuclie/plugin-redux` |
-| `@nuclie/plugin-zustand` | Zustand integration | `nuclie plugin install @nuclie/plugin-zustand` |
-| `@nuclie/plugin-jotai` | Jotai atoms | `nuclie plugin install @nuclie/plugin-jotai` |
+| `@sparx/plugin-redux` | Redux DevTools | `sparx plugin install @sparx/plugin-redux` |
+| `@sparx/plugin-zustand` | Zustand integration | `sparx plugin install @sparx/plugin-zustand` |
+| `@sparx/plugin-jotai` | Jotai atoms | `sparx plugin install @sparx/plugin-jotai` |
 
 ### Deployment
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-vercel` | Vercel deployment | `nuclie plugin install @nuclie/plugin-vercel` |
-| `@nuclie/plugin-netlify` | Netlify deployment | `nuclie plugin install @nuclie/plugin-netlify` |
-| `@nuclie/plugin-cloudflare` | Cloudflare Workers | `nuclie plugin install @nuclie/plugin-cloudflare` |
-| `@nuclie/plugin-docker` | Docker containerization | `nuclie plugin install @nuclie/plugin-docker` |
+| `@sparx/plugin-vercel` | Vercel deployment | `sparx plugin install @sparx/plugin-vercel` |
+| `@sparx/plugin-netlify` | Netlify deployment | `sparx plugin install @sparx/plugin-netlify` |
+| `@sparx/plugin-cloudflare` | Cloudflare Workers | `sparx plugin install @sparx/plugin-cloudflare` |
+| `@sparx/plugin-docker` | Docker containerization | `sparx plugin install @sparx/plugin-docker` |
 
 ### Analytics
 
 | Plugin | Description | Install |
 |--------|-------------|---------|
-| `@nuclie/plugin-google-analytics` | GA4 integration | `nuclie plugin install @nuclie/plugin-google-analytics` |
-| `@nuclie/plugin-plausible` | Plausible Analytics | `nuclie plugin install @nuclie/plugin-plausible` |
-| `@nuclie/plugin-sentry` | Error tracking | `nuclie plugin install @nuclie/plugin-sentry` |
+| `@sparx/plugin-google-analytics` | GA4 integration | `sparx plugin install @sparx/plugin-google-analytics` |
+| `@sparx/plugin-plausible` | Plausible Analytics | `sparx plugin install @sparx/plugin-plausible` |
+| `@sparx/plugin-sentry` | Error tracking | `sparx plugin install @sparx/plugin-sentry` |
 
 ---
 
@@ -157,7 +157,7 @@ export default defineConfig({
 
 ### Plugin Security Model
 
-Nuclie currently executes plugins in an isolated VM-based runtime with strict permission controls. A secure WASM runtime for plugin execution is planned, but the current model is based on runtime isolation and API safety checks.
+Sparx currently executes plugins in an isolated VM-based runtime with strict permission controls. A secure WASM runtime for plugin execution is planned, but the current model is based on runtime isolation and API safety checks.
 
 Plugins are subject to explicit permissions:
 - Filesystem access is denied by default and only granted for approved paths.
@@ -184,11 +184,11 @@ Every plugin is **cryptographically signed**:
 
 ```bash
 # Verify plugin signature
-nuclie plugin verify @nuclie/plugin-react
+sparx plugin verify @sparx/plugin-react
 
 # Output:
 ✅ Signature valid
-✅ Publisher: Nuclie Team
+✅ Publisher: Sparx Team
 ✅ Published: 2026-01-15
 ✅ SHA-256: a3f2...
 ```
@@ -197,9 +197,9 @@ nuclie plugin verify @nuclie/plugin-react
 
 ```json
 {
-  "name": "@nuclie/plugin-react",
+  "name": "@sparx/plugin-react",
   "version": "2.0.0",
-  "author": "Nuclie Team",
+  "author": "Sparx Team",
   "signature": "...",
   "permissions": [
     "transform:jsx",
@@ -218,9 +218,9 @@ nuclie plugin verify @nuclie/plugin-react
 
 ```typescript
 // my-plugin.ts
-import { NucliePlugin } from 'nuclie';
+import { SparxPlugin } from 'sparx';
 
-export default function myPlugin(options = {}): NucliePlugin {
+export default function myPlugin(options = {}): SparxPlugin {
   return {
     name: 'my-plugin',
     version: '1.0.0',
@@ -251,7 +251,7 @@ export default function myPlugin(options = {}): NucliePlugin {
 ### Plugin Hooks
 
 ```typescript
-export interface NucliePlugin {
+export interface SparxPlugin {
   name: string;
   version: string;
   
@@ -277,12 +277,12 @@ export interface NucliePlugin {
 ### Example: Custom Markdown Plugin
 
 ```typescript
-import { NucliePlugin } from 'nuclie';
+import { SparxPlugin } from 'sparx';
 import { marked } from 'marked';
 
-export default function markdownPlugin(): NucliePlugin {
+export default function markdownPlugin(): SparxPlugin {
   return {
-    name: 'nuclie-plugin-markdown',
+    name: 'sparx-plugin-markdown',
     version: '1.0.0',
     
     transform(code, id) {
@@ -301,7 +301,7 @@ export default function markdownPlugin(): NucliePlugin {
 
 **Usage**:
 ```typescript
-// nuclie.config.ts
+// sparx.config.ts
 import markdown from './my-plugin';
 
 export default defineConfig({
@@ -325,8 +325,8 @@ function App() {
 ### Vite Plugin Adapter
 
 ```typescript
-import { defineConfig } from 'nuclie';
-import { rollupAdapter } from '@nuclie/plugin-compat';
+import { defineConfig } from 'sparx';
+import { rollupAdapter } from '@sparx/plugin-compat';
 import viteReactSvgr from 'vite-plugin-svgr';
 
 export default defineConfig({
@@ -342,7 +342,7 @@ export default defineConfig({
 ### Webpack Loader Adapter
 
 ```typescript
-import { webpackLoaderAdapter } from '@nuclie/plugin-compat';
+import { webpackLoaderAdapter } from '@sparx/plugin-compat';
 
 export default defineConfig({
   plugins: [
@@ -365,26 +365,26 @@ export default defineConfig({
 
 ```bash
 # List all plugins
-nuclie plugin list --all
+sparx plugin list --all
 
 # Search by category
-nuclie plugin search --category framework
+sparx plugin search --category framework
 
 # Filter by verified
-nuclie plugin search --verified
+sparx plugin search --verified
 ```
 
 ### Plugin Ratings
 
 ```bash
 # View plugin details
-nuclie plugin info @nuclie/plugin-react
+sparx plugin info @sparx/plugin-react
 
 # Output:
-📦 @nuclie/plugin-react v2.0.0
+📦 @sparx/plugin-react v2.0.0
 ⭐ 4.8/5.0 (1,234 reviews)
 📥 50,000 downloads/week
-✅ Verified by Nuclie Team
+✅ Verified by Sparx Team
 🔒 Secure isolated plugin runtime
 📝 React Fast Refresh + JSX transform
 ```
@@ -414,11 +414,11 @@ export default defineConfig({
 **Solution**:
 ```bash
 # Re-install plugin
-npm uninstall @nuclie/plugin-name
-nuclie plugin install @nuclie/plugin-name
+npm uninstall @sparx/plugin-name
+sparx plugin install @sparx/plugin-name
 
 # Or skip verification (not recommended)
-nuclie plugin install @nuclie/plugin-name --skip-verify
+sparx plugin install @sparx/plugin-name --skip-verify
 ```
 
 ### Plugin Conflicts
@@ -443,7 +443,7 @@ export default defineConfig({
 
 ✅ **Good**:
 ```typescript
-import react from '@nuclie/plugin-react';
+import react from '@sparx/plugin-react';
 ```
 
 ⚠️ **Avoid** (unless necessary):
@@ -455,7 +455,7 @@ import react from 'some-unofficial-plugin';
 
 ```bash
 # Always verify before using
-nuclie plugin verify @nuclie/plugin-name
+sparx plugin verify @sparx/plugin-name
 ```
 
 ### 3. Minimal Plugin Configuration
@@ -480,7 +480,7 @@ plugins: [
 
 ```bash
 # Profile plugin impact
-nuclie build --profile
+sparx build --profile
 
 # Output shows plugin timings
 ```
@@ -496,20 +496,20 @@ nuclie build --profile
 npm run build
 
 # 2. Sign plugin
-nuclie plugin sign ./dist
+sparx plugin sign ./dist
 
 # 3. Publish to marketplace
-nuclie plugin publish
+sparx plugin publish
 
 # 4. Verify published
-nuclie plugin verify @your-org/your-plugin
+sparx plugin verify @your-org/your-plugin
 ```
 
 ### Plugin Testing
 
 ```typescript
 // plugin.test.ts
-import { describe, it, expect } from '@nuclie/test';
+import { describe, it, expect } from '@sparx/test';
 import myPlugin from './plugin';
 
 describe('My Plugin', () => {

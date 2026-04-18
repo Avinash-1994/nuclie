@@ -176,13 +176,13 @@ export const CommonPatterns: ErrorPattern[] = [
         }
     },
     {
-        id: 'nuclie-config-error',
-        name: 'Nuclie Config Validation Error',
+        id: 'sparx-config-error',
+        name: 'Sparx Config Validation Error',
         regex: /Invalid config file/i,
         generator: () => {
             return {
                 type: 'MANUAL_INSTRUCTION',
-                description: 'Fix nuclie.config configuration - check for type mismatches or missing fields.',
+                description: 'Fix sparx.config configuration - check for type mismatches or missing fields.',
                 confidence: 0.95
             };
         }

@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-sentry
+ * @sparx/plugin-sentry
  * Sentry error tracking
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createSentryPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-sentry',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-sentry',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Utility: Sentry error tracking

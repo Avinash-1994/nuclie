@@ -44,18 +44,18 @@ export function createFederationDevRemoteEntry(federation: NonNullable<BuildConf
   }).join(',\n');
 
   const sharedInitCode = federation.shared ? `
-      if (sharedScope && typeof globalThis.__nuclie_shared__ !== 'undefined') {
+      if (sharedScope && typeof globalThis.__sparx_shared__ !== 'undefined') {
         Object.keys(sharedScope).forEach(function(name) {
-          if (!globalThis.__nuclie_shared__.has(name)) {
+          if (!globalThis.__sparx_shared__.has(name)) {
             Object.keys(sharedScope[name] || {}).forEach(function(version) {
-              globalThis.__nuclie_shared__.register(name, version, sharedScope[name][version].get, false);
+              globalThis.__sparx_shared__.register(name, version, sharedScope[name][version].get, false);
             });
           }
         });
       }
     ` : '';
 
-  return `// Nuclie Module Federation Remote Entry (dev)
+  return `// Sparx Module Federation Remote Entry (dev)
 (function() {
   var remoteName = ${JSON.stringify(federation.name)};
   var exposedModules = {
@@ -65,7 +65,7 @@ ${exposeEntries}
   function resolvePath(moduleName) {
     var modulePath = exposedModules[moduleName];
     if (!modulePath) {
-      throw new Error('[Nuclie MF] Module not found: ' + moduleName);
+      throw new Error('[Sparx MF] Module not found: ' + moduleName);
     }
     var base = typeof import.meta !== 'undefined' ? import.meta.url : window.location.href;
     return new URL(modulePath, base).toString();
@@ -84,9 +84,9 @@ ${exposeEntries}
     }
   };
 
-  globalThis['nuclie_remote_' + remoteName] = container;
+  globalThis['sparx_remote_' + remoteName] = container;
   globalThis[remoteName] = container;
-  var event = new CustomEvent('nuclie:remote:ready', { detail: { name: remoteName } });
+  var event = new CustomEvent('sparx:remote:ready', { detail: { name: remoteName } });
   if (typeof document !== 'undefined') {
     document.dispatchEvent(event);
   }

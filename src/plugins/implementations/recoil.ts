@@ -1,15 +1,15 @@
 /**
- * @nuclie/plugin-recoil
+ * @sparx/plugin-recoil
  * Recoil state management
- * Nuclie-native
+ * Sparx-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createRecoilPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-recoil',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-recoil',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // recoil transformation

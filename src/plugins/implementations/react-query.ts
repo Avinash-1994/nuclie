@@ -1,15 +1,15 @@
 /**
- * @nuclie/plugin-react-query
+ * @sparx/plugin-react-query
  * React Query integration
- * Nuclie-native
+ * Sparx-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createReactQueryPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-react-query',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-react-query',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // react transformation

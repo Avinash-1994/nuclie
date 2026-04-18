@@ -1,8 +1,8 @@
 {
-    "name": "nuclie-native",
+    "name": "sparx-native",
     "version": "0.1.0",
     "type": "module",
     "napi": {
-        "binaryName": "nuclie_native"
+        "binaryName": "sparx_native"
     }
 }

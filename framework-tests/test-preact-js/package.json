@@ -1,0 +1,17 @@
+{
+    "name": "test-preact-js",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "sparx dev",
+        "build": "sparx build",
+        "preview": "sparx dev --port 4173"
+    },
+    "dependencies": {
+        "preact": "latest"
+    },
+    "devDependencies": {
+        "sparx": "file:../.."
+    }
+}

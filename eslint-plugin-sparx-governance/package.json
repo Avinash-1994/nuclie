@@ -1,0 +1,20 @@
+{
+    "name": "eslint-plugin-sparx-governance",
+    "version": "1.0.0",
+    "description": "ESLint rules to enforce Sparx governance boundaries",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "eslint",
+        "eslintplugin",
+        "sparx",
+        "governance"
+    ],
+    "author": "Sparx Core Team",
+    "license": "MIT",
+    "peerDependencies": {
+        "eslint": ">=8.0.0"
+    }
+}

@@ -1,4 +1,4 @@
-# Nuclie Governance Model — Operational Truth
+# Sparx Governance Model — Operational Truth
 
 **Status**: 🔒 Active (Phase H2.3)  
 **Version**: 1.0.0  
@@ -34,10 +34,10 @@ Every plugin has a category that determines:
 - ✅ Performance benchmarked
 
 **Examples**:
-- `nuclie:js-transform` (Universal transformer)
-- `nuclie:assets` (Hashed asset pipeline)
-- `nuclie:postcss` (CSS processing)
-- `nuclie:federation` (Module federation)
+- `sparx:js-transform` (Universal transformer)
+- `sparx:assets` (Hashed asset pipeline)
+- `sparx:postcss` (CSS processing)
+- `sparx:federation` (Module federation)
 
 **Guarantees**:
 - No breaking changes in minor versions
@@ -61,9 +61,9 @@ Every plugin has a category that determines:
 - ⚠️ Not in official docs (linked only)
 
 **Examples**:
-- `nuclie-plugin-graphql` (Community)
-- `nuclie-plugin-wasm` (Community)
-- `nuclie-plugin-mdx` (Community)
+- `sparx-plugin-graphql` (Community)
+- `sparx-plugin-wasm` (Community)
+- `sparx-plugin-mdx` (Community)
 
 **Guarantees**:
 - **NONE**
@@ -87,9 +87,9 @@ Every plugin has a category that determines:
 - 🧪 Not recommended for production
 
 **Examples**:
-- `nuclie:ai-optimizer` (Experimental)
-- `nuclie:edge-runtime` (Experimental)
-- `nuclie:ssr-streaming` (Experimental)
+- `sparx:ai-optimizer` (Experimental)
+- `sparx:edge-runtime` (Experimental)
+- `sparx:ssr-streaming` (Experimental)
 
 **Guarantees**:
 - **NONE**
@@ -105,19 +105,19 @@ Every plugin has a category that determines:
 
 | Plugin Name | Category | Owner | Risk Level | Snapshot Tested | Docs |
 |-------------|----------|-------|------------|-----------------|------|
-| `nuclie:js-transform` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:assets` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:postcss` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:federation` | Official | Core Team | Medium | ✅ | ✅ |
-| `nuclie:react-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:vue-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:svelte-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:solid-preset` | Official | Core Team | Low | ✅ | ✅ |
-| `nuclie:angular-preset` | Official | Core Team | Medium | ✅ | ✅ |
-| `nuclie:ai-optimizer` | Experimental | Core Team | High | ❌ | ⚠️ |
-| `nuclie:edge-runtime` | Experimental | Core Team | High | ❌ | ⚠️ |
-| `nuclie-plugin-graphql` | Community | @community | Unknown | ❌ | ❌ |
-| `nuclie-plugin-wasm` | Community | @community | Unknown | ❌ | ❌ |
+| `sparx:js-transform` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:assets` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:postcss` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:federation` | Official | Core Team | Medium | ✅ | ✅ |
+| `sparx:react-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:vue-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:svelte-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:solid-preset` | Official | Core Team | Low | ✅ | ✅ |
+| `sparx:angular-preset` | Official | Core Team | Medium | ✅ | ✅ |
+| `sparx:ai-optimizer` | Experimental | Core Team | High | ❌ | ⚠️ |
+| `sparx:edge-runtime` | Experimental | Core Team | High | ❌ | ⚠️ |
+| `sparx-plugin-graphql` | Community | @community | Unknown | ❌ | ❌ |
+| `sparx-plugin-wasm` | Community | @community | Unknown | ❌ | ❌ |
 
 ---
 
@@ -265,5 +265,5 @@ No exceptions.
 
 ---
 
-**Signed**: Nuclie Core Team  
+**Signed**: Sparx Core Team  
 **Effective**: Phase H2.3 Complete

@@ -1,8 +1,8 @@
-# 🎨 Nuclie Templates - Visual Guide
+# 🎨 Sparx Templates - Visual Guide
 
 ## How Templates Work
 
-When you run `npx create-nuclie my-app --template react-spa`, Nuclie:
+When you run `npx create-sparx my-app --template react-spa`, Sparx:
 
 1. Creates a new directory `my-app/`
 2. Generates all files from the template
@@ -19,7 +19,7 @@ my-app/                    # Your new project
 │   ├── App.css           # Component styles
 │   └── index.css         # Global styles
 ├── index.html            # HTML entry
-├── nuclie.config.ts       # Nuclie configuration
+├── sparx.config.ts       # Sparx configuration
 ├── package.json          # Dependencies
 ├── tsconfig.json         # TypeScript config
 └── README.md             # Project README
@@ -40,7 +40,7 @@ my-react-app/
 │   ├── App.css
 │   └── index.css         # Dark theme
 ├── index.html
-├── nuclie.config.ts       # React plugin configured
+├── sparx.config.ts       # React plugin configured
 └── package.json          # React 18+
 ```
 
@@ -53,7 +53,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Nuclie + React</h1>
+      <h1>Sparx + React</h1>
       <button onClick={() => setCount(count + 1)}>
         count is {count}
       </button>
@@ -83,7 +83,7 @@ my-vue-app/
 │   │   └── HelloWorld.vue
 │   └── style.css
 ├── index.html
-├── nuclie.config.ts       # Vue plugin
+├── sparx.config.ts       # Vue plugin
 └── package.json          # Vue 3+
 ```
 
@@ -98,7 +98,7 @@ const count = ref(0)
 
 <template>
   <div id="app">
-    <h1>Nuclie + Vue</h1>
+    <h1>Sparx + Vue</h1>
     <button @click="count++">Count: {{ count }}</button>
     <HelloWorld msg="Welcome to Vue 3" />
   </div>
@@ -126,7 +126,7 @@ my-svelte-app/
 │   │   └── Counter.svelte
 │   └── app.css
 ├── index.html
-├── nuclie.config.ts       # Svelte plugin
+├── sparx.config.ts       # Svelte plugin
 └── package.json          # Svelte 4+
 ```
 
@@ -134,14 +134,14 @@ my-svelte-app/
 ```svelte
 <script lang="ts">
   import Counter from './lib/Counter.svelte'
-  let name = 'Nuclie'
+  let name = 'Sparx'
 </script>
 
 <main>
   <h1>Hello {name}!</h1>
   <Counter />
   <p>
-    Visit <a href="https://nuclie.dev">nuclie.dev</a> to learn more
+    Visit <a href="https://sparx.dev">sparx.dev</a> to learn more
   </p>
 </main>
 
@@ -167,7 +167,7 @@ my-nextjs-app/
 │       ├── page.tsx      # Home page
 │       ├── layout.tsx    # Root layout
 │       └── globals.css   # Tailwind CSS
-├── nuclie.config.js       # SSR enabled
+├── sparx.config.js       # SSR enabled
 ├── tailwind.config.js    # Tailwind setup
 └── package.json          # React 19+
 ```
@@ -178,7 +178,7 @@ export default function Home() {
   return (
     <main className="min-h-screen p-24">
       <h1 className="text-4xl font-bold">
-        Welcome to Nuclie + Next.js
+        Welcome to Sparx + Next.js
       </h1>
       <p className="mt-4">
         Start building your app with App Router
@@ -205,10 +205,10 @@ my-monorepo/
 ├── packages/
 │   ├── web/              # Frontend app
 │   │   ├── src/
-│   │   └── nuclie.config.js
+│   │   └── sparx.config.js
 │   ├── api/              # Backend API
 │   │   ├── src/
-│   │   └── nuclie.config.js
+│   │   └── sparx.config.js
 │   └── shared/           # Shared utilities
 │       └── src/
 ├── package.json          # Workspace root
@@ -232,7 +232,7 @@ my-edge-app/
 ├── src/
 │   ├── index.ts          # Edge handler
 │   └── middleware.ts     # Edge middleware
-├── nuclie.config.js       # target: 'edge'
+├── sparx.config.js       # target: 'edge'
 └── package.json          # Minimal deps
 ```
 
@@ -279,7 +279,7 @@ my-fintech-app/
 │   │   ├── security.ts   # Encryption helpers
 │   │   └── validation.ts # Input validation
 │   └── styles/
-├── nuclie.config.js       # Security headers
+├── sparx.config.js       # Security headers
 └── package.json          # Enterprise deps
 ```
 
@@ -300,13 +300,13 @@ my-fintech-app/
 
 ```bash
 # Interactive selection
-npx create-nuclie my-app
+npx create-sparx my-app
 
 # Specific template
-npx create-nuclie my-app --template react-spa
+npx create-sparx my-app --template react-spa
 
 # With package manager
-npx create-nuclie my-app --template vue-spa --pm pnpm
+npx create-sparx my-app --template vue-spa --pm pnpm
 ```
 
 ### After Creation
@@ -320,12 +320,12 @@ npm install
 # Start development server
 npm run dev
 # or
-nuclie dev
+sparx dev
 
 # Build for production
 npm run build
 # or
-nuclie build
+sparx build
 ```
 
 ---
@@ -337,7 +337,7 @@ nuclie build
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│         Nuclie + React                   │
+│         Sparx + React                   │
 │                                         │
 │    ┌─────────────────────┐              │
 │    │  count is 0         │              │
@@ -346,7 +346,7 @@ nuclie build
 │    Edit src/App.tsx and save to        │
 │    test HMR                             │
 │                                         │
-│    Click on the Nuclie logo to learn    │
+│    Click on the Sparx logo to learn    │
 │    more                                 │
 │                                         │
 └─────────────────────────────────────────┘
@@ -355,9 +355,9 @@ nuclie build
 ### Development Server Output
 
 ```bash
-$ nuclie dev
+$ sparx dev
 
-  ⚡ Nuclie v1.0.0
+  ⚡ Sparx v1.0.0
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://192.168.1.100:3000/
@@ -372,9 +372,9 @@ $ nuclie dev
 ### Build Output
 
 ```bash
-$ nuclie build
+$ sparx build
 
-  ⚡ Nuclie v1.0.0
+  ⚡ Sparx v1.0.0
 
   Building for production...
 
@@ -400,7 +400,7 @@ my-app/
 ├── src/
 │   └── index.ts          # 1 file
 ├── index.html
-├── nuclie.config.js
+├── sparx.config.js
 └── package.json
 ```
 
@@ -413,7 +413,7 @@ my-app/
 │   ├── App.css
 │   └── index.css
 ├── index.html
-├── nuclie.config.ts
+├── sparx.config.ts
 ├── tsconfig.json
 └── package.json
 ```
@@ -428,7 +428,7 @@ my-app/
 ├── docs/
 ├── scripts/
 ├── .github/
-├── nuclie.config.js
+├── sparx.config.js
 ├── package.json
 └── pnpm-workspace.yaml
 ```
@@ -487,12 +487,12 @@ export const templates = [
 After creating your project:
 
 1. **Explore the code** - Check out the generated files
-2. **Start dev server** - `nuclie dev`
+2. **Start dev server** - `sparx dev`
 3. **Make changes** - Edit files and see HMR in action
 4. **Add features** - Install packages, add routes
-5. **Build** - `nuclie build` for production
+5. **Build** - `sparx build` for production
 6. **Deploy** - Upload `dist/` to your hosting
 
 ---
 
-**Need help?** Check out the [documentation](../README.md) or [create an issue](https://github.com/Avinash-1994/nuclie/issues)!
+**Need help?** Check out the [documentation](../README.md) or [create an issue](https://github.com/Avinash-1994/sparx/issues)!

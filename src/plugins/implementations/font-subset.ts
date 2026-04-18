@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-font-subset
+ * @sparx/plugin-font-subset
  * Font subsetting
  */
 
@@ -9,8 +9,8 @@ import path from 'path';
 
 export function createFontSubsetPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-font-subset',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-font-subset',
+        originalPlugin: 'sparx-native',
         
         async load(id: string) {
             // Asset loading for font-subset

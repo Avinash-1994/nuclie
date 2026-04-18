@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-meta-tags
+ * @sparx/plugin-meta-tags
  * SEO meta tags
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createMetaTagsPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-meta-tags',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-meta-tags',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // Utility: SEO meta tags

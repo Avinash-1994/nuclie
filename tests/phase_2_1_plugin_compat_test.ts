@@ -6,8 +6,8 @@
 import { PluginManager, Plugin } from '../src/plugins/index.js';
 import { rollupAdapter } from '../src/plugins/compat/rollup.js';
 import { webpackLoaderAdapter } from '../src/plugins/compat/webpack.js';
-import { nuclieCopy, nuclieHtml } from '../src/plugins/compat/tier-b.js';
-import { nuclieReact, nuclieVue, nuclieSvelte } from '../src/plugins/compat/tier-c.js';
+import { sparxCopy, sparxHtml } from '../src/plugins/compat/tier-b.js';
+import { sparxReact, sparxVue, sparxSvelte } from '../src/plugins/compat/tier-c.js';
 import fs from 'fs';
 import path from 'path';
 import { strict as assert } from 'assert';
@@ -138,12 +138,12 @@ async function testRollupAdapterBasic() {
         transform: (code: string) => code + '// rollup'
     };
 
-    const nucliePlugin = rollupAdapter(rollupPlugin);
+    const sparxPlugin = rollupAdapter(rollupPlugin);
 
-    assert.strictEqual(nucliePlugin.name, 'test-rollup-plugin');
-    assert.ok(nucliePlugin.transform);
+    assert.strictEqual(sparxPlugin.name, 'test-rollup-plugin');
+    assert.ok(sparxPlugin.transform);
 
-    const result = await nucliePlugin.transform!('code', 'test.js');
+    const result = await sparxPlugin.transform!('code', 'test.js');
     assert.strictEqual(result, 'code// rollup');
 
     console.log('✅ Rollup adapter converts plugins correctly');
@@ -173,19 +173,19 @@ async function testRollupAdapterHooks() {
         }
     };
 
-    const nucliePlugin = rollupAdapter(rollupPlugin);
+    const sparxPlugin = rollupAdapter(rollupPlugin);
 
-    const resolveResult = await nucliePlugin.resolveId!('virtual');
+    const resolveResult = await sparxPlugin.resolveId!('virtual');
     assert.strictEqual(resolveResult, '/virtual/path.js');
 
-    const loadResult = await nucliePlugin.load!('test.virtual');
+    const loadResult = await sparxPlugin.load!('test.virtual');
     assert.strictEqual(loadResult, 'export default "virtual"');
 
-    const transformed = await nucliePlugin.transform!('const  x  =  1;', 'test.js');
+    const transformed = await sparxPlugin.transform!('const  x  =  1;', 'test.js');
     assert.strictEqual(transformed, 'const  x  =  1; // transformed');
     assert.ok(emittedAsset, 'emitFile should be available on the Rollup plugin context');
 
-    const renderResult = await nucliePlugin.renderChunk!('const  x  =  1;', {});
+    const renderResult = await sparxPlugin.renderChunk!('const  x  =  1;', {});
     assert.strictEqual(renderResult, 'const x = 1;');
 
     console.log('✅ All Rollup hooks mapped correctly');
@@ -196,10 +196,10 @@ async function testRollupAdapterIntegration() {
 
     const manager = new PluginManager();
 
-    // Native Nuclie plugin
+    // Native Sparx plugin
     manager.register({
-        name: 'nuclie-plugin',
-        transform: async (code) => code + ' [nuclie]'
+        name: 'sparx-plugin',
+        transform: async (code) => code + ' [sparx]'
     });
 
     // Adapted Rollup plugin
@@ -210,9 +210,9 @@ async function testRollupAdapterIntegration() {
     manager.register(rollupAdapter(rollupPlugin));
 
     const result = await manager.transform('start', 'test.js');
-    assert.strictEqual(result, 'start [nuclie] [rollup]');
+    assert.strictEqual(result, 'start [sparx] [rollup]');
 
-    console.log('✅ Rollup plugins integrate seamlessly with Nuclie plugins');
+    console.log('✅ Rollup plugins integrate seamlessly with Sparx plugins');
 }
 
 async function testSandboxPermissionEnforcement() {
@@ -428,8 +428,8 @@ async function testWebpackLoaderAdapter() {
     console.log('✅ Webpack loader adapter works correctly');
 }
 
-async function testNuclieCopy() {
-    console.log('\n[Test 12] Tier B: nuclieCopy');
+async function testSparxCopy() {
+    console.log('\n[Test 12] Tier B: sparxCopy');
 
     const testDir = path.resolve(process.cwd(), 'temp_test_copy');
     const srcFile = path.join(testDir, 'src/file.txt');
@@ -440,7 +440,7 @@ async function testNuclieCopy() {
     await fs.promises.mkdir(path.dirname(srcFile), { recursive: true });
     await fs.promises.writeFile(srcFile, 'hello');
 
-    const plugin = nuclieCopy({
+    const plugin = sparxCopy({
         targets: [{ src: srcFile, dest: destFile }]
     });
 
@@ -451,15 +451,15 @@ async function testNuclieCopy() {
 
     // Cleanup
     await fs.promises.rm(testDir, { recursive: true, force: true });
-    console.log('✅ nuclieCopy copies files correctly');
+    console.log('✅ sparxCopy copies files correctly');
 }
 
-async function testNuclieHtml() {
-    console.log('\n[Test 13] Tier B: nuclieHtml');
+async function testSparxHtml() {
+    console.log('\n[Test 13] Tier B: sparxHtml');
 
     const testDest = path.resolve(process.cwd(), 'dist', 'test-index.html');
 
-    const plugin = nuclieHtml({
+    const plugin = sparxHtml({
         title: 'Test App',
         filename: 'test-index.html'
     });
@@ -471,21 +471,21 @@ async function testNuclieHtml() {
 
     // Cleanup
     await fs.promises.unlink(testDest);
-    console.log('✅ nuclieHtml generates HTML correctly');
+    console.log('✅ sparxHtml generates HTML correctly');
 }
 
 async function testTierC() {
     console.log('\n[Test 14] Tier C: Wrappers (React/Vue/Svelte)');
 
     // Just verify they return valid plugin objects
-    const react = nuclieReact();
-    assert.strictEqual(react.name, 'nuclie-react');
+    const react = sparxReact();
+    assert.strictEqual(react.name, 'sparx-react');
 
-    const vue = nuclieVue();
-    assert.strictEqual(vue.name, 'nuclie-vue');
+    const vue = sparxVue();
+    assert.strictEqual(vue.name, 'sparx-vue');
 
-    const svelte = nuclieSvelte();
-    assert.strictEqual(svelte.name, 'nuclie-svelte');
+    const svelte = sparxSvelte();
+    assert.strictEqual(svelte.name, 'sparx-svelte');
 
     console.log('✅ Tier C wrappers instantiated correctly');
 }
@@ -513,9 +513,9 @@ async function runAllTests() {
         await testPerformanceBenchmark();
         await testReturnValueHandling();
         await testWebpackLoaderAdapter();
-        await testNuclieCopy();
-        // await testNuclieHtml(); // Skipped to avoid polling dist folder conflicts in parallel tests, but implemented.
-        try { await testNuclieHtml(); } catch (e) { console.warn('HTML test warning (non-critical):', e); }
+        await testSparxCopy();
+        // await testSparxHtml(); // Skipped to avoid polling dist folder conflicts in parallel tests, but implemented.
+        try { await testSparxHtml(); } catch (e) { console.warn('HTML test warning (non-critical):', e); }
         await testTierC();
 
         console.log('\n' + '='.repeat(60));

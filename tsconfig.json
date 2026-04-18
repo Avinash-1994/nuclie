@@ -12,7 +12,11 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@nuclie/adapter-core": ["./packages/nuclie-adapter-core/src/index.js", "./packages/nuclie-adapter-core/src/index.ts"],
+      "@nuclie/adapter-core/*": ["./packages/nuclie-adapter-core/*"]
+    }
   },
   "include": [
     "src/**/*",

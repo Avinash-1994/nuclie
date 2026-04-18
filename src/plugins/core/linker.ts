@@ -1,5 +1,5 @@
 
-import { NucliePlugin } from '../../core/plugins/types.js';
+import { SparxPlugin } from '../../core/plugins/types.js';
 import { canonicalHash } from '../../core/engine/hash.js';
 import { GraphNode } from '../../resolve/graph.js';
 
@@ -7,19 +7,19 @@ import { GraphNode } from '../../resolve/graph.js';
  * Internal Linker Plugin
  * 
  * Rewrites import/require specifiers using the DependencyGraph's specifierMap.
- * This runs after all other transformations to ensure final code uses Nuclie module IDs.
+ * This runs after all other transformations to ensure final code uses Sparx module IDs.
  */
-export function createLinkerPlugin(): NucliePlugin {
+export function createLinkerPlugin(): SparxPlugin {
     return {
         manifest: {
-            name: 'nuclie:linker',
+            name: 'sparx:linker',
             version: '1.0.0',
             engineVersion: '1.0.0',
             type: 'js',
             hooks: ['transformModule'],
             permissions: { fs: 'none' }
         },
-        id: canonicalHash('nuclie:linker'),
+        id: canonicalHash('sparx:linker'),
         async runHook(hook, input, context) {
             if (hook !== 'transformModule') return input;
 

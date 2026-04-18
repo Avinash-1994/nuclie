@@ -1,0 +1,17 @@
+{
+    "name": "test-vue-ts",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "sparx dev",
+        "build": "sparx build"
+    },
+    "devDependencies": {
+        "sparx": "file:../..",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "vue": "^3.3.0"
+    }
+}

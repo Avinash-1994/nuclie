@@ -3,7 +3,7 @@
 ## Issue Detected
 
 GitHub detected a sensitive file in git history:
-- **File**: `test_output_config/.nuclie/certs/dev.key`
+- **File**: `test_output_config/.sparx/certs/dev.key`
 - **Type**: Private key (development certificate)
 - **Commit**: b86bbc5
 - **Status**: ✅ RESOLVED
@@ -29,7 +29,7 @@ Added comprehensive security patterns:
 *.csr
 *.priv
 **/certs/**
-**/.nuclie/certs/**
+**/.sparx/certs/**
 .env
 .env.local
 .env.*.local
@@ -44,8 +44,8 @@ Added patterns to prevent test output commits:
 test_output*/
 test_*/
 temp_*/
-.nuclie_cache/
-.nuclie/telemetry/
+.sparx_cache/
+.sparx/telemetry/
 ```
 
 ## Risk Assessment
@@ -89,7 +89,7 @@ The key remains in git history (commit b86bbc5) but:
 
 ```bash
 # Verify file is deleted
-ls test_output_config/.nuclie/certs/dev.key
+ls test_output_config/.sparx/certs/dev.key
 # Output: No such file or directory ✅
 
 # Verify .gitignore patterns

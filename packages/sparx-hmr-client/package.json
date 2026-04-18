@@ -1,0 +1,19 @@
+{
+  "name": "@sparx/hmr-client",
+  "version": "0.1.0",
+  "description": "Browser-side HMR runtime for Sparx build tool. Zero dependencies.",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/index.js --target=es2020 --minify",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "esbuild": "*",
+    "typescript": "*"
+  },
+  "keywords": ["sparx", "hmr", "hot-reload", "build-tool"]
+}

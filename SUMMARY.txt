@@ -1,9 +1,9 @@
-NUCLIE BUILD TOOL - PROGRESS SUMMARY
+SPARX BUILD TOOL - PROGRESS SUMMARY
 
 Successfully completed the following tasks:
 
 1. VUE.JS INTEGRATION FIXED (Windows)
-   - Fixed @vue/compiler-sfc resolution (searches both local and Nuclie deps).
+   - Fixed @vue/compiler-sfc resolution (searches both local and Sparx deps).
    - Resolved Windows path escaping syntax error in compiled SFCs.
    - Implemented pathToFileURL for dynamic ESM imports of compilers.
    - Verified rendering and HMR.
@@ -14,9 +14,9 @@ Successfully completed the following tasks:
    - Verified rendering and HMR.
 
 3. BOOTSTRAPPING SYSTEM UPGRADE
-   - Expanded 'nuclie bootstrap' to handle dependencies for all standard templates.
+   - Expanded 'sparx bootstrap' to handle dependencies for all standard templates.
    - SolidJS, Preact, Qwik, Lit, Mithril, and Alpine.js now get proper package.json dependencies.
-   - Automatic nuclie.config.json generation for all templates.
+   - Automatic sparx.config.json generation for all templates.
 
 4. DEV SERVER STABILIZATION
    - Optimized pre-bundler for Vue/Svelte runtime environments.
@@ -36,7 +36,7 @@ Successfully completed the following tasks:
 
 6. PREMIUM UI TEMPLATES
    - Extracted beautiful hero-based UI (gradients, cards, dark theme) into `bootstrap.ts` generator.
-   - Verified that ALL 18 frameworks/variants now receive the premium UI instantly out of the box when using `nuclie bootstrap`.
+   - Verified that ALL 18 frameworks/variants now receive the premium UI instantly out of the box when using `sparx bootstrap`.
 
 7. CI/CD Pipeline & RELEASE (v1.0.8)
    - Included both `ubuntu-latest` and `windows-latest` runners into the matrix.

@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-prefetch
+ * @sparx/plugin-prefetch
  * Route prefetching
  */
 
@@ -7,11 +7,11 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPrefetchPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-prefetch',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-prefetch',
+        originalPlugin: 'sparx-native',
         
         async buildStart() {
-            console.log('[@nuclie/plugin-prefetch] Starting performance optimization...');
+            console.log('[@sparx/plugin-prefetch] Starting performance optimization...');
         },
 
         async transform(code: string, id: string) {
@@ -20,7 +20,7 @@ export function createPrefetchPlugin(): PluginAdapter {
         },
 
         async buildEnd() {
-            console.log('[@nuclie/plugin-prefetch] Performance optimization complete');
+            console.log('[@sparx/plugin-prefetch] Performance optimization complete');
         }
     };
 }

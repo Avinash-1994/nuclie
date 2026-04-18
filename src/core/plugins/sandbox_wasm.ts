@@ -1,8 +1,8 @@
 
-import { NucliePlugin, PluginHookName, PluginManifest } from './types.js';
+import { SparxPlugin, PluginHookName, PluginManifest } from './types.js';
 import { canonicalHash } from '../engine/hash.js';
 
-export class WASMPluginSandbox implements NucliePlugin {
+export class WASMPluginSandbox implements SparxPlugin {
     manifest: PluginManifest;
     id: string;
     private instance: WebAssembly.Instance;

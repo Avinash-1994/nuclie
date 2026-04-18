@@ -78,7 +78,7 @@ pub fn transform_js(code: String, filename: String, minify_opts: bool) -> Result
         let top_level_mark = Mark::new();
         module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-        // 2. ESM Conversion (Nuclie Runtime Format)
+        // 2. ESM Conversion (Sparx Runtime Format)
         // Instead of stripping, we convert 'export' to 'exports' assignments
         // and 'import' to 'require' calls.
         use swc_core::ecma::ast::*;
@@ -364,6 +364,8 @@ pub fn minify_js(code: String) -> Result<String, String> {
         
         let mut mangle = swc_core::ecma::minifier::option::MangleOptions::default();
         mangle.top_level = Some(true);  // Aggressive mangling
+        mangle.keep_class_names = true; // Preserve class names (Angular/React compat)
+        mangle.keep_fn_names = true;    // Preserve function names
         options.mangle = Some(mangle);
         options.rename = false;         // Don't rename - can break runtime references
         

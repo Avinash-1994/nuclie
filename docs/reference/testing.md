@@ -1,4 +1,4 @@
-# 🧪 Nuclie Testing - Quick Reference Guide
+# 🧪 Sparx Testing - Quick Reference Guide
 
 ## 🚀 Quick Start
 
@@ -148,7 +148,7 @@ npm run test:snapshot -- --updateSnapshot
 
 ### Enable Debug Logging
 ```bash
-DEBUG=nuclie:* npm test
+DEBUG=sparx:* npm test
 ```
 
 ### Run Single Test

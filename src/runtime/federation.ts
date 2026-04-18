@@ -23,7 +23,7 @@ export interface SharedScope {
 
 declare global {
     interface Window {
-        __NUCLIE_FEDERATION__: {
+        __SPARX_FEDERATION__: {
             remotes: Record<string, RemoteConfig>;
             shared: SharedScope;
             initPromises: Record<string, Promise<any>>;
@@ -47,8 +47,8 @@ function getFederationGlobal(): any {
 
 function ensureFederationGlobal() {
     const root = getFederationGlobal();
-    if (!root.__NUCLIE_FEDERATION__) {
-        root.__NUCLIE_FEDERATION__ = {
+    if (!root.__SPARX_FEDERATION__) {
+        root.__SPARX_FEDERATION__ = {
             remotes: {},
             shared: {},
             initPromises: {}
@@ -60,7 +60,7 @@ function ensureFederationGlobal() {
 export async function initFederation(remotes: Record<string, string>) {
     const root = ensureFederationGlobal();
     Object.entries(remotes).forEach(([name, url]) => {
-        root.__NUCLIE_FEDERATION__.remotes[name] = { url };
+        root.__SPARX_FEDERATION__.remotes[name] = { url };
     });
 }
 
@@ -97,7 +97,7 @@ async function importRemoteModule(moduleUrl: string) {
     // Node.js server-side federation support for remote URLs.
     // Use a deterministic temp path so repeated loads can reuse the same cache.
     const digest = crypto.createHash('sha256').update(moduleUrl).digest('hex').slice(0, 16);
-    const tempDir = path.join(os.tmpdir(), 'nuclie-mf', digest);
+    const tempDir = path.join(os.tmpdir(), 'sparx-mf', digest);
     fs.mkdirSync(tempDir, { recursive: true });
     const moduleFile = path.join(tempDir, 'remote-module.mjs');
 
@@ -114,7 +114,7 @@ async function importRemoteModule(moduleUrl: string) {
 
 export async function loadRemote(remoteName: string, exposedModule: string) {
     const root = ensureFederationGlobal();
-    const remote = root.__NUCLIE_FEDERATION__.remotes[remoteName];
+    const remote = root.__SPARX_FEDERATION__.remotes[remoteName];
     if (!remote) {
         throw new Error(`Remote ${remoteName} not configured`);
     }
@@ -185,7 +185,7 @@ export async function loadRemote(remoteName: string, exposedModule: string) {
 
 export function registerShared(name: string, version: string, factory: () => Promise<any>) {
     const root = ensureFederationGlobal();
-    const scope = root.__NUCLIE_FEDERATION__.shared;
+    const scope = root.__SPARX_FEDERATION__.shared;
     if (!scope[name]) scope[name] = {};
 
     if (!scope[name][version]) {
@@ -198,7 +198,7 @@ export function registerShared(name: string, version: string, factory: () => Pro
 
 export async function loadShared(name: string, requiredVersion: string) {
     const root = ensureFederationGlobal();
-    const scope = root.__NUCLIE_FEDERATION__.shared;
+    const scope = root.__SPARX_FEDERATION__.shared;
     const versions = scope[name];
 
     if (!versions) {

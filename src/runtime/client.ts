@@ -5,7 +5,7 @@ let overlay: any;
 
 function getOverlay() {
     if (!overlay) {
-        overlay = document.createElement('nuclie-error-overlay');
+        overlay = document.createElement('sparx-error-overlay');
         document.body.appendChild(overlay);
     }
     return overlay;
@@ -92,7 +92,7 @@ function connect() {
     ws = new WebSocket(`${protocol}//${window.location.host}`);
 
     ws.onopen = () => {
-        // console.log('[nuclie] Connected to dev server');
+        // console.log('[sparx] Connected to dev server');
         reconnectAttempts = 0;
         flushClientErrors();
         // Notify server we are ready?
@@ -103,7 +103,7 @@ function connect() {
             const message = JSON.parse(event.data);
 
             if (message.type === 'connected') {
-                console.log('[nuclie] Connected.');
+                console.log('[sparx] Connected.');
             }
 
             // Security: Config Sync
@@ -114,16 +114,16 @@ function connect() {
 
             if (message.type === 'config:changed') {
                 config = message.config;
-                // console.log('[nuclie] Config updated remotely:', message.update);
+                // console.log('[sparx] Config updated remotely:', message.update);
             }
 
             if (message.type === 'error') {
-                console.error('[nuclie] Build Error:', message.error);
+                console.error('[sparx] Build Error:', message.error);
                 showError({ type: 'build', ...message.error });
             }
 
             if (message.type === 'reload' || message.type === 'restarting') {
-                console.log('[nuclie] Reloading page...');
+                console.log('[sparx] Reloading page...');
                 window.location.reload();
             }
 
@@ -150,12 +150,12 @@ function connect() {
 
                 // Handle <style> tags (CSS-in-JS or Vue/Angular injections)
                 if (!handled) {
-                    // This is harder without IDs. Nuclie's CSS plugin injects with IDs?
+                    // This is harder without IDs. Sparx's CSS plugin injects with IDs?
                     // Assuming global reload for now if not found
                     // Or trying to find style tag with data-vite-dev-id equivalent
                 }
 
-                if (handled) console.log(`[nuclie] CSS updated: ${path}`);
+                if (handled) console.log(`[sparx] CSS updated: ${path}`);
             }
 
             if (message.type === 'update') {
@@ -165,14 +165,14 @@ function connect() {
             }
 
         } catch (e) {
-            console.error('[nuclie] Failed to parse WebSocket message', e);
+            console.error('[sparx] Failed to parse WebSocket message', e);
         }
     };
 
     ws.onclose = () => {
         if (reconnectAttempts < MAX_ATTEMPTS) {
             const timeout = Math.min(1000 * Math.pow(2, reconnectAttempts), 5000);
-            console.log(`[nuclie] Disconnected. Reconnecting in ${timeout}ms...`);
+            console.log(`[sparx] Disconnected. Reconnecting in ${timeout}ms...`);
             setTimeout(connect, timeout);
             reconnectAttempts++;
         }
@@ -184,7 +184,7 @@ async function applyUpdates(updates: any[]) {
     for (const update of updates) {
         const mod = hotModulesMap.get(update.path);
         if (mod) {
-            console.log(`[nuclie] HMR Update: ${update.path}`);
+            console.log(`[sparx] HMR Update: ${update.path}`);
 
             // 1. Call dispose
             const data = {};
@@ -202,7 +202,7 @@ async function applyUpdates(updates: any[]) {
                     cb.fn([newMod]);
                 });
             } catch (e) {
-                console.error(`[nuclie] HMR Error in ${update.path}:`, e);
+                console.error(`[sparx] HMR Error in ${update.path}:`, e);
                 window.location.reload(); // Fallback
             }
         } else {
@@ -212,7 +212,7 @@ async function applyUpdates(updates: any[]) {
 }
 
 // 2. Global API
-(window as any).nuclie = {
+(window as any).sparx = {
     getConfig: () => config,
     updateConfig: (path: string, value: any, persist = false) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
@@ -255,7 +255,7 @@ export function createHotContext(ownerPath: string) {
                 });
             } else {
                 // Dep-accept: accept(['./foo'], cb)
-                // Nuclie v1 simplified: treat as self-accept for now or reload
+                // Sparx v1 simplified: treat as self-accept for now or reload
                 // Proper dep support requires graph analysis on client or server sending graph
             }
         },

@@ -4,25 +4,25 @@
 
 ---
 
-## Error 1 — `Cannot find module 'nuclie'`
+## Error 1 — `Cannot find module 'sparx'`
 
 **Symptom:**
 ```
-Error: Cannot find module 'nuclie'
+Error: Cannot find module 'sparx'
 ```
 
-**Cause:** Nuclie is not installed in the current project.
+**Cause:** Sparx is not installed in the current project.
 
 **Fix:**
 ```bash
 # Install locally
-npm install --save-dev nuclie
+npm install --save-dev sparx
 
 # Or install globally
-npm install -g nuclie
+npm install -g sparx
 ```
 
-If using a monorepo, ensure nuclie is in the root `package.json` or the specific workspace's `package.json`.
+If using a monorepo, ensure sparx is in the root `package.json` or the specific workspace's `package.json`.
 
 ---
 
@@ -42,7 +42,7 @@ kill -9 <PID>
 
 **Fix — Option B:** Change the port in config:
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   dev: {
     port: 4000, // Use a different port
@@ -60,7 +60,7 @@ module.exports = {
 
 **Fix:**
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   dev: {
     hmr: true,  // Ensure HMR is enabled
@@ -106,7 +106,7 @@ module.exports = {
 
 **Fix:**
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   css: {
     modules: true, // Enable CSS Modules
@@ -137,10 +137,10 @@ TypeError: Failed to fetch dynamically imported module: http://localhost:3001/re
 **Cause:** The remote app is not running, or the URL is wrong.
 
 **Fix:**
-1. Start the remote app first: `cd remote-app && nuclie dev`
+1. Start the remote app first: `cd remote-app && sparx dev`
 2. Check the URL matches the remote's dev port:
 ```js
-// host nuclie.config.js
+// host sparx.config.js
 module.exports = {
   federation: {
     name: 'host',
@@ -153,7 +153,7 @@ module.exports = {
 
 3. Verify the remote exposes the correct module:
 ```js
-// remote nuclie.config.js
+// remote sparx.config.js
 module.exports = {
   federation: {
     name: 'cart',
@@ -177,14 +177,14 @@ TS2307: Cannot find module '*.svg' or its corresponding type declarations.
 ```json
 {
   "compilerOptions": {
-    "types": ["nuclie/client"]
+    "types": ["sparx/client"]
   }
 }
 ```
 
 Or create a `src/vite-env.d.ts` (compatible):
 ```ts
-/// <reference types="nuclie/client" />
+/// <reference types="sparx/client" />
 ```
 
 ---
@@ -200,12 +200,12 @@ FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memor
 
 **Fix — Option A:** Increase Node.js heap:
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 nuclie build
+NODE_OPTIONS=--max-old-space-size=4096 sparx build
 ```
 
 **Fix — Option B:** Enable code splitting:
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   build: {
     splitting: true,     // Enable chunk splitting
@@ -224,7 +224,7 @@ module.exports = {
 
 **Fix:**
 ```js
-// nuclie.config.js
+// sparx.config.js
 module.exports = {
   css: {
     framework: 'tailwind',
@@ -248,18 +248,18 @@ npx tailwindcss init
 
 ---
 
-## Error 10 — `nuclie: command not found`
+## Error 10 — `sparx: command not found`
 
 **Symptom:**
 ```
-bash: nuclie: command not found
+bash: sparx: command not found
 ```
 
-**Cause:** Nuclie is not globally installed, or the global npm bin directory is not in your PATH.
+**Cause:** Sparx is not globally installed, or the global npm bin directory is not in your PATH.
 
 **Fix — Option A:** Use `npx` instead:
 ```bash
-npx nuclie dev
+npx sparx dev
 ```
 
 **Fix — Option B:** Fix global PATH:
@@ -276,22 +276,22 @@ source ~/.bashrc
 
 **Fix — Option C:** Reinstall globally:
 ```bash
-npm install -g nuclie
+npm install -g sparx
 ```
 
 ---
 
 ## General Diagnostic Tool
 
-Run `nuclie doctor` to automatically detect common issues:
+Run `sparx doctor` to automatically detect common issues:
 
 ```bash
-nuclie doctor
+sparx doctor
 
 # Example output:
 ✅ Node.js version: v20.11.0 (OK)
-✅ nuclie version: 1.0.9 (latest)
-✅ nuclie.config.js found
+✅ sparx version: 1.0.9 (latest)
+✅ sparx.config.js found
 ✅ Entry file exists: ./src/main.tsx
 ⚠️  No .env file found (optional)
 ✅ TypeScript config valid
@@ -304,6 +304,6 @@ All checks passed! 🎉
 
 ## Still Stuck?
 
-- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Nuclie/discussions)
-- 🐛 [File a Bug Report](https://github.com/Avinash-1994/Nuclie/issues/new)
-- 📖 [Full Documentation](https://avinash-1994.github.io/Nuclie/)
+- 💬 [GitHub Discussions](https://github.com/Avinash-1994/Sparx/discussions)
+- 🐛 [File a Bug Report](https://github.com/Avinash-1994/Sparx/issues/new)
+- 📖 [Full Documentation](https://avinash-1994.github.io/Sparx/)

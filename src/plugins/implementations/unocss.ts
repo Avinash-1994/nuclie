@@ -1,5 +1,5 @@
 /**
- * @nuclie/plugin-unocss
+ * @sparx/plugin-unocss
  * UnoCSS integration
  */
 
@@ -7,8 +7,8 @@ import { PluginAdapter } from '../ported/adapter.js';
 
 export function createUnocssPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-unocss',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-unocss',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // CSS transformation for unocss

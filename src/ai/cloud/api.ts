@@ -27,8 +27,8 @@ export class CloudAPI {
 
     constructor(private config: AIConfig) {
         // Production API endpoint
-        this.baseUrl = process.env.NUCLIE_CLOUD_API || 'https://api.nuclie.build';
-        this.apiKey = config.apiKey || process.env.NUCLIE_API_KEY || '';
+        this.baseUrl = process.env.SPARX_CLOUD_API || 'https://api.sparx.build';
+        this.apiKey = config.apiKey || process.env.SPARX_API_KEY || '';
         this.userId = this.getOrCreateUserId();
     }
 
@@ -36,7 +36,7 @@ export class CloudAPI {
         // Generate anonymous user ID (stored locally)
         const fs = require('fs');
         const path = require('path');
-        const configPath = path.join(process.env.HOME || process.env.USERPROFILE || '', '.nuclie', 'user.json');
+        const configPath = path.join(process.env.HOME || process.env.USERPROFILE || '', '.sparx', 'user.json');
 
         try {
             if (fs.existsSync(configPath)) {

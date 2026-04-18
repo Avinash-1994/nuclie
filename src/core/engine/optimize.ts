@@ -42,6 +42,7 @@ export async function optimizeArtifacts(artifacts: BuildArtifact[], ctx: BuildCo
 
                 const result = await transform(content, {
                     minify: true,
+                    keepNames: true,
                     loader: artifact.type as any,
                     legalComments: 'none',
                     charset: 'utf8',

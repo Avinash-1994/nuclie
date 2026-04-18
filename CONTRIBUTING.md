@@ -1,4 +1,4 @@
-# Contributing to Nuclie
+# Contributing to Sparx
 
 We welcome contributions! Please follow these guidelines to ensure a smooth process.
 

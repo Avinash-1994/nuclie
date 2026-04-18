@@ -3,7 +3,7 @@ import { DependencyGraph } from '../../resolve/graph.js';
 
 // 6.1 EngineInfo
 export type EngineInfo = {
-    name: "Nuclie";
+    name: "Sparx";
     version: string;
     commit?: string;
     buildTime?: string; // Observational only

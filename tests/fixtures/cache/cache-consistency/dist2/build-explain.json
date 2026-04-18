@@ -8,43 +8,43 @@
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:json@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:json@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:asset@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:asset@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:js-transform@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:js-transform@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:postcss@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:postcss@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:linker@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:linker@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:html@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:html@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
     "stage": "plugins",
     "decision": "load",
-    "reason": "Loaded plugin: nuclie:static@1.0.0 (js)",
+    "reason": "Loaded plugin: sparx:static@1.0.0 (js)",
     "timestamp": 1775883279081
   },
   {
@@ -103,25 +103,25 @@
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nuclie:asset:load (1775883278090.89ms)",
+    "reason": "Executed sparx:asset:load (1775883278090.89ms)",
     "timestamp": 1775883279083
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nuclie:json:load (1775883278090.83ms)",
+    "reason": "Executed sparx:json:load (1775883278090.83ms)",
     "timestamp": 1775883279083
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nuclie:asset:load (1775883278091.26ms)",
+    "reason": "Executed sparx:asset:load (1775883278091.26ms)",
     "timestamp": 1775883279084
   },
   {
     "stage": "plugins",
     "decision": "hook",
-    "reason": "Executed nuclie:json:load (1775883278091.21ms)",
+    "reason": "Executed sparx:json:load (1775883278091.21ms)",
     "timestamp": 1775883279084
   },
   {

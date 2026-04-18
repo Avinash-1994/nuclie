@@ -75,7 +75,7 @@ export function loadEnv(
   root: string,
   config: EnvConfig = {}
 ): LoadedEnv {
-  const prefix = config.prefix ?? 'NUCLIE_'
+  const prefix = config.prefix ?? 'SPARX_'
 
   // Files to load in order (later files override earlier ones)
   const defaultFiles = [
@@ -96,12 +96,12 @@ export function loadEnv(
         const parsed = parseEnvFile(content)
         Object.assign(loaded, parsed)
       } catch (err) {
-        console.warn(`[nuclie] Warning: Could not read ${file}:`, err)
+        console.warn(`[sparx] Warning: Could not read ${file}:`, err)
       }
     }
   }
 
-  // Merge: process.env takes lowest priority (except for NUCLIE_ vars)
+  // Merge: process.env takes lowest priority (except for SPARX_ vars)
   const raw: Record<string, string> = {
     ...process.env as Record<string, string>,
     ...loaded,
@@ -159,7 +159,7 @@ export function getEsbuildDefines(env: LoadedEnv): Record<string, string> {
  */
 export function warnSensitiveEnv(
   env: LoadedEnv,
-  prefix: string = 'NUCLIE_'
+  prefix: string = 'SPARX_'
 ): void {
   const SENSITIVE_PATTERNS = [
     /secret/i,
@@ -175,7 +175,7 @@ export function warnSensitiveEnv(
     for (const pattern of SENSITIVE_PATTERNS) {
       if (pattern.test(key)) {
         console.warn(
-          `[nuclie] ⚠️  Warning: "${key}" matches a sensitive pattern and will be exposed to the client bundle. ` +
+          `[sparx] ⚠️  Warning: "${key}" matches a sensitive pattern and will be exposed to the client bundle. ` +
           `Make sure this is intentional.`
         )
         break

@@ -1,18 +1,18 @@
-# @nuclie/plugin-react
+# @sparx/plugin-react
 
-> Official Nuclie plugin for React — JSX transform, React Fast Refresh HMR, and error overlay.
+> Official Sparx plugin for React — JSX transform, React Fast Refresh HMR, and error overlay.
 
 ## Install
 
 ```bash
-npm install --save-dev @nuclie/plugin-react
+npm install --save-dev @sparx/plugin-react
 ```
 
 ## Usage
 
 ```js
-// nuclie.config.js
-const react = require('@nuclie/plugin-react');
+// sparx.config.js
+const react = require('@sparx/plugin-react');
 
 module.exports = {
   entry: ['./src/main.tsx'],
@@ -23,9 +23,9 @@ module.exports = {
 ```
 
 ```ts
-// nuclie.config.ts
-import { defineConfig } from 'nuclie';
-import react from '@nuclie/plugin-react';
+// sparx.config.ts
+import { defineConfig } from 'sparx';
+import react from '@sparx/plugin-react';
 
 export default defineConfig({
   entry: ['./src/main.tsx'],

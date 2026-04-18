@@ -16,7 +16,7 @@ export class AIClient {
 
     constructor(config: AIConfig, rootDir: string) {
         this.config = config;
-        this.cacheDir = path.join(rootDir, '.nuclie', 'ai-cache');
+        this.cacheDir = path.join(rootDir, '.sparx', 'ai-cache');
     }
 
     async init() {

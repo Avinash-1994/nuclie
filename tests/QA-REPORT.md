@@ -1,13 +1,13 @@
-# Nuclie Build Tool — Final QA Report
+# Sparx Build Tool — Final QA Report
 
 ## Executive Summary
-Nuclie has undergone a comprehensive, automated test suite evaluating all seven core feature areas claimed for production readiness: HMR, Tree Shaking, Module Federation, Framework Support, Plugins, CSS Optimization, and Source Maps. 
+Sparx has undergone a comprehensive, automated test suite evaluating all seven core feature areas claimed for production readiness: HMR, Tree Shaking, Module Federation, Framework Support, Plugins, CSS Optimization, and Source Maps. 
 
 **Total Tests Run:** 146
 **Total Tests Passed:** 146
 **Pass Rate:** 100%
 
-Nuclie has exceeded the 90% production readiness threshold and is officially verified for production release.
+Sparx has exceeded the 90% production readiness threshold and is officially verified for production release.
 
 ---
 
@@ -18,7 +18,7 @@ Nuclie has exceeded the 90% production readiness threshold and is officially ver
 - Framework-aware classification accurately distinguishes between `.tsx`, `.vue`, `.svelte`, and `.css` files.
 - CSS updates trigger `HMR_SAFE` (no full reload).
 - Circular dependency handling escalates to `HMR_FULL_RELOAD` appropriately.
-- Config updates (`nuclie.config.js`, `package.json`) trigger `HMR_FULL_RELOAD`.
+- Config updates (`sparx.config.js`, `package.json`) trigger `HMR_FULL_RELOAD`.
 - The `HMROverlay` instance exposes correct methods for error display.
 
 ### Agent 2: Tree Shaking
@@ -32,9 +32,9 @@ Nuclie has exceeded the 90% production readiness threshold and is officially ver
 ### Agent 3: Module Federation
 **Status:** ✅ PASS (15/15)
 - `generateRemoteEntry` correctly constructs Webpack 5 compatible container APIs (`init` and `get`).
-- Singleton shared dependencies (`__nuclie_shared__`) correctly prevent double loading.
+- Singleton shared dependencies (`__sparx_shared__`) correctly prevent double loading.
 - Config validation cleanly catches missing names, bad identifiers, and malformed URLs.
-- Dynamic `__nuclie_import__` accurately handles multiple simultaneous URL remotes.
+- Dynamic `__sparx_import__` accurately handles multiple simultaneous URL remotes.
 
 ### Agent 4: Framework Support
 **Status:** ✅ PASS (74/74)

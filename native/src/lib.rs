@@ -1,21 +1,23 @@
-// High-performance native modules for Nuclie
+// High-performance native modules for Sparx
 // Focus: Speed and minimal bundle size
 
 mod graph;
 mod transform;
 mod orchestrator;
 mod cache;
-mod wasmtime;
+// Phase 3 — additive new modules
+mod chunker;
+mod sourcemap_merger;
+mod watcher;
+mod prebundle;
+// Phase 4 — competitive superiority
+mod task_graph;
 
 // Re-export transform module
 pub use transform::{transform_js, transform_css, transform_vue};
-
-// Re-export wasmtime module
-pub use wasmtime::{PluginRuntime};
-
 // Re-export graph module
 pub use graph::{
-  GraphAnalyzer, GraphNode, CircularDependency, GraphAnalysisResult, 
+  GraphAnalyzer, GraphNode, CircularDependency, GraphAnalysisResult,
   fast_hash, batch_hash, scan_imports, normalize_path
 };
 
@@ -30,6 +32,14 @@ pub use cache::{
   BuildCache, CacheStats,
   create_input_key, create_graph_key, create_plan_key, create_artifact_key
 };
+
+// Phase 3 re-exports
+pub use chunker::{ChunkerConfig, ChunkOutput, ChunkerResult, sparx_chunk};
+pub use sourcemap_merger::merge_source_maps;
+pub use watcher::{NativeWatcher, WatchEvent, start_watcher};
+pub use prebundle::{PrebundleEntry, PrebundleConfig, prebundle, prebundle_put};
+// Phase 4 re-exports
+pub use task_graph::{Task, TaskPlan, plan_build};
 
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
@@ -120,6 +130,18 @@ pub fn hello_rust() -> String {
 #[napi]
 pub fn minify_sync(code: String) -> napi::Result<String> {
   transform::minify_js(code)
+    .map_err(|e| napi::Error::new(napi::Status::GenericFailure, e))
+}
+
+#[napi(js_name = "transformCss")]
+pub fn napi_transform_css(code: String, filename: String, minify: bool) -> napi::Result<String> {
+  transform::transform_css(code, filename, minify)
+    .map_err(|e| napi::Error::new(napi::Status::GenericFailure, e))
+}
+
+#[napi(js_name = "transformJs")]
+pub fn napi_transform_js(code: String, filename: String, minify: bool) -> napi::Result<String> {
+  transform::transform_js(code, filename, minify)
     .map_err(|e| napi::Error::new(napi::Status::GenericFailure, e))
 }
 

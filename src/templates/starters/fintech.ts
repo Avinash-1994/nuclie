@@ -20,17 +20,17 @@ export const fintechTemplate: TemplateConfig = {
   devDependencies: {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@nuclie/plugin-react": "^1.0.0",
-    "@nuclie/plugin-upi-payment": "^1.0.0",
-    "@nuclie/plugin-qr-code": "^1.0.0",
-    "@nuclie/plugin-security": "^1.0.0"
+    "@sparx/plugin-react": "^1.0.0",
+    "@sparx/plugin-upi-payment": "^1.0.0",
+    "@sparx/plugin-qr-code": "^1.0.0",
+    "@sparx/plugin-security": "^1.0.0"
   },
   files: {
-    'nuclie.config.ts': `    
-import { defineConfig } from 'nuclie';
-import react from '@nuclie/plugin-react';
-import upi from '@nuclie/plugin-upi-payment';
-import qr from '@nuclie/plugin-qr-code';
+    'sparx.config.ts': `    
+import { defineConfig } from 'sparx';
+import react from '@sparx/plugin-react';
+import upi from '@sparx/plugin-upi-payment';
+import qr from '@sparx/plugin-qr-code';
 
 export default defineConfig({
     plugins: [react(), upi(), qr()],
@@ -73,7 +73,7 @@ export default function App() {
     <div className="container">
       <header className="header">
         <ShieldCheck size={40} className="icon secure" />
-        <h1>Nuclie Pay</h1>
+        <h1>Sparx Pay</h1>
       </header>
       
       <div className="card">
@@ -202,7 +202,7 @@ button {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nuclie Pay</title>
+    <title>Sparx Pay</title>
   </head>
   <body>
     <div id="root"></div>

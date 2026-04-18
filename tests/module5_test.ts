@@ -1,5 +1,5 @@
 
-import { NuclieDevServer } from '../src/dev/server.js';
+import { SparxDevServer } from '../src/dev/server.js';
 import { BuildConfig } from '../src/config/index.js';
 import path from 'path';
 import fs from 'fs/promises';
@@ -28,7 +28,7 @@ async function testModule5() {
         preset: 'spa'
     };
 
-    const server = new NuclieDevServer(config);
+    const server = new SparxDevServer(config);
 
     console.log('[Test] Server Startup...');
     await server.start();

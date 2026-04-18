@@ -3,7 +3,7 @@
  * 
  * Expands the plugin marketplace from 20 to 100+ plugins by:
  * 1. Porting popular Vite/Webpack plugins
- * 2. Creating Nuclie-native plugins
+ * 2. Creating Sparx-native plugins
  * 3. Categorizing and publishing to marketplace
  */
 
@@ -17,7 +17,7 @@ interface PluginManifest {
     category: 'framework' | 'css' | 'assets' | 'perf' | 'security' | 'fintech' | 'utility' | 'i18n' | 'testing' | 'state' | 'deployment' | 'analytics';
     description: string;
     author: string;
-    source: 'vite-port' | 'webpack-port' | 'nuclie-native';
+    source: 'vite-port' | 'webpack-port' | 'sparx-native';
     originalPlugin?: string;
     verified: boolean;
 }
@@ -67,126 +67,126 @@ const WEBPACK_PLUGINS = [
     { name: 'workbox-webpack-plugin', category: 'utility', desc: 'Service worker generation' },
 ];
 
-// Nuclie-native plugins
-const NUCLIE_NATIVE_PLUGINS = [
-    { name: '@nuclie/plugin-audit', category: 'security', desc: 'Real-time security auditing' },
-    { name: '@nuclie/plugin-determinism', category: 'perf', desc: 'Build determinism checker' },
-    { name: '@nuclie/plugin-federation', category: 'utility', desc: 'Module federation' },
-    { name: '@nuclie/plugin-ssr', category: 'framework', desc: 'Universal SSR support' },
-    { name: '@nuclie/plugin-edge', category: 'framework', desc: 'Edge runtime adapter' },
-    { name: '@nuclie/plugin-wasm-sandbox', category: 'security', desc: 'WASM plugin sandbox' },
-    { name: '@nuclie/plugin-crypto-sign', category: 'security', desc: 'Plugin signature verification' },
-    { name: '@nuclie/plugin-observability', category: 'utility', desc: 'Build observability' },
-    { name: '@nuclie/plugin-root-cause', category: 'utility', desc: 'Error root cause analysis' },
-    { name: '@nuclie/plugin-auto-fix', category: 'utility', desc: 'Automatic error fixing' },
-    { name: '@nuclie/plugin-repro', category: 'utility', desc: 'Reproduction case generator' },
-    { name: '@nuclie/plugin-visualizer', category: 'utility', desc: 'WebGPU dependency visualizer' },
-    { name: '@nuclie/plugin-hmr-classify', category: 'perf', desc: 'HMR classification' },
-    { name: '@nuclie/plugin-prebundle', category: 'perf', desc: 'Dependency pre-bundling' },
-    { name: '@nuclie/plugin-css-framework', category: 'css', desc: 'CSS framework detection' },
-    { name: '@nuclie/plugin-tailwind', category: 'css', desc: 'Tailwind CSS integration' },
-    { name: '@nuclie/plugin-unocss', category: 'css', desc: 'UnoCSS integration' },
-    { name: '@nuclie/plugin-critical-css', category: 'css', desc: 'Critical CSS extraction' },
-    { name: '@nuclie/plugin-upi-payment', category: 'fintech', desc: 'UPI payment integration (India)' },
-    { name: '@nuclie/plugin-qr-code', category: 'fintech', desc: 'QR code generation' },
-    { name: '@nuclie/plugin-razorpay', category: 'fintech', desc: 'Razorpay integration' },
-    { name: '@nuclie/plugin-stripe', category: 'fintech', desc: 'Stripe integration' },
-    { name: '@nuclie/plugin-analytics', category: 'utility', desc: 'Build analytics' },
-    { name: '@nuclie/plugin-lighthouse', category: 'perf', desc: 'Lighthouse CI integration' },
-    { name: '@nuclie/plugin-sentry', category: 'utility', desc: 'Sentry error tracking' },
+// Sparx-native plugins
+const SPARX_NATIVE_PLUGINS = [
+    { name: '@sparx/plugin-audit', category: 'security', desc: 'Real-time security auditing' },
+    { name: '@sparx/plugin-determinism', category: 'perf', desc: 'Build determinism checker' },
+    { name: '@sparx/plugin-federation', category: 'utility', desc: 'Module federation' },
+    { name: '@sparx/plugin-ssr', category: 'framework', desc: 'Universal SSR support' },
+    { name: '@sparx/plugin-edge', category: 'framework', desc: 'Edge runtime adapter' },
+    { name: '@sparx/plugin-wasm-sandbox', category: 'security', desc: 'WASM plugin sandbox' },
+    { name: '@sparx/plugin-crypto-sign', category: 'security', desc: 'Plugin signature verification' },
+    { name: '@sparx/plugin-observability', category: 'utility', desc: 'Build observability' },
+    { name: '@sparx/plugin-root-cause', category: 'utility', desc: 'Error root cause analysis' },
+    { name: '@sparx/plugin-auto-fix', category: 'utility', desc: 'Automatic error fixing' },
+    { name: '@sparx/plugin-repro', category: 'utility', desc: 'Reproduction case generator' },
+    { name: '@sparx/plugin-visualizer', category: 'utility', desc: 'WebGPU dependency visualizer' },
+    { name: '@sparx/plugin-hmr-classify', category: 'perf', desc: 'HMR classification' },
+    { name: '@sparx/plugin-prebundle', category: 'perf', desc: 'Dependency pre-bundling' },
+    { name: '@sparx/plugin-css-framework', category: 'css', desc: 'CSS framework detection' },
+    { name: '@sparx/plugin-tailwind', category: 'css', desc: 'Tailwind CSS integration' },
+    { name: '@sparx/plugin-unocss', category: 'css', desc: 'UnoCSS integration' },
+    { name: '@sparx/plugin-critical-css', category: 'css', desc: 'Critical CSS extraction' },
+    { name: '@sparx/plugin-upi-payment', category: 'fintech', desc: 'UPI payment integration (India)' },
+    { name: '@sparx/plugin-qr-code', category: 'fintech', desc: 'QR code generation' },
+    { name: '@sparx/plugin-razorpay', category: 'fintech', desc: 'Razorpay integration' },
+    { name: '@sparx/plugin-stripe', category: 'fintech', desc: 'Stripe integration' },
+    { name: '@sparx/plugin-analytics', category: 'utility', desc: 'Build analytics' },
+    { name: '@sparx/plugin-lighthouse', category: 'perf', desc: 'Lighthouse CI integration' },
+    { name: '@sparx/plugin-sentry', category: 'utility', desc: 'Sentry error tracking' },
 ];
 
 // Additional utility plugins to reach 100+
 const ADDITIONAL_PLUGINS = [
-    { name: '@nuclie/plugin-env-validation', category: 'security', desc: 'Environment variable validation' },
-    { name: '@nuclie/plugin-bundle-size', category: 'perf', desc: 'Bundle size tracking' },
-    { name: '@nuclie/plugin-tree-shake', category: 'perf', desc: 'Advanced tree-shaking' },
-    { name: '@nuclie/plugin-code-split', category: 'perf', desc: 'Smart code splitting' },
-    { name: '@nuclie/plugin-lazy-load', category: 'perf', desc: 'Component lazy loading' },
-    { name: '@nuclie/plugin-preload', category: 'perf', desc: 'Resource preloading' },
-    { name: '@nuclie/plugin-prefetch', category: 'perf', desc: 'Route prefetching' },
-    { name: '@nuclie/plugin-webp', category: 'assets', desc: 'WebP image conversion' },
-    { name: '@nuclie/plugin-avif', category: 'assets', desc: 'AVIF image support' },
-    { name: '@nuclie/plugin-sprite', category: 'assets', desc: 'SVG sprite generation' },
-    { name: '@nuclie/plugin-icon', category: 'assets', desc: 'Icon component generation' },
-    { name: '@nuclie/plugin-font-subset', category: 'assets', desc: 'Font subsetting' },
-    { name: '@nuclie/plugin-i18n', category: 'utility', desc: 'Internationalization' },
-    { name: '@nuclie/plugin-sitemap', category: 'utility', desc: 'Sitemap generation' },
-    { name: '@nuclie/plugin-robots', category: 'utility', desc: 'Robots.txt generation' },
-    { name: '@nuclie/plugin-manifest', category: 'utility', desc: 'Web manifest generation' },
-    { name: '@nuclie/plugin-meta-tags', category: 'utility', desc: 'SEO meta tags' },
-    { name: '@nuclie/plugin-og-image', category: 'utility', desc: 'Open Graph image generation' },
-    { name: '@nuclie/plugin-rss', category: 'utility', desc: 'RSS feed generation' },
-    { name: '@nuclie/plugin-markdown', category: 'utility', desc: 'Markdown processing' },
-    { name: '@nuclie/plugin-mdx', category: 'utility', desc: 'MDX support' },
-    { name: '@nuclie/plugin-graphql', category: 'utility', desc: 'GraphQL integration' },
-    { name: '@nuclie/plugin-apollo', category: 'utility', desc: 'Apollo Client integration' },
-    { name: '@nuclie/plugin-relay', category: 'utility', desc: 'Relay integration' },
-    { name: '@nuclie/plugin-prisma', category: 'utility', desc: 'Prisma integration' },
-    { name: '@nuclie/plugin-trpc', category: 'utility', desc: 'tRPC integration' },
-    { name: '@nuclie/plugin-zod', category: 'utility', desc: 'Zod validation' },
-    { name: '@nuclie/plugin-react-query', category: 'framework', desc: 'React Query integration' },
-    { name: '@nuclie/plugin-zustand', category: 'framework', desc: 'Zustand state management' },
-    { name: '@nuclie/plugin-jotai', category: 'framework', desc: 'Jotai state management' },
-    { name: '@nuclie/plugin-recoil', category: 'framework', desc: 'Recoil state management' },
-    { name: '@nuclie/plugin-redux', category: 'framework', desc: 'Redux integration' },
-    { name: '@nuclie/plugin-mobx', category: 'framework', desc: 'MobX integration' },
-    { name: '@nuclie/plugin-pinia', category: 'framework', desc: 'Pinia (Vue) integration' },
-    { name: '@nuclie/plugin-vuex', category: 'framework', desc: 'Vuex integration' },
-    { name: '@nuclie/plugin-testing-library', category: 'utility', desc: 'Testing Library integration' },
-    { name: '@nuclie/plugin-vitest', category: 'utility', desc: 'Vitest integration' },
-    { name: '@nuclie/plugin-playwright', category: 'utility', desc: 'Playwright E2E' },
-    { name: '@nuclie/plugin-cypress', category: 'utility', desc: 'Cypress integration' },
-    { name: '@nuclie/plugin-storybook', category: 'utility', desc: 'Storybook integration' },
-    { name: '@nuclie/plugin-chromatic', category: 'utility', desc: 'Chromatic visual testing' },
+    { name: '@sparx/plugin-env-validation', category: 'security', desc: 'Environment variable validation' },
+    { name: '@sparx/plugin-bundle-size', category: 'perf', desc: 'Bundle size tracking' },
+    { name: '@sparx/plugin-tree-shake', category: 'perf', desc: 'Advanced tree-shaking' },
+    { name: '@sparx/plugin-code-split', category: 'perf', desc: 'Smart code splitting' },
+    { name: '@sparx/plugin-lazy-load', category: 'perf', desc: 'Component lazy loading' },
+    { name: '@sparx/plugin-preload', category: 'perf', desc: 'Resource preloading' },
+    { name: '@sparx/plugin-prefetch', category: 'perf', desc: 'Route prefetching' },
+    { name: '@sparx/plugin-webp', category: 'assets', desc: 'WebP image conversion' },
+    { name: '@sparx/plugin-avif', category: 'assets', desc: 'AVIF image support' },
+    { name: '@sparx/plugin-sprite', category: 'assets', desc: 'SVG sprite generation' },
+    { name: '@sparx/plugin-icon', category: 'assets', desc: 'Icon component generation' },
+    { name: '@sparx/plugin-font-subset', category: 'assets', desc: 'Font subsetting' },
+    { name: '@sparx/plugin-i18n', category: 'utility', desc: 'Internationalization' },
+    { name: '@sparx/plugin-sitemap', category: 'utility', desc: 'Sitemap generation' },
+    { name: '@sparx/plugin-robots', category: 'utility', desc: 'Robots.txt generation' },
+    { name: '@sparx/plugin-manifest', category: 'utility', desc: 'Web manifest generation' },
+    { name: '@sparx/plugin-meta-tags', category: 'utility', desc: 'SEO meta tags' },
+    { name: '@sparx/plugin-og-image', category: 'utility', desc: 'Open Graph image generation' },
+    { name: '@sparx/plugin-rss', category: 'utility', desc: 'RSS feed generation' },
+    { name: '@sparx/plugin-markdown', category: 'utility', desc: 'Markdown processing' },
+    { name: '@sparx/plugin-mdx', category: 'utility', desc: 'MDX support' },
+    { name: '@sparx/plugin-graphql', category: 'utility', desc: 'GraphQL integration' },
+    { name: '@sparx/plugin-apollo', category: 'utility', desc: 'Apollo Client integration' },
+    { name: '@sparx/plugin-relay', category: 'utility', desc: 'Relay integration' },
+    { name: '@sparx/plugin-prisma', category: 'utility', desc: 'Prisma integration' },
+    { name: '@sparx/plugin-trpc', category: 'utility', desc: 'tRPC integration' },
+    { name: '@sparx/plugin-zod', category: 'utility', desc: 'Zod validation' },
+    { name: '@sparx/plugin-react-query', category: 'framework', desc: 'React Query integration' },
+    { name: '@sparx/plugin-zustand', category: 'framework', desc: 'Zustand state management' },
+    { name: '@sparx/plugin-jotai', category: 'framework', desc: 'Jotai state management' },
+    { name: '@sparx/plugin-recoil', category: 'framework', desc: 'Recoil state management' },
+    { name: '@sparx/plugin-redux', category: 'framework', desc: 'Redux integration' },
+    { name: '@sparx/plugin-mobx', category: 'framework', desc: 'MobX integration' },
+    { name: '@sparx/plugin-pinia', category: 'framework', desc: 'Pinia (Vue) integration' },
+    { name: '@sparx/plugin-vuex', category: 'framework', desc: 'Vuex integration' },
+    { name: '@sparx/plugin-testing-library', category: 'utility', desc: 'Testing Library integration' },
+    { name: '@sparx/plugin-vitest', category: 'utility', desc: 'Vitest integration' },
+    { name: '@sparx/plugin-playwright', category: 'utility', desc: 'Playwright E2E' },
+    { name: '@sparx/plugin-cypress', category: 'utility', desc: 'Cypress integration' },
+    { name: '@sparx/plugin-storybook', category: 'utility', desc: 'Storybook integration' },
+    { name: '@sparx/plugin-chromatic', category: 'utility', desc: 'Chromatic visual testing' },
 ];
 
 // New Categories (Day 45 Enhancement)
 const I18N_PLUGINS = [
-    { name: '@nuclie/plugin-react-i18next', category: 'i18n', desc: 'React i18next integration' },
-    { name: '@nuclie/plugin-vue-i18n-next', category: 'i18n', desc: 'Vue I18n integration' },
-    { name: '@nuclie/plugin-formatjs', category: 'i18n', desc: 'FormatJS (react-intl) integration' },
+    { name: '@sparx/plugin-react-i18next', category: 'i18n', desc: 'React i18next integration' },
+    { name: '@sparx/plugin-vue-i18n-next', category: 'i18n', desc: 'Vue I18n integration' },
+    { name: '@sparx/plugin-formatjs', category: 'i18n', desc: 'FormatJS (react-intl) integration' },
 ];
 
 const TESTING_PLUGINS = [
-    { name: '@nuclie/plugin-jest', category: 'testing', desc: 'Jest testing framework' },
-    { name: '@nuclie/plugin-testing-library-react', category: 'testing', desc: 'React Testing Library' },
-    { name: '@nuclie/plugin-msw', category: 'testing', desc: 'Mock Service Worker integration' },
+    { name: '@sparx/plugin-jest', category: 'testing', desc: 'Jest testing framework' },
+    { name: '@sparx/plugin-testing-library-react', category: 'testing', desc: 'React Testing Library' },
+    { name: '@sparx/plugin-msw', category: 'testing', desc: 'Mock Service Worker integration' },
 ];
 
 const STATE_PLUGINS = [
-    { name: '@nuclie/plugin-zustand-devtools', category: 'state', desc: 'Zustand DevTools integration' },
-    { name: '@nuclie/plugin-tanstack-query', category: 'state', desc: 'TanStack Query (React Query)' },
-    { name: '@nuclie/plugin-xstate', category: 'state', desc: 'XState state machines' },
-    { name: '@nuclie/plugin-nanostores', category: 'state', desc: 'Nano Stores integration' },
+    { name: '@sparx/plugin-zustand-devtools', category: 'state', desc: 'Zustand DevTools integration' },
+    { name: '@sparx/plugin-tanstack-query', category: 'state', desc: 'TanStack Query (React Query)' },
+    { name: '@sparx/plugin-xstate', category: 'state', desc: 'XState state machines' },
+    { name: '@sparx/plugin-nanostores', category: 'state', desc: 'Nano Stores integration' },
 ];
 
 const DEPLOYMENT_PLUGINS = [
-    { name: '@nuclie/plugin-vercel', category: 'deployment', desc: 'Vercel deployment adapter' },
-    { name: '@nuclie/plugin-netlify', category: 'deployment', desc: 'Netlify deployment adapter' },
-    { name: '@nuclie/plugin-cloudflare', category: 'deployment', desc: 'Cloudflare Pages adapter' },
+    { name: '@sparx/plugin-vercel', category: 'deployment', desc: 'Vercel deployment adapter' },
+    { name: '@sparx/plugin-netlify', category: 'deployment', desc: 'Netlify deployment adapter' },
+    { name: '@sparx/plugin-cloudflare', category: 'deployment', desc: 'Cloudflare Pages adapter' },
 ];
 
 const ANALYTICS_PLUGINS = [
-    { name: '@nuclie/plugin-plausible', category: 'analytics', desc: 'Plausible Analytics integration' },
-    { name: '@nuclie/plugin-posthog', category: 'analytics', desc: 'PostHog analytics integration' },
+    { name: '@sparx/plugin-plausible', category: 'analytics', desc: 'Plausible Analytics integration' },
+    { name: '@sparx/plugin-posthog', category: 'analytics', desc: 'PostHog analytics integration' },
 ];
 
 export class PluginMarketplaceExpander {
     private plugins: PluginManifest[] = [];
 
     async expand(): Promise<void> {
-        console.log('🚀 Expanding Nuclie Plugin Marketplace to 100+...\n');
+        console.log('🚀 Expanding Sparx Plugin Marketplace to 100+...\n');
 
         // Port Vite plugins
         console.log('📦 Porting Vite plugins...');
         for (const plugin of VITE_PLUGINS) {
             await this.addPluginWithManifest({
-                name: plugin.name.replace('vite-plugin-', '@nuclie/plugin-').replace('@vitejs/plugin-', '@nuclie/plugin-'),
+                name: plugin.name.replace('vite-plugin-', '@sparx/plugin-').replace('@vitejs/plugin-', '@sparx/plugin-'),
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
+                author: 'Sparx Team',
                 source: 'vite-port',
                 originalPlugin: plugin.name,
                 verified: true
@@ -205,11 +205,11 @@ export class PluginMarketplaceExpander {
             if (baseName === 'ts') baseName = 'typescript';
 
             await this.addPluginWithManifest({
-                name: `@nuclie/plugin-${baseName}`,
+                name: `@sparx/plugin-${baseName}`,
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
+                author: 'Sparx Team',
                 source: 'webpack-port',
                 originalPlugin: plugin.name,
                 verified: true
@@ -217,20 +217,20 @@ export class PluginMarketplaceExpander {
         }
         console.log(`✅ Ported ${WEBPACK_PLUGINS.length} Webpack plugins\n`);
 
-        // Add Nuclie-native plugins
-        console.log('🔧 Adding Nuclie-native plugins...');
-        for (const plugin of NUCLIE_NATIVE_PLUGINS) {
+        // Add Sparx-native plugins
+        console.log('🔧 Adding Sparx-native plugins...');
+        for (const plugin of SPARX_NATIVE_PLUGINS) {
             await this.addPluginWithManifest({
                 name: plugin.name,
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
-        console.log(`✅ Added ${NUCLIE_NATIVE_PLUGINS.length} Nuclie-native plugins\n`);
+        console.log(`✅ Added ${SPARX_NATIVE_PLUGINS.length} Sparx-native plugins\n`);
 
         // Add additional plugins
         console.log('➕ Adding additional utility plugins...');
@@ -240,8 +240,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
@@ -255,8 +255,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
@@ -270,8 +270,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
@@ -285,8 +285,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
@@ -300,8 +300,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
@@ -315,8 +315,8 @@ export class PluginMarketplaceExpander {
                 version: '1.0.0',
                 category: plugin.category as any,
                 description: plugin.desc,
-                author: 'Nuclie Team',
-                source: 'nuclie-native',
+                author: 'Sparx Team',
+                source: 'sparx-native',
                 verified: true
             });
         }
@@ -340,7 +340,7 @@ export class PluginMarketplaceExpander {
             wasmCompatible: true,
             sandboxed: true,
             permissions: this.determinePermissions(manifest),
-            entryPoint: `dist/${manifest.name.replace('@nuclie/', '')}.js`,
+            entryPoint: `dist/${manifest.name.replace('@sparx/', '')}.js`,
             manifestVersion: '2.0'
         };
 
@@ -356,7 +356,7 @@ export class PluginMarketplaceExpander {
         });
 
         const hash = crypto.createHash('sha256').update(data).digest('hex');
-        return `nuclie-sig-${hash.substring(0, 16)}`;
+        return `sparx-sig-${hash.substring(0, 16)}`;
     }
 
     private determinePermissions(manifest: PluginManifest): string[] {

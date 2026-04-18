@@ -1,21 +1,21 @@
 /**
- * @nuclie/rollup-compat - Plugin Compatibility Layer
+ * @sparx/rollup-compat - Plugin Compatibility Layer
  * 
- * This module provides adapters to use Rollup/Vite plugins within Nuclie.
+ * This module provides adapters to use Rollup/Vite plugins within Sparx.
  */
 
-export { rollupAdapter, rollupAdapter as vitePluginAdapter, rollupAdapter as viteToNuclie, rollupAdapter as createRollupAdapter } from './rollup.js';
+export { rollupAdapter, rollupAdapter as vitePluginAdapter, rollupAdapter as viteToSparx, rollupAdapter as createRollupAdapter } from './rollup.js';
 export {
-    nuclieBabel,
-    nuclieTerser,
-    nuclieJson,
-    nuclieYaml,
-    nuclieMdx,
-    nuclieSvgr,
+    sparxBabel,
+    sparxTerser,
+    sparxJson,
+    sparxYaml,
+    sparxMdx,
+    sparxSvgr,
     TierA
 } from './tier-a.js';
 
 export { webpackLoaderAdapter } from './webpack.js';
-export * from './tier-b.js'; // nuclieCopy, nuclieHtml
-export * from './tier-c.js'; // nuclieReact, nuclieVue, nuclieSvelte
-export * from './deferred.js'; // nuclieCompress, nuclieCssExtract
+export * from './tier-b.js'; // sparxCopy, sparxHtml
+export * from './tier-c.js'; // sparxReact, sparxVue, sparxSvelte
+export * from './deferred.js'; // sparxCompress, sparxCssExtract

@@ -53,8 +53,8 @@ export async function startDevServer(cfg: BuildConfig) {
 
     // 2. Create hyper-responsive HTTP server
     const server = http.createServer(async (req, res) => {
-        if (features && (server as any).__nuclie_handler) {
-            return (server as any).__nuclie_handler(req, res);
+        if (features && (server as any).__sparx_handler) {
+            return (server as any).__sparx_handler(req, res);
         }
 
         const url = req.url || '/';
@@ -70,8 +70,8 @@ export async function startDevServer(cfg: BuildConfig) {
         const expectsHtml = req.headers.accept?.includes('text/html') || pathname === '/' || pathname === '/index.html';
         if (!expectsHtml) {
             await initPromise;
-            if ((server as any).__nuclie_handler) {
-                return (server as any).__nuclie_handler(req, res);
+            if ((server as any).__sparx_handler) {
+                return (server as any).__sparx_handler(req, res);
             }
         }
 
@@ -86,7 +86,7 @@ export async function startDevServer(cfg: BuildConfig) {
 
         // Immediate Splash Fallback
         res.writeHead(200, { 'Content-Type': 'text/html', 'Connection': 'close' });
-        res.end(`<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0.1"/><style>body{background:#0d1117;color:#c9d1d9;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;font-family:system-ui}h1{color:#58a6ff;margin-bottom:8px}.loader{width:40px;height:40px;border:3px solid #30363d;border-top-color:#58a6ff;border-radius:50%;animation:s 0.6s linear infinite}@keyframes s{to{transform:rotate(360deg)}}</style></head><body><div class="loader"></div><h1>Nuclie</h1><p>Igniting engine...</p></body></html>`);
+        res.end(`<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0.1"/><style>body{background:#0d1117;color:#c9d1d9;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;font-family:system-ui}h1{color:#58a6ff;margin-bottom:8px}.loader{width:40px;height:40px;border:3px solid #30363d;border-top-color:#58a6ff;border-radius:50%;animation:s 0.6s linear infinite}@keyframes s{to{transform:rotate(360deg)}}</style></head><body><div class="loader"></div><h1>Sparx</h1><p>Igniting engine...</p></body></html>`);
     });
 
     // 3. Bind to the confirmed available port
@@ -113,8 +113,8 @@ export async function startDevServer(cfg: BuildConfig) {
             // Enhanced Startup Banner (Create React App style)
             console.log(`\n\x1b[32mStarting the development server...\x1b[0m\n`);
 
-            // Futuristic Nuclie Branding (Engineering First)
-            console.log(`\x1b[36m   ⚡ NUCLIE \x1b[90mv${pkgVersion}\x1b[0m`);
+            // Futuristic Sparx Branding (Engineering First)
+            console.log(`\x1b[36m   ⚡ SPARX \x1b[90mv${pkgVersion}\x1b[0m`);
             console.log(`\x1b[90m   ─────────────────────────────────────\x1b[0m`);
 
             // Metrics Layout

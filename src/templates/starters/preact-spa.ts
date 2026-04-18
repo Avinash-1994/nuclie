@@ -17,11 +17,11 @@ export const preactSpaTemplate: TemplateConfig = {
     devDependencies: {
         "@preact/preset-vite": "^2.8.1",
         "typescript": "^5.2.0",
-        "@nuclie/plugin-preact": "^1.0.0"
+        "@sparx/plugin-preact": "^1.0.0"
     },
     files: {
-        'nuclie.config.ts': `
-import { defineConfig } from 'nuclie';
+        'sparx.config.ts': `
+import { defineConfig } from 'sparx';
 import preact from '@preact/preset-vite';
 
 export default defineConfig({
@@ -48,7 +48,7 @@ export function App() {
   return (
     <>
       <div class="card">
-        <h1>Nuclie + Preact</h1>
+        <h1>Sparx + Preact</h1>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>

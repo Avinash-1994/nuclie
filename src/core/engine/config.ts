@@ -26,13 +26,14 @@ export async function initBuild(
     explainReporter.report('init', 'initialize', 'Starting build initialization');
 
     const engine: EngineInfo = {
-        name: "Nuclie",
+        name: "Sparx",
         version: "0.1.3", // Should normally come from package.json
         buildTime: new Date().toISOString()
     };
 
     const config: ResolvedConfig = resolveConfig(userConfig, rootDir, mode);
-    const useCache = userConfig.cache !== false;
+    // cache may be false (legacy boolean) or an object with remote config
+    const useCache = userConfig.cache !== false && userConfig.cache !== undefined;
     const cache = useCache ? new PersistentBuildCache(rootDir) : new InMemoryBuildCache();
     const pluginManager = new PluginManager();
 
@@ -119,7 +120,7 @@ export async function computeInputFingerprint(ctx: BuildContext): Promise<InputF
 
     // Include the main package manifest and local build config so dependency and plugin changes are captured.
     await hashPath(path.resolve(ctx.rootDir, 'package.json'));
-    await hashPath(path.resolve(ctx.rootDir, 'nuclie.config.js'));
+    await hashPath(path.resolve(ctx.rootDir, 'sparx.config.js'));
     await hashPath(path.resolve(ctx.rootDir, 'package-lock.json'));
     await hashPath(path.resolve(ctx.rootDir, 'pnpm-lock.yaml'));
 

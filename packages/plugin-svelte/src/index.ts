@@ -10,9 +10,9 @@ export interface SveltePluginOptions {
 }
 
 /**
- * @nuclie/plugin-svelte
+ * @sparx/plugin-svelte
  *
- * Official Nuclie plugin for Svelte:
+ * Official Sparx plugin for Svelte:
  * - .svelte file transform via Svelte compiler
  * - Svelte 5 Runes support ($state, $derived, $effect)
  * - HMR via svelte-hmr pattern (state resets on save)
@@ -20,7 +20,7 @@ export interface SveltePluginOptions {
  *
  * @example
  * ```js
- * const svelte = require('@nuclie/plugin-svelte');
+ * const svelte = require('@sparx/plugin-svelte');
  * module.exports = { plugins: [svelte()] };
  * ```
  */
@@ -32,14 +32,14 @@ export function sveltePlugin(options: SveltePluginOptions = {}): Plugin {
   } = options;
 
   return {
-    name: '@nuclie/plugin-svelte',
+    name: '@sparx/plugin-svelte',
 
     /**
      * Load hook: detect Svelte files and signal to core for compilation.
      */
     load(id: string): null {
       if (!id.endsWith('.svelte')) return null;
-      // Svelte compilation is handled natively by Nuclie's esbuild-svelte integration.
+      // Svelte compilation is handled natively by Sparx's esbuild-svelte integration.
       // This plugin extends configuration and wraps for HMR.
       return null;
     },

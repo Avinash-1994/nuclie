@@ -1,6 +1,6 @@
 
 /**
- * Nuclie Dashboard tRPC Router
+ * Sparx Dashboard tRPC Router
  * Day 19: tRPC Dashboard Lock
  */
 

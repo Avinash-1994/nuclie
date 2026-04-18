@@ -10,9 +10,9 @@ export interface VuePluginOptions {
 }
 
 /**
- * @nuclie/plugin-vue
+ * @sparx/plugin-vue
  *
- * Official Nuclie plugin for Vue 3:
+ * Official Sparx plugin for Vue 3:
  * - Full Vue SFC (.vue) parsing and compilation
  * - Vue 3 HMR — template hot-patching, script remount
  * - TypeScript via `lang="ts"` in script blocks
@@ -20,7 +20,7 @@ export interface VuePluginOptions {
  *
  * @example
  * ```js
- * const vue = require('@nuclie/plugin-vue');
+ * const vue = require('@sparx/plugin-vue');
  * module.exports = { plugins: [vue()] };
  * ```
  */
@@ -32,20 +32,20 @@ export function vuePlugin(options: VuePluginOptions = {}): Plugin {
   } = options;
 
   return {
-    name: '@nuclie/plugin-vue',
+    name: '@sparx/plugin-vue',
 
     /**
      * Load hook: handle .vue SFC files.
-     * The actual compilation is done by @vue/compiler-sfc (already in Nuclie core).
+     * The actual compilation is done by @vue/compiler-sfc (already in Sparx core).
      * This plugin configures and extends that behavior.
      */
     load(id: string): { code: string } | null {
       if (!id.endsWith('.vue')) return null;
 
-      // Vue SFC loading is handled natively by Nuclie's framework-detector.
+      // Vue SFC loading is handled natively by Sparx's framework-detector.
       // This plugin hook adds HMR metadata injection on top.
       if (hmr) {
-        // Signal to the Nuclie HMR system that this is a Vue SFC
+        // Signal to the Sparx HMR system that this is a Vue SFC
         // The actual hot.accept() logic is injected by the core bundler
         return null; // Let the core handle the actual load
       }

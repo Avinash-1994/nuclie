@@ -1,15 +1,15 @@
 /**
- * @nuclie/plugin-pinia
+ * @sparx/plugin-pinia
  * Pinia (Vue) integration
- * Nuclie-native
+ * Sparx-native
  */
 
 import { PluginAdapter } from '../ported/adapter.js';
 
 export function createPiniaPlugin(): PluginAdapter {
     return {
-        name: '@nuclie/plugin-pinia',
-        originalPlugin: 'nuclie-native',
+        name: '@sparx/plugin-pinia',
+        originalPlugin: 'sparx-native',
         
         async transform(code: string, id: string) {
             // pinia transformation
