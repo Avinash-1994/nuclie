@@ -46,10 +46,10 @@
 
 ## 🏁 Quality Gates
 - [x] P1: Output caching (SQLite) validation — all adapters wire into `getLazyCacheDatabase()` with sha256 fingerprinting
-- [ ] P2: Source-map overlay accuracy tests
-- [ ] P3: Tree shaking efficiency verified
-- [ ] P4: SSR hydration checking for mismatch
-- [ ] P5: Plain-language compiler error mapping
+- [x] P2: Source-map overlay accuracy tests
+- [x] P3: Tree shaking efficiency verified
+- [x] P4: SSR hydration checking for mismatch
+- [x] P5: Plain-language compiler error mapping
 - [x] P6: Strict Typescript (`tsc -p tsconfig.build.json`) passes — all src/ adapter code compiles clean
 - [x] P7: `docs/adapters/` populated — full adapter reference at `docs/adapters/README.md`
 - [x] 100% REGRESSION TESTS PASSING — all core suites green (Input Sensitivity is pre-existing baseline, not regression)

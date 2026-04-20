@@ -5,8 +5,6 @@ on:
     branches: [master, main, develop]
   pull_request:
     branches: [master, main, develop]
-  release:
-    types: [created]
   workflow_dispatch:
 
 concurrency:
@@ -208,58 +206,8 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  # ─── 6. Publish to npm (on release only) ────────────────────────────────────
-  publish:
-    name: 📦 Publish to npm
-    needs: [typecheck, lint, test]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release' && github.event.action == 'created'
-    permissions:
-      contents: write
-      id-token: write
 
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: 🔧 Setup Node.js with npm registry
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
-
-      - name: 📦 Install dependencies
-        run: npm ci ${{ env.NPM_FLAGS }}
-
-      - name: 📥 Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: ✅ Verify build output
-        run: |
-          test -f dist/cli.js || (echo "❌ dist/cli.js missing" && exit 1)
-          test -f dist/index.js || (echo "❌ dist/index.js missing" && exit 1)
-          test -f dist/index.d.ts || (echo "❌ dist/index.d.ts missing" && exit 1)
-          echo "✅ Build output verified"
-
-      - name: 🚀 Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: 📦 Pack for release
-        run: npm pack
-
-      - name: 📤 Upload release asset
-        uses: softprops/action-gh-release@v1
-        with:
-          files: '*.tgz'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # ─── 7. CI Summary ──────────────────────────────────────────────────────────
+  # ─── 6. CI Summary ──────────────────────────────────────────────────────────
   summary:
     name: 📊 CI Summary
     runs-on: ubuntu-latest

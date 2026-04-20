@@ -73,6 +73,9 @@ export default [
                 // Modern Web APIs
                 AbortController: 'readonly',
                 EventTarget: 'readonly',
+                // Node 18+ globals
+                crypto: 'readonly',
+                structuredClone: 'readonly',
                 // Jest globals
                 describe: 'readonly',
                 it: 'readonly',
