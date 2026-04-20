@@ -802,6 +802,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     // Default: preset !== 'ssr' → this block is skipped entirely. SPA path unchanged.
     if (cfg.preset === 'ssr' && (url === '/' || (!hasExtension && !isInternal && acceptsHtml))) {
       try {
+        // @ts-ignore - plugin package removed to clean up orphans
         const ssrRunner = await import('../../packages/sparx-ssr/src/runner.js')
           .catch(() => null as any);
 

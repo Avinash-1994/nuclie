@@ -422,20 +422,6 @@ async function main() {
         process.exit(exitCode);
       }
     )
-    // Phase 5.6 — sparx migrate
-    .command(
-      'migrate',
-      'Automated upgrade assistant — detects deprecated config and proposes fixes',
-      (yargs: any) => yargs
-        .option('dry-run', { type: 'boolean', default: false, description: 'Print diff without writing' })
-        .option('yes', { type: 'boolean', default: false, description: 'Auto-apply all fixes without prompting' }),
-      async (args: any) => {
-        const { migrate } = await import('../packages/sparx-migrate/src/index.js')
-          .catch(() => ({ migrate: null as any }));
-        if (!migrate) { console.error('[sparx:migrate] Migration tool not found.'); process.exit(1); }
-        await migrate(process.cwd(), { dryRun: args['dry-run'], yes: args.yes });
-      }
-    )
     .command(
       'ssr',
 
