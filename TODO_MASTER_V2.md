@@ -174,16 +174,16 @@
   - [x] TEST: Lazy images split to async chunks
 
 ### 1.9 SSR runner
-- [ ] Create `packages/sparx-ssr/src/runner.ts` using `vm.Module`
-- [ ] Export `renderToString(entryPath, context) -> { html, head, state }`
-- [ ] Wire dev server to pipe `ssr: true` requests
-- [ ] **Fixture:** `e2e/fixtures/ssr-blog/` (React, 50 posts)
-  - [ ] TEST: Server rendered HTML returned (no blank page)
-  - [ ] TEST: Zero hydration errors in console
-  - [ ] TEST: SEO tags present in HTML
-  - [ ] TEST: Data in HTML before JS executes
-  - [ ] TEST: SSR error shows overlay in dev
-  - [ ] TEST: Cached TTFB < 100ms
+- [x] Create `packages/sparx-ssr/src/runner.ts` using `vm.Module`
+- [x] Export `renderToString(entryPath, context) -> { html, head, state }`
+- [x] Wire dev server to pipe `ssr: true` requests
+- [x] **Fixture:** `e2e/fixtures/ssr-blog/` (React, 50 posts)
+  - [x] TEST: Server rendered HTML returned (no blank page)
+  - [x] TEST: Zero hydration errors in console
+  - [x] TEST: SEO tags present in HTML
+  - [x] TEST: Data in HTML before JS executes
+  - [x] TEST: SSR error shows overlay in dev
+  - [x] TEST: Cached TTFB < 100ms
 
 ### 1.10 Pre-bundle cache
 - [ ] Create `crates/sparx_native/src/cache/prebundle.rs` in `.sparx/cache/deps/`
