@@ -161,17 +161,17 @@
   - [x] TEST: Chrome DevTools step-through lands on source
 
 ### 1.8 Chunker + DCE (tree shaking)
-- [ ] Create `crates/sparx_native/src/chunker.rs`
-- [ ] DCE: reachability traversal, live binding marking
-- [ ] Configure `strategy: Manual|Auto`, `max_chunk_size_kb`
-- [ ] N-API: `sparxChunk(graphJson, config)`
-- [ ] **Fixture:** `e2e/fixtures/e-commerce-app/` (React + Query/Zustand)
-  - [ ] TEST: 1 chunk per route
-  - [ ] TEST: date-fns and Zustand unused slices tree-shaken
-  - [ ] TEST: Shared deps extracted to vendor chunk
-  - [ ] TEST: Initial route JS < 80KB gzip, Total bundle < 400KB gzip
-  - [ ] TEST: Unused React APIs removed
-  - [ ] TEST: Lazy images split to async chunks
+- [x] Create `crates/sparx_native/src/chunker.rs`
+- [x] DCE: reachability traversal, live binding marking
+- [x] Configure `strategy: Manual|Auto`, `max_chunk_size_kb`
+- [x] N-API: `sparxChunk(graphJson, config)`
+- [x] **Fixture:** `e2e/fixtures/e-commerce-app/` (React + Query/Zustand)
+  - [x] TEST: 1 chunk per route
+  - [x] TEST: date-fns and Zustand unused slices tree-shaken
+  - [x] TEST: Shared deps extracted to vendor chunk
+  - [x] TEST: Initial route JS < 80KB gzip, Total bundle < 400KB gzip
+  - [x] TEST: Unused React APIs removed
+  - [x] TEST: Lazy images split to async chunks
 
 ### 1.9 SSR runner
 - [ ] Create `packages/sparx-ssr/src/runner.ts` using `vm.Module`

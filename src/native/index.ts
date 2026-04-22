@@ -127,6 +127,7 @@ function getJSFallback() {
 
 try {
     const nativeCandidates = [
+        path.resolve(__dirname, '../../../sparx_native.node'),
         path.resolve(__dirname, '../../sparx_native.node'),
         path.resolve(__dirname, '../sparx_native.node'),
         path.resolve(__dirname, './sparx_native.node'),
