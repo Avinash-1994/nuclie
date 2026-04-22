@@ -7,6 +7,7 @@
 import { MigrationAnalyzer } from './analyzer.js';
 import { MigrationGenerator } from './generator.js';
 import path from 'path';
+import { rewriteWasmPlugins } from './wasm-rewriter.js';
 
 export interface MigrateCommandOptions {
     dryRun?: boolean;
@@ -18,6 +19,12 @@ export async function migrateCommand(projectPath: string, options: MigrateComman
 
     console.log('🔍 Analyzing project...');
     console.log(`   Path: ${resolvedPath}\n`);
+
+    // Step 0: Migrate legacy Sparx wasm plugins automatically
+    const rewrittenFiles = rewriteWasmPlugins(resolvedPath);
+    if (rewrittenFiles.length > 0) {
+        console.log(`🔧 Rewrote legacy WASM plugin references in: ${rewrittenFiles.join(', ')}\n`);
+    }
 
     // Step 1: Analyze
     const analyzer = new MigrationAnalyzer(resolvedPath);

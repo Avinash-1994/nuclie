@@ -67,15 +67,13 @@ export class Transformer {
 
         const results: any[] = [];
         const nativeBatch: any[] = [];
+        const nativeCssBatch: any[] = [];
         const pluginBatch: any[] = [];
 
         modules.forEach(m => {
             const ext = m.path.split('.').pop()?.toLowerCase() || 'js';
             const content = m.content;
 
-            // Conservative Native Routing (Phase G1)
-            // We only use the native worker for plain JS files without framework-specific syntax.
-            // TS, JSX, and anything with decorators or assets MUST go to the plugin system.
             const isNodeModule = m.path.includes('node_modules') || m.path.includes('.pnpm');
             const hasFrameworkSyntax = !isNodeModule && (/<[a-zA-Z]/.test(content) || /@[A-Z]/.test(content));
             const isPlainJs = ['js', 'mjs', 'cjs'].includes(ext);
@@ -84,74 +82,117 @@ export class Transformer {
             const hasAssetImport = /import\s+.*from\s+['"].*\.(png|jpg|jpeg|gif|svg|css|less|scss|sass|json)['"]/.test(content) ||
                 /require\(['"].*\.(png|jpg|jpeg|gif|svg|css|less|scss|sass|json)['"]\)/.test(content);
 
-            // Day 28: Enable native CSS processing via LightningCSS
-            // Day 29: Enable native Vue SFC processing
-            if (this.available && (isPlainJs || isCss || isVue) && !hasFrameworkSyntax && !hasAssetImport) {
+            if (this.available && isCss) {
+                // Completely hoisted LightningCSS path
+                nativeCssBatch.push(m);
+            } else if (this.available && (isPlainJs || isVue) && !hasFrameworkSyntax && !hasAssetImport) {
                 nativeBatch.push(m);
             } else {
                 pluginBatch.push(m);
             }
         });
 
+        const pipelinePromises: Promise<any>[] = [];
+
         // A) Plugin Batch
         if (pluginBatch.length > 0) {
-            const pluginResults = await Promise.all(pluginBatch.map(async (m) => {
-                const transformed = await ctx.pluginManager.runHook('transformModule', {
-                    code: m.content,
-                    path: m.path,
-                    id: m.id,
-                    target: ctx.target,
-                    mode: ctx.mode,
-                    format: 'cjs'
-                }, ctx);
-                return { id: m.id, code: transformed.code };
-            }));
-            results.push(...pluginResults);
+            pipelinePromises.push((async () => {
+                const pluginResults = await Promise.all(pluginBatch.map(async (m) => {
+                    const transformed = await ctx.pluginManager.runHook('transformModule', {
+                        code: m.content,
+                        path: m.path,
+                        id: m.id,
+                        target: ctx.target,
+                        mode: ctx.mode,
+                        format: 'cjs'
+                    }, ctx);
+                    return { id: m.id, code: transformed.code };
+                }));
+                results.push(...pluginResults);
+            })());
         }
 
-        // B) Native Batch
+        // B) Native Batch (SWC / Vue)
         if (nativeBatch.length > 0) {
-            const batches: Record<string, any[]> = {};
-            const isProd = ctx.mode === 'production' || ctx.mode === 'build';
-            const minifyEnabled = isProd;
+            pipelinePromises.push((async () => {
+                const batches: Record<string, any[]> = {};
+                const isProd = ctx.mode === 'production' || ctx.mode === 'build';
+                const minifyEnabled = isProd;
 
-            nativeBatch.forEach(m => {
-                const ext = m.path.split('.').pop() || 'js';
-                let loader = 'js';
-                if (['tsx', 'ts', 'jsx', 'js'].includes(ext)) loader = ext;
-                else if (ext === 'css') loader = 'css';
-                else if (ext === 'vue') loader = 'vue';
+                nativeBatch.forEach(m => {
+                    const ext = m.path.split('.').pop() || 'js';
+                    let loader = 'js';
+                    if (['tsx', 'ts', 'jsx', 'js'].includes(ext)) loader = ext;
+                    else if (ext === 'vue') loader = 'vue';
 
-                if (!batches[loader]) batches[loader] = [];
-                batches[loader].push(m);
-            });
+                    if (!batches[loader]) batches[loader] = [];
+                    batches[loader].push(m);
+                });
 
-            for (const [loader, batch] of Object.entries(batches)) {
-                const config = batch.map(m => ({
+                for (const [loader, batch] of Object.entries(batches)) {
+                    const config = batch.map(m => ({
+                        path: m.path,
+                        content: m.content,
+                        loader: loader,
+                        minify: minifyEnabled
+                    }));
+
+                    try {
+                        const batchResults = await this.nativeWorker.batchTransform(config);
+                        batchResults.forEach((res: any, i: number) => {
+                            let code = res.code;
+                            if (isProd) {
+                                code = Transformer.removeEsbuildWrappers(code);
+                            }
+                            results.push({ id: batch[i].id, code });
+                        });
+                    } catch (e) {
+                        const fallbackResults = await Promise.all(batch.map(async (m) => {
+                            const transformed = await ctx.pluginManager.runHook('transformModule', {
+                                code: m.content,
+                                path: m.path,
+                                id: m.id,
+                                target: ctx.target,
+                                mode: ctx.mode,
+                                format: 'cjs'
+                            }, ctx);
+                            return { id: m.id, code: transformed.code };
+                        }));
+                        results.push(...fallbackResults);
+                    }
+                }
+            })());
+        }
+
+        // C) Native CSS Batch (LightningCSS Hoisted asynchronously parallel to SWC)
+        if (nativeCssBatch.length > 0) {
+            pipelinePromises.push((async () => {
+                const config = nativeCssBatch.map(m => ({
                     path: m.path,
                     content: m.content,
-                    loader: loader,
-                    minify: minifyEnabled
+                    loader: 'css',
+                    minify: ctx.mode === 'production' || ctx.mode === 'build'
                 }));
 
                 try {
-                    const batchResults = await this.nativeWorker.batchTransform(config);
-                    batchResults.forEach((res: any, i: number) => {
-                        let code = res.code;
-                        if (isProd) {
-                            code = Transformer.removeEsbuildWrappers(code);
-                        }
-                        results.push({ id: batch[i].id, code });
+                    let batchResults;
+                    if (this.nativeWorker.batch_transform_css) {
+                        batchResults = await this.nativeWorker.batch_transform_css(config);
+                    } else if (this.nativeWorker.batchTransformCss) {
+                        batchResults = await this.nativeWorker.batchTransformCss(config);
+                    } else {
+                        // fallback if not implemented natively
+                        batchResults = await this.nativeWorker.batchTransform(config);
+                    }
+
+                    const cssOutputs = batchResults.map((res: any, i: number) => {
+                        return { id: nativeCssBatch[i].id, code: res.code };
                     });
 
-                    // Phase 4.4 — PostCSS passthrough for CSS loader batches.
-                    // Order: LightningCSS (native) → PostCSS → output.
-                    // Skipped if no postcss.config.js or postcss not installed.
-                    if (loader === 'css') {
-                        await Transformer.applyPostCss(results, ctx.rootDir);
-                    }
+                    await Transformer.applyPostCss(cssOutputs, ctx.rootDir);
+                    results.push(...cssOutputs);
                 } catch (e) {
-                    const fallbackResults = await Promise.all(batch.map(async (m) => {
+                    const fallbackResults = await Promise.all(nativeCssBatch.map(async (m) => {
                         const transformed = await ctx.pluginManager.runHook('transformModule', {
                             code: m.content,
                             path: m.path,
@@ -164,9 +205,10 @@ export class Transformer {
                     }));
                     results.push(...fallbackResults);
                 }
-            }
+            })());
         }
 
+        await Promise.all(pipelinePromises);
         return results;
     }
 

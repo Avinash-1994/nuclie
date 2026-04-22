@@ -220,8 +220,8 @@ test('MFE-EXTRA: injectRemotesIntoHTML adds script tags before </head>', () => {
 
     const result = injectRemotesIntoHTML(html, remotes);
 
-    expect(result).toContain('<script src="http://localhost:3001/remoteEntry.js"');
-    expect(result).toContain('<script src="http://localhost:3002/remoteEntry.js"');
+    expect(result).toContain('<script type="module" src="http://localhost:3001/remoteEntry.js"');
+    expect(result).toContain('<script type="module" src="http://localhost:3002/remoteEntry.js"');
     // Scripts injected before </head>
     const headCloseIdx = result.indexOf('</head>');
     const cartIdx = result.indexOf('cart');

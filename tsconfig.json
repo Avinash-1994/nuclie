@@ -15,8 +15,8 @@
     "jsx": "react-jsx",
     "isolatedModules": true,
     "paths": {
-      "@nuclie/adapter-core": ["./packages/nuclie-adapter-core/src/index.js", "./packages/nuclie-adapter-core/src/index.ts"],
-      "@nuclie/adapter-core/*": ["./packages/nuclie-adapter-core/*"]
+      "@sparx/adapter-core": ["./packages/sparx-adapter-core/src/index.js", "./packages/sparx-adapter-core/src/index.ts"],
+      "@sparx/adapter-core/*": ["./packages/sparx-adapter-core/*"]
     }
   },
   "include": [

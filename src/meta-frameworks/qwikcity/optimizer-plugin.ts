@@ -1,11 +1,11 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import { createHash } from 'crypto';
 
 let qwikOptimizer: any;
 
 export function qwikOptimizerPlugin(): Plugin {
   return {
-    name: 'nuclie:qwik-optimizer',
+    name: 'sparx:qwik-optimizer',
     
     async buildStart() {
       try {
@@ -20,7 +20,7 @@ export function qwikOptimizerPlugin(): Plugin {
       if (!id.endsWith('.tsx') && !id.endsWith('.ts')) return null;
       if (!qwikOptimizer) return null;
 
-      // Access Nuclie's SQLite/RocksDB cache wrapper
+      // Access Sparx's SQLite/RocksDB cache wrapper
       const { getLazyCacheDatabase } = await import('../../core/cache/lazy-init.js');
       const db = await getLazyCacheDatabase();
 

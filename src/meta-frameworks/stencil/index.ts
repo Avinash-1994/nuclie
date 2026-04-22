@@ -1,8 +1,8 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { createHash } from 'crypto';
 
-export class StencilAdapter implements NuclieAdapter {
+export class StencilAdapter implements SparxAdapter {
   name = 'stencil';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -12,11 +12,11 @@ export class StencilAdapter implements NuclieAdapter {
   plugins(): Plugin[] {
     return [
       {
-        name: 'nuclie:stencil-compiler',
+        name: 'sparx:stencil-compiler',
 
         async transform(code: string, id: string) {
           // Stencil uses TSX with custom decorators (@Component, @Prop, @State, @Event, @Watch)
-          // These are compiled down by Stencil CLI; here Nuclie intercepts .tsx files from Stencil
+          // These are compiled down by Stencil CLI; here Sparx intercepts .tsx files from Stencil
           // and passes them through our SWC + decorator pipeline safely
           if (!id.endsWith('.tsx')) return null;
           if (!code.includes('@stencil/core')) return null;
@@ -31,7 +31,7 @@ export class StencilAdapter implements NuclieAdapter {
           if (cached) return { code: cached, map: null };
 
           // Stencil's compiler is deeply integrated into their own CLI build
-          // In dev mode Nuclie serves Stencil's www/ output directory natively
+          // In dev mode Sparx serves Stencil's www/ output directory natively
           db.set(cacheKey, code);
           return null; // Stencil components pass through; decorators are handled by tsc
         }
@@ -39,7 +39,7 @@ export class StencilAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.stencil) config.stencil = {};
     config.stencil = {
       // Stencil outputs to www/ by default

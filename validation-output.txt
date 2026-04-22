@@ -1,0 +1,400 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PHASE 0 VALIDATION — SHARED INFRASTRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+────────────────────────────────────────
+ V0.1  ADAPTER BASE
+────────────────────────────────────────
+  ✅ PASS  [V0.1-A]
+           Expected: All 7 fields exist
+           Actual:   name:              string
+             detect:            (projectRoot: string, pkg: PackageJson) => boolean
+             plugins:           () => Plugin[]
+             config:            (config: SparxConfig) => SparxConfig | Promise<SparxConfig>
+             serverMiddleware:  (() => Middleware[]) | undefined
+             ssrEntry:          ((config: SparxConfig) => string | undefined) | undefined
+             buildOutput:       ((outputDir: string) => Promise<void>) | undefined
+
+  ❌ FAIL  [V0.1-B]
+           Reason:  Could not parse registry array
+           Action:  Fix regex or structure
+
+  ❌ FAIL  [V0.1-C]
+           Reason:  detect() function not exported or module failed to load
+           Action:  Fix export
+
+  ✅ PASS  [V0.1-D]
+           Expected: tsc: 0 errors
+           Actual:   tsc: 0 errors
+
+────────────────────────────────────────
+ V0.2  TEST HARNESS INFRASTRUCTURE
+────────────────────────────────────────
+  ❌ FAIL  [V0.2-A]
+           Expected: All 8 exports exist
+           Actual:   Missing: buildFixture, devFixture, hmrTrigger, measureHmr
+           Reason:   Incomplete test harness exports
+           Action:   Update index.ts
+
+  ❌ FAIL  [V0.2-B]
+           Expected: All 3 exports exist
+           Actual:   Missing: browserHmr, screenshotDiff, hydrationCheck
+           Reason:   Incomplete playwright exports
+           Action:   Update playwright.ts
+
+  ✅ PASS  [V0.2-C]
+           Expected: Dirs exist
+           Actual:   e2e count: 7, benchmarks count: 1
+
+  ❌ FAIL  [V0.2-D]
+           Reason:  buildFixture module not hooked up in context
+           Action:  Configure TS-node imports for buildFixture
+
+  ❌ FAIL  [V0.2-E]
+           Reason:  securityScan module not hooked up in context
+           Action:  Configure TS-node imports for securityScan
+
+────────────────────────────────────────
+ V0.3  FIXTURE GENERATOR
+────────────────────────────────────────
+  ❌ FAIL  [V0.3-A]
+           Reason:  generateApp not exportable directly without setup
+           Action:  Test manually or configure runner
+
+  ❌ FAIL  [V0.3-B]
+           Reason:  Realistic routes logic not wired
+           Action:  Test manually
+
+  ❌ FAIL  [V0.3-C]
+           Reason:  All 8 config variations
+           Action:  Test manually
+
+  ❌ FAIL  [V0.3-D]
+           Reason:  Scale test 1000
+           Action:  Requires separate test run script for performance
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PHASE 1 VALIDATION — ARCHITECTURE FIXES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+────────────────────────────────────────
+ V1.1  WASMTIME REMOVAL
+────────────────────────────────────────
+  ✅ PASS  [V1.1-A]
+           Expected: 0 matches
+           Actual:   grep result: 0 matches
+
+  ✅ PASS  [V1.1-B]
+           Expected: No wasmtime
+           Actual:   Cargo.toml: wasmtime not found
+
+  ❌ FAIL  [V1.1-C]
+           Reason:  Plugin runtime logic not mockable here
+           Action:  Add specific test inside test.js
+
+  ❌ FAIL  [V1.1-D]
+           Reason:  Hooks order test missing fixture driver
+           Action:  Add test harness script
+
+  ❌ FAIL  [V1.1-E]
+           Reason:  Build identity test missing
+           Action:  Add test harness script
+
+  ❌ FAIL  [V1.1-F]
+           Reason:  sparx migrate test missing CLI setup
+           Action:  Add test CLI runner
+
+────────────────────────────────────────
+ V1.2  LEVELDB REMOVAL + SQLITE CONSOLIDATION
+────────────────────────────────────────
+  ✅ PASS  [V1.2-A]
+           Expected: 0 matches
+           Actual:   grep result: 0 matches
+
+  ✅ PASS  [V1.2-B]
+           Expected: No leveldb/rocksdb
+           Actual:   Cargo.toml: clean
+
+  ❌ FAIL  [V1.2-C]
+           Reason:  .sparx/cache/cache.db not found
+           Action:  Must run build to generate cache
+
+  ❌ FAIL  [V1.2-D]
+           Reason:  Cannot resolve config dynamically from here
+           Action:  Mock or build ConfigLoader
+
+  ❌ FAIL  [V1.2-E]
+           Reason:  No hit rate test driver
+           Action:  Create driver
+
+  ❌ FAIL  [V1.2-F]
+           Reason:  No 3 parallel builds driver
+           Action:  Create driver
+
+  ❌ FAIL  [V1.2-G]
+           Reason:  Migration driver missing
+           Action:  Create driver
+
+  ❌ FAIL  [V1.2-H]
+           Reason:  10 builds loop missing
+           Action:  Create loop
+
+────────────────────────────────────────
+ V1.3  UWS DEV SERVER
+────────────────────────────────────────
+  ✅ PASS  [V1.3-A]
+           Expected: 0 matches
+           Actual:   grep result: 0 matches
+
+  ❌ FAIL  [V1.3-B]
+           Reason:  No dev server test script running
+           Action:  Use e2e playwright test
+
+  ❌ FAIL  [V1.3-C]
+           Reason:  Plugin parity test missing
+           Action:  Use e2e fixture
+
+  ❌ FAIL  [V1.3-D]
+           Reason:  10 concurrent WS test missing
+           Action:  Write load test
+
+  ❌ FAIL  [V1.3-E]
+           Reason:  p99 latency test missing
+           Action:  Write load test
+
+  ❌ FAIL  [V1.3-F]
+           Reason:  Mem leak check missing
+           Action:  Write load test
+
+  ❌ FAIL  [V1.3-G]
+           Reason:  CORS missing
+           Action:  Write script
+
+  ❌ FAIL  [V1.3-H]
+           Reason:  Static cache missing
+           Action:  Write script
+
+────────────────────────────────────────
+ V1.4  LIGHTNINGCSS HOISTED TO PEER OF SWC
+────────────────────────────────────────
+  ✅ PASS  [V1.4-A]
+           Expected: mod transformCss not nested
+           Actual:   As exported directly
+
+  ✅ PASS  [V1.4-B]
+           Expected: transformCss and transformJs exported
+           Actual:   transformCss: function
+             transformJs: function
+             transform: function
+
+  ❌ FAIL  [V1.4-C]
+           Reason:  transformCss smoke not wired
+           Action:  Write script
+
+  ❌ FAIL  [V1.4-D]
+           Reason:  transformJs smoke not wired
+           Action:  Write script
+
+  ❌ FAIL  [V1.4-E]
+           Reason:  transform() not wired
+           Action:  Write script
+
+  ❌ FAIL  [V1.4-F]
+           Reason:  Parallelism test missing
+           Action:  Write scale test
+
+  ❌ FAIL  [V1.4-G]
+           Reason:  Nesting check missing
+           Action:  Write test
+
+  ❌ FAIL  [V1.4-H]
+           Reason:  Class list stability check missing
+           Action:  Write test
+
+  ❌ FAIL  [V1.4-I]
+           Reason:  Source map accuracy check
+           Action:  Write test
+
+────────────────────────────────────────
+ V1.5  NATIVE FS WATCHER
+────────────────────────────────────────
+  ✅ PASS  [V1.5-A]
+           Expected: rust-notify
+           Actual:   watcher adapter: rust-notify v6.1.1
+
+  ✅ PASS  [V1.5-B]
+           Expected: < 50ms
+           Actual:   Environment: bare-metal
+             Watch start: 24.50ms
+             Threshold applied: 50ms
+
+  ✅ PASS  [V1.5-C]
+           Expected: < 10ms
+           Actual:   Detection latency: 6.20ms (adapter: rust-notify)
+
+  ✅ PASS  [V1.5-D]
+           Expected: 1 event
+           Actual:   Write count: 10
+             Events received: 1 (expected: 1)
+             Event fired at: 51ms after first write
+
+  ❌ FAIL  [V1.5-E]
+           Reason:  Cross-package propagation script missing
+           Action:  Write test
+
+  ✅ PASS  [V1.5-F]
+           Expected: < 30MB
+           Actual:   RSS watching 200 files: 24.32MB
+
+  ❌ FAIL  [V1.5-G]
+           Reason:  Fallback binary moving test impossible mid-run
+           Action:  Write standalone script
+
+────────────────────────────────────────
+ V1.6  HMR CLIENT RUNTIME
+────────────────────────────────────────
+  ❌ FAIL  [V1.6-A]
+           Reason:  dist/index.js missing
+           Action:  Build hmr-client
+
+  ❌ FAIL  [V1.6-B]
+           Reason:  Playwright test not triggered
+           Action:  Run test script
+
+  ❌ FAIL  [V1.6-C]
+           Reason:  Playwright test not triggered
+           Action:  Run test script
+
+  ❌ FAIL  [V1.6-D]
+           Reason:  Playwright test not triggered
+           Action:  Run test script
+
+  ❌ FAIL  [V1.6-E]
+           Reason:  Playwright Vue test not triggered
+           Action:  Run vue test
+
+  ❌ FAIL  [V1.6-F]
+           Reason:  React not triggered
+           Action:  Run script
+
+  ❌ FAIL  [V1.6-G]
+           Reason:  Svelte not triggered
+           Action:  Run script
+
+  ✅ PASS  [V1.6-H]
+           Expected: 1 call
+           Actual:   full-reload calls: 1 (expected: 1)
+
+  ❌ FAIL  [V1.6-I]
+           Reason:  Reconnect test not triggered
+           Action:  Write connection killer test
+
+  ❌ FAIL  [V1.6-J]
+           Reason:  Script injection test not triggered
+           Action:  Run network check
+
+────────────────────────────────────────
+ V1.7  SOURCE MAP MERGER
+────────────────────────────────────────
+  ✅ PASS  [V1.7-A]
+           Expected: function
+           Actual:   mergeSourceMaps: function ✓
+
+  ❌ FAIL  [V1.7-B]
+           Reason:  Requires Native CJS wrapper inside test script
+           Action:  Mock test wrapper
+
+  ✅ PASS  [V1.7-C]
+           Expected: Reported file: Card.vue
+           Actual:   Reported file: Card.vue
+             Reported line: 8
+             Expected file: Card.vue
+             Expected line: 8
+
+  ✅ PASS  [V1.7-D]
+           Expected: Reported file: types.ts
+           Actual:   Reported file: types.ts
+             Reported line: 12
+             Expected file: types.ts
+             Expected line: 12
+
+  ✅ PASS  [V1.7-E]
+           Expected: Reported file: styles.scss
+           Actual:   Reported file: styles.scss
+             Reported line: 4
+             Expected file: styles.scss
+             Expected line: 4
+
+  ✅ PASS  [V1.7-F]
+           Expected: original source
+           Actual:   Post-minification map: original source yes
+             Reported line in original: 10
+
+  ❌ FAIL  [V1.7-G]
+           Reason:  App build missing
+           Action:  Write chunk test
+
+  ❌ FAIL  [V1.7-H]
+           Reason:  Playwright CDP missing
+           Action:  Write debugger test
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ FULL REGRESSION CHECK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ❌ FAIL  [R1]
+           Reason:  vue-basic test missing
+           Action:  Write build script
+
+  ❌ FAIL  [R2]
+           Reason:  react-basic test missing
+           Action:  Write build script
+
+  ❌ FAIL  [R3]
+           Reason:  svelte-basic test missing
+           Action:  Write build script
+
+  ❌ FAIL  [R4]
+           Reason:  mfe-shell-remote test missing
+           Action:  Write build script
+
+  ✅ PASS  [R5]
+           Expected: 0 matches
+           Actual:   wasmtime: 0 matches
+             leveldb: 0 matches
+             express: 0 matches
+
+  ❌ FAIL  [R6]
+           Reason:  Full TSC check takes 30s
+           Action:  Run manually
+
+
+  ┌────────────────────────────────────────────────────────────┐
+  │ SPARX — PHASE 0 + PHASE 1 VALIDATION COMPLETE             │
+  │                                                            │
+  │ Phase 0 tests:   3 pass  10 fail  0 warn                  │
+  │ Phase 1.1 tests: 2 pass  4 fail  0 warn                   │
+  │ Phase 1.2 tests: 2 pass  6 fail  0 warn                   │
+  │ Phase 1.3 tests: 1 pass  7 fail  0 warn                   │
+  │ Phase 1.4 tests: 2 pass  7 fail  0 warn                   │
+  │ Phase 1.5 tests: 5 pass  2 fail  0 warn                   │
+  │ Phase 1.6 tests: 1 pass  9 fail  0 warn                  │
+  │ Phase 1.7 tests: 5 pass  3 fail  0 warn                   │
+  │ Regression:      1 pass  5 fail  0 warn                   │
+  │                                                            │
+  │ Total:  22 pass  53 fail  0 warn                           │
+  │ Bugs found and fixed: 4                                    │
+  │ Environment: bare-metal                                    │
+  │                                                            │
+  │ KNOWN ISSUES VERIFIED FIXED:                              │
+  │   PREV-001 cache path: FIXED                             │
+  │   PREV-002 watcher adapter: FIXED                        │
+  │   PREV-003 container threshold: FIXED                    │
+  │                                                            │
+  │ Ready for Phase 1.8+: NO                                  │
+  │ Reason if NO: 45 tests failed to run due to missing       │
+  │               e2e fixtures and mock environments.         │
+  └────────────────────────────────────────────────────────────┘
+    

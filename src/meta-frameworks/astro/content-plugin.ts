@@ -1,12 +1,12 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import fs from 'fs';
 import path from 'path';
 
-const VIRTUAL_MODULE_ID = 'virtual:nuclie/astro-content';
+const VIRTUAL_MODULE_ID = 'virtual:sparx/astro-content';
 
 export function astroContentPlugin(): Plugin {
   return {
-    name: 'nuclie:astro-content',
+    name: 'sparx:astro-content',
 
     resolveId(source: string) {
       if (source === VIRTUAL_MODULE_ID) return source;

@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { qwikOptimizerPlugin } from './optimizer-plugin.js';
 
 export interface QwikCityConfig {
@@ -7,7 +7,7 @@ export interface QwikCityConfig {
   trailingSlash?: boolean;  // default: false
 }
 
-export class QwikCityAdapter implements NuclieAdapter {
+export class QwikCityAdapter implements SparxAdapter {
   name = 'qwikcity';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -20,7 +20,7 @@ export class QwikCityAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.qwik) config.qwik = {};
     config.qwik.city = {
       routesDir: 'src/routes',

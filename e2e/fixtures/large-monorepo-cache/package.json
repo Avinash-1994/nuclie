@@ -1,0 +1,10 @@
+{
+  "name": "large-monorepo-cache",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sparx dev",
+    "build": "sparx build"
+  },
+  "dependencies": {}
+}

@@ -601,42 +601,55 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
     contentTypeNosniff: true
   });
 
-  // Detect network IP for WebSocket origin validation
+  // Detect ALL non-internal IPv4 addresses for WebSocket origin validation.
+  // This covers local network IPs (e.g. 192.168.x.x) as well as loopback.
   const os = await import('os');
   const networkInterfaces = os.networkInterfaces();
-  let networkIP = '';
-  for (const name of Object.keys(networkInterfaces)) {
-    const ifaces = networkInterfaces[name];
+  const allLocalIPs: string[] = ['127.0.0.1'];
+  for (const ifaces of Object.values(networkInterfaces)) {
     if (!ifaces) continue;
     for (const iface of ifaces) {
       if (iface.family === 'IPv4' && !iface.internal) {
-        networkIP = iface.address;
-        break;
+        allLocalIPs.push(iface.address);
       }
     }
-    if (networkIP) break;
   }
+  // Primary network IP used for display (first non-loopback)
+  const networkIP = allLocalIPs.find(ip => ip !== '127.0.0.1') ?? '';
+
+  // Build allowed WS hostnames from every local IP + configured host.
+  const buildAllowedHosts = (): Set<string> => {
+    const hosts = new Set<string>(['localhost', ...allLocalIPs]);
+    if (host !== 'localhost' && host !== '0.0.0.0') hosts.add(host);
+    const extra: string[] = (cfg.server as any)?.allowedHosts ?? [];
+    extra.forEach(h => hosts.add(h));
+    return hosts;
+  };
 
   // Setup WebSocket Handlers for Config Sync (Advanced & Secure)
   const setupWssHandlers = (server: WebSocketServer) => {
     server.on('connection', (ws, req) => {
-      // Security Gate: Origin Validation
+      // Security Gate: validate that the origin matches a known local host or configured host.
+      // We don't check ports strictly because dev proxies, Docker, or tools (Playwright) 
+      // often rewrite or use different ports.
       const origin = req.headers.origin;
-      const allowedOrigins = [
-        `http://${host}:${port}`,
-        `https://${host}:${port}`,
-        `http://localhost:${port}`,
-        `http://127.0.0.1:${port}`
-      ];
+      const allowedHosts = buildAllowedHosts();
+      let isAllowed = false;
 
-      // Add network IP if available
-      if (networkIP) {
-        allowedOrigins.push(`http://${networkIP}:${port}`);
-        allowedOrigins.push(`https://${networkIP}:${port}`);
+      if (!origin) {
+        // null/missing origin → allow (CLI tools, headless scripts)
+        isAllowed = true;
+      } else {
+        try {
+          const originUrl = new URL(origin);
+          isAllowed = allowedHosts.has(originUrl.hostname);
+        } catch {
+          isAllowed = false;
+        }
       }
 
-      if (origin && !allowedOrigins.some(o => origin.startsWith(o))) {
-        log.warn(`Blocked unauthorized WebSocket connection from origin: ${origin}`);
+      if (!isAllowed) {
+        log.warn(`Blocked unauthorized WebSocket connection from origin: ${origin}. Allowed hosts: ${Array.from(allowedHosts).join(', ')}`);
         ws.terminate();
         return;
       }
@@ -651,6 +664,8 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         config: liveConfig.getConfig(),
         token: liveConfig.getSessionToken() // Only shared over this secure local WS
       }));
+      // HMR Client handshake
+      ws.send(JSON.stringify({ type: 'connected' }));
 
       // 2. Heartbeat to keep connection alive
       const heartbeat = setInterval(() => {
@@ -893,7 +908,7 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
 
         // Inject only client runtime
         let clientScript = `
-    <script type="module" src="/@sparx/client"></script>
+    <script type="module" src="/@sparx/hmr-client"></script>
         `;
 
         // Federation runtime injection for host apps
@@ -1600,20 +1615,16 @@ ${raw}
     server = existingServer;
     (server as any).__sparx_handler = requestHandler;
   } else {
-    if (httpsOptions) {
-      const https = await import('https');
-      server = https.createServer(httpsOptions, requestHandler);
-    } else {
-      server = http.createServer(requestHandler);
-    }
+    const { createUWSServer } = await import('./uWS-shim.js');
+    server = createUWSServer(httpsOptions);
+    (server as any).requestHandler = requestHandler;
   }
 
-  // WebSocket Server setup
-  const { WebSocketServer } = await import('ws');
-  wss = new WebSocketServer({ server });
+  // WebSocket Server setup directly from uWS shim
+  wss = (server as any).wsServer;
 
   // Initialize Config Sync Handlers
-  setupWssHandlers(wss);
+  setupWssHandlers(wss as any);
 
   // Upgrade handling for Proxy WebSockets
   server.on('upgrade', (req: http.IncomingMessage, socket: any, head: Buffer) => {
@@ -1671,120 +1682,120 @@ ${raw}
   // Track files with errors
   const filesWithErrors = new Set<string>();
 
-  const { default: chokidar } = await import('chokidar');
-  const watcher = chokidar.watch(cfg.root, {
-    ignored: ['**/node_modules/**', '**/.git/**', '**/.sparx/**', '**/.sparx_cache/**'],
-    ignoreInitial: true,
-    usePolling: false,
-    awaitWriteFinish: {
-      stabilityThreshold: 5,
-      pollInterval: 10
-    }
-  });
-  watcher.on('change', async (file: string) => {
-    try {
-      // Clear transform cache for changed file
-      universalTransformer.clearCache(file);
-
-      // Proactively check for errors in JS/TS files
-      const ext = path.extname(file);
-      if (['.ts', '.tsx', '.jsx', '.js', '.mjs', '.vue', '.svelte'].includes(ext)) {
-        const hadError = filesWithErrors.has(file);
-
-        try {
-          const code = await fs.readFile(file, 'utf-8');
-
-          // Attempt transformation to catch errors immediately
-          await universalTransformer.transform({
-            filePath: file,
-            code,
-            framework: primaryFramework,
-            root: cfg.root,
-            isDev: true
-          });
-
-          // If transformation succeeds and there was a previous error, show success
-          if (hadError) {
-            filesWithErrors.delete(file);
-            const relativePath = path.relative(cfg.root, file);
-            console.log(`\n\x1b[32mCompiled successfully!\x1b[0m`);
-            console.log(`\x1b[90m${new Date().toLocaleTimeString()} - ${relativePath}\x1b[0m\n`);
-
-            // Broadcast success to browser
-            broadcast(JSON.stringify({
-              type: 'error-fixed',
-              file: relativePath
-            }));
-          } else if (process.env.DEBUG) {
-            log.debug(`✓ ${path.relative(cfg.root, file)} validated`, { category: 'hmr' });
-          }
-        } catch (transformError: any) {
-          // Track this file has an error
-          filesWithErrors.add(file);
-
-          // Error is already logged by universal-transformer
-          // Also broadcast to browser
-          const relativePath = path.relative(cfg.root, file);
-          broadcast(JSON.stringify({
-            type: 'error',
-            error: {
-              message: transformError.message || String(transformError),
-              file: relativePath,
-              line: transformError.loc?.line,
-              column: transformError.loc?.column,
-              stack: transformError.stack
-            }
-          }));
-
-          // Don't continue with HMR if there's an error
-          return;
-        }
-      }
-
-      // Native Invalidation & Rebuild
+  const { DevWatcher } = await import('./watcher.js');
+  const watcher = new DevWatcher(cfg.root, 50);
+  watcher.on('change', async (files: string[]) => {
+    for (const file of files) {
       try {
-        if (nativeWorker && typeof nativeWorker.invalidate === 'function') {
-          nativeWorker.invalidate(file);
+        // Clear transform cache for changed file
+        universalTransformer.clearCache(file);
+
+        // Proactively check for errors in JS/TS files
+        const ext = path.extname(file);
+        if (['.ts', '.tsx', '.jsx', '.js', '.mjs', '.vue', '.svelte'].includes(ext)) {
+          const hadError = filesWithErrors.has(file);
+
+          try {
+            const code = await fs.readFile(file, 'utf-8');
+
+            // Attempt transformation to catch errors immediately
+            await universalTransformer.transform({
+              filePath: file,
+              code,
+              framework: primaryFramework,
+              root: cfg.root,
+              isDev: true
+            });
+
+            // If transformation succeeds and there was a previous error, show success
+            if (hadError) {
+              filesWithErrors.delete(file);
+              const relativePath = path.relative(cfg.root, file);
+              console.log(`\n\x1b[32mCompiled successfully!\x1b[0m`);
+              console.log(`\x1b[90m${new Date().toLocaleTimeString()} - ${relativePath}\x1b[0m\n`);
+
+              // Broadcast success to browser
+              broadcast(JSON.stringify({
+                type: 'error-fixed',
+                file: relativePath
+              }));
+            } else if (process.env.DEBUG) {
+              log.debug(`✓ ${path.relative(cfg.root, file)} validated`, { category: 'hmr' });
+            }
+          } catch (transformError: any) {
+            // Track this file has an error
+            filesWithErrors.add(file);
+
+            // Error is already logged by universal-transformer
+            // Also broadcast to browser
+            const relativePath = path.relative(cfg.root, file);
+            broadcast(JSON.stringify({
+              type: 'error',
+              error: {
+                message: transformError.message || String(transformError),
+                file: relativePath,
+                line: transformError.loc?.line,
+                column: transformError.loc?.column,
+                stack: transformError.stack
+              }
+            }));
+
+            // Don't continue with HMR if there's an error
+            continue;
+          }
         }
 
-        let affected: string[] = [];
-        if (nativeWorker && typeof nativeWorker.rebuild === 'function') {
-          affected = nativeWorker.rebuild(file);
-        }
-
-        if (affected.length > 0) {
-          log.info(`Rebuild affected ${affected.length} files`, { category: 'build', duration: 10 }); // Mock duration
-        }
-
-        affected.forEach((affectedFile: string) => {
-          // Clear cache for affected files too
-          universalTransformer.clearCache(affectedFile);
-
-          // Determine message type
-          let type = 'reload';
-          if (affectedFile.endsWith('.css')) {
-            type = 'update-css';
+        // Native Invalidation & Rebuild
+        try {
+          if (nativeWorker && typeof nativeWorker.invalidate === 'function') {
+            nativeWorker.invalidate(file);
           }
 
-          // Normalize path for client (relative to root)
-          const rel = '/' + path.relative(cfg.root, affectedFile);
+          let affected: string[] = [];
+          if (nativeWorker && typeof nativeWorker.rebuild === 'function') {
+            affected = nativeWorker.rebuild(file);
+          }
+          
+          if (affected.length === 0) {
+             // Fallback: If native graph didn't find impacts (or isn't available),
+             // default to invalidating the changed file itself.
+             affected = [file];
+          }
 
-          // Queue update via throttle
-          hmrThrottle.queueUpdate(rel, type);
-          statusHandler.trackHMR();
-        });
-      } catch (nativeError: any) {
-        log.warn(`Native HMR unavailable for ${path.relative(cfg.root, file)}: ${nativeError.message || 'Unknown error'}. Falling back to full reload`, { category: 'hmr' });
-        // Don't broadcast 'error' here, just restart
-        broadcast(JSON.stringify({ type: 'restarting' }));
+          if (affected.length > 0) {
+            log.info(`Rebuild affected ${affected.length} files`, { category: 'build', duration: 10 }); // Mock duration
+          }
+
+          affected.forEach((affectedFile: string) => {
+            // Clear cache for affected files too
+            universalTransformer.clearCache(affectedFile);
+
+            // Determine message type
+            let type = 'update';
+            if (affectedFile.endsWith('.css')) {
+              type = 'css-update';
+            }
+
+            // Normalize path for client (relative to root)
+            const rel = '/' + path.relative(cfg.root, affectedFile);
+
+            // Queue update via throttle
+            hmrThrottle.queueUpdate(rel, type);
+            statusHandler.trackHMR();
+          });
+        } catch (nativeError: any) {
+          log.warn(`Native HMR unavailable for ${path.relative(cfg.root, file)}: ${nativeError.message || 'Unknown error'}. Falling back to full reload`, { category: 'hmr' });
+          // Don't broadcast 'error' here, just restart
+          broadcast(JSON.stringify({ type: 'full-reload' }));
+        }
+      } catch (e: any) {
+        log.error(`Watcher crash recovery for ${file}:`, e);
+        // Ensure we don't leave the client hanging
+        broadcast(JSON.stringify({
+          type: 'error',
+          error: { message: `Watcher error: ${e.message}`, stack: e.stack }
+        }));
       }
-    } catch (e: any) {
-      log.error(`Watcher crash recovery for ${file}:`, e);
-      // Ensure we don't leave the client hanging
-      broadcast(JSON.stringify({
-        type: 'error',
-        error: { message: `Watcher error: ${e.message}`, stack: e.stack }
-      }));
     }
   });
 

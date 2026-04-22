@@ -154,6 +154,7 @@ export function attachGraph(ctx: BuildContext, graph: DependencyGraph): BuildCon
         const deps = val.edges.map(e => e.to).sort();
         nodesObj[key] = {
             id: val.id,
+            contentHash: val.contentHash,
             deps: deps
         };
     }

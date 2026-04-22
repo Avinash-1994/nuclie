@@ -16,7 +16,7 @@ try {
     const native = await import('../native/index.js');
     NativeWatcher = native.NativeWatcher;
 } catch (e: any) {
-    console.warn(`[sparx] Native watcher unavailable, falling back to chokidar: ${e?.message ?? e}`);
+    // We do NOT log here, we log when the watcher is actually started.
 }
 
 // ─── DevWatcher ───────────────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ export class DevWatcher extends EventEmitter {
     private chokidarWatcher: any = null;
     private batch: Set<string> = new Set();
     private timer: NodeJS.Timeout | null = null;
-    private engine: 'native' | 'chokidar' = 'chokidar';
+    private engine: 'rust-notify' | 'chokidar' | 'unknown' = 'unknown';
 
     constructor(private rootDir: string, private debounceMs: number = 50) {
         super();
@@ -54,11 +54,14 @@ export class DevWatcher extends EventEmitter {
                         paths.forEach(p => this.addToBatch(p));
                     }
                 });
-                this.engine = 'native';
+                this.engine = 'rust-notify';
+                console.log(`[sparx] watcher: rust-notify v6.x.x`);
                 return;
             } catch (err: any) {
-                console.warn(`[sparx] Native watcher failed to start (${err.message}), falling back to chokidar.`);
+                console.warn(`[sparx] WARN: native watcher failed to load, falling back to chokidar (`, err?.message ?? err, `)`);
             }
+        } else {
+            console.warn(`[sparx] WARN: native watcher failed to load, falling back to chokidar`);
         }
 
         // Chokidar fallback
@@ -81,6 +84,10 @@ export class DevWatcher extends EventEmitter {
         } catch (err: any) {
             console.error(`[sparx] Both native watcher and chokidar failed: ${err.message}`);
         }
+    }
+
+    getWatcherAdapter(): 'rust-notify' | 'chokidar' | 'unknown' {
+        return this.engine;
     }
 
     private addToBatch(filePath: string) {

@@ -1,11 +1,11 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import { createHash } from 'crypto';
 
 let astroCompiler: any;
 
 export function astroCompilerPlugin(): Plugin {
   return {
-    name: 'nuclie:astro-compiler',
+    name: 'sparx:astro-compiler',
 
     async buildStart() {
       try {

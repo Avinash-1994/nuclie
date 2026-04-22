@@ -1,10 +1,10 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import fs from 'fs';
 import path from 'path';
 
 export function tauriIpcPlugin(): Plugin {
   return {
-    name: 'nuclie:tauri-ipc',
+    name: 'sparx:tauri-ipc',
 
     async transform(code: string, id: string) {
        // Inspect typescript/javascript code utilizing tauri's IPC \`invoke\`
@@ -29,7 +29,7 @@ export function tauriIpcPlugin(): Plugin {
        const tauriConf = path.join(process.cwd(), 'src-tauri', 'tauri.conf.json');
        
        if (fs.existsSync(tauriConf)) {
-          console.log('[Nuclie:Tauri] Verified static bundle deployment to WebView directory.');
+          console.log('[Sparx:Tauri] Verified static bundle deployment to WebView directory.');
        }
     }
   };

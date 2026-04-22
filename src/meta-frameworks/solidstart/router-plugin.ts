@@ -1,12 +1,12 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import fs from 'fs';
 import path from 'path';
 
-const VIRTUAL_MODULE_ID = 'virtual:nuclie/solidstart-routes';
+const VIRTUAL_MODULE_ID = 'virtual:sparx/solidstart-routes';
 
 export function solidStartRouterPlugin(): Plugin {
   return {
-    name: 'nuclie:solidstart-router',
+    name: 'sparx:solidstart-router',
 
     // Intercept SolidStart component routes
     resolveId(source: string) {

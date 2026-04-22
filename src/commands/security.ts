@@ -1,6 +1,6 @@
 /**
  * S4 — Security CLI Commands
- * nuclie security audit | sbom | plugin-audit | fix
+ * sparx security audit | sbom | plugin-audit | fix
  *
  * Uses direct relative imports — works with NodeNext module resolution.
  */
@@ -9,7 +9,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const PROJECT_ROOT = process.cwd();
-const SECURITY_DIR = path.join(PROJECT_ROOT, '.nuclie', 'security');
+const SECURITY_DIR = path.join(PROJECT_ROOT, '.sparx', 'security');
 const DIST_DIR = path.join(PROJECT_ROOT, 'dist');
 
 // ── Inline security implementations ──────────────────────────────────────────
@@ -69,7 +69,7 @@ interface LockfileViolation { name: string; version: string; expected: string; f
 function auditLockfileIntegrity(): { clean: boolean; checked: number; violations: LockfileViolation[] } {
   const lockPath = path.join(PROJECT_ROOT, 'package-lock.json');
   if (!fs.existsSync(lockPath)) {
-    console.warn('[nuclie:security] No package-lock.json found — skipping lockfile audit.');
+    console.warn('[sparx:security] No package-lock.json found — skipping lockfile audit.');
     return { clean: true, checked: 0, violations: [] };
   }
 
@@ -99,7 +99,7 @@ function auditLockfileIntegrity(): { clean: boolean; checked: number; violations
       `\nSECURITY: Lockfile integrity violation.\n` +
       `  Package: ${v.name}@${v.version}\n` +
       `  Expected: ${v.expected}\n  Found: ${v.found}\n` +
-      `  Run: nuclie security audit --fix to investigate.`
+      `  Run: sparx security audit --fix to investigate.`
     );
   }
 
@@ -108,9 +108,9 @@ function auditLockfileIntegrity(): { clean: boolean; checked: number; violations
 
 // ── Public command implementations ────────────────────────────────────────────
 
-/** nuclie security audit — lockfile + CVE + secret scan */
+/** sparx security audit — lockfile + CVE + secret scan */
 export async function runSecurityAudit(options: { output?: string } = {}): Promise<{ exitCode: 0 | 1 }> {
-  console.log('\n🔒 Nuclie Security Audit\n' + '─'.repeat(40));
+  console.log('\n🔒 Sparx Security Audit\n' + '─'.repeat(40));
   fs.mkdirSync(SECURITY_DIR, { recursive: true });
   let hasViolations = false;
 
@@ -135,9 +135,9 @@ export async function runSecurityAudit(options: { output?: string } = {}): Promi
       const pkgs = (lock['packages'] as Record<string, unknown> | undefined) ?? {};
       pkgCount = Object.keys(pkgs).filter((k) => k && k !== '').length;
     }
-    // CVE scan via OSV is done via the dedicated nuclie-security package
+    // CVE scan via OSV is done via the dedicated sparx-security package
     // For the CLI command, we report that the check defers to the full audit
-    console.log(`  ✅ ${pkgCount} packages queued for OSV scan (run \`nuclie security audit\` for full CVE report)`);
+    console.log(`  ✅ ${pkgCount} packages queued for OSV scan (run \`sparx security audit\` for full CVE report)`);
   } catch (err) {
     console.warn('  ⚠️  CVE scan setup failed:', (err as Error).message);
   }
@@ -175,7 +175,7 @@ export async function runSecurityAudit(options: { output?: string } = {}): Promi
   return { exitCode: 0 };
 }
 
-/** nuclie security sbom — generate SBOM from installed deps */
+/** sparx security sbom — generate SBOM from installed deps */
 export async function runSBOMCommand(): Promise<void> {
   const { createHash } = await import('node:crypto');
   console.log('🔒 Generating SBOM (CycloneDX 1.5)...');
@@ -212,18 +212,18 @@ export async function runSBOMCommand(): Promise<void> {
     version: 1,
     metadata: {
       timestamp: new Date().toISOString(),
-      tools: [{ name: 'nuclie', version: '1.4.0' }],
+      tools: [{ name: 'sparx', version: '1.4.0' }],
     },
     components,
   };
 
   fs.mkdirSync(DIST_DIR, { recursive: true });
-  const outPath = path.join(DIST_DIR, 'nuclie-sbom.json');
+  const outPath = path.join(DIST_DIR, 'sparx-sbom.json');
   fs.writeFileSync(outPath, JSON.stringify(sbom, null, 2), 'utf8');
   console.log(`✅ SBOM written → ${outPath} (${components.length} components)`);
 }
 
-/** nuclie security plugin-audit — list installed plugins with permissions */
+/** sparx security plugin-audit — list installed plugins with permissions */
 export async function runPluginAuditCommand(): Promise<void> {
   console.log('🔒 Plugin Permission Audit\n' + '─'.repeat(40));
 
@@ -236,10 +236,10 @@ export async function runPluginAuditCommand(): Promise<void> {
   }
 
   const pluginDirs = fs.readdirSync(nodeModulesDir)
-    .filter((d) => d.startsWith('@nuclie/plugin-') || d.startsWith('nuclie-plugin-'));
+    .filter((d) => d.startsWith('@sparx/plugin-') || d.startsWith('sparx-plugin-'));
 
   if (pluginDirs.length === 0) {
-    console.log('  No Nuclie plugins found in node_modules.');
+    console.log('  No Sparx plugins found in node_modules.');
     return;
   }
 
@@ -248,7 +248,7 @@ export async function runPluginAuditCommand(): Promise<void> {
     if (!fs.existsSync(pkgJsonPath)) continue;
 
     const pkg = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8')) as Record<string, unknown>;
-    const perms: string[] = ((pkg['nuclie'] as Record<string, unknown> | undefined)?.['permissions'] as string[]) ?? [];
+    const perms: string[] = ((pkg['sparx'] as Record<string, unknown> | undefined)?.['permissions'] as string[]) ?? [];
     const isDangerous = perms.some((p) => DANGEROUS.includes(p));
     const flag = isDangerous ? '⚠️  DANGEROUS' : '✅';
     console.log(`  ${flag} ${dir}: [${perms.join(', ') || 'none'}]`);

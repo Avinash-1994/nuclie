@@ -1,16 +1,16 @@
 /**
  * T1 — Vite Migration Parity Suite
  * VITE-001 through VITE-012
- * Verifies Nuclie handles all common Vite config patterns equivalently.
+ * Verifies Sparx handles all common Vite config patterns equivalently.
  */
 
 import { describe, it, expect } from '@jest/globals';
 
 describe('VITE-001: Basic defineConfig with vue()', () => {
   it('auto-detection produces equivalent config to defineConfig({ plugins: [vue()] })', () => {
-    const detected = { framework: 'vue', plugins: ['@nuclie/vue'] };
+    const detected = { framework: 'vue', plugins: ['@sparx/vue'] };
     expect(detected.framework).toBe('vue');
-    expect(detected.plugins).toContain('@nuclie/vue');
+    expect(detected.plugins).toContain('@sparx/vue');
   });
 });
 
@@ -43,7 +43,7 @@ describe('VITE-004: build.rollupOptions manualChunks passthrough', () => {
 
 describe('VITE-005: import.meta.env variables', () => {
   it('VITE_* prefix supported for migration compat', () => {
-    // Nuclie supports VITE_* alongside NUCLIE_*
+    // Sparx supports VITE_* alongside NUCLIE_*
     const env = { VITE_API_URL: 'https://api.example.com', NUCLIE_API_URL: 'https://api.example.com' };
     expect(env['VITE_API_URL']).toBe('https://api.example.com');
     expect(env['NUCLIE_API_URL']).toBe('https://api.example.com');
@@ -95,7 +95,7 @@ describe('VITE-009: SSR build config', () => {
 });
 
 describe('VITE-010: Preview server equivalent', () => {
-  it('nuclie preview accepts same port config as vite preview', () => {
+  it('sparx preview accepts same port config as vite preview', () => {
     const previewConfig = { port: 4173, host: 'localhost' };
     expect(previewConfig.port).toBe(4173);
     expect(previewConfig.host).toBe('localhost');

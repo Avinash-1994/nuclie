@@ -118,6 +118,26 @@ impl NativeWorker {
 
     results.map_err(|e| Error::new(Status::GenericFailure, e))
   }
+
+  /// Parallel Transform CSS: Process multiple CSS modules across all cores asynchronously
+  #[napi]
+  pub async fn batch_transform_css(&self, items: Vec<TransformConfig>) -> Result<Vec<TransformResult>> {
+    use rayon::prelude::*;
+    
+    let results = tokio::task::spawn_blocking(move || {
+        items.into_par_iter()
+             .map(|item| {
+                 let minify = item.minify.unwrap_or(false);
+                 match transform_css(item.content, item.path, minify) {
+                     Ok(code) => Ok(TransformResult { code }),
+                     Err(e) => Err(e)
+                 }
+             })
+             .collect::<std::result::Result<Vec<TransformResult>, String>>()
+    }).await.map_err(|e| Error::new(Status::GenericFailure, e.to_string()))?;
+
+    results.map_err(|e| Error::new(Status::GenericFailure, e))
+  }
 }
 
 /// Simple function to test native bindings

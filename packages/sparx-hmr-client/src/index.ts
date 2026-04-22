@@ -1,5 +1,5 @@
 /**
- * @sparx/hmr-client — Phase 3.4
+ * @sparx/hmr-client — Phase 1.6
  *
  * Browser-side HMR runtime. Zero external dependencies.
  * Bundled as ES module. Target: < 5KB.
@@ -13,13 +13,10 @@
 declare const __SPARX_HMR_URL__: string | undefined;
 
 function resolveHmrUrl(): string {
-  // 1. Build-time override
   if (typeof __SPARX_HMR_URL__ !== 'undefined') return __SPARX_HMR_URL__;
-  // 2. Vite-style env var
   if (typeof import.meta !== 'undefined' && (import.meta as any).env?.SPARX_HMR_URL) {
     return (import.meta as any).env.SPARX_HMR_URL;
   }
-  // 3. Auto-detect from current page
   const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
   return `${proto}//${location.host}/__sparx_hmr`;
 }
@@ -31,32 +28,67 @@ let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 let reconnectDelay = 1000;
 const MAX_RECONNECT_DELAY = 30_000;
 
+// ─── Module Accept Registry ───────────────────────────────────────────────────
+
+type AcceptCallback = (newModule: unknown) => void;
+const acceptRegistry = new Map<string, AcceptCallback[]>();
+
+function stamp(key: string) {
+  (window as any).__sparxHmr = (window as any).__sparxHmr ?? {};
+  (window as any).__sparxHmr[key] = Date.now();
+}
+
 // ─── Message Handlers ─────────────────────────────────────────────────────────
 
 async function handleUpdate(modules: string[]): Promise<void> {
   for (const mod of modules) {
-    const url = mod + '?t=' + Date.now();
-    try {
-      await import(/* @vite-ignore */ url);
-    } catch (err) {
-      console.error('[sparx:hmr] Failed to hot-update', mod, err);
-      location.reload();
-      return;
+    const cbs = acceptRegistry.get(mod) ?? [];
+    if (cbs.length === 0) {
+      // No accept() registered for this module →
+      // re-import it so at least the module cache is busted,
+      // but stamp lastUpdate rather than reloading the page.
+      // A true full-reload would only happen if the re-import throws.
+      try {
+        await import(/* @vite-ignore */ mod + '?t=' + Date.now());
+      } catch {
+        handleFullReload();
+        return;
+      }
+    } else {
+      try {
+        const newModule = await import(/* @vite-ignore */ mod + '?t=' + Date.now());
+        cbs.forEach(cb => cb(newModule));
+      } catch (err) {
+        console.error('[sparx:hmr] Failed to hot-update', mod, err);
+        handleFullReload();
+        return;
+      }
     }
   }
+  stamp('lastUpdate');
 }
 
 function handleCssUpdate(href: string): void {
+  const base = href.split('?')[0];
   const links = document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]');
+  let swapped = false;
   links.forEach(link => {
-    const linkHref = link.getAttribute('href') || '';
-    if (linkHref.startsWith(href.split('?')[0])) {
+    if ((link.getAttribute('href') || '').startsWith(base)) {
       const newLink = link.cloneNode() as HTMLLinkElement;
-      newLink.href = href.split('?')[0] + '?t=' + Date.now();
+      newLink.href = base + '?t=' + Date.now();
       newLink.addEventListener('load', () => link.remove());
       link.parentNode?.insertBefore(newLink, link.nextSibling);
+      swapped = true;
     }
   });
+  if (!swapped) {
+    // No existing link matched — inject fresh one
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = base + '?t=' + Date.now();
+    document.head.appendChild(link);
+  }
+  stamp('lastCssUpdate');
 }
 
 function handleFullReload(): void {
@@ -72,30 +104,17 @@ type HmrMessage =
 
 function onMessage(raw: string): void {
   let msg: HmrMessage;
-  try {
-    msg = JSON.parse(raw);
-  } catch {
-    return;
-  }
+  try { msg = JSON.parse(raw); } catch { return; }
 
   switch (msg.type) {
     case 'connected':
       console.debug('[sparx:hmr] connected');
-      reconnectDelay = 1000; // reset backoff on successful handshake
+      reconnectDelay = 1000;
+      stamp('connected');
       break;
-
-    case 'update':
-      handleUpdate(msg.modules);
-      break;
-
-    case 'css-update':
-      handleCssUpdate(msg.href);
-      break;
-
-    case 'full-reload':
-      handleFullReload();
-      break;
-
+    case 'update':     handleUpdate(msg.modules); break;
+    case 'css-update': handleCssUpdate(msg.href); break;
+    case 'full-reload': handleFullReload(); break;
     case 'error':
       console.error('[sparx:hmr]', msg.message, msg.stack ?? '');
       break;
@@ -105,50 +124,44 @@ function onMessage(raw: string): void {
 // ─── WebSocket Connection ─────────────────────────────────────────────────────
 
 function connect(): void {
-  if (reconnectTimer) {
-    clearTimeout(reconnectTimer);
-    reconnectTimer = null;
-  }
-
-  const url = resolveHmrUrl();
-  ws = new WebSocket(url);
-
-  ws.addEventListener('open', () => {
-    reconnectDelay = 1000;
-  });
-
-  ws.addEventListener('message', (ev) => {
-    onMessage(ev.data as string);
-  });
-
+  if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+  ws = new WebSocket(resolveHmrUrl());
+  ws.addEventListener('open', () => { reconnectDelay = 1000; });
+  ws.addEventListener('message', ev => onMessage(ev.data as string));
   ws.addEventListener('close', () => {
     ws = null;
-    // Exponential back-off reconnect
     reconnectTimer = setTimeout(() => {
       reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
       connect();
     }, reconnectDelay);
   });
-
-  ws.addEventListener('error', () => {
-    ws?.close();
-  });
+  ws.addEventListener('error', () => ws?.close());
 }
 
 // ─── import.meta.hot shim ─────────────────────────────────────────────────────
 
 export function createHotContext(moduleId: string) {
   return {
-    accept(cb?: (newModule: unknown) => void) {
-      // Modules call this to opt-in to HMR
-      // The actual swap is performed by handleUpdate above
+    accept(deps?: string | string[] | AcceptCallback, cb?: AcceptCallback) {
+      if (typeof deps === 'function') {
+        // hot.accept(selfCb)
+        const list = acceptRegistry.get(moduleId) ?? [];
+        list.push(deps);
+        acceptRegistry.set(moduleId, list);
+      } else if (typeof deps === 'string' && cb) {
+        const list = acceptRegistry.get(deps) ?? [];
+        list.push(cb);
+        acceptRegistry.set(deps, list);
+      } else if (Array.isArray(deps) && cb) {
+        deps.forEach(dep => {
+          const list = acceptRegistry.get(dep) ?? [];
+          list.push(cb);
+          acceptRegistry.set(dep, list);
+        });
+      }
     },
-    dispose(cb: () => void) {
-      // Called before old module is replaced
-    },
-    invalidate() {
-      handleFullReload();
-    },
+    dispose(_cb: () => void) { /* lifecycle — called before old module is replaced */ },
+    invalidate() { handleFullReload(); },
     data: {} as Record<string, unknown>,
   };
 }
@@ -156,3 +169,7 @@ export function createHotContext(moduleId: string) {
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
 connect();
+
+// Expose test/debug utilities on __sparxHmr
+(window as any).__sparxHmr = (window as any).__sparxHmr ?? {};
+(window as any).__sparxHmr.simulate = (msg: unknown) => onMessage(JSON.stringify(msg));

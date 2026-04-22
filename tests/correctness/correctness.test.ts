@@ -84,7 +84,7 @@ describe('JS-006: Top-level await compatibility detection', () => {
 
 describe('JS-007: Dynamic import() with assertions', () => {
   it('dynamic import pattern is recognized by bundler', () => {
-    // Nuclie bundles dynamic import() into lazy chunks
+    // Sparx bundles dynamic import() into lazy chunks
     // We test the pattern detection, not runtime execution here
     const code = `const mod = await import('./lazy.js');`;
     expect(code).toContain('import(');

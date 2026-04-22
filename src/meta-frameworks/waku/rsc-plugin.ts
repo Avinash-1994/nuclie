@@ -1,22 +1,22 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import path from 'path';
 
 let wakuCompiler: any;
 
 export function wakuRscPlugin(): Plugin {
   return {
-    name: 'nuclie:waku-rsc',
+    name: 'sparx:waku-rsc',
 
     async resolveId(source: string) {
        // Virtual bridge linking Core RSC Server actions
-       if (source === 'virtual:nuclie/waku-rsc-router') {
+       if (source === 'virtual:sparx/waku-rsc-router') {
           return source;
        }
        return null;
     },
 
     async load(id: string) {
-       if (id === 'virtual:nuclie/waku-rsc-router') {
+       if (id === 'virtual:sparx/waku-rsc-router') {
           // Shim standard RSC pipeline mappings for React Server Components natively
           // Mapping directly over 'react-server-dom-webpack/server' (Vite shim alternative)
           return `

@@ -1,11 +1,11 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import path from 'path';
 
 let remixVitePluginBuilder: any;
 
 export function remixRoutesPlugin(): Plugin {
   return {
-    name: 'nuclie:remix-routes',
+    name: 'sparx:remix-routes',
 
     async buildStart() {
       try {
@@ -19,14 +19,14 @@ export function remixRoutesPlugin(): Plugin {
 
     async resolveId(source: string) {
        // Support virtual Remix build imports
-       if (source === 'virtual:nuclie/remix-server-build') {
+       if (source === 'virtual:sparx/remix-server-build') {
           return source;
        }
        return null;
     },
 
     async load(id: string) {
-       if (id === 'virtual:nuclie/remix-server-build') {
+       if (id === 'virtual:sparx/remix-server-build') {
           // Expose standard Route tree mappings natively mirroring Remix's output
           // In a real pipeline, we bridge this directly into the Vite manifest structure provided
           // by \`@remix-run/dev/vitePlugin\`

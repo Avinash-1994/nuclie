@@ -10,18 +10,18 @@ import os from 'node:os';
 import fs from 'node:fs';
 
 // Static imports from security package (ESM-safe)
-import { scanSecrets } from '../../packages/nuclie-security/src/secret-scanner.js';
-import { computeSRI } from '../../packages/nuclie-security/src/sri.js';
-import { generateCSP } from '../../packages/nuclie-security/src/csp.js';
-import { auditLockfile } from '../../packages/nuclie-security/src/lockfile-audit.js';
-import { validatePath, validateSymlink, guardEnvAccess } from '../../packages/nuclie-security/src/build-isolation.js';
-import { generateSBOM } from '../../packages/nuclie-security/src/sbom.js';
-import { scanCVE } from '../../packages/nuclie-security/src/cve-scan.js';
+import { scanSecrets } from '../../packages/sparx-security/src/secret-scanner.js';
+import { computeSRI } from '../../packages/sparx-security/src/sri.js';
+import { generateCSP } from '../../packages/sparx-security/src/csp.js';
+import { auditLockfile } from '../../packages/sparx-security/src/lockfile-audit.js';
+import { validatePath, validateSymlink, guardEnvAccess } from '../../packages/sparx-security/src/build-isolation.js';
+import { generateSBOM } from '../../packages/sparx-security/src/sbom.js';
+import { scanCVE } from '../../packages/sparx-security/src/cve-scan.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, '../../');
-const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'nuclie-sec-'));
+const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'sparx-sec-'));
 
 describe('SEC-TEST-001: AWS Key in source aborts build', () => {
   it('detects AKIA AWS key pattern', () => {
@@ -164,6 +164,6 @@ describe('SEC-TEST-015: SBOM contains all direct deps', () => {
     expect(sbom.bomFormat).toBe('CycloneDX');
     expect(sbom.specVersion).toBe('1.5');
     expect(Array.isArray(sbom.components)).toBe(true);
-    expect(sbom.metadata.tools[0].name).toBe('nuclie');
+    expect(sbom.metadata.tools[0].name).toBe('sparx');
   });
 });

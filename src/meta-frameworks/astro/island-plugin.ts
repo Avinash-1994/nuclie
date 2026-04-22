@@ -1,8 +1,8 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 
 export function astroIslandPlugin(): Plugin {
   return {
-    name: 'nuclie:astro-islands',
+    name: 'sparx:astro-islands',
 
     transform(code: string, id: string) {
       // Analyze React/Vue/Svelte/Solid components for client:* Astro directives

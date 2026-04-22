@@ -90,11 +90,26 @@ export class LazyCacheInitializer {
         const startTime = Date.now();
 
         try {
+            // Phase 1.2 [SAFE REMOVAL] - Migrate legacy `.sparx/cache` or `.sparx_cache` naming conventions
+            const projectRoot = path.dirname(path.dirname(this.cacheDir));
+            const legacyNuclie = path.join(projectRoot, '.sparx', 'cache');
+            const legacySparx = path.join(projectRoot, '.sparx_cache');
+            
+            if (fs.existsSync(legacyNuclie) && !fs.existsSync(this.cacheDir)) {
+                log.info(`Migrating legacy LevelDB cache from .sparx/cache -> .sparx/cache`);
+                fs.mkdirSync(path.dirname(this.cacheDir), { recursive: true });
+                fs.renameSync(legacyNuclie, this.cacheDir);
+            } else if (fs.existsSync(legacySparx) && !fs.existsSync(this.cacheDir)) {
+                log.info(`Migrating legacy .sparx_cache -> .sparx/cache`);
+                fs.mkdirSync(path.dirname(this.cacheDir), { recursive: true });
+                fs.renameSync(legacySparx, this.cacheDir);
+            }
+
             if (!fs.existsSync(this.cacheDir)) {
                 fs.mkdirSync(this.cacheDir, { recursive: true });
             }
 
-            // Task Day 51: Native SQLite Migration
+            // Native SQLite DB
             this.sqliteDb = new BuildCache(this.cacheDir);
 
             if (this.warmup) {
@@ -159,7 +174,7 @@ let globalLazyCache: LazyCacheInitializer | null = null;
 
 export function getLazyCache(cacheDir?: string): LazyCacheInitializer {
     if (!globalLazyCache) {
-        const dir = cacheDir || path.join(process.cwd(), '.sparx_cache');
+        const dir = cacheDir || path.join(process.cwd(), '.sparx', 'cache');
         globalLazyCache = new LazyCacheInitializer({
             cacheDir: dir,
             preload: true,

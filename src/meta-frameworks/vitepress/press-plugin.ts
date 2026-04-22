@@ -1,11 +1,11 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import { createHash } from 'crypto';
 
 let mdCompiler: any;
 
 export function vitepressMarkdownPlugin(): Plugin {
   return {
-    name: 'nuclie:vitepress-markdown',
+    name: 'sparx:vitepress-markdown',
 
     async buildStart() {
       try {
@@ -45,7 +45,7 @@ export function vitepressMarkdownPlugin(): Plugin {
             </script>
           `;
        } catch (e) {
-          console.error('[Nuclie:VitePress] Markdown transformation failed', e);
+          console.error('[Sparx:VitePress] Markdown transformation failed', e);
        }
 
        db.set(cacheKey, transformedCode);

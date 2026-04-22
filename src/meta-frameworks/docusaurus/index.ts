@@ -1,10 +1,10 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { createHash } from 'crypto';
 
 let mdxCompiler: any;
 
-export class DocusaurusAdapter implements NuclieAdapter {
+export class DocusaurusAdapter implements SparxAdapter {
   name = 'docusaurus';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -14,7 +14,7 @@ export class DocusaurusAdapter implements NuclieAdapter {
   plugins(): Plugin[] {
     return [
       {
-        name: 'nuclie:docusaurus-mdx',
+        name: 'sparx:docusaurus-mdx',
 
         async buildStart() {
           try {
@@ -57,7 +57,7 @@ export class DocusaurusAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.docusaurus) config.docusaurus = {};
     config.docusaurus = {
       // Docusaurus outputs to build/ by default
@@ -70,7 +70,7 @@ export class DocusaurusAdapter implements NuclieAdapter {
   serverMiddleware(): Middleware[] {
     return [
       async (req: any, res: any, next: any) => {
-        // Docusaurus runs its own dev server; Nuclie scaffolds detection + MDX transform support
+        // Docusaurus runs its own dev server; Sparx scaffolds detection + MDX transform support
         next();
       }
     ];

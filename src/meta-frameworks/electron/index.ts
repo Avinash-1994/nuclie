@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { electronPlugin } from './electron-plugin.js';
 
 export interface ElectronConfig {
@@ -7,7 +7,7 @@ export interface ElectronConfig {
   preloadSrc?: string;    // default 'electron/preload.ts'
 }
 
-export class ElectronAdapter implements NuclieAdapter {
+export class ElectronAdapter implements SparxAdapter {
   name = 'electron';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -20,7 +20,7 @@ export class ElectronAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.electron) config.electron = {};
     config.electron = {
       mainSrc: 'electron/main.ts',

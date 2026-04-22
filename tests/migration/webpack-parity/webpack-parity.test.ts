@@ -1,7 +1,7 @@
 /**
  * T1 — Webpack Migration Parity Suite
  * WEBPACK-001 through WEBPACK-015
- * Verifies Nuclie produces functionally equivalent output to Webpack.
+ * Verifies Sparx produces functionally equivalent output to Webpack.
  */
 
 import { describe, it, expect } from '@jest/globals';
@@ -16,7 +16,7 @@ describe('WEBPACK-001: Basic entry + output', () => {
   it('transforms a simple entry file to valid JS', () => {
     const source = `export const hello = 'world';`;
     expect(source).toContain('export');
-    // Nuclie's SWC transform produces ESM — consistent with single-bundle Webpack output
+    // Sparx's SWC transform produces ESM — consistent with single-bundle Webpack output
     expect(source.length).toBeGreaterThan(0);
   });
 });
@@ -61,7 +61,7 @@ describe('WEBPACK-005: Asset handling — inline vs resource', () => {
 
 describe('WEBPACK-006: Environment variable replacement (DefinePlugin equivalent)', () => {
   it('import.meta.env.NUCLIE_API_URL is defined', () => {
-    // Nuclie uses import.meta.env.* (Vite-compatible) vs DefinePlugin
+    // Sparx uses import.meta.env.* (Vite-compatible) vs DefinePlugin
     const code = `const url = import.meta.env.NUCLIE_API_URL;`;
     expect(code).toContain('import.meta.env');
   });
@@ -135,7 +135,7 @@ describe('WEBPACK-012: Module Federation compatibility', () => {
 describe('WEBPACK-013: JSON imports with tree shaking', () => {
   it('JSON module import is supported', () => {
     const jsonData = { name: 'test', version: '1.0.0' };
-    // Nuclie supports import data from './data.json'
+    // Sparx supports import data from './data.json'
     expect(jsonData.name).toBe('test');
   });
 });

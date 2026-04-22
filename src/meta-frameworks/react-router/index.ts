@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { rr7RoutesPlugin } from './routes-plugin.js';
 
 export interface ReactRouterConfig {
@@ -7,7 +7,7 @@ export interface ReactRouterConfig {
   ssr?: boolean;         // default true
 }
 
-export class ReactRouterAdapter implements NuclieAdapter {
+export class ReactRouterAdapter implements SparxAdapter {
   name = 'react-router';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -20,7 +20,7 @@ export class ReactRouterAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.reactRouter) config.reactRouter = {};
     config.reactRouter = {
       appDirectory: 'app',
@@ -34,7 +34,7 @@ export class ReactRouterAdapter implements NuclieAdapter {
     return [
        async (req: any, res: any, next: any) => {
           try {
-             const virtualID = 'virtual:nuclie/rr7-server-build';
+             const virtualID = 'virtual:sparx/rr7-server-build';
              let build: any;
              try {
                 build = await import(virtualID);
@@ -72,7 +72,7 @@ export class ReactRouterAdapter implements NuclieAdapter {
              res.end();
              
           } catch(e) {
-             console.error('[Nuclie:ReactRouter] Error rendering SSR', e);
+             console.error('[Sparx:ReactRouter] Error rendering SSR', e);
              next();
           }
        }
@@ -80,7 +80,7 @@ export class ReactRouterAdapter implements NuclieAdapter {
   }
 
   ssrEntry(): string {
-     return 'virtual:nuclie/rr7-server-build';
+     return 'virtual:sparx/rr7-server-build';
   }
 }
 

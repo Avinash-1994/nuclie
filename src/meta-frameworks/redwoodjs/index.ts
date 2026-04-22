@@ -1,7 +1,7 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 
-export class RedwoodAdapter implements NuclieAdapter {
+export class RedwoodAdapter implements SparxAdapter {
   name = 'redwoodjs';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -11,17 +11,17 @@ export class RedwoodAdapter implements NuclieAdapter {
   plugins(): Plugin[] {
     return [
       {
-        name: 'nuclie:redwood-scaffold',
+        name: 'sparx:redwood-scaffold',
         async buildStart() {
-          console.log('[Nuclie:RedwoodJS] Detected RedwoodJS project.');
-          console.log('[Nuclie:RedwoodJS] Use `yarn rw dev` for the full RedwoodJS dev experience.');
-          console.log('[Nuclie:RedwoodJS] Nuclie handles the web/ side bundling natively.');
+          console.log('[Sparx:RedwoodJS] Detected RedwoodJS project.');
+          console.log('[Sparx:RedwoodJS] Use `yarn rw dev` for the full RedwoodJS dev experience.');
+          console.log('[Sparx:RedwoodJS] Sparx handles the web/ side bundling natively.');
         }
       }
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.redwood) config.redwood = {};
     config.redwood = {
       // RedwoodJS splits into web/ (frontend) and api/ (backend graphql)
@@ -39,7 +39,7 @@ export class RedwoodAdapter implements NuclieAdapter {
         const url = req.url || '/';
         if (url.startsWith('/.redwood/') || url.startsWith('/api/')) {
           // Log and pass; a full implementation would proxy to localhost:8911
-          console.log(`[Nuclie:RedwoodJS] API request detected: ${url} — ensure \`yarn rw dev api\` is running.`);
+          console.log(`[Sparx:RedwoodJS] API request detected: ${url} — ensure \`yarn rw dev api\` is running.`);
         }
         next();
       }

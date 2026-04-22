@@ -1,7 +1,7 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 
-export class GatsbyAdapter implements NuclieAdapter {
+export class GatsbyAdapter implements SparxAdapter {
   name = 'gatsby';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -11,27 +11,27 @@ export class GatsbyAdapter implements NuclieAdapter {
   plugins(): Plugin[] {
     return [
       {
-        name: 'nuclie:gatsby-scaffold',
+        name: 'sparx:gatsby-scaffold',
         // Gatsby's build process is entirely custom (gatsby build / gatsby develop)
-        // Nuclie scaffolds config detection + serves the built public/ directory.
+        // Sparx scaffolds config detection + serves the built public/ directory.
         // For SSG pre-render outputs, we serve the static public/ folder natively.
         async buildStart() {
           // We warn users that Gatsby requires its own CLI for full builds.
-          console.log('[Nuclie:Gatsby] Detected Gatsby project. Use `gatsby build` for production.');
-          console.log('[Nuclie:Gatsby] Dev mode serves from public/ directory.');
+          console.log('[Sparx:Gatsby] Detected Gatsby project. Use `gatsby build` for production.');
+          console.log('[Sparx:Gatsby] Dev mode serves from public/ directory.');
         }
       }
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.gatsby) config.gatsby = {};
     config.gatsby = {
       // Gatsby outputs to public/ by default
       outDir: 'public',
       ...(config.gatsby || {})
     };
-    // Ensure Nuclie serves from Gatsby's output directory in dev pass-through mode
+    // Ensure Sparx serves from Gatsby's output directory in dev pass-through mode
     if (!config.outDir) config.outDir = 'public';
     return config;
   }
@@ -39,7 +39,7 @@ export class GatsbyAdapter implements NuclieAdapter {
   serverMiddleware(): Middleware[] {
     return [
       async (req: any, res: any, next: any) => {
-        // Gatsby runs its own webpack dev server; Nuclie proxies requests to it when detected
+        // Gatsby runs its own webpack dev server; Sparx proxies requests to it when detected
         next();
       }
     ];

@@ -1,12 +1,12 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import fs from 'fs';
 import path from 'path';
 
-const VIRTUAL_MODULE_ID = 'virtual:nuclie/sveltekit-routes';
+const VIRTUAL_MODULE_ID = 'virtual:sparx/sveltekit-routes';
 
 export function sveltekitRouterPlugin(): Plugin {
   return {
-    name: 'nuclie:sveltekit-router',
+    name: 'sparx:sveltekit-router',
 
     // Intercept Svelte route requests to build the dynamic manifest
     resolveId(source: string) {

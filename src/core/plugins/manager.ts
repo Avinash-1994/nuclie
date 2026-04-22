@@ -1,7 +1,6 @@
 
 import fs from 'fs/promises';
 import { SparxPlugin, PluginHookName, PluginExecutionRecord, PluginValidation } from './types.js';
-import { WASMPluginSandbox } from './sandbox_wasm.js';
 import { canonicalHash } from '../engine/hash.js';
 import { explainReporter } from '../engine/events.js';
 
@@ -19,6 +18,12 @@ export class PluginManager {
 
     /** @public */
     async register(plugin: SparxPlugin | any) {
+        // [SAFE REMOVAL] Phase 1.1: Wasmtime Sandbox removal
+        if (plugin?.manifest?.type === 'wasm' || plugin?.path?.endsWith('.wasm')) {
+            console.warn('[SPARX:WARN] WASM plugins are deprecated. See https://sparx.dev/migrate for the new JS/TS Hook API hook migration path.');
+            throw new Error(`[Sparx] Error: .wasm plugin architecture has been removed for security and performance reasons. Plugin "${plugin?.manifest?.name || plugin?.name || 'unknown'}" must be migrated to a standard JS/TS hook format.`);
+        }
+
         let activePlugin = plugin;
 
         // Auto-adapt ported plugins (missing manifest)
@@ -58,20 +63,20 @@ export class PluginManager {
     }
 
     /**
-     * Register a WASM plugin binary into the core plugin manager.
-     * This enables true WASM-based plugin isolation for hooks and transforms.
+     * @deprecated WASM plugin support has been removed (Phase 1.1).
+     * Please migrate your plugin to standard JS/TS Hooks.
      */
     async registerWasmPlugin(wasmBytes: Buffer | Uint8Array | ArrayBuffer): Promise<void> {
-        const buffer = Buffer.isBuffer(wasmBytes)
-            ? wasmBytes
-            : Buffer.from(wasmBytes instanceof ArrayBuffer ? new Uint8Array(wasmBytes) : wasmBytes);
-        const wasmPlugin = await WASMPluginSandbox.create(buffer);
-        await this.register(wasmPlugin);
+        console.warn('[SPARX:WARN] registerWasmPlugin() is deprecated. See https://sparx.dev/migrate');
+        throw new Error('[Sparx] Error: .wasm plugin architecture has been removed.');
     }
 
+    /**
+     * @deprecated WASM plugin support has been removed (Phase 1.1).
+     */
     async registerWasmPluginFromFile(filePath: string): Promise<void> {
-        const wasmBytes = await fs.readFile(filePath);
-        await this.registerWasmPlugin(wasmBytes);
+        console.warn('[SPARX:WARN] registerWasmPluginFromFile() is deprecated. See https://sparx.dev/migrate');
+        throw new Error('[Sparx] Error: .wasm plugin architecture has been removed.');
     }
 
     /** @internal */
@@ -123,7 +128,7 @@ export class PluginManager {
                 const validation: PluginValidation = {
                     passesDeterminism: true,
                     executionTimeMs: executionTime,
-                    outputSizeBytes: JSON.stringify(hookResult).length,
+                    outputSizeBytes: hookResult ? JSON.stringify(hookResult)?.length || 0 : 0,
                     mutationScore: 0
                 };
                 explainReporter.report('plugins', 'hook', `Executed ${plugin.manifest.name}:${hookName} (${executionTime.toFixed(2)}ms)`);

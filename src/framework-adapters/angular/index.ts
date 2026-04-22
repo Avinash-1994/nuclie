@@ -1,7 +1,7 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson } from '@sparx/adapter-core';
 import { angularIvyPlugin } from './ivy-plugin.js';
 import { angularStylePlugin } from './style-plugin.js';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 
 export interface AngularConfig {
   target?: 'es2020' | 'es2022';     // default: es2022 for Angular 17+
@@ -10,7 +10,7 @@ export interface AngularConfig {
   preserveSymlinks?: boolean;         // default: false
 }
 
-export class AngularAdapter implements NuclieAdapter {
+export class AngularAdapter implements SparxAdapter {
   name = 'angular';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -26,7 +26,7 @@ export class AngularAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig | Promise<NuclieConfig> {
+  config(config: SparxConfig): SparxConfig | Promise<SparxConfig> {
     // Merge default Angular namespace configs if missing
     config.angular = {
       target: 'es2022',

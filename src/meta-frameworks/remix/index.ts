@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { remixRoutesPlugin } from './routes-plugin.js';
 
 export interface RemixConfig {
@@ -7,7 +7,7 @@ export interface RemixConfig {
   serverModuleFormat?: 'esm' | 'cjs';
 }
 
-export class RemixAdapter implements NuclieAdapter {
+export class RemixAdapter implements SparxAdapter {
   name = 'remix';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -20,7 +20,7 @@ export class RemixAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.remix) config.remix = {};
     config.remix = {
       ignoredRouteFiles: ['**/.*'],
@@ -36,7 +36,7 @@ export class RemixAdapter implements NuclieAdapter {
           // Shim Request / Response for underlying uWS API mappings
           try {
              // In Remix the entry point is heavily abstracted typically via createRequestHandler
-             const virtualID = 'virtual:nuclie/remix-server-build';
+             const virtualID = 'virtual:sparx/remix-server-build';
              let build: any;
              try {
                 build = await import(virtualID);
@@ -75,7 +75,7 @@ export class RemixAdapter implements NuclieAdapter {
              res.end();
              
           } catch(e) {
-             console.error('[Nuclie:Remix] Error rendering SSR', e);
+             console.error('[Sparx:Remix] Error rendering SSR', e);
              next();
           }
        }
@@ -83,7 +83,7 @@ export class RemixAdapter implements NuclieAdapter {
   }
 
   ssrEntry(): string {
-     return 'virtual:nuclie/remix-server-build';
+     return 'virtual:sparx/remix-server-build';
   }
 }
 

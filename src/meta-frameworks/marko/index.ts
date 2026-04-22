@@ -1,10 +1,10 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { createHash } from 'crypto';
 
 let markoCompiler: any;
 
-export class MarkoAdapter implements NuclieAdapter {
+export class MarkoAdapter implements SparxAdapter {
   name = 'marko';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -14,7 +14,7 @@ export class MarkoAdapter implements NuclieAdapter {
   plugins(): Plugin[] {
     return [
       {
-        name: 'nuclie:marko-compiler',
+        name: 'sparx:marko-compiler',
 
         async buildStart() {
           try {
@@ -56,7 +56,7 @@ export class MarkoAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.marko) config.marko = {};
     config.marko = {
       output: 'dom',

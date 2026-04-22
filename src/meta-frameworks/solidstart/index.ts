@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { solidStartRouterPlugin } from './router-plugin.js';
 
 export interface SolidStartConfig {
@@ -7,7 +7,7 @@ export interface SolidStartConfig {
   islands?: boolean;                   // default: false
 }
 
-export class SolidStartAdapter implements NuclieAdapter {
+export class SolidStartAdapter implements SparxAdapter {
   name = 'solid-start';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -20,7 +20,7 @@ export class SolidStartAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.solid) config.solid = {};
     config.solid.start = {
       ssr: 'stream',
@@ -36,7 +36,7 @@ export class SolidStartAdapter implements NuclieAdapter {
       async (req: any, res: any, next: any) => {
         const url = req.url || '/';
         try {
-          const manifestModule = 'virtual:nuclie/solidstart-routes';
+          const manifestModule = 'virtual:sparx/solidstart-routes';
           let manifest: any;
           try {
              manifest = await import(manifestModule);
@@ -83,7 +83,7 @@ export class SolidStartAdapter implements NuclieAdapter {
           }
           next();
         } catch (e) {
-          console.error('[Nuclie:SolidStart] SSR Component Route failure', e);
+          console.error('[Sparx:SolidStart] SSR Component Route failure', e);
           next();
         }
       }
@@ -91,7 +91,7 @@ export class SolidStartAdapter implements NuclieAdapter {
   }
 
   ssrEntry(): string {
-     return 'virtual:nuclie/solidstart-routes';
+     return 'virtual:sparx/solidstart-routes';
   }
 }
 

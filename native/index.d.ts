@@ -105,6 +105,8 @@ export declare class NativeWorker {
   transformSync(config: TransformConfig): TransformResult
   /** Parallel Transform: Process multiple modules across all cores */
   batchTransform(items: Array<TransformConfig>): Promise<Array<TransformResult>>
+  /** Parallel Transform CSS: Process multiple CSS modules across all cores asynchronously */
+  batchTransformCss(items: Array<TransformConfig>): Promise<Array<TransformResult>>
 }
 
 /** Batch hash multiple files (parallel processing in future) */

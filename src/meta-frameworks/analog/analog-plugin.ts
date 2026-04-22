@@ -1,11 +1,11 @@
-import type { Plugin } from '@nuclie/adapter-core';
+import type { Plugin } from '@sparx/adapter-core';
 import path from 'path';
 
 let analogVitePlugin: any;
 
 export function analogCompilerPlugin(): Plugin {
   return {
-    name: 'nuclie:analog-compiler',
+    name: 'sparx:analog-compiler',
 
     async buildStart() {
       try {
@@ -19,14 +19,14 @@ export function analogCompilerPlugin(): Plugin {
 
     async resolveId(source: string) {
        // Support virtual entry for SSR mappings
-       if (source === 'virtual:nuclie/analog-ssr-entry') {
+       if (source === 'virtual:sparx/analog-ssr-entry') {
           return source;
        }
        return null;
     },
 
     async load(id: string) {
-       if (id === 'virtual:nuclie/analog-ssr-entry') {
+       if (id === 'virtual:sparx/analog-ssr-entry') {
           // This bridges the SSR compilation entry to Analog's \`render()\` runtime
           return `
              import { renderModule } from '@angular/platform-server';

@@ -8,7 +8,7 @@ import path from 'node:path';
 import os from 'node:os';
 import fs from 'node:fs';
 
-const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'nuclie-edge-'));
+const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'sparx-edge-'));
 
 describe('EDGE-001: Circular imports — basic a → b → a', () => {
   it('circular dependency chain is detectable', () => {
@@ -148,7 +148,7 @@ describe('EDGE-015: Port conflict — auto-increment', () => {
 
 describe('EDGE-016: Atomic dist/ write (no partial state)', () => {
   it('writes to temp dir then renames atomically', () => {
-    const tmpOut = path.join(TMP, '.nuclie-tmp');
+    const tmpOut = path.join(TMP, '.sparx-tmp');
     const finalOut = path.join(TMP, 'dist');
     fs.mkdirSync(tmpOut, { recursive: true });
     fs.writeFileSync(path.join(tmpOut, 'main.js'), 'console.log(1)', 'utf8');

@@ -1,6 +1,6 @@
 /**
  * Plugin Test Suites
- * Tests for all 10 official Nuclie launch plugins
+ * Tests for all 10 official Sparx launch plugins
  */
 
 import { describe, it, expect, beforeAll } from '@jest/globals';
@@ -11,13 +11,13 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'nuclie-plugins-'));
+const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'sparx-plugins-'));
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-env Tests
+//  @sparx/plugin-env Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-env', () => {
+describe('@sparx/plugin-env', () => {
   const envDir = path.join(TMP, 'env-project');
   beforeAll(() => {
     fs.mkdirSync(envDir, { recursive: true });
@@ -55,10 +55,10 @@ describe('@nuclie/plugin-env', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-compression Tests
+//  @sparx/plugin-compression Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-compression', () => {
+describe('@sparx/plugin-compression', () => {
   let distDir: string;
 
   beforeAll(async () => {
@@ -98,10 +98,10 @@ describe('@nuclie/plugin-compression', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-svg Tests
+//  @sparx/plugin-svg Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-svg', () => {
+describe('@sparx/plugin-svg', () => {
   it('?raw suffix returns string type', () => {
     const svgContent = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg>';
     expect(typeof svgContent).toBe('string');
@@ -129,10 +129,10 @@ describe('@nuclie/plugin-svg', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-auto-import Tests
+//  @sparx/plugin-auto-import Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-auto-import', () => {
+describe('@sparx/plugin-auto-import', () => {
   it('resolves vue preset to Vue composables', () => {
     // The preset resolves 'vue' to a set of composables including ref, computed, etc.
     const vueComposables = ['ref', 'computed', 'watch', 'reactive', 'onMounted'];
@@ -160,14 +160,14 @@ describe('@nuclie/plugin-auto-import', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-inspect Tests
+//  @sparx/plugin-inspect Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-inspect', () => {
+describe('@sparx/plugin-inspect', () => {
   it('returns no-op in production', () => {
     // In production, the plugin returns a minimal object with only name
-    const noopPlugin = { name: '@nuclie/plugin-inspect' };
-    expect(noopPlugin.name).toBe('@nuclie/plugin-inspect');
+    const noopPlugin = { name: '@sparx/plugin-inspect' };
+    expect(noopPlugin.name).toBe('@sparx/plugin-inspect');
     expect((noopPlugin as any).configureServer).toBeUndefined();
   });
 
@@ -178,16 +178,16 @@ describe('@nuclie/plugin-inspect', () => {
   });
 
   it('zero overhead in production — plugin is no-op', () => {
-    const plugin = { name: '@nuclie/plugin-inspect' }; // No-op shape
+    const plugin = { name: '@sparx/plugin-inspect' }; // No-op shape
     expect(Object.keys(plugin)).toHaveLength(1);
   });
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-mock Tests
+//  @sparx/plugin-mock Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-mock', () => {
+describe('@sparx/plugin-mock', () => {
   it('creates GET handler that returns JSON response', async () => {
     const GET = () => Response.json([{ id: 1, name: 'Alice' }]);
     const response = GET();
@@ -225,10 +225,10 @@ describe('@nuclie/plugin-mock', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-pwa Tests
+//  @sparx/plugin-pwa Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-pwa', () => {
+describe('@sparx/plugin-pwa', () => {
   it('generates manifest with correct fields', () => {
     const manifest = {
       name: 'My App',
@@ -254,10 +254,10 @@ describe('@nuclie/plugin-pwa', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-icons Tests
+//  @sparx/plugin-icons Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-icons', () => {
+describe('@sparx/plugin-icons', () => {
   it('resolves ~icons/ prefix to virtual module', () => {
     const id = '~icons/mdi/home';
     const isIconId = id.startsWith('~icons/');
@@ -286,10 +286,10 @@ describe('@nuclie/plugin-icons', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-legacy Tests
+//  @sparx/plugin-legacy Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-legacy', () => {
+describe('@sparx/plugin-legacy', () => {
   it('modern bundle contains type=module script', () => {
     const html = '<script type="module" src="/assets/main.js"></script>';
     expect(html).toContain('type="module"');
@@ -317,14 +317,14 @@ describe('@nuclie/plugin-legacy', () => {
 });
 
 // ══════════════════════════════════════════════════════════════
-//  @nuclie/plugin-checker Tests
+//  @sparx/plugin-checker Tests
 // ══════════════════════════════════════════════════════════════
 
-describe('@nuclie/plugin-checker', () => {
+describe('@sparx/plugin-checker', () => {
   it('plugin factory returns correct name', () => {
     // checker() returns a plugin object with correct name
-    const plugin = { name: '@nuclie/plugin-checker' };
-    expect(plugin.name).toBe('@nuclie/plugin-checker');
+    const plugin = { name: '@sparx/plugin-checker' };
+    expect(plugin.name).toBe('@sparx/plugin-checker');
   });
 
   it('failOnError default is true', () => {

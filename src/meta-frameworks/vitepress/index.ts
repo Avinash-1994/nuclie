@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { vitepressMarkdownPlugin } from './press-plugin.js';
 
 export interface VitePressConfig {
@@ -8,7 +8,7 @@ export interface VitePressConfig {
   cleanUrls?: boolean;   // default false
 }
 
-export class VitePressAdapter implements NuclieAdapter {
+export class VitePressAdapter implements SparxAdapter {
   name = 'vitepress';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -21,7 +21,7 @@ export class VitePressAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.vitepress) config.vitepress = {};
     config.vitepress = {
       srcDir: '.',

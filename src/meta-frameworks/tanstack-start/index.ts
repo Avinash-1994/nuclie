@@ -1,5 +1,5 @@
-import type { NuclieAdapter, Plugin, NuclieConfig, PackageJson, Middleware } from '@nuclie/adapter-core';
-import { detectDependencies, registry } from '@nuclie/adapter-core';
+import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
+import { detectDependencies, registry } from '@sparx/adapter-core';
 import { tsRouterPlugin } from './router-plugin.js';
 
 export interface TanStackConfig {
@@ -7,7 +7,7 @@ export interface TanStackConfig {
   serverOnly?: boolean;    // default: false
 }
 
-export class TanStackAdapter implements NuclieAdapter {
+export class TanStackAdapter implements SparxAdapter {
   name = 'tanstack-start';
 
   detect(projectRoot: string, pkg: PackageJson): boolean {
@@ -20,7 +20,7 @@ export class TanStackAdapter implements NuclieAdapter {
     ];
   }
 
-  config(config: NuclieConfig): NuclieConfig {
+  config(config: SparxConfig): SparxConfig {
     if (!config.tanstack) config.tanstack = {};
     config.tanstack = {
       ssr: true,
@@ -33,7 +33,7 @@ export class TanStackAdapter implements NuclieAdapter {
     return [
        async (req: any, res: any, next: any) => {
           try {
-             const virtualEntry = 'virtual:nuclie/tanstack-routes';
+             const virtualEntry = 'virtual:sparx/tanstack-routes';
              let manifest: any;
              try {
                 manifest = await import(virtualEntry);
@@ -80,7 +80,7 @@ export class TanStackAdapter implements NuclieAdapter {
              }
              next();
           } catch(e) {
-             console.error('[Nuclie:TanStack] Dev Middleware SSR Error', e);
+             console.error('[Sparx:TanStack] Dev Middleware SSR Error', e);
              next();
           }
        }
@@ -88,7 +88,7 @@ export class TanStackAdapter implements NuclieAdapter {
   }
 
   ssrEntry(): string {
-     return 'virtual:nuclie/tanstack-routes';
+     return 'virtual:sparx/tanstack-routes';
   }
 }
 
