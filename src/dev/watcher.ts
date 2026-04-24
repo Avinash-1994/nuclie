@@ -55,7 +55,8 @@ export class DevWatcher extends EventEmitter {
                     }
                 });
                 this.engine = 'rust-notify';
-                console.log(`[sparx] watcher: rust-notify v6.x.x`);
+                const ver = typeof this.nativeWatcher.getVersion === 'function' ? this.nativeWatcher.getVersion() : 'rust-notify v6.x.x';
+                console.log(`[sparx] watcher: ${ver}`);
                 return;
             } catch (err: any) {
                 console.warn(`[sparx] WARN: native watcher failed to load, falling back to chokidar (`, err?.message ?? err, `)`);

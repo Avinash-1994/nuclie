@@ -40,6 +40,11 @@ impl NativeWatcher {
         }
     }
 
+    #[napi]
+    pub fn get_version(&self) -> String {
+        format!("rust-notify (sparx-native v{})", env!("CARGO_PKG_VERSION"))
+    }
+
     /// Start watching the given paths.
     /// `callback` is called on every debounced file-system event.
     #[napi]

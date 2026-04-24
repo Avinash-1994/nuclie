@@ -65,7 +65,7 @@ async function run() {
     
     let DevWatcher;
     const cacheBustA = '?tA=' + Date.now();
-    ({ DevWatcher } = await import('../../../src/dev/watcher.js' + cacheBustA));
+    ({ DevWatcher } = await import('../../../dist/src/dev/watcher.js' + cacheBustA));
     
     const startMemoryA = getMemoryUsage();
     const startTimeA = performance.now();
@@ -173,7 +173,7 @@ async function run() {
 
     const bFixturePath = path.join(__dirname, 'b-fixture.js');
     fs.writeFileSync(bFixturePath, `
-        const { DevWatcher } = await import('../../../src/dev/watcher.js?tB=' + Date.now());
+        const { DevWatcher } = await import('../../../dist/src/dev/watcher.js?tB=' + Date.now());
         const watcher = new DevWatcher(process.argv[2], 50);
         
         setTimeout(() => {
@@ -216,7 +216,7 @@ async function run() {
 
     const cFixturePath = path.join(__dirname, 'c-fixture.js');
     fs.writeFileSync(cFixturePath, `
-        const { DevWatcher } = await import('../../../src/dev/watcher.js?tC=' + Date.now());
+        const { DevWatcher } = await import('../../../dist/src/dev/watcher.js?tC=' + Date.now());
         const watcher = new DevWatcher(process.argv[2], 50);
         
         setTimeout(() => {

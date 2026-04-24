@@ -1,5 +1,5 @@
 
-        const { DevWatcher } = await import('../../../src/dev/watcher.js?tC=' + Date.now());
+        const { DevWatcher } = await import('../../../dist/src/dev/watcher.js?tC=' + Date.now());
         const watcher = new DevWatcher(process.argv[2], 50);
         
         setTimeout(() => {

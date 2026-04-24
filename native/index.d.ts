@@ -88,6 +88,7 @@ export declare class GraphAnalyzer {
  */
 export declare class NativeWatcher {
   constructor()
+  getVersion(): string
   /**
    * Start watching the given paths.
    * `callback` is called on every debounced file-system event.
