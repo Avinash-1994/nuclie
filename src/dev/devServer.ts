@@ -351,7 +351,11 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
   // Vue Support removed - Handled by UniversalTransformer
 
   const { DependencyPreBundler } = await import('./preBundler.js');
-  const preBundler = new DependencyPreBundler(cfg.root);
+  // Phase 1.10: resolve cache dir from config. Default: '<root>/.sparx/cache'.
+  const resolvedCacheDir = cfg.cacheDir
+    ? path.join(cfg.root, cfg.cacheDir)
+    : path.join(cfg.root, '.sparx', 'cache');
+  const preBundler = new DependencyPreBundler(cfg.root, resolvedCacheDir);
 
   // Initialize Live Config Manager
   const liveConfig = new LiveConfigManager(cfg, cfg.root);
@@ -754,6 +758,14 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
       return;
     }
 
+    // Phase 1.11 — Module Registry status endpoint
+    if (req.url === '/__sparx/registry') {
+      const snapshot = (globalThis as any).__sparx_registry__?.getRegistry?.() ?? { scopes: {} };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(snapshot, null, 2));
+      return;
+    }
+
     // Apply security headers
     securityHeaders.apply(req, res);
 
@@ -948,14 +960,25 @@ export async function startDevServer(cliCfg: BuildConfig, existingServer?: any) 
         }
         clientScript = preamble + clientScript;
 
+        // Phase 1.11 — inject registry bootstrap before federation runtime
+        let registryScript = '';
+        try {
+          const { generateRegistryInitTag } = await import('../../packages/sparx-module-registry/src/browser-runtime.js')
+            .catch(() => import('../../../packages/sparx-module-registry/src/browser-runtime.js')
+            .catch(() => ({ generateRegistryInitTag: null })));
+          if (generateRegistryInitTag) {
+            registryScript = (generateRegistryInitTag as () => string)();
+          }
+        } catch { /* non-fatal — registry script is an enhancement */ }
+
         // Use a more robust injection that handles case-sensitivity and space variations
         if (data.includes('<head>')) {
-          data = data.replace('<head>', '<head>' + federationRuntime + clientScript);
+          data = data.replace('<head>', '<head>' + registryScript + federationRuntime + clientScript);
         } else if (data.includes('<HEAD>')) {
-          data = data.replace('<HEAD>', '<HEAD>' + federationRuntime + clientScript);
+          data = data.replace('<HEAD>', '<HEAD>' + registryScript + federationRuntime + clientScript);
         } else {
           // Fallback if no head tag found
-          data = federationRuntime + clientScript + data;
+          data = registryScript + federationRuntime + clientScript + data;
         }
 
         res.writeHead(200, { 'Content-Type': 'text/html' });

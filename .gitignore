@@ -8,6 +8,21 @@ temp_init_test
 temp_ts_config_test
 *.log
 .DS_Store
+
+# Generated e2e fixture files (auto-generated, not source)
+e2e/fixtures/e-commerce-app/routes/Route*.jsx
+e2e/fixtures/e-commerce-app/src/LazyImg*.jsx
+e2e/fixtures/e-commerce-app/src/store/
+e2e/fixtures/e-commerce-app/fix-results*.json
+e2e/fixtures/e-commerce-app/run-mocked-*.js
+e2e/fixtures/ssr-blog/fix-results.json
+e2e/fixtures/ssr-blog/run-targeted.js
+e2e/fixtures/vite-plugin-compat/node_modules/
+e2e/fixtures/vite-plugin-compat/package-lock.json
+
+# Validation output files (run artifacts, not source)
+validation-output-*.txt
+validation-rerun-*.txt
 nextgen.build.temp.mjs
 
 # Rust/Native build artifacts

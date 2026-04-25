@@ -75,6 +75,7 @@ export const BuildConfigSchema = z.object({
     https: z.union([z.boolean(), z.object({ key: z.string(), cert: z.string() })]).optional(),
     headers: z.record(z.string(), z.string()).optional(),
   }).optional(),
+  cacheDir: z.string().optional(),
   prebundle: z.object({
     enabled: z.boolean().default(true),
     include: z.array(z.string()).optional(),
@@ -140,6 +141,8 @@ export type BuildConfig = {
     https?: boolean | { key: string; cert: string };
     headers?: Record<string, string>;
   };
+  /** Phase 1.10 — cache root dir (relative to project root). Default: .sparx/cache */
+  cacheDir?: string;
   prebundle?: {
     enabled?: boolean;
     include?: string[];

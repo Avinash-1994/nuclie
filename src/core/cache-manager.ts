@@ -17,6 +17,7 @@ export type CacheCategory = 'parse' | 'transform' | 'bundle' | 'optimize' | 'met
 export interface CacheOptions {
     enabled: boolean;
     root: string;
+    cacheDir?: string;
     compression?: boolean; // LZ4 enabled by default in native
     maxSizeBytes?: number; // Eviction policy trigger
 }
@@ -25,11 +26,13 @@ export class CacheManager {
     private cache: BuildCache | null = null;
     private enabled: boolean;
     private root: string;
+    private cacheDir: string | undefined;
     private maxSizeBytes: number;
 
     constructor(options: CacheOptions) {
         this.enabled = options.enabled;
         this.root = options.root;
+        this.cacheDir = options.cacheDir;
         this.maxSizeBytes = options.maxSizeBytes || 512 * 1024 * 1024; // 512MB default
 
         if (this.enabled) {
@@ -41,7 +44,8 @@ export class CacheManager {
         try {
             const { getLazyCacheDatabase, initCacheInBackground } = await import('./cache/lazy-init.js');
             // Background init
-            initCacheInBackground(path.join(this.root, '.sparx/cache'));
+            const targetDir = this.cacheDir || path.join(this.root, '.sparx/cache');
+            initCacheInBackground(targetDir);
 
             // The first 'get' or 'set' will await the database if it's not ready
         } catch (error: any) {
@@ -155,11 +159,12 @@ export class CacheManager {
 
 // Global instance helper
 let _instance: CacheManager | null = null;
-export function getCacheManager(root: string = process.cwd()): CacheManager {
+export function getCacheManager(root: string = process.cwd(), options: Partial<CacheOptions> = {}): CacheManager {
     if (!_instance) {
         _instance = new CacheManager({
             enabled: true,
-            root
+            root,
+            ...options
         });
     }
     return _instance;

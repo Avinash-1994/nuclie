@@ -18,6 +18,8 @@ use xxhash_rust::xxh3::xxh3_64;
 pub struct Task {
     /// Stable content-addressable ID
     pub id: String,
+    /// The ID of the module this task belongs to
+    pub module_id: String,
     /// File hashes of all inputs (source files)
     pub inputs: Vec<String>,
     /// Cache keys of expected outputs (artifact keys)
@@ -168,12 +170,12 @@ pub fn plan_build(manifest_json: String) -> Result<TaskPlan> {
         let cached = !cached_hash.is_empty() && cached_hash == task_id;
 
         nodes.insert(mod_id.clone(), TaskNode {
-            id: task_id.clone(),
+            id: "".to_string(), // Will compute in topo order
             inputs: input_hashes,
             outputs,
             fn_hash: fn_hash_val,
             deps,
-            cached,
+            cached: false, // Will evaluate in topo order
         });
     }
 
@@ -184,16 +186,46 @@ pub fn plan_build(manifest_json: String) -> Result<TaskPlan> {
     let mut cached_count = 0u32;
     let mut plan_content = String::new();
 
+    // Map module ID -> computed task ID
+    let mut computed_task_ids: HashMap<String, String> = HashMap::new();
+
     for mod_id in &order {
         if let Some(node) = nodes.get(mod_id) {
-            plan_content.push_str(&node.id);
-            if node.cached { cached_count += 1; }
+            // Collect deps' task IDs
+            let mut dep_task_ids: Vec<String> = Vec::new();
+            for dep in &node.deps {
+                if let Some(dep_id) = computed_task_ids.get(dep) {
+                    dep_task_ids.push(dep_id.clone());
+                }
+            }
+            dep_task_ids.sort(); // Deterministic
+
+            // Compute task ID including deps
+            let mut combined_inputs = node.inputs.clone();
+            combined_inputs.extend(dep_task_ids);
+            
+            let task_id = compute_task_id(&combined_inputs, fn_hash_val);
+            computed_task_ids.insert(mod_id.clone(), task_id.clone());
+
+            // Look up the cached hash from the original manifest to see if it matches
+            let mut cached = false;
+            for m in modules {
+                if m["id"].as_str().unwrap_or("") == mod_id {
+                    let cached_hash = m["cachedHash"].as_str().unwrap_or("");
+                    cached = !cached_hash.is_empty() && cached_hash == task_id;
+                    break;
+                }
+            }
+
+            plan_content.push_str(&task_id);
+            if cached { cached_count += 1; }
             tasks.push(Task {
-                id: node.id.clone(),
+                id: task_id.clone(),
+                module_id: mod_id.clone(),
                 inputs: node.inputs.clone(),
                 outputs: node.outputs.clone(),
                 fn_hash: fn_hash_str.clone(),
-                cached: node.cached,
+                cached,
             });
         }
     }

@@ -315,6 +315,8 @@ export declare function startWatcher(paths: Array<string>, callback: (err: null 
 export interface Task {
   /** Stable content-addressable ID */
   id: string
+  /** The ID of the module this task belongs to */
+  moduleId: string
   /** File hashes of all inputs (source files) */
   inputs: Array<string>
   /** Cache keys of expected outputs (artifact keys) */

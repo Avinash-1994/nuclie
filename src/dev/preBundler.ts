@@ -7,13 +7,47 @@ import { log } from '../utils/logger.js';
 
 const require = createRequire(import.meta.url);
 
+// Lazily load the native prebundle N-API.
+// Avoids a hard crash if the native binary is not present (fallback to JS-only path).
+let _native: { prebundle: Function; prebundlePut: Function } | null = null;
+function getNative() {
+    if (_native !== null) return _native;
+    try {
+        const candidates = [
+            path.resolve(process.cwd(), 'sparx_native.node'),
+            path.resolve(process.cwd(), 'dist/sparx_native.node'),
+            new URL('../../sparx_native.node', import.meta.url).pathname,
+        ];
+        for (const p of candidates) {
+            try { _native = require(p); return _native; } catch {}
+        }
+    } catch {}
+    _native = null;
+    return null;
+}
+
 /**
  * Production-Ready Dependency Pre-Bundler
- * Uses full dependency graph bundling with splitting
- * Handles transitive dependencies automatically
+ * Uses full dependency graph bundling with splitting.
+ * Handles transitive dependencies automatically.
+ *
+ * Phase 1.10: Cache root is driven by `cacheDir` from sparx.config
+ * (default: `.sparx/cache`). SHA-256 fingerprints are stored in a native
+ * SQLite DB via the prebundle N-API; the esbuild pass runs only on misses.
  */
 export class DependencyPreBundler {
-    constructor(private root: string, private cacheDir: string = 'node_modules/.sparx') { }
+    /** Resolved absolute path to the pre-bundle output directory */
+    public readonly cacheRoot: string;
+
+    constructor(private root: string, cacheDirOrLegacy: string = 'node_modules/.sparx') {
+        // Accept both old-style 'node_modules/.sparx' and new config-driven paths.
+        // New config key (`cacheDir`) maps to '<root>/.sparx/cache' by default.
+        // If the legacy default is still passed we keep backwards compat.
+        this.cacheRoot = path.isAbsolute(cacheDirOrLegacy)
+            ? cacheDirOrLegacy
+            : path.join(root, cacheDirOrLegacy);
+    }
+
 
     /**
      * Pre-bundle dependencies using full graph approach
@@ -22,12 +56,49 @@ export class DependencyPreBundler {
      */
     async preBundleDependencies(deps: string[]): Promise<Map<string, string>> {
         const bundledDeps = new Map<string, string>();
-        const cacheDir = path.join(this.root, this.cacheDir);
+        const cacheDir = this.cacheRoot;
 
         // Ensure cache directory exists
         await fs.mkdir(cacheDir, { recursive: true });
 
-        // Generate hash of package.json for cache invalidation
+        // ── Phase 1.10: Native SHA-256 fingerprint warm-start gate ──────────────
+        // Build package metadata objects for native fingerprinting.
+        // Each entry key = sha256(name + version + transitive dep versions).
+        const native = getNative();
+        if (native) {
+            try {
+                const pkgJsonRaw = await fs.readFile(path.join(this.root, 'package.json'), 'utf-8').catch(() => '{}');
+                const pkgJsonParsed = JSON.parse(pkgJsonRaw);
+                const pkgVersions: Record<string, string> = {
+                    ...pkgJsonParsed.dependencies,
+                    ...pkgJsonParsed.devDependencies,
+                };
+
+                const moduleMetas = deps.map(dep => {
+                    const pkgName = dep.startsWith('@') ? dep.split('/').slice(0, 2).join('/') : dep.split('/')[0];
+                    return { name: dep, version: pkgVersions[pkgName] || '0.0.0', deps: pkgVersions };
+                });
+
+                const nativeCfg = { cacheRoot: cacheDir };
+                const results: Array<{ moduleId: string; key: string; bundle: string; hit: boolean }> =
+                    native.prebundle(JSON.stringify(moduleMetas), nativeCfg);
+
+                // All hits → serve from native SQLite cache, skip esbuild entirely
+                const allHit = results.every(r => r.hit);
+                if (allHit && results.length === deps.length) {
+                    log.info('[sparx:prebundle] Warm start — serving all deps from native cache');
+                    for (const r of results) {
+                        const safeName = r.moduleId.replace(/[/@]/g, '_');
+                        bundledDeps.set(r.moduleId, `/@sparx-deps/${safeName}.js`);
+                    }
+                    return bundledDeps;
+                }
+            } catch (e: any) {
+                log.debug(`[sparx:prebundle] Native fingerprint check skipped: ${e.message}`);
+            }
+        }
+
+        // Generate hash of package.json for cache invalidation (existing XXH3 path)
         const pkgJsonPath = path.join(this.root, 'package.json');
         const pkgJson = await fs.readFile(pkgJsonPath, 'utf-8');
         const hash = xxh3.xxh64(pkgJson).toString(16).slice(0, 8);
@@ -43,7 +114,7 @@ export class DependencyPreBundler {
                 (cachedMeta.depsHash === depsHash || // New-style: exact dep hash
                     (cachedMeta.deps && xxh3.xxh64([...cachedMeta.deps].sort().join(',')).toString(16).slice(0, 8) === depsHash)); // Legacy-style fallback
             if (cacheHit) {
-                log.info('Using cached pre-bundled dependencies');
+                log.info('[sparx:prebundle] Using cached pre-bundled dependencies');
                 // Load from cache
                 for (const dep of deps) {
                     const cachedPath = cachedMeta.depMap?.[dep];
@@ -62,6 +133,7 @@ export class DependencyPreBundler {
         log.info('--> Pipeline: Pre-bundling dependencies...', { count: deps.length });
 
         const root = this.root;
+
 
         // Helper to check if file exists
         const fileExists = async (p: string) => {
@@ -366,6 +438,33 @@ export class DependencyPreBundler {
                 depMap,
                 timestamp: Date.now()
             }, null, 2));
+
+            // Phase 1.10: persist bundles into native SQLite for future warm starts
+            const nativeForPut = getNative();
+            if (nativeForPut) {
+                try {
+                    const pkgJsonRaw = await fs.readFile(path.join(this.root, 'package.json'), 'utf-8').catch(() => '{}');
+                    const pkgJsonParsed = JSON.parse(pkgJsonRaw);
+                    const pkgVersions: Record<string, string> = {
+                        ...pkgJsonParsed.dependencies,
+                        ...pkgJsonParsed.devDependencies,
+                    };
+                    const nativeCfg = { cacheRoot: cacheDir };
+                    for (const dep of bundledDeps.keys()) {
+                        const pkgName = dep.startsWith('@') ? dep.split('/').slice(0, 2).join('/') : dep.split('/')[0];
+                        const meta = { name: dep, version: pkgVersions[pkgName] || '0.0.0', deps: pkgVersions };
+                        const fingerResults = nativeForPut.prebundle(JSON.stringify([meta]), nativeCfg);
+                        if (fingerResults.length > 0 && !fingerResults[0].hit) {
+                            const safeName = dep.replace(/[/@]/g, '_');
+                            const outFile = path.join(cacheDir, `${safeName}.js`);
+                            const content = await fs.readFile(outFile, 'utf-8').catch(() => `/* ${dep} */`);
+                            nativeForPut.prebundlePut(fingerResults[0].key, dep, content, nativeCfg);
+                        }
+                    }
+                } catch (e: any) {
+                    log.debug(`[sparx:prebundle] Native persist skipped: ${e.message}`);
+                }
+            }
 
             log.info(`✓ Pre-bundled ${bundledDeps.size} dependencies`);
             return bundledDeps;
