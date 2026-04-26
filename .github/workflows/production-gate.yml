@@ -43,6 +43,9 @@ jobs:
       - name: 🔍 TypeScript Strict Check
         run: npm run typecheck
 
+      - name: 🔎 ESLint
+        run: npm run lint
+
       - name: 🔨 Build Project
         run: npm run build
 
@@ -433,6 +436,69 @@ jobs:
           CI: true
 
 # ══════════════════════════════════════════════════════════════════════
+#  STAGE 7 — PHASE 1.15-1.18 E2E FIXTURE TESTS
+#  Zero-config detection, monorepo, error overlay, bundle analyser
+# ══════════════════════════════════════════════════════════════════════
+  phase-e2e:
+    name: 🧪 Phase 1.15-1.18 E2E Fixtures
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci ${{ env.NPM_FLAGS }}
+
+      - name: 🏗️ Compile sparx-autoconfig
+        run: |
+          npx tsc packages/sparx-autoconfig/src/index.ts \
+            --outDir packages/sparx-autoconfig/dist \
+            --module NodeNext --moduleResolution NodeNext \
+            --target ES2022 --declaration --skipLibCheck
+
+      - name: 🏗️ Compile sparx-workspace
+        run: |
+          npx tsc packages/sparx-workspace/src/index.ts \
+            --outDir packages/sparx-workspace/dist \
+            --module NodeNext --moduleResolution NodeNext \
+            --target ES2022 --declaration --skipLibCheck
+
+      - name: 🏗️ Compile sparx-error-overlay
+        run: |
+          npx tsc packages/sparx-error-overlay/src/index.ts \
+            --outDir packages/sparx-error-overlay/dist \
+            --module NodeNext --moduleResolution NodeNext \
+            --target ES2022 --declaration --skipLibCheck
+
+      - name: 🏗️ Compile sparx-analyze
+        run: |
+          npx tsc packages/sparx-analyze/src/index.ts \
+            --outDir packages/sparx-analyze/dist \
+            --module NodeNext --moduleResolution NodeNext \
+            --target ES2022 --declaration --skipLibCheck
+
+      - name: 🔍 1.15 — Zero-Config Auto-Detection (6 frameworks)
+        run: node e2e/fixtures/zero-config-suite/run-test.js
+
+      - name: 🏢 1.16 — Monorepo Workspace (HMR, topo, parallel)
+        run: node e2e/fixtures/enterprise-monorepo/run-test.js
+
+      - name: 🎨 1.17 — Error Overlay (7 error kinds + vscode link)
+        run: node e2e/fixtures/error-scenarios/run-test.js
+
+      - name: 📦 1.18 — Bundle Analyser (treemap, why, check)
+        run: node e2e/fixtures/bundle-analysis-app/run-test.js
+
+      - name: 🔒 PB-06-REG — Custom cacheDir regression
+        run: npx tsx e2e/fixtures/pb-06-reg-test.js
+
+# ══════════════════════════════════════════════════════════════════════
 #  FINAL SUMMARY — Collects all job results and prints a single report
 # ══════════════════════════════════════════════════════════════════════
   production-gate-summary:
@@ -445,6 +511,7 @@ jobs:
       - tests-comprehensive
       - performance-gate
       - adapter-smoke
+      - phase-e2e
     if: always()
     steps:
       - name: 📊 Gate Report
@@ -459,10 +526,12 @@ jobs:
           echo "║  Comprehensive Tests  : ${{ needs.tests-comprehensive.result }}"
           echo "║  Performance Gate     : ${{ needs.performance-gate.result }}"
           echo "║  Adapter Smoke        : ${{ needs.adapter-smoke.result }}"
+          echo "║  Phase 1.15-1.18 E2E  : ${{ needs.phase-e2e.result }}"
           echo "╠══════════════════════════════════════════════════════════╣"
           if [ "${{ needs.build.result }}" = "success" ] && \
              [ "${{ needs.cleanup-checks.result }}" = "success" ] && \
-             [ "${{ needs.quality-gates.result }}" = "success" ]; then
+             [ "${{ needs.quality-gates.result }}" = "success" ] && \
+             [ "${{ needs.phase-e2e.result }}" = "success" ]; then
             echo "║  STATUS: ✅  PRODUCTION READY                          ║"
           else
             echo "║  STATUS: ❌  NOT READY — fix failing gates above        ║"
@@ -480,5 +549,8 @@ jobs:
           fi
           if [ "${{ needs.quality-gates.result }}" != "success" ]; then
             echo "❌ CRITICAL: Quality Gates (P2-P6) failed" && exit 1
+          fi
+          if [ "${{ needs.phase-e2e.result }}" != "success" ]; then
+            echo "❌ CRITICAL: Phase 1.15-1.18 E2E tests failed" && exit 1
           fi
           echo "✅ All critical gates passed!"

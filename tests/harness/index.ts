@@ -17,11 +17,7 @@ export async function buildFixture(name: string): Promise<{ stdout: string, stde
         return { stdout: error.stdout || '', stderr: error.stderr || '', exitCode: error.code || 1, outputDir: '', success: false };
     }
 }
-        return { stdout, stderr, exitCode: 0 };
-    } catch (error: any) {
-        return { stdout: error.stdout || '', stderr: error.stderr || '', exitCode: error.code || 1 };
-    }
-}
+
 
 export async function devFixture(name: string): Promise<any> {
     const fixturePath = path.join(process.cwd(), 'e2e/fixtures', name);

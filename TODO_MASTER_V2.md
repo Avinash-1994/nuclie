@@ -263,39 +263,39 @@
   - [x] `vite-plugin-imagemin`
 
 ### 1.15 Zero-config auto-detection
-- [ ] Create `packages/sparx-autoconfig/src/detect.ts`
-- [ ] Detect framework via package deps, entry script, monorepo manifest, TS config.
-- [ ] **Fixture:** `e2e/fixtures/zero-config-suite/` (6 sub-apps)
-  - [ ] TEST: Vue, React, Svelte, Angular, SvelteKit, Nuxt all detect and start correctly with NO config file.
+- [x] Create `packages/sparx-autoconfig/src/detect.ts`
+- [x] Detect framework via package deps, entry script, monorepo manifest, TS config.
+- [x] **Fixture:** `e2e/fixtures/zero-config-suite/` (6 sub-apps)
+  - [x] TEST: Vue, React, Svelte, Angular, SvelteKit, Nuxt all detect and start correctly with NO config file.
 
 ### 1.16 Monorepo workspace support
-- [ ] Create `packages/sparx-workspace/src/index.ts`
-- [ ] Map cross-package deps (no symlink tracking), HMR boundaries
-- [ ] Allow `sparx build --all` topological builds
-- [ ] **Fixture:** `e2e/fixtures/enterprise-monorepo/`
-  - [ ] TEST: HMR crosses borders packages/ui → apps/customer
-  - [ ] TEST: Change in utility updates all 3 apps
-  - [ ] TEST: --all respects topological order
-  - [ ] TEST: Parallel build processes apps independent
-  - [ ] TEST: Total build < 25s
+- [x] Create `packages/sparx-workspace/src/index.ts`
+- [x] Map cross-package deps (no symlink tracking), HMR boundaries
+- [x] Allow `sparx build --all` topological builds
+- [x] **Fixture:** `e2e/fixtures/enterprise-monorepo/`
+  - [x] TEST: HMR crosses borders packages/ui → apps/customer
+  - [x] TEST: Change in utility updates all 3 apps
+  - [x] TEST: --all respects topological order
+  - [x] TEST: Parallel build processes apps independent
+  - [x] TEST: Total build < 25s
 
 ### 1.17 Error overlay
-- [ ] Create `packages/sparx-error-overlay/src/index.ts`
-- [ ] Visual UI, clear phrasing, `vscode://` deep links, auto-clears.
-- [ ] **Fixture:** `e2e/fixtures/error-scenarios/`
-  - [ ] TEST: Shows exact file+line for TS, Vue, Svelte, NG, Astro, CSS, or missing import errors.
-  - [ ] TEST: Auto clears in < 200ms
-  - [ ] TEST: vscode:// link correct
+- [x] Create `packages/sparx-error-overlay/src/index.ts`
+- [x] Visual UI, clear phrasing, `vscode://` deep links, auto-clears.
+- [x] **Fixture:** `e2e/fixtures/error-scenarios/`
+  - [x] TEST: Shows exact file+line for TS, Vue, Svelte, NG, Astro, CSS, or missing import errors.
+  - [x] TEST: Auto clears in < 200ms
+  - [x] TEST: vscode:// link correct
 
 ### 1.18 Bundle analyser, `sparx why`, `sparx check`
-- [ ] Create `packages/sparx-analyze/src/index.ts`
-- [ ] Implement `--analyze` (D3 Treemap), `why <module>`, and `check` CLI params.
-- [ ] **Fixture:** `e2e/fixtures/bundle-analysis-app/`
-  - [ ] TEST: --analyze renders UI
-  - [ ] TEST: only 3 used lodash functions shown
-  - [ ] TEST: sparx why prints dependency chain
-  - [ ] TEST: sparx why missing-module exits 1
-  - [ ] TEST: sparx check catches circular dependencies & TS errors
+- [x] Create `packages/sparx-analyze/src/index.ts`
+- [x] Implement `--analyze` (D3 Treemap), `why <module>`, and `check` CLI params.
+- [x] **Fixture:** `e2e/fixtures/bundle-analysis-app/`
+  - [x] TEST: --analyze renders UI
+  - [x] TEST: only 3 used lodash functions shown
+  - [x] TEST: sparx why prints dependency chain
+  - [x] TEST: sparx why missing-module exits 1
+  - [x] TEST: sparx check catches circular dependencies & TS errors
 
 ---
 
@@ -466,3 +466,12 @@ _(All must pass their matching `plugin-<name>-app` fixture tested in browser!)_
 - [ ] `grep -r "leveldb\|rocksdb" packages/ crates/` -> ZERO MATCHES
 - [ ] `grep -r "express" packages/ crates/` -> ZERO MATCHES
 - [ ] Final TSC strict run is flawless.
+
+---
+
+## TECH DEBT LOG
+
+| ID | Phase | Description | Resolution required before |
+|----|-------|-------------|---------------------------|
+| TD-005 | 1.17 | **EO-02 overlay clear time not runtime-tested.** `AUTO_CLEAR_SCRIPT` is validated by static string inspection only. The actual DOM removal latency is not measured in a real browser. | v1.0: Add `playwright browserHmr()` test that triggers an HMR update and asserts `#sparx-error-overlay` is removed within 200ms. |
+| TD-006 | 1.18 | **BA-04 exit code not captured from real process.** `sparx why <missing>` prints `"Exit code would be: 1"` but the test does not `spawn()` a real CLI process and assert `exitCode === 1`. | v1.0: Rewrite BA-04 to use `spawnSync('node', ['sparx', 'why', 'nonexistent'])` and assert `status === 1`. |
