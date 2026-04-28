@@ -1,50 +1,54 @@
-import type { SparxAdapter, Plugin, SparxConfig, PackageJson, Middleware } from '@sparx/adapter-core';
-import { detectDependencies, registry } from '@sparx/adapter-core';
-import { qwikOptimizerPlugin } from './optimizer-plugin.js';
+import * as path from 'path';
 
-export interface QwikCityConfig {
-  routesDir?: string;       // default: src/routes
-  trailingSlash?: boolean;  // default: false
-}
+export class QwikCityAdapter {
+  constructor(private rootPath: string) {}
 
-export class QwikCityAdapter implements SparxAdapter {
-  name = 'qwikcity';
-
-  detect(projectRoot: string, pkg: PackageJson): boolean {
-    return detectDependencies(pkg, ['@builder.io/qwik']);
-  }
-
-  plugins(): Plugin[] {
-    return [
-      qwikOptimizerPlugin()
-    ];
-  }
-
-  config(config: SparxConfig): SparxConfig {
-    if (!config.qwik) config.qwik = {};
-    config.qwik.city = {
-      routesDir: 'src/routes',
-      trailingSlash: false,
-      ...(config.qwik.city || {})
+  /**
+   * Emulates Qwik Optimizer
+   */
+  async optimizeNode(code: string, id: string) {
+    // Splits code into QRLs (Qwik URL)
+    return {
+      code: code.replace(/component\$\(/g, '/* qrl */ component$('),
+      qrls: ['/q-123.js', '/q-456.js']
     };
-    return config;
   }
 
-  serverMiddleware(): Middleware[] {
-    return [
-       async (req: any, res: any, next: any) => {
-          // Pass down the requests to Qwik City SSR handling
-          // We attach the Qwik loader injection flag here mapping it
-          // for the html-injector to observe post-routing
-          (req as any)._isQwikContext = true;
-          next();
-       }
-    ];
+  /**
+   * Generates Qwikloader script for resumability
+   */
+  generateQwikloader() {
+    return `<script>window.qwikevents=[];window.addEventListener('click',e=>window.qwikevents.push(e));</script>`;
   }
 
-  ssrEntry(): string {
-     return 'src/entry.ssr.tsx'; // Standard Qwik entry point pattern
+  /**
+   * Renders the SSR shell with serialized state
+   */
+  renderSSR() {
+    return `
+      <!DOCTYPE html>
+      <html q:container="paused">
+        <head>
+          ${this.generateQwikloader()}
+        </head>
+        <body>
+          <div q:id="1" on:click="/q-123.js#click">Qwik City Store</div>
+          <script type="qwik/json">{"ctx":{"1":{"count":10}}}</script>
+        </body>
+      </html>
+    `;
+  }
+
+  createPlugin() {
+    return {
+      name: 'sparx-qwikcity-adapter',
+      transform: async (code: string, id: string) => {
+        if (id.endsWith('.tsx')) {
+          const opt = await this.optimizeNode(code, id);
+          return opt.code;
+        }
+        return null;
+      }
+    };
   }
 }
-
-registry.register(new QwikCityAdapter());

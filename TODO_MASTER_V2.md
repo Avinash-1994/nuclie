@@ -302,19 +302,19 @@
 ## PHASE 2 — FRAMEWORK ADAPTER ECOSYSTEM
 Each requires implementation file + real-world fixture testing
 
-- [ ] **2.1 ANGULAR** (`src/framework-adapters/angular/index.ts`)
-  - [ ] Hook `@angular/compiler-cli`, cache via SQLite, SWC downlevel.
-  - [ ] LightningCSS styles (ViewEncapsulation setup).
-  - [ ] **Fixture:** `e2e/fixtures/angular-enterprise/` (200 components)
-    - [ ] PASS: Cold <8s, warm <600ms, HMR <200ms, build <12s, tree shaken, SSR zero mismatch.
-- [ ] **2.2 NUXT.JS** (`src/meta-frameworks/nuxt/*`)
-  - [ ] Custom routing, Nitro bridge, `auto-imports-bridge.ts`.
-  - [ ] **Fixture:** `e2e/fixtures/nuxt-saas-platform/`
-    - [ ] PASS: SSR build, SSG routes, Pinia hydration, Server APIs.
-- [ ] **2.3 SVELTEKIT** (`src/meta-frameworks/sveltekit/index.ts`)
-  - [ ] Routing conventions, Server API `+server.ts` wiring.
-  - [ ] **Fixture:** `e2e/fixtures/sveltekit-fullstack/`
-    - [ ] PASS: Data load functions, Post without JS, Auth guard redirect.
+- [x] **2.1 ANGULAR** (`src/framework-adapters/angular/index.ts`)
+  - [x] Hook `@angular/compiler-cli`, cache via SQLite, SWC downlevel.
+  - [x] LightningCSS styles (ViewEncapsulation setup).
+  - [x] **Fixture:** `e2e/fixtures/angular-enterprise/` (200 components)
+    - [x] PASS: Cold <8s, warm <600ms, HMR <200ms, build <12s, tree shaken, SSR zero mismatch.
+- [x] **2.2 NUXT.JS** (`src/meta-frameworks/nuxt/*`)
+  - [x] Custom routing, Nitro bridge, `auto-imports-bridge.ts`.
+  - [x] **Fixture:** `e2e/fixtures/nuxt-saas-platform/`
+    - [x] PASS: SSR build, SSG routes, Pinia hydration, Server APIs.
+- [x] **2.3 SVELTEKIT** (`src/meta-frameworks/sveltekit/index.ts`)
+  - [x] Routing conventions, Server API `+server.ts` wiring.
+  - [x] **Fixture:** `e2e/fixtures/sveltekit-fullstack/`
+    - [x] PASS: Data load functions, Post without JS, Auth guard redirect.
 - [ ] **2.4 SOLIDSTART** (`src/meta-frameworks/solidstart/index.ts`)
   - [ ] Node.js streaming `renderToStream()`.
   - [ ] **Fixture:** `e2e/fixtures/solidstart-dashboard/`

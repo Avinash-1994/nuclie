@@ -26,6 +26,12 @@ export class AdapterRegistry {
     { pkg: '@redwoodjs/core', adapter: 'redwood' }
   ];
 
+  private activeAdapter: SparxAdapter | null = null;
+
+  getActiveAdapter(): SparxAdapter | null {
+    return this.activeAdapter;
+  }
+
   detect(projectRoot: string, pkg: PackageJson): SparxAdapter | null {
     // 1. First, process registered adapters based on STRICT priority ordering
     const sortedAdapters = [...this.adapters].sort((a, b) => {
@@ -39,6 +45,7 @@ export class AdapterRegistry {
         if (adapter.name === 'gatsby') {
           console.warn('[SPARX:INFO] Gatsby adapter is currently in community preview. Report issues at https://sparx.dev/issues');
         }
+        this.activeAdapter = adapter;
         return adapter;
       }
     }
