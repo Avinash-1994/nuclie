@@ -524,6 +524,13 @@ jobs:
           name: dist
           path: dist/
 
+      - name: 🏗️ Compile sparx-adapter-core
+        run: |
+          npx tsc packages/sparx-adapter-core/src/index.ts \
+            --outDir packages/sparx-adapter-core/dist \
+            --module NodeNext --moduleResolution NodeNext \
+            --target ES2022 --declaration --skipLibCheck
+
       - name: angular 2.1 — Angular Enterprise
         run: node e2e/fixtures/angular-enterprise/run-test.js
 
