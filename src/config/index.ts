@@ -26,7 +26,7 @@ export const BuildConfigSchema = z.object({
     .transform((val) => (typeof val === 'string' ? [val] : val))
     .optional(),
   mode: z.enum(['development', 'production', 'test']).default('development'),
-  outDir: z.string().default('build_output'),
+  outDir: z.string().default('dist'),
   port: z.number().default(5173),
   plugins: z.array(z.any()).optional(),
   esbuildPlugins: z.array(z.any()).optional(),
@@ -165,6 +165,97 @@ export type BuildConfig = {
   compatRollup?: boolean;
 };
 
+// CFG-04: levenshtein for typo suggestions
+function levenshtein(a: string, b: string): number {
+  const m = a.length, n = b.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, (_, i) =>
+    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+const VALID_TOP_LEVEL_KEYS = [
+  'entry', 'outDir', 'framework', 'preset', 'mode', 'platform', 'port',
+  'root', 'base', 'publicDir', 'cacheDir', 'plugins', 'esbuildPlugins',
+  'build', 'server', 'css', 'federation', 'security', 'adapter',
+  'prebundle', 'cache', 'compatRollup'
+];
+
+function validateConfigKeys(raw: Record<string, unknown>) {
+  const errors: string[] = [];
+  for (const key of Object.keys(raw)) {
+    if (!VALID_TOP_LEVEL_KEYS.includes(key)) {
+      const closest = VALID_TOP_LEVEL_KEYS
+        .map(k => ({ k, d: levenshtein(key, k) }))
+        .sort((a, b) => a.d - b.d)[0];
+      if (closest.d <= 3) {
+        errors.push(
+          `[sparx] Config error: unknown key "${key}"\n` +
+          `        Did you mean: ${closest.k} ?`
+        );
+      } else {
+        errors.push(
+          `[sparx] Config error: unknown key "${key}"\n` +
+          `        See https://sparx.dev/config for valid keys.`
+        );
+      }
+    }
+  }
+  if (errors.length > 0) {
+    errors.forEach(e => console.error(e));
+    console.error('\nFix sparx.config.ts then re-run.\n');
+    process.exit(1);
+  }
+}
+
+// CFG-02: normalise entry to string[]
+function normaliseEntry(entry: string | string[] | undefined, root: string): string[] {
+  if (Array.isArray(entry)) return entry;
+  if (typeof entry === 'string') return [entry];
+  // Auto-detect when omitted
+  const candidates = [
+    'index.html',
+    'src/main.tsx', 'src/main.ts', 'src/main.jsx', 'src/main.js',
+    'src/index.tsx', 'src/index.ts', 'src/index.jsx', 'src/index.js',
+  ];
+  const fsSync = require('fs');
+  for (const c of candidates) {
+    if (fsSync.existsSync(path.join(root, c))) return [c];
+  }
+  return [];
+}
+
+// CFG-03: framework → preset + platform implications
+const FRAMEWORK_IMPLICATIONS: Record<string, { preset?: string; platform?: string }> = {
+  'nuxt':           { preset: 'ssr', platform: 'node' },
+  'sveltekit':      { preset: 'ssr', platform: 'node' },
+  'svelte-kit':     { preset: 'ssr', platform: 'node' },
+  'remix':          { preset: 'ssr', platform: 'node' },
+  'solidstart':     { preset: 'ssr', platform: 'node' },
+  'solid-start':    { preset: 'ssr', platform: 'node' },
+  'nextjs':         { preset: 'ssr', platform: 'node' },
+  'next':           { preset: 'ssr', platform: 'node' },
+  'astro':          { preset: 'ssr', platform: 'node' },
+  'analog':         { preset: 'ssr', platform: 'node' },
+  'tanstack-start': { preset: 'ssr', platform: 'node' },
+  'waku':           { preset: 'ssr', platform: 'node' },
+  'tauri':          { preset: 'spa', platform: 'browser' },
+  'electron':       { preset: 'spa', platform: 'browser' },
+  'react':          { preset: 'spa', platform: 'browser' },
+  'vue':            { preset: 'spa', platform: 'browser' },
+  'svelte':         { preset: 'spa', platform: 'browser' },
+  'angular':        { preset: 'spa', platform: 'browser' },
+  'solid':          { preset: 'spa', platform: 'browser' },
+  'preact':         { preset: 'spa', platform: 'browser' },
+  'lit':            { preset: 'spa', platform: 'browser' },
+  'qwik':           { preset: 'spa', platform: 'browser' },
+};
+
 export async function loadConfig(cwd: string): Promise<BuildConfig> {
   const sparxTsPath = path.join(cwd, 'sparx.config.ts');
   const sparxJsPath = path.join(cwd, 'sparx.config.js');
@@ -221,13 +312,11 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
     } else {
       // Return default config if file not found, with auto-detection
       log.info('No config file found, using defaults...');
-
-
       return {
         root: cwd,
-        entry: [], // will be auto-detected below
+        entry: normaliseEntry(undefined, cwd),
         mode: 'development',
-        outDir: 'build_output',
+        outDir: 'dist',
         port: 5173,
         platform: 'browser',
         preset: 'spa',
@@ -251,45 +340,37 @@ export async function loadConfig(cwd: string): Promise<BuildConfig> {
       }
     }
 
+    // CFG-04: validate config keys for typos
+    if (rawConfig && typeof rawConfig === 'object') {
+      validateConfigKeys(rawConfig as Record<string, unknown>);
+    }
+
     const result = BuildConfigSchema.safeParse(rawConfig);
 
     if (!result.success) {
       const issues = result.error.issues;
       const formattedErrors = issues.map(issue => {
-        const path = issue.path.join('.');
-        return `\n    - ${kleur.bold(path)}: ${issue.message}`;
+        const p = issue.path.join('.');
+        return `\n    - ${kleur.bold(p)}: ${issue.message}`;
       }).join('');
-
       const errorMsg = `Invalid Configuration in ${loadedConfigPath}${formattedErrors}`;
       throw new Error(errorMsg);
     }
 
     const config = result.data as BuildConfig;
-    // Ensure root is set
     const root = config.root || cwd;
 
-    // Auto-detect entry point if missing
-    if (!config.entry || config.entry.length === 0) {
-      const entryCandidates = [
-        'src/main.tsx',
-        'src/main.ts',
-        'src/main.jsx',
-        'src/main.js',
-        'src/index.tsx',
-        'src/index.ts',
-        'src/index.jsx',
-        'src/index.js',
-        'src/root.tsx',
-        'src/root.ts',
-      ];
-      let detectedEntry = ['src/main.tsx']; // Default fallback
-      for (const candidate of entryCandidates) {
-        if (await fs.access(path.join(root, candidate)).then(() => true).catch(() => false)) {
-          detectedEntry = [candidate];
-          break;
-        }
-      }
-      config.entry = detectedEntry;
+    // CFG-02: normalise entry (handles string, array, or auto-detect)
+    config.entry = normaliseEntry(config.entry as any, root);
+
+    // CFG-03: apply framework implications (only if user hasn't set the value)
+    const fw = config.framework;
+    if (fw && FRAMEWORK_IMPLICATIONS[fw]) {
+      const impl = FRAMEWORK_IMPLICATIONS[fw];
+      const rawPreset   = (rawConfig as any)?.preset;
+      const rawPlatform = (rawConfig as any)?.platform;
+      if (!rawPreset   && impl.preset)   (config as any).preset   = impl.preset;
+      if (!rawPlatform && impl.platform) (config as any).platform = impl.platform;
     }
 
     let finalConfig = { ...config };

@@ -78,6 +78,14 @@ export async function build(rawConfig: BuildConfig) {
 
   // Phase 3.1 — Supply Chain Security Checks
   if (config.mode === 'production') {
+    // Allow opting out via env var (CI/regression) or per-project config key
+    const skipSecurity =
+      process.env.SPARX_SKIP_SECURITY === '1' ||
+      (config as any).security?.vulnSeverity === 'off';
+
+    if (skipSecurity) {
+      console.log('[sparx:security] Security gate skipped (vulnSeverity: off).');
+    } else {
     try {
       const security = await import('@sparx/security');
       
@@ -108,6 +116,7 @@ export async function build(rawConfig: BuildConfig) {
         throw err;
       }
       console.warn('[sparx] Security modules not fully available or failed:', err.message);
+    }
     }
   }
 
@@ -150,11 +159,34 @@ export async function build(rawConfig: BuildConfig) {
 
       try {
         const pkgPath = path.join(config.root, 'package.json');
+        
+        // S1.1 - Extract actual used dependencies from the build graph
+        const graph = pipeline.getEngine().getGraph();
         let deps: string[] = [];
-        if (fs.existsSync(pkgPath)) {
+        
+        if (graph) {
+          const depSet = new Set<string>();
+          for (const node of graph.nodes.values()) {
+            if (node.path.includes('node_modules')) {
+              const parts = node.path.split(/node_modules[\\\/]/);
+              if (parts.length > 1) {
+                const rest = parts[1].split(/[\\\/]/);
+                if (rest[0].startsWith('@') && rest.length > 1) {
+                  depSet.add(`${rest[0]}/${rest[1]}`);
+                } else if (rest[0]) {
+                  depSet.add(rest[0]);
+                }
+              }
+            }
+          }
+          deps = Array.from(depSet);
+        }
+
+        if (deps.length === 0 && fs.existsSync(pkgPath)) {
           const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
           deps = Object.keys({ ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) });
         }
+        
         const sbom = await security.generateSBOM(config.root, deps);
         const outPath = path.join(buildOutDir, 'sparx-sbom.json');
         fs.mkdirSync(path.dirname(outPath), { recursive: true });

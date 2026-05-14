@@ -7,6 +7,9 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
+
+const _require = createRequire(import.meta.url);
 
 export interface SBOMComponent {
   type: 'library';
@@ -51,7 +54,33 @@ export async function generateSBOM(
     if (visited.has(pkgName)) continue;
     visited.add(pkgName);
 
-    const pkgJsonPath = path.join(nodeModulesDir, pkgName, 'package.json');
+    let pkgJsonPath = path.join(projectRoot, 'node_modules', pkgName, 'package.json');
+    if (!fs.existsSync(pkgJsonPath)) {
+      // Try to resolve using node resolution
+      try {
+        const pkgMain = _require.resolve(pkgName, { paths: [projectRoot] });
+        const match = pkgMain.match(new RegExp(`.*node_modules/${pkgName}/`));
+        if (match) {
+          pkgJsonPath = path.join(match[0], 'package.json');
+        }
+      } catch (e) {
+        // fallback to standard project root search
+      }
+    }
+    
+    if (!fs.existsSync(pkgJsonPath)) {
+      // Walk up directories to find it
+      let currentDir = projectRoot;
+      while (currentDir !== path.dirname(currentDir)) {
+        const checkPath = path.join(currentDir, 'node_modules', pkgName, 'package.json');
+        if (fs.existsSync(checkPath)) {
+          pkgJsonPath = checkPath;
+          break;
+        }
+        currentDir = path.dirname(currentDir);
+      }
+    }
+
     if (!fs.existsSync(pkgJsonPath)) continue;
 
     const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));

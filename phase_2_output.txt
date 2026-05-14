@@ -1,0 +1,68 @@
+## PHASE 2 — FRAMEWORK ADAPTER ECOSYSTEM
+Each requires implementation file + real-world fixture testing
+
+- [x] **2.1 ANGULAR** (`src/framework-adapters/angular/index.ts`)
+  - [x] Hook `@angular/compiler-cli`, cache via SQLite, SWC downlevel.
+  - [x] LightningCSS styles (ViewEncapsulation setup).
+  - [x] **Fixture:** `e2e/fixtures/angular-enterprise/` (200 components)
+    - [x] PASS: Cold <8s, warm <600ms, HMR <200ms, build <12s, tree shaken, SSR zero mismatch.
+- [x] **2.2 NUXT.JS** (`src/meta-frameworks/nuxt/*`)
+  - [x] Custom routing, Nitro bridge, `auto-imports-bridge.ts`.
+  - [x] **Fixture:** `e2e/fixtures/nuxt-saas-platform/`
+    - [x] PASS: SSR build, SSG routes, Pinia hydration, Server APIs.
+- [x] **2.3 SVELTEKIT** (`src/meta-frameworks/sveltekit/index.ts`)
+  - [x] Routing conventions, Server API `+server.ts` wiring.
+  - [x] **Fixture:** `e2e/fixtures/sveltekit-fullstack/`
+    - [x] PASS: Data load functions, Post without JS, Auth guard redirect.
+- [x] **2.4 SOLIDSTART** (`src/meta-frameworks/solidstart/index.ts`)
+  - [x] Node.js streaming `renderToStream()`.
+  - [x] **Fixture:** `e2e/fixtures/solidstart-dashboard/`
+    - [x] PASS: Streaming SSR (TTFB <50ms), server actions.
+- [x] **2.5 QWIK CITY** (`src/meta-frameworks/qwikcity/index.ts`)
+  - [x] Optimizer transform, QRL loading script.
+  - [x] **Fixture:** `e2e/fixtures/qwikcity-store/`
+    - [x] PASS: Zero JS initial load, Resumable state, Lighthouse > 95.
+- [x] **2.6 ASTRO** (`src/meta-frameworks/astro/index.ts`)
+  - [x] `@astrojs/compiler` WASM cache. Support `client:idle|load|visible` chunks.
+  - [x] **Fixture:** `e2e/fixtures/astro-content-platform/`
+    - [x] PASS: Islands lazy load correctly, MDX render, Content types.
+- [x] **2.7 REMIX** (`src/meta-frameworks/remix/index.ts`)
+  - [x] `fetch` Request/Response shim over uWS.
+  - [x] **Fixture:** `e2e/fixtures/remix-job-board/`
+    - [x] PASS: loaders/actions work, zero mismatch.
+- [x] **2.8 ANALOG** (`src/meta-frameworks/analog/index.ts`)
+  - [x] File routing logic, renderApplication().
+  - [x] **Fixture:** `e2e/fixtures/analog-cms/`
+    - [x] PASS: File routing resolves, tRPC API works.
+- [ ] **2.9 REACT ROUTER v7** (`src/meta-frameworks/react-router/index.ts`)
+  - [ ] SPA vs SSR logic via `react-router.config.ts`.
+  - [ ] **Fixture:** `e2e/fixtures/react-router-app/`
+    - [ ] PASS: Server rendered profiles, SPA client routes.
+- [x] **2.10 TANSTACK START** (`src/meta-frameworks/tanstack-start/index.ts`)
+  - [x] Create server fn shim, module preload hints.
+  - [x] **Fixture:** `e2e/fixtures/tanstack-invoicing/`
+    - [x] PASS: Server functions execute, type safety on endpoints. 
+- [x] **2.11 WAKU** (`src/meta-frameworks/waku/index.ts`)
+  - [x] RSC boundary parsing `'use server'/'use client'`.
+  - [x] **Fixture:** `e2e/fixtures/waku-storefront/`
+    - [x] PASS: RSC state refreshes correctly, no Vercel lock.
+- [x] **2.12 VITEPRESS** (`src/meta-frameworks/vitepress/index.ts`)
+  - [x] Markdown pipeline, static site generation.
+  - [x] **Fixture:** `e2e/fixtures/vitepress-docs/`
+    - [x] PASS: 80 pages generate in < 4s, Theme/mermaid work.
+- [x] **2.13 TAURI** (`src/meta-frameworks/tauri/index.ts`)
+  - [x] `cargo tauri dev` hook, JSON command type inference.
+  - [x] **Fixture:** `e2e/fixtures/tauri-file-manager/`
+    - [x] PASS: Desktop build executes, IPC commands infer types.
+- [x] **2.14 ELECTRON** (`src/meta-frameworks/electron/index.ts`)
+  - [x] Dual bundle logic, `ELECTRON_DEV_SERVER_URL`.
+  - [x] **Fixture:** `e2e/fixtures/electron-notes/`
+    - [x] PASS: IPC generated typing, renderer is browser build, main is Node.
+- [x] **2.15 NEXT.JS (PAGES)** (`src/meta-frameworks/nextjs/pages-only.ts`)
+  - [x] Overwrite `next.config.js` to replace Babel with SWC.
+  - [x] **Fixture:** `e2e/fixtures/nextjs-pages-migration/`
+    - [x] PASS: Drops safely into existing Next app with HMR boost.
+- [x] **2.16 COMMUNITY SCAFFOLDS**
+  - [x] Implemented adapters for Gatsby, RedwoodJS, Stencil, Marko, Docusaurus.
+  - [x] **Fixture:** `e2e/fixtures/{gatsby-portfolio,redwoodjs-blog,stencil-ui-lib,marko-storefront,docusaurus-docs}/`
+    - [x] PASS: All 5 adapters detected, build pipeline exits 0, 15 regression fixtures pass.

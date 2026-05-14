@@ -1,0 +1,55 @@
+## PHASE 0 — SHARED INFRASTRUCTURE
+
+### 0.1 ADAPTER BASE
+- [x] Define `SparxAdapter` interface in `packages/sparx-adapter-core/src/index.ts`
+  - [x] `name: string`
+  - [x] `detect(projectRoot: string, pkg: PackageJson): boolean`
+  - [x] `plugins(): Plugin[]`
+  - [x] `config(config: SparxConfig): SparxConfig | Promise<SparxConfig>`
+  - [x] `serverMiddleware?(): Middleware[]`
+  - [x] `ssrEntry?(config: SparxConfig): string | undefined`
+  - [x] `buildOutput?(outputDir: string): Promise<void>`
+- [x] Implement adapter registry in `packages/sparx-adapter-core/src/registry.ts` with detection priority (first match wins):
+  - [x] `@sveltejs/kit` → svelte-kit adapter
+  - [x] `nuxt` → nuxt adapter
+  - [x] `@solidjs/start` → solid-start adapter
+  - [x] `@builder.io/qwik-city` → qwik-city adapter
+  - [x] `@angular/core` → angular adapter
+  - [x] `@analogjs/platform` → analog adapter
+  - [x] `@remix-run/dev` → remix adapter
+  - [x] `@tanstack/start` → tanstack-start adapter
+  - [x] `react-router ≥7` → react-router adapter
+  - [x] `waku` → waku adapter
+  - [x] `vitepress` → vitepress adapter
+  - [x] `astro` → astro adapter
+  - [x] `gatsby` → gatsby adapter (warn: community preview)
+  - [x] `@redwoodjs/core` → redwood adapter
+
+### 0.2 TEST HARNESS INFRASTRUCTURE
+- [x] Create `tests/harness/index.ts` exposing:
+  - [x] `buildFixture(name)`
+  - [x] `devFixture(name)`
+  - [x] `hmrTrigger(server, file, content)`
+  - [x] `measureHmr(server, file, content)`
+  - [x] `bundleContains(dist, module)`
+  - [x] `bundleExcludes(dist, module)`
+  - [x] `sourcemapTraces(dist, file, line)`
+  - [x] `securityScan(dist)`
+- [x] Create `tests/harness/playwright.ts` exposing:
+  - [x] `browserHmr(url, trigger, assertion)`
+  - [x] `screenshotDiff(url, reference)`
+  - [x] `hydrationCheck(url)`
+- [x] Create `e2e/fixtures/` and `benchmarks/fixtures/` directories
+
+### 0.3 FIXTURE GENERATOR
+- [x] Create `scripts/generate-fixtures.ts` with `generateApp()`
+  - [x] Params: `modules: 100 | 1000 | 5000`, `framework`, `features`
+  - [x] Feature generation capabilities:
+    - [x] `routes` (file-based, realistic paths)
+    - [x] `components` (with props/state)
+    - [x] `api` (server routes)
+    - [x] `mfe` (MFE remote setup)
+    - [x] `i18n` (internationalisation)
+    - [x] `auth` (protected routes + JWT)
+    - [x] `db` (mocked database queries)
+    - [x] `charts` (data visualisation)

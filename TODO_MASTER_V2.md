@@ -395,9 +395,9 @@ Each requires implementation file + real-world fixture testing
   - [x] TEST: SRI hashes on all scripts, CSP blocks inline eval.
 
 ### 3.4 Security CLI commands
-- [ ] Add `security audit`, `security sbom`, `security plugin-audit`, `security fix`
-- [ ] **Fixture:** `e2e/fixtures/security-cli/`
-  - [ ] TEST: fix script auto-upgrades lockfiles, process.env rewrite.
+- [x] Add `security audit`, `security sbom`, `security plugin-audit`, `security fix`
+- [x] **Fixture:** `e2e/fixtures/security-cli/`
+  - [x] TEST: fix script auto-upgrades lockfiles, process.env rewrite.
 
 ---
 
