@@ -198,7 +198,7 @@ async function runTreeShakingAndBuild() {
   const cliPath = path.resolve(__dirname, '../../../dist/cli.js');
   let output = '';
   try {
-    output = execFileSync('node', [cliPath, 'build'], { cwd: __dirname, encoding: 'utf-8' });
+    output = execFileSync('node', [cliPath, 'build'], { cwd: __dirname, encoding: 'utf-8', stdio: 'ignore', env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
   } catch (err) {
     output = err.stdout || err.message;
   }

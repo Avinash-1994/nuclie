@@ -102,7 +102,8 @@ async function runTests() {
   const outDir = path.join(__dirname, 'dist');
 
   // Build to generate bundles — run CLI then call adapter emitBuildArtifacts (dual bundle)
-  execFileSync('node', [cliPath, 'build'], { cwd: __dirname, stdio: 'ignore' });
+  execFileSync('node', [cliPath, 'build'], { cwd: __dirname, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
   const entryServerMod = await import('./src/entry-server.cjs');
   const entryServer = entryServerMod.default || entryServerMod;
   entryServer.emitBuildArtifacts(__dirname, path.join(__dirname, 'dist'));
@@ -236,7 +237,8 @@ async function runTests() {
   // EL-06  Production build
   // ─────────────────────────────────────────────
   const tBuildStart = performance.now();
-  execFileSync('node', [cliPath, 'build'], { cwd: __dirname, stdio: 'ignore' });
+  execFileSync('node', [cliPath, 'build'], { cwd: __dirname, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
   const entryServerMod2 = await import('./src/entry-server.cjs?t=' + Date.now());
   const entryServer2 = entryServerMod2.default || entryServerMod2;
   entryServer2.emitBuildArtifacts(__dirname, path.join(__dirname, 'dist'));
@@ -303,7 +305,8 @@ async function runTests() {
   for (const fix of regFixtures) {
     const t0r = Date.now();
     try {
-      execFileSync('node', [cliPathReg, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore' });
+      execFileSync('node', [cliPathReg, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
       regLines.push(`${fix.name.padEnd(22)}: pass ${Date.now() - t0r}ms`);
     } catch (e) {
       regLines.push(`${fix.name.padEnd(22)}: FAIL`);

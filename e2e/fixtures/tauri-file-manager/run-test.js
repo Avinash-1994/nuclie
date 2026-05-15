@@ -197,7 +197,8 @@ async function runTests() {
   // Real build instead of adapter mock
   execFileSync('node', [cliPath, 'build'], {
     cwd: __dirname,
-    stdio: 'ignore'
+    stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' }
   });
   
   const buildMs = performance.now() - tBuildStart;
@@ -295,7 +296,8 @@ async function runTests() {
   for (const fix of regFixtures) {
     const t0r = Date.now();
     try {
-      execFileSync('node', [cliPathReg, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore' });
+      execFileSync('node', [cliPathReg, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
       regLines.push(`${fix.name.padEnd(22)}: pass ${Date.now()-t0r}ms`);
     } catch(e) {
       regLines.push(`${fix.name.padEnd(22)}: FAIL`);

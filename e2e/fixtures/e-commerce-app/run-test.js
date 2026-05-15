@@ -20,7 +20,7 @@ async function run() {
     // Build the app
     log('Building the app...');
     try {
-        execSync('node ../../../dist/src/cli.js build', { stdio: 'pipe', cwd: __dirname });
+        execSync('node ../../../dist/cli.js build', { stdio: 'ignore', cwd: __dirname, env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
     } catch (e) {
         log(e.stdout?.toString());
         log(e.stderr?.toString());

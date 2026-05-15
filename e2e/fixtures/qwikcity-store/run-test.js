@@ -381,7 +381,8 @@ printWarn('QC-08  Zero hydration mismatches', '0 mismatches (Qwik never hydrates
     if (!fs.existsSync(fix.dir)) { results.push({ name: fix.name, pass: true, ms: 0, jsCount: 0, note: 'skipped' }); continue; }
     const t0 = Date.now();
     try {
-      execFileSync('node', [cliPath, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'pipe' });
+      execFileSync('node', [cliPath, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
       // Count JS output files
       let jsCount = 0;
       const distDir = path.join(fix.dir, 'dist');

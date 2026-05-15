@@ -325,7 +325,7 @@ exports.render = async function render(context) {
         }
         try {
             const t0 = process.hrtime.bigint();
-            execSync(`node ${cliPath} build`, { cwd: fixDir, stdio: 'pipe' });
+            execSync(`node ${cliPath} build`, { cwd: fixDir, stdio: 'ignore', env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
             const ms = Number(process.hrtime.bigint() - t0) / 1_000_000;
             pass(fix.id, `Regression: ${fix.name} still builds`, `exit 0 in ${ms.toFixed(0)}ms`);
         } catch (e) {

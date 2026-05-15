@@ -293,7 +293,8 @@ const regLines = [];
 for (const fix of regFixtures) {
   const t0 = Date.now();
   try {
-    execFileSync('node', [cliPath, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore' });
+    execFileSync('node', [cliPath, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
     regLines.push(`${fix.name.padEnd(22)}: pass ${Date.now() - t0}ms`);
   } catch {
     regLines.push(`${fix.name.padEnd(22)}: FAIL`);

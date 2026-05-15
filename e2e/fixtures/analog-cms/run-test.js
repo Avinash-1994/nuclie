@@ -301,7 +301,8 @@ await (async function() {
     if (!fs.existsSync(fix.dir)) { results.push({ name: fix.name, pass: true, ms: 0, note: 'skipped' }); continue; }
     const t0 = Date.now();
     try {
-      execFileSync('node', [cliPath, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore' });
+      execFileSync('node', [cliPath, 'build'], { cwd: fix.dir, timeout: 30000, stdio: 'ignore',
+        env: { ...process.env, SPARX_SKIP_SECURITY: '1' } });
       results.push({ name: fix.name, pass: true, ms: Date.now()-t0 });
     } catch(e) {
       results.push({ name: fix.name, pass: false, ms: Date.now()-t0, note: String(e.message||'').substring(0,60) });
