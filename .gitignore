@@ -1,5 +1,7 @@
 node_modules
 dist
+# Exception: workspace packages that must have built dist/ for CI runtime resolution
+!packages/sparx-security/dist
 build_output
 dist_ts
 dist_plugin_test
