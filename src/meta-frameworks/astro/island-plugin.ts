@@ -19,7 +19,7 @@ export function astroIslandPlugin(): Plugin {
       
       // We embed an AST marker for the chunker here. In a real SWC pipeline, 
       // we append an attribute or emit a chunk ID
-      const chunkMarker = `\n/* @@nuclie_island_entry@@ */\n`;
+      const chunkMarker = `\n/* @@sparx_island_entry@@ */\n`;
 
       return {
         code: code + chunkMarker,

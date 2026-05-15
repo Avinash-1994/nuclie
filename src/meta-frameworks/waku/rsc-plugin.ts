@@ -49,13 +49,13 @@ export function wakuRscPlugin(): Plugin {
        // We mark those chunks here in the TS hook prior to native extraction.
        if (code.includes('use client')) {
            return {
-              code: `/* @@nuclie_rsc_client_boundary@@ */\n` + code,
+              code: `/* @@sparx_rsc_client_boundary@@ */\n` + code,
               map: null
            };
        }
        if (code.includes('use server')) {
            return {
-              code: `/* @@nuclie_rsc_server_boundary@@ */\n` + code,
+              code: `/* @@sparx_rsc_server_boundary@@ */\n` + code,
               map: null
            };
        }
